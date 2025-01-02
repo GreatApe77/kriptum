@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kriptum/router.dart';
+import 'package:kriptum/ui/shared/constants/app_spacings.dart';
+import 'package:kriptum/ui/shared/widgets/title_app_bar.dart';
 
 class SetupPage extends StatelessWidget {
   const SetupPage({super.key});
@@ -6,12 +10,9 @@ class SetupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('K R I P T U M',style: TextStyle(fontWeight: FontWeight.bold),),
-      ),
+      appBar: buildTitleAppBar(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: AppSpacings.horizontalPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -40,17 +41,24 @@ class SetupPage extends StatelessWidget {
             Expanded(child: Container()),
             OutlinedButton(
 
-              onPressed: () {}, child: const Text('Import using Secret Recovery Phrase')),
+              onPressed: () => _navigateToImportWalletPage(context), child: const Text('Import using Secret Recovery Phrase')),
             const SizedBox(height: 8,),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 
               ),
-              onPressed: () {}, child: const Text('Create a new wallet')),
+              onPressed: () => _navigateToCreateNewWalletPage(context), child: const Text('Create a new wallet')),
             const SizedBox(height: 42,),
           ],
         ),
       ),
     );
+  }
+
+  void _navigateToCreateNewWalletPage(BuildContext context){
+      context.push(AppRoutes.createNewWallet);
+  }
+  void _navigateToImportWalletPage(BuildContext context){
+      context.push(AppRoutes.importWallet);
   }
 }

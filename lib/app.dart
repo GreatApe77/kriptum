@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/setup_page.dart';
 
 class App extends StatelessWidget {
@@ -6,9 +7,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Kriptum',
-      home: SetupPage(),
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      routerDelegate: router.routerDelegate,
+
     );
   }
 }
