@@ -43,6 +43,7 @@ dependencies:
   ed25519_hd_key: ^2.3.0
   shared_preferences: ^2.3.5
   hex: ^0.2.0
+  hd_wallet_kit: ^0.0.2
 
 dev_dependencies:
   flutter_test:
