@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/ui/controllers/create_wallet_steps_controller.dart';
+import 'package:kriptum/ui/shared/widgets/linear_check_in_progress_bar.dart';
 
 class SecureWalletStep2Screen extends StatelessWidget {
   final CreateWalletStepsController _createWalletStepsController;
@@ -13,6 +14,9 @@ class SecureWalletStep2Screen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        LinearCheckInProgressBar(
+            currentDot: _createWalletStepsController.step+1,
+          ),
         const Icon(
           Icons.lock,
           size: 42,
