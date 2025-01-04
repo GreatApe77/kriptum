@@ -15,6 +15,8 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mnemonicAsList = exampleMnemonic.split(' ');
+    final firstColumn = mnemonicAsList.take(6).toList();
+    final secondColumn = mnemonicAsList.skip(6).toList();
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -40,19 +42,30 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               
-              child: Container(
-                height: 200,
-                child: GridView.count(
-                  
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  
-                  
-                  children: mnemonicAsList
-                      .map((word) => Chip(label: Text(word)))
-                      .toList(),
-                ),
-              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: firstColumn.asMap().entries.map(
+                      (entry) =>  Chip(
+                          
+                        label: Text('${entry.key+1}. ${entry.value}')),
+                    ).toList(),
+                  ),
+                 
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                   // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: secondColumn.asMap().entries.map(
+                      (entry) =>  Chip(
+                          
+                        label: Text('${entry.key+7} ${entry.value}')),
+                    ).toList(),
+                  ),
+                ],
+              )
             ),
           ),
           const SizedBox(height: 24),
