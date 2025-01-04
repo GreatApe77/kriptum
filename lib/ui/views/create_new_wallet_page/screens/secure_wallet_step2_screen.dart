@@ -15,8 +15,8 @@ class SecureWalletStep2Screen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         LinearCheckInProgressBar(
-            currentDot: _createWalletStepsController.step+1,
-          ),
+          currentDot: _createWalletStepsController.step + 1,
+        ),
         const Icon(
           Icons.lock,
           size: 42,
@@ -34,16 +34,15 @@ class SecureWalletStep2Screen extends StatelessWidget {
           children: [
             const Text(
               'Secure your wallet\'s ',
-              
               style: TextStyle(fontSize: 16),
             ),
             GestureDetector(
               onTap: () => _showSecretRecoveryPhraseDialog(context),
-              child: Text('Secret Recovery Phrase',
-                
+              child: Text(
+                'Secret Recovery Phrase',
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 16),),
+                    color: Theme.of(context).primaryColor, fontSize: 16),
+              ),
             )
           ],
         ),
@@ -57,12 +56,24 @@ class SecureWalletStep2Screen extends StatelessWidget {
             label: const Text('Why is it important?'),
           ),
         ),
-        const Expanded(
+        Expanded(
           child: Card.outlined(
-            child: Padding(padding: EdgeInsets.all(16),child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text('Text Explaining why its important')],
-            ),),
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Text Explaining why its important'),
+                  Expanded(child: Container()),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ElevatedButton(onPressed: () => _createWalletStepsController.nextStep(), child: Text('Start')),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ),
         ),
         const SizedBox(
@@ -72,22 +83,34 @@ class SecureWalletStep2Screen extends StatelessWidget {
       ],
     );
   }
-  _showSecretRecoveryPhraseDialog(BuildContext context){
-    showDialog(context: context, builder: (context) {
-        return AlertDialog(
-          title: Text('What is a \'Secret Recovery Phrase\'',textAlign: TextAlign.center,),
-          //icon: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.close)),
-        );
-    },);
-  }
-  _showWhyItsImportantDialog(BuildContext context){
+
+  _showSecretRecoveryPhraseDialog(BuildContext context) {
     showDialog(
-      
-      context: context, builder: (context) {
+      context: context,
+      builder: (context) {
         return AlertDialog(
-          title: Text('Protect your wallet',textAlign: TextAlign.center,),
+          title: Text(
+            'What is a \'Secret Recovery Phrase\'',
+            textAlign: TextAlign.center,
+          ),
           //icon: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.close)),
         );
-    },);
+      },
+    );
+  }
+
+  _showWhyItsImportantDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Protect your wallet',
+            textAlign: TextAlign.center,
+          ),
+          //icon: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.close)),
+        );
+      },
+    );
   }
 }
