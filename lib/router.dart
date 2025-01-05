@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kriptum/locator.dart';
 import 'package:kriptum/ui/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/create_new_wallet_page.dart';
-import 'package:kriptum/ui/views/home_page.dart';
+import 'package:kriptum/ui/views/home_page/home_page.dart';
 import 'package:kriptum/ui/views/import_wallet_page.dart';
 import 'package:kriptum/ui/views/setup_page.dart';
 
