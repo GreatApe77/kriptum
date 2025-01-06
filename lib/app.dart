@@ -8,7 +8,12 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(
+        colorScheme:ColorScheme.fromSeed(seedColor: Colors.greenAccent,brightness: Brightness.dark)
+      ),
       theme: ThemeData(
+        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent)
       ),
       title: 'Kriptum',
