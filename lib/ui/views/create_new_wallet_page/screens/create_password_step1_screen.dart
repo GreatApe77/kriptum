@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/ui/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/widgets/linear_check_in_progress_bar.dart';
 
 class CreatePasswordStep1Screen extends StatelessWidget {
   final CreateWalletStepsController _createWalletStepsController;
-  const CreatePasswordStep1Screen({
-    super.key,
-    required CreateWalletStepsController stepController,
-  }) : _createWalletStepsController = stepController;
+  final passwordTextController = TextEditingController();
+  final confirmPasswordTextController = TextEditingController();
+  final CreateNewWalletController _createNewWalletController;
+  CreatePasswordStep1Screen(
+      {super.key,
+      required CreateWalletStepsController stepController,
+      required CreateNewWalletController createNewWalletController})
+      : _createWalletStepsController = stepController,
+        _createNewWalletController = createNewWalletController;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,7 @@ class CreatePasswordStep1Screen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LinearCheckInProgressBar(
-            currentDot: _createWalletStepsController.step+1,
+            currentDot: _createWalletStepsController.step + 1,
           ),
           SizedBox(
             height: 24,
@@ -57,10 +63,10 @@ class CreatePasswordStep1Screen extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () {
+                _createNewWalletController.createNewWallet(confirmPasswordTextController.text);
                 _createWalletStepsController.nextStep();
               },
               child: Text('Create password')),
-          
         ],
       ),
     );

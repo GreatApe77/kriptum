@@ -2,34 +2,35 @@
 import 'dart:convert';
 
 class Account {
-  String privateKey;
+  
   String publicKey;
+  String encryptedJsonWallet;
   Account({
-    required this.privateKey,
     required this.publicKey,
+    required this.encryptedJsonWallet,
   });
 
   Account copyWith({
-    String? privateKey,
     String? publicKey,
+    String? encryptedJsonWallet,
   }) {
     return Account(
-      privateKey: privateKey ?? this.privateKey,
       publicKey: publicKey ?? this.publicKey,
+      encryptedJsonWallet: encryptedJsonWallet ?? this.encryptedJsonWallet,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'privateKey': privateKey,
       'publicKey': publicKey,
+      'encryptedJsonWallet': encryptedJsonWallet,
     };
   }
 
   factory Account.fromMap(Map<String, dynamic> map) {
     return Account(
-      privateKey: map['privateKey'] as String,
       publicKey: map['publicKey'] as String,
+      encryptedJsonWallet: map['encryptedJsonWallet'] as String,
     );
   }
 
@@ -38,17 +39,17 @@ class Account {
   factory Account.fromJson(String source) => Account.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Account(privateKey: $privateKey, publicKey: $publicKey)';
+  String toString() => 'Account(publicKey: $publicKey, encryptedJsonWallet: $encryptedJsonWallet)';
 
   @override
   bool operator ==(covariant Account other) {
     if (identical(this, other)) return true;
   
     return 
-      other.privateKey == privateKey &&
-      other.publicKey == publicKey;
+      other.publicKey == publicKey &&
+      other.encryptedJsonWallet == encryptedJsonWallet;
   }
 
   @override
-  int get hashCode => privateKey.hashCode ^ publicKey.hashCode;
+  int get hashCode => publicKey.hashCode ^ encryptedJsonWallet.hashCode;
 }

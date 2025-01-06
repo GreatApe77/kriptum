@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bip39/bip39.dart' as bip39;
 
 import 'package:hd_wallet_kit/hd_wallet_kit.dart';
@@ -53,23 +55,24 @@ class WalletServices {
 
     // Convert mnemonic to seed
     final seed = bip39.mnemonicToSeed(mnemonic);
-
+    //Wallet.fromJson(encoded, password)
     // Initialize the HD wallet
-    final wallet = HDWallet.fromSeed(seed: seed);
-
+    final hdWallet = HDWallet.fromSeed(seed: seed);
+    
     List<String> addresses = [];
     for (int i = 0; i < count; i++) {
       // Derive the key for the given index
-      final key = wallet.deriveKey(
+      final key = hdWallet.deriveKey(
         purpose: Purpose.BIP44,
         coinType: 60, // Ethereum coin type
         account: 0,
         change: 0,
         index: i,
       );
-
       // Generate the Ethereum address
       final ethPrivateKey = EthPrivateKey.fromHex(HEX.encode(key.privKeyBytes!));
+      final wallet = Wallet.createNew(ethPrivateKey, 'some_password', Random.secure());
+      wallet.toJson();
       final address =  ethPrivateKey.address;
 
       addresses.add(address.hex);
