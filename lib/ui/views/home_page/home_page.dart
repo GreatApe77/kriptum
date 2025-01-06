@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/controllers/connected_account_controller.dart';
 import 'package:kriptum/ui/controllers/navigation_bar_controller.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final NavigationBarController navigationBarController;
-  const HomePage({super.key, required this.navigationBarController});
+  final ConnectedAccountController connectedAccountController;
+  const HomePage(
+      {super.key,
+      required this.navigationBarController,
+      required this.connectedAccountController});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   //int currPage= 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.connectedAccountController.loadCurrentAccount();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: ListenableBuilder(
-          listenable: navigationBarController,
+          listenable: widget.navigationBarController,
           builder: (BuildContext context, Widget? child) {
             return NavigationBar(
               animationDuration: Duration(seconds: 1),
               onDestinationSelected: (value) {
-                navigationBarController.navigateToScreen(value);
+                widget.navigationBarController.navigateToScreen(value);
               },
-              selectedIndex: navigationBarController.selectedPage,
+              selectedIndex: widget.navigationBarController.selectedPage,
               destinations: const [
                 // BottomNavigationBarItem(label: '', icon: Icon(Icons.wallet)),
                 // BottomNavigationBarItem(label: '', icon: Icon(Icons.timer)),
@@ -47,22 +64,29 @@ class HomePage extends StatelessWidget {
         //   BottomNavigationBarItem(label: '', icon: Icon(Icons.wallet)),
         // ]),
         body: ListenableBuilder(
-          listenable: navigationBarController,
-          builder: (context, child) {
-            final pages = [
-              Center(
-                  child: Text('PAGE: ${navigationBarController.selectedPage}')),
-              Center(
-                  child: Text('PAGE: ${navigationBarController.selectedPage}')),
-              Center(
-                  child: Text('PAGE: ${navigationBarController.selectedPage}')),
-              Center(
-                  child: Text('PAGE: ${navigationBarController.selectedPage}')),
-              Center(
-                  child: Text('PAGE: ${navigationBarController.selectedPage}')),
-            ];
-            return pages[navigationBarController.selectedPage];
-          },
+          listenable: widget.connectedAccountController,
+          builder: (context,child) {
+            return ListenableBuilder(
+              listenable: widget.navigationBarController,
+              builder: (context, child) {
+                final pages = [
+                  Center(
+                      child: Text('PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${
+                        widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'
+                      }')),
+                  Center(
+                      child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
+                  Center(
+                      child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
+                  Center(
+                      child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
+                  Center(
+                      child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
+                ];
+                return pages[widget.navigationBarController.selectedPage];
+              },
+            );
+          }
         ));
   }
 }
