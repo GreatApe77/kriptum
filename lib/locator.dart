@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:kriptum/controllers/connected_account_controller.dart';
+import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
 import 'package:kriptum/data/repositories/account/account_repository__memory_impl.dart';
@@ -18,5 +18,5 @@ void setup() {
   locator.registerSingleton<CreateNewWalletController>(CreateNewWalletController(
       accountRepository: locator.get<AccountRepository>(),
       walletServices: locator.get<WalletServices>()));
-  locator.registerSingleton<ConnectedAccountController>(ConnectedAccountController(accountRepository: locator.get<AccountRepository>()));
+  locator.registerSingleton<AccountsController>(AccountsController(accountRepository: locator.get<AccountRepository>()));
 }

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
 import 'package:kriptum/domain/models/account.dart';
 
-class ConnectedAccountController extends ChangeNotifier {
+class AccountsController extends ChangeNotifier {
   AccountRepository _accountRepository;
   
   Account? _connectedAccount;
   Account? get connectedAccount => _connectedAccount;
   int accountIndex = 0;
-  ConnectedAccountController({
+  AccountsController({
     required AccountRepository accountRepository,
     
   }):_accountRepository=accountRepository;

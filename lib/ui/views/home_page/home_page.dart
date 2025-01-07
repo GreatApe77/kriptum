@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kriptum/controllers/connected_account_controller.dart';
+import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/ui/controllers/navigation_bar_controller.dart';
 
 class HomePage extends StatefulWidget {
   final NavigationBarController navigationBarController;
-  final ConnectedAccountController connectedAccountController;
+  final AccountsController connectedAccountController;
   const HomePage(
       {super.key,
       required this.navigationBarController,

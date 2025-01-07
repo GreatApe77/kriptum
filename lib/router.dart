@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:kriptum/controllers/connected_account_controller.dart';
+import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/locator.dart';
 import 'package:kriptum/ui/controllers/create_wallet_steps_controller.dart';
@@ -35,7 +35,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.home,
     builder: (context, state) =>  HomePage(
-      connectedAccountController:locator.get<ConnectedAccountController>() ,
+      connectedAccountController:locator.get<AccountsController>() ,
       navigationBarController: locator.get<NavigationBarController>(),
 
     ),
