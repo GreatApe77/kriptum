@@ -55,6 +55,7 @@ class CreatePasswordStep1Screen extends StatelessWidget {
                     height: 24,
                   ),
                   TextFormField(
+                    controller: passwordTextController,
                     validator: (password) =>
                         PasswordValidatorController.validLength(password),
                     obscureText: true,
@@ -66,6 +67,7 @@ class CreatePasswordStep1Screen extends StatelessWidget {
                     height: 24,
                   ),
                   TextFormField(
+                    controller: confirmPasswordTextController,
                     validator: (confirmPassword) =>
                         PasswordValidatorController.validLength(
                             confirmPassword),
@@ -92,9 +94,13 @@ class CreatePasswordStep1Screen extends StatelessWidget {
     if (!formKey.currentState!.validate()) return;
     if (confirmPasswordTextController.text != passwordTextController.text) {
       ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-        backgroundColor: Colors.red,
+      ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+        
+        behavior: SnackBarBehavior.floating,
+        showCloseIcon: true,
+        // backgroundColor: Colors.red,
         content: Text('Passwords don\'t match')));
+      return;
     }
     await _createNewWalletController
         .createNewWallet(confirmPasswordTextController.text);
