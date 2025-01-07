@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kriptum/ui/controllers/create_wallet_steps_controller.dart';
+import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/widgets/linear_check_in_progress_bar.dart';
 
 class SecureWalletStep2Screen extends StatelessWidget {

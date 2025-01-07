@@ -4,8 +4,8 @@ import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
 import 'package:kriptum/data/repositories/account/account_repository__memory_impl.dart';
 import 'package:kriptum/data/services/wallet_services.dart';
-import 'package:kriptum/ui/controllers/create_wallet_steps_controller.dart';
-import 'package:kriptum/ui/controllers/navigation_bar_controller.dart';
+import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
+import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
 
 final locator = GetIt.instance;
 void setup() {
