@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
+import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
+import 'package:kriptum/ui/views/home_page/screens/settings_screen.dart';
 
 class HomePage extends StatefulWidget {
   final NavigationBarController navigationBarController;
   final AccountsController connectedAccountController;
+  final SettingsController settingsController;
   const HomePage(
       {super.key,
       required this.navigationBarController,
-      required this.connectedAccountController});
+      required this.connectedAccountController, required this.settingsController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -80,8 +83,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
                   Center(
                       child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
-                  Center(
-                      child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
+                  SettingsScreen(settingsController: widget.settingsController),
                 ];
                 return pages[widget.navigationBarController.selectedPage];
               },

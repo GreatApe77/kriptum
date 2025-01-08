@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
+import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/locator.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
@@ -23,7 +24,7 @@ final routes = [
   ),
   GoRoute(
     path: AppRoutes.createNewWallet,
-    builder: (context, state) =>  CreateNewWalletPage(
+    builder: (context, state) => CreateNewWalletPage(
       createNewWalletController: locator.get<CreateNewWalletController>(),
       stepController: locator.get<CreateWalletStepsController>(),
     ),
@@ -34,10 +35,10 @@ final routes = [
   ),
   GoRoute(
     path: AppRoutes.home,
-    builder: (context, state) =>  HomePage(
-      connectedAccountController:locator.get<AccountsController>() ,
+    builder: (context, state) => HomePage(
+      settingsController: locator.get<SettingsController>(),
+      connectedAccountController: locator.get<AccountsController>(),
       navigationBarController: locator.get<NavigationBarController>(),
-
     ),
   ),
 ];
