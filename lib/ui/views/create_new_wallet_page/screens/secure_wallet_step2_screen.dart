@@ -59,11 +59,11 @@ class SecureWalletStep2Screen extends StatelessWidget {
         Expanded(
           child: Card.outlined(
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Text Explaining why its important'),
+                  const Text('Text Explaining why its important'),
                   Expanded(child: Container()),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -71,7 +71,7 @@ class SecureWalletStep2Screen extends StatelessWidget {
                       ElevatedButton(
                           onPressed: () =>
                               _createWalletStepsController.nextStep(),
-                          child: Text('Start')),
+                          child: const Text('Start')),
                     ],
                   )
                 ],
@@ -91,8 +91,7 @@ class SecureWalletStep2Screen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          
+        return const AlertDialog(
           title: Text(
             'What is a \'Secret Recovery Phrase\'',
             textAlign: TextAlign.center,
@@ -122,9 +121,13 @@ class SecureWalletStep2Screen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
+        return const AlertDialog(
           title: Text(
             'Protect your wallet',
+            textAlign: TextAlign.center,
+          ),
+          content: const Text(
+            'Don\'t risk losing your funds. Protect your wallet by saving your Secret Recovery Phrase in a place you trust.\nIt\'s the only way to recover your wallet if you get locked out of the app or get a new device.',
             textAlign: TextAlign.center,
           ),
           //icon: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.close)),

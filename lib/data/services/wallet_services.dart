@@ -15,7 +15,7 @@ class AccountFromMnemonicParams {
   AccountFromMnemonicParams({
     required this.mnemonic,
     required this.encryptionPassword,
-    this.index = 1,
+    this.index = 0,
   });
 }
 
@@ -45,7 +45,7 @@ class WalletServices {
         Wallet.createNew(ethPrivateKey, params.encryptionPassword, Random.secure())
             .toJson();
     Account account =
-        Account(address: address, encryptedJsonWallet: encryptedAccount);
+        Account(address: address, encryptedJsonWallet: encryptedAccount,index: params.index);
     return Future.value(account);
   }
   // // Generate the private key for a specific derivation path

@@ -9,13 +9,13 @@ class AccountsController extends ChangeNotifier {
   
   Account? _connectedAccount;
   Account? get connectedAccount => _connectedAccount;
-  int accountIndex = 0;
+  //int accountIndex = 0;
   AccountsController({
     required AccountRepository accountRepository,
     
   }):_accountRepository=accountRepository;
 
-  loadCurrentAccount() async {
+  loadCurrentAccount(int accountIndex) async {
     _connectedAccount = await _accountRepository.getAccount(accountIndex);
     notifyListeners();
   }

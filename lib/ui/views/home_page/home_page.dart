@@ -11,7 +11,8 @@ class HomePage extends StatefulWidget {
   const HomePage(
       {super.key,
       required this.navigationBarController,
-      required this.connectedAccountController, required this.settingsController});
+      required this.connectedAccountController,
+      required this.settingsController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,10 +23,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    widget.connectedAccountController.loadCurrentAccount();
+    widget.connectedAccountController.loadCurrentAccount(
+        widget.settingsController.settings.lastConnectedIndex);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,28 +69,30 @@ class _HomePageState extends State<HomePage> {
         //   BottomNavigationBarItem(label: '', icon: Icon(Icons.wallet)),
         // ]),
         body: ListenableBuilder(
-          listenable: widget.connectedAccountController,
-          builder: (context,child) {
-            return ListenableBuilder(
-              listenable: widget.navigationBarController,
-              builder: (context, child) {
-                final pages = [
-                  Center(
-                      child: Text('PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${
-                        widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'
-                      }')),
-                  Center(
-                      child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
-                  Center(
-                      child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
-                  Center(
-                      child: Text('PAGE: ${widget.navigationBarController.selectedPage}')),
-                  SettingsScreen(settingsController: widget.settingsController),
-                ];
-                return pages[widget.navigationBarController.selectedPage];
-              },
-            );
-          }
-        ));
+            listenable: widget.connectedAccountController,
+            builder: (context, child) {
+              return ListenableBuilder(
+                listenable: widget.navigationBarController,
+                builder: (context, child) {
+                  final pages = [
+                    Center(
+                        child: Text(
+                            'PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'}')),
+                    Center(
+                        child: Text(
+                            'PAGE: ${widget.navigationBarController.selectedPage}')),
+                    Center(
+                        child: Text(
+                            'PAGE: ${widget.navigationBarController.selectedPage}')),
+                    Center(
+                        child: Text(
+                            'PAGE: ${widget.navigationBarController.selectedPage}')),
+                    SettingsScreen(
+                        settingsController: widget.settingsController),
+                  ];
+                  return pages[widget.navigationBarController.selectedPage];
+                },
+              );
+            }));
   }
 }

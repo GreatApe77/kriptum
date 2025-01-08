@@ -44,6 +44,8 @@ dependencies:
   shared_preferences: ^2.3.5
   hex: ^0.2.0
   hd_wallet_kit: ^0.0.2
+  sqflite: ^2.4.1
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
