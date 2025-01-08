@@ -19,10 +19,29 @@ class AccountFromMnemonicParams {
   });
 }
 
+class DecryptAccountWithPasswordParams {
+  final String password;
+  final String encryptedJsonAccount;
+
+  DecryptAccountWithPasswordParams(
+      {required this.password, required this.encryptedJsonAccount});
+}
+
 class WalletServices {
   // // Generate a mnemonic phrase
   String generateMnemonic() {
     return Mnemonic.generate().join(' ');
+  }
+
+  static bool verifyPasswordForEncryptedAccount(
+       DecryptAccountWithPasswordParams decryptingParams) {
+    try {
+      Wallet.fromJson(
+          decryptingParams.encryptedJsonAccount, decryptingParams.password);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   static Future<Account> getAccountFromMnemonic(
@@ -41,11 +60,13 @@ class WalletServices {
     );
     final ethPrivateKey = EthPrivateKey.fromHex(HEX.encode(key.privKeyBytes!));
     final address = ethPrivateKey.address.hex;
-    final String encryptedAccount =
-        Wallet.createNew(ethPrivateKey, params.encryptionPassword, Random.secure())
-            .toJson();
-    Account account =
-        Account(address: address, encryptedJsonWallet: encryptedAccount,accountIndex: params.index);
+    final String encryptedAccount = Wallet.createNew(
+            ethPrivateKey, params.encryptionPassword, Random.secure())
+        .toJson();
+    Account account = Account(
+        address: address,
+        encryptedJsonWallet: encryptedAccount,
+        accountIndex: params.index);
     return Future.value(account);
   }
   // // Generate the private key for a specific derivation path

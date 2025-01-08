@@ -3,6 +3,7 @@ import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
+import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/locator.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
@@ -23,7 +24,10 @@ class AppRoutes {
 final routes = [
   GoRoute(
     path: AppRoutes.unlockWallet,
-    builder: (context, state) => UnlockWalletPage(),
+    builder: (context, state) => UnlockWalletPage(
+      settingsController: locator.get<SettingsController>(),
+      unlockWalletController: locator.get<UnlockWalletController>(),
+    ),
   ),
   GoRoute(
     path: AppRoutes.setup,

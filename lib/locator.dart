@@ -3,6 +3,7 @@ import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
+import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
 import 'package:kriptum/data/repositories/account/account_repository__memory_impl.dart';
 import 'package:kriptum/data/repositories/account/account_repository_db_impl.dart';
@@ -33,5 +34,12 @@ Future<void> setup() async {
       SettingsController(settingsService: locator.get<SettingsService>()));
   await locator.get<SettingsController>().initialize();
   //await locator.get<SettingsController>().setContainsWallet(false);
-  locator.registerFactory<ImportWalletController>(() => ImportWalletController(),);
+  locator.registerFactory<ImportWalletController>(
+    () => ImportWalletController(),
+  );
+  locator.registerFactory(
+    () => UnlockWalletController(
+        accountsRepository: locator.get<AccountRepository>(),
+        walletServices: locator.get<WalletServices>()),
+  );
 }
