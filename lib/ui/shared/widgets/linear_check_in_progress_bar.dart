@@ -34,7 +34,7 @@ class LinearCheckInProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).primaryColor;
+    final primaryColor = Theme.of(context).buttonTheme.colorScheme!.primary;
     return Column(
       children: [
         Row(

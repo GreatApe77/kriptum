@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
+import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
 
@@ -20,7 +22,7 @@ class UnlockWalletPage extends StatelessWidget {
           listenable: unlockWalletController,
           builder: (context, child) {
             if(unlockWalletController.isLoading){
-              return BasicLoading();
+              return const BasicLoading();
             }
             return Padding(
               padding: AppSpacings.horizontalPadding,
@@ -40,6 +42,7 @@ class UnlockWalletPage extends StatelessWidget {
                         height: 32,
                       ),
                       TextFormField(
+                        obscureText: true,
                         controller: passwordTextController,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -84,7 +87,7 @@ class UnlockWalletPage extends StatelessWidget {
       accountIndex: settingsController.settings.lastConnectedIndex,
       onWrongPassword: () => _onWrongPassword(context),
       onSuccess: () {
-        print("DEU BOM");
+        GoRouter.of(context).push(AppRoutes.home);
       },
     );
   }

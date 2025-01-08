@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
 import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:hd_wallet_kit/hd_wallet_kit.dart';
 import 'package:hex/hex.dart';
+import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
 import 'package:kriptum/domain/models/account.dart';
@@ -34,7 +36,7 @@ class WalletServices {
   }
 
   static bool verifyPasswordForEncryptedAccount(
-       DecryptAccountWithPasswordParams decryptingParams) {
+      DecryptAccountWithPasswordParams decryptingParams) {
     try {
       Wallet.fromJson(
           decryptingParams.encryptedJsonAccount, decryptingParams.password);
@@ -141,33 +143,35 @@ class WalletServices {
   }
 }
 
-// void main(List<String> args) async {
-//   final service = WalletServices();
-//   final words = service.generateMnemonic();
-//   print(words);
-//   final account = await service.getAccountFromMnemonic(
-//       mnemonic: words, encryptionPassword: 'encryptionPassword');
-//   print('==============CONTA=============');
-//   print(account);
-//   // print(service.generateMnemonic());
-//   // final seed = Mnemonic.toSeed(mnemonic.split(' '));
-//   // final wallet = HDWallet.fromSeed(seed: seed);
-//   // final HDKey account0 = wallet.deriveKeyByPath(path: "m/44'/0'/0'");
-//   // print(HEX.encode(account0.pubKey));
-//   // final address0Key = wallet.deriveKey(
-//   //     purpose: Purpose.BIP44, coinType: 0, account: 0, change: 0, index: 0);
-//   // print(HEX.encode(address0Key.pubKeyHash));
-//   // final ethPrivateKey = EthPrivateKey.fromHex(HEX.encode(address0Key.pubKey));
-//   // print(ethPrivateKey.address);
-//   // final service = WalletServices();
+void main(List<String> args) async {
+  final myEthAddress = "0x8274Cf5D8bFE3f5cb246bd8fA80dB31D544C5f30";
+  final ganacheAddress = "0xAa790f8885B45d9bd427DCB9B0fcEbCaF7a77Ec4";
 
-//   // // Generate a new mnemonic
-//   // final mnemonic = service.generateMnemonic();
-//   // //print('Mnemonic: $mnemonic');
+  final ethRpcEndpoint = 'http://127.0.0.1:8545';
+  final httpClient = Client();
+  final ethClient = Web3Client(ethRpcEndpoint, httpClient);
 
-//   // // Derive and print the addresses
-//   // final addresses = await service.deriveAddresses(mnemonic, 20);
-//   // for (var i = 0; i < addresses.length; i++) {
-//   //   print('Address $i: ${addresses[i]}');
-//   // }
-// }
+  final balance =
+      await ethClient.getBalance(EthereumAddress.fromHex(ganacheAddress));
+  print('BALANCE BEFORE: ${balance.getValueInUnit(EtherUnit.ether)}');
+  final result = await ethClient.sendTransaction(
+    EthPrivateKey.fromHex(
+        '0x7b4c95ceb78227b95e1fdea9d52411b22439af3823b914637eb23d4ec512f192'),
+    Transaction(
+      to: EthereumAddress.fromHex(myEthAddress),
+      //gasPrice: EtherAmount.inWei(BigInt.one),
+
+      value: EtherAmount.fromInt(EtherUnit.finney, 2500),
+    ),
+  );
+  print('TRANSACTION HASH: ${result}');
+  final senderBalanceAfter =
+      await ethClient.getBalance(EthereumAddress.fromHex(ganacheAddress));
+  print(
+      'SENDER BALANCE AFTER: ${senderBalanceAfter.getValueInUnit(EtherUnit.ether)}');
+
+  final receiverBalanceAfter =
+      await ethClient.getBalance(EthereumAddress.fromHex(myEthAddress));
+  print(
+      'RECEIVER BALANCE AFTER: ${receiverBalanceAfter.getValueInUnit(EtherUnit.ether)}');  
+}
