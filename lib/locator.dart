@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
+import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
 import 'package:kriptum/data/repositories/account/account_repository__memory_impl.dart';
@@ -30,4 +31,5 @@ Future<void> setup() async {
   locator.registerSingleton<SettingsController>(
       SettingsController(settingsService: locator.get<SettingsService>()));
   await locator.get<SettingsController>().initialize();
+  locator.registerFactory<ImportWalletController>(() => ImportWalletController(),);
 }
