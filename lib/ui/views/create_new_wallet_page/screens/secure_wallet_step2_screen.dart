@@ -68,7 +68,10 @@ class SecureWalletStep2Screen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ElevatedButton(onPressed: () => _createWalletStepsController.nextStep(), child: Text('Start')),
+                      ElevatedButton(
+                          onPressed: () =>
+                              _createWalletStepsController.nextStep(),
+                          child: Text('Start')),
                     ],
                   )
                 ],
@@ -89,9 +92,25 @@ class SecureWalletStep2Screen extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
+          
           title: Text(
             'What is a \'Secret Recovery Phrase\'',
             textAlign: TextAlign.center,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                  'A Secret Recovery Phrase is a set of twelve words that contains all the information about your wallet, including your funds. It\'s like a secret code used to access your entire wallet.',
+                  textAlign: TextAlign.center),
+              Text(
+                  'You must keep your Secret Recovery Phrase secret and safe. If someone gets Your Secret Recovery Phrase,they\'ll gain control over your accounts. ',
+                  textAlign: TextAlign.center),
+              Text(
+                'Save it in a place where only you can access it. If you lose it, you cannot recover it.',
+                textAlign: TextAlign.center,
+              )
+            ],
           ),
           //icon: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.close)),
         );
