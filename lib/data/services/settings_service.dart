@@ -1,0 +1,7 @@
+import 'package:kriptum/data/models/settings.dart';
+
+abstract class SettingsService {
+  Future<void> setCurrentAccountIndex(int currentAccountIndex);
+  Future<void> setIsDarkTheme(bool isDarkTheme);
+  Future<Settings> loadSettings();
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
-import 'package:kriptum/ui/controllers/create_wallet_steps_controller.dart';
+import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/widgets/title_app_bar.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/screens/create_password_step1_screen.dart';

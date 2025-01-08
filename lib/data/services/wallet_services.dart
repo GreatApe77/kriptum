@@ -1,11 +1,23 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
-
 import 'package:hd_wallet_kit/hd_wallet_kit.dart';
 import 'package:hex/hex.dart';
-import 'package:kriptum/domain/models/account.dart';
 import 'package:web3dart/web3dart.dart';
+
+import 'package:kriptum/domain/models/account.dart';
+
+class AccountFromMnemonicParams {
+  final String mnemonic;
+  final String encryptionPassword;
+  int index;
+  AccountFromMnemonicParams({
+    required this.mnemonic,
+    required this.encryptionPassword,
+    this.index = 1,
+  });
+}
 
 class WalletServices {
   // // Generate a mnemonic phrase
@@ -13,28 +25,27 @@ class WalletServices {
     return Mnemonic.generate().join(' ');
   }
 
-  Future<Account> getAccountFromMnemonic(
-      {required String mnemonic,
-      required String encryptionPassword,
-      int index = 0}) {
-    if (!bip39.validateMnemonic(mnemonic)) {
+  static Future<Account> getAccountFromMnemonic(
+      AccountFromMnemonicParams params) {
+    if (!bip39.validateMnemonic(params.mnemonic)) {
       throw ArgumentError('Invalid mnemonic phrase');
     }
-    final seed = bip39.mnemonicToSeed(mnemonic);
+    final seed = bip39.mnemonicToSeed(params.mnemonic);
     final hdWallet = HDWallet.fromSeed(seed: seed);
     final key = hdWallet.deriveKey(
-      
       purpose: Purpose.BIP44,
       coinType: 60, // Ethereum coin type
       account: 0,
       change: 0,
-      index: index,
+      index: params.index,
     );
-    final ethPrivateKey =
-          EthPrivateKey.fromHex(HEX.encode(key.privKeyBytes!));
+    final ethPrivateKey = EthPrivateKey.fromHex(HEX.encode(key.privKeyBytes!));
     final address = ethPrivateKey.address.hex;
-    final String encryptedAccount = Wallet.createNew(ethPrivateKey, encryptionPassword, Random.secure()).toJson();
-    Account account = Account(address: address, encryptedJsonWallet: encryptedAccount);
+    final String encryptedAccount =
+        Wallet.createNew(ethPrivateKey, params.encryptionPassword, Random.secure())
+            .toJson();
+    Account account =
+        Account(address: address, encryptedJsonWallet: encryptedAccount);
     return Future.value(account);
   }
   // // Generate the private key for a specific derivation path
@@ -109,33 +120,33 @@ class WalletServices {
   }
 }
 
-void main(List<String> args) async {
-   final service = WalletServices();
-   final words = service.generateMnemonic();
-   print(words);
-   final account =await  service.getAccountFromMnemonic(mnemonic: words, encryptionPassword: 'encryptionPassword');
-   print('==============CONTA=============');
-   print(account);
-  // print(service.generateMnemonic());
-  // final seed = Mnemonic.toSeed(mnemonic.split(' '));
-  // final wallet = HDWallet.fromSeed(seed: seed);
-  // final HDKey account0 = wallet.deriveKeyByPath(path: "m/44'/0'/0'");
-  // print(HEX.encode(account0.pubKey));
-  // final address0Key = wallet.deriveKey(
-  //     purpose: Purpose.BIP44, coinType: 0, account: 0, change: 0, index: 0);
-  // print(HEX.encode(address0Key.pubKeyHash));
-  // final ethPrivateKey = EthPrivateKey.fromHex(HEX.encode(address0Key.pubKey));
-  // print(ethPrivateKey.address);
-  // final service = WalletServices();
+// void main(List<String> args) async {
+//   final service = WalletServices();
+//   final words = service.generateMnemonic();
+//   print(words);
+//   final account = await service.getAccountFromMnemonic(
+//       mnemonic: words, encryptionPassword: 'encryptionPassword');
+//   print('==============CONTA=============');
+//   print(account);
+//   // print(service.generateMnemonic());
+//   // final seed = Mnemonic.toSeed(mnemonic.split(' '));
+//   // final wallet = HDWallet.fromSeed(seed: seed);
+//   // final HDKey account0 = wallet.deriveKeyByPath(path: "m/44'/0'/0'");
+//   // print(HEX.encode(account0.pubKey));
+//   // final address0Key = wallet.deriveKey(
+//   //     purpose: Purpose.BIP44, coinType: 0, account: 0, change: 0, index: 0);
+//   // print(HEX.encode(address0Key.pubKeyHash));
+//   // final ethPrivateKey = EthPrivateKey.fromHex(HEX.encode(address0Key.pubKey));
+//   // print(ethPrivateKey.address);
+//   // final service = WalletServices();
 
-  // // Generate a new mnemonic
-  // final mnemonic = service.generateMnemonic();
-  // //print('Mnemonic: $mnemonic');
+//   // // Generate a new mnemonic
+//   // final mnemonic = service.generateMnemonic();
+//   // //print('Mnemonic: $mnemonic');
 
-  // // Derive and print the addresses
-  // final addresses = await service.deriveAddresses(mnemonic, 20);
-  // for (var i = 0; i < addresses.length; i++) {
-  //   print('Address $i: ${addresses[i]}');
-  // }
-
-}
+//   // // Derive and print the addresses
+//   // final addresses = await service.deriveAddresses(mnemonic, 20);
+//   // for (var i = 0; i < addresses.length; i++) {
+//   //   print('Address $i: ${addresses[i]}');
+//   // }
+// }
