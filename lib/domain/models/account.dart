@@ -2,22 +2,22 @@
 import 'dart:convert';
 
 class Account {
-  int index;
+  int accountIndex;
   String address;
   String encryptedJsonWallet;
   Account({
-    required this.index,
+    required this.accountIndex,
     required this.address,
     required this.encryptedJsonWallet,
   });
 
   Account copyWith({
-    int? index,
+    int? accountIndex,
     String? address,
     String? encryptedJsonWallet,
   }) {
     return Account(
-      index: index ?? this.index,
+      accountIndex: accountIndex ?? this.accountIndex,
       address: address ?? this.address,
       encryptedJsonWallet: encryptedJsonWallet ?? this.encryptedJsonWallet,
     );
@@ -25,7 +25,7 @@ class Account {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'index': index,
+      'accountIndex': accountIndex,
       'address': address,
       'encryptedJsonWallet': encryptedJsonWallet,
     };
@@ -33,7 +33,7 @@ class Account {
 
   factory Account.fromMap(Map<String, dynamic> map) {
     return Account(
-      index: map['index'] as int,
+      accountIndex: map['accountIndex'] as int,
       address: map['address'] as String,
       encryptedJsonWallet: map['encryptedJsonWallet'] as String,
     );
@@ -44,18 +44,18 @@ class Account {
   factory Account.fromJson(String source) => Account.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Account(index: $index, address: $address, encryptedJsonWallet: $encryptedJsonWallet)';
+  String toString() => 'Account(accountIndex: $accountIndex, address: $address, encryptedJsonWallet: $encryptedJsonWallet)';
 
   @override
   bool operator ==(covariant Account other) {
     if (identical(this, other)) return true;
   
     return 
-      other.index == index &&
+      other.accountIndex == accountIndex &&
       other.address == address &&
       other.encryptedJsonWallet == encryptedJsonWallet;
   }
 
   @override
-  int get hashCode => index.hashCode ^ address.hashCode ^ encryptedJsonWallet.hashCode;
+  int get hashCode => accountIndex.hashCode ^ address.hashCode ^ encryptedJsonWallet.hashCode;
 }

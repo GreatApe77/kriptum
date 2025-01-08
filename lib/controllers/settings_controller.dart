@@ -55,4 +55,9 @@ class SettingsController extends ChangeNotifier implements LateInitializable {
     await settingsService.setCurrentAccountIndex(currentAccountIndex);
     notifyListeners();
   }
+  Future<void> setContainsWallet(bool containsWallet)async{
+    _settings.containsWallet = containsWallet;
+    await settingsService.setContainsWallet(containsWallet);
+    notifyListeners();
+  }
 }

@@ -45,7 +45,7 @@ class WalletServices {
         Wallet.createNew(ethPrivateKey, params.encryptionPassword, Random.secure())
             .toJson();
     Account account =
-        Account(address: address, encryptedJsonWallet: encryptedAccount,index: params.index);
+        Account(address: address, encryptedJsonWallet: encryptedAccount,accountIndex: params.index);
     return Future.value(account);
   }
   // // Generate the private key for a specific derivation path

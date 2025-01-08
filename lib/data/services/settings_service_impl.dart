@@ -21,8 +21,17 @@ class SettingsServiceImpl implements SettingsService {
 
     bool? isDarkTheme = sh.getBool('isDarkTheme');
     int? currentAccountIndex = sh.getInt('currentAccountIndex');
+    bool? containsWallet = sh.getBool('containsWallet');
     return Settings(
         lastConnectedIndex: currentAccountIndex ?? 0,
-        isDarkTheme: isDarkTheme ?? false);
+        isDarkTheme: isDarkTheme ?? false,
+        containsWallet: containsWallet ?? false);
+  }
+  
+  @override
+  Future<void> setContainsWallet(bool containsWallet)async  {
+    final sh = await SharedPreferences.getInstance();
+    await sh.setBool('containsWallet', containsWallet);
+    
   }
 }

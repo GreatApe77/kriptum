@@ -4,19 +4,23 @@ import 'dart:convert';
 class Settings {
   int lastConnectedIndex;
   bool isDarkTheme;
+  bool containsWallet;
   Settings({
     required this.lastConnectedIndex,
     required this.isDarkTheme,
+    required this.containsWallet,
   });
   
 
   Settings copyWith({
     int? lastConnectedIndex,
     bool? isDarkTheme,
+    bool? containsWallet,
   }) {
     return Settings(
       lastConnectedIndex: lastConnectedIndex ?? this.lastConnectedIndex,
       isDarkTheme: isDarkTheme ?? this.isDarkTheme,
+      containsWallet: containsWallet ?? this.containsWallet,
     );
   }
 
@@ -24,6 +28,7 @@ class Settings {
     return <String, dynamic>{
       'lastConnectedIndex': lastConnectedIndex,
       'isDarkTheme': isDarkTheme,
+      'containsWallet': containsWallet,
     };
   }
 
@@ -31,6 +36,7 @@ class Settings {
     return Settings(
       lastConnectedIndex: map['lastConnectedIndex'] as int,
       isDarkTheme: map['isDarkTheme'] as bool,
+      containsWallet: map['containsWallet'] as bool,
     );
   }
 
@@ -39,7 +45,7 @@ class Settings {
   factory Settings.fromJson(String source) => Settings.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme)';
+  String toString() => 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet)';
 
   @override
   bool operator ==(covariant Settings other) {
@@ -47,9 +53,10 @@ class Settings {
   
     return 
       other.lastConnectedIndex == lastConnectedIndex &&
-      other.isDarkTheme == isDarkTheme;
+      other.isDarkTheme == isDarkTheme &&
+      other.containsWallet == containsWallet;
   }
 
   @override
-  int get hashCode => lastConnectedIndex.hashCode ^ isDarkTheme.hashCode;
+  int get hashCode => lastConnectedIndex.hashCode ^ isDarkTheme.hashCode ^ containsWallet.hashCode;
 }

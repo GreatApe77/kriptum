@@ -35,7 +35,7 @@ class SqliteDatabase {
   Future<void> _createAccountsTable(Database db) async {
     await db.execute('''
         CREATE TABLE ${AccountsTable.table}(
-          ${AccountsTable.indexColumn} INTEGER PRIMARY KEY,
+          ${AccountsTable.accountIndexColumn} INTEGER PRIMARY KEY,
           ${AccountsTable.addressColumn} TEXT,
           ${AccountsTable.encryptedJsonWalletColumn} TEXT
         );

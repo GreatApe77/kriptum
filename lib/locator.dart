@@ -5,6 +5,7 @@ import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
 import 'package:kriptum/data/repositories/account/account_repository__memory_impl.dart';
+import 'package:kriptum/data/repositories/account/account_repository_db_impl.dart';
 import 'package:kriptum/data/services/settings_service.dart';
 import 'package:kriptum/data/services/settings_service_impl.dart';
 import 'package:kriptum/data/services/wallet_services.dart';
@@ -13,7 +14,7 @@ import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller
 
 final locator = GetIt.instance;
 Future<void> setup() async {
-  locator.registerSingleton<AccountRepository>(AccountRepositoryMemoryImpl());
+  locator.registerSingleton<AccountRepository>(AccountRepositoryDbImpl());
   locator.registerFactory(() => CreateWalletStepsController());
   locator.registerCachedFactory(
     () => NavigationBarController(),
@@ -31,5 +32,6 @@ Future<void> setup() async {
   locator.registerSingleton<SettingsController>(
       SettingsController(settingsService: locator.get<SettingsService>()));
   await locator.get<SettingsController>().initialize();
+  //await locator.get<SettingsController>().setContainsWallet(false);
   locator.registerFactory<ImportWalletController>(() => ImportWalletController(),);
 }

@@ -8,7 +8,7 @@ class AccountRepositoryDbImpl implements AccountRepository {
   Future<Account> getAccount(int index) async {
     final database = await SqliteDatabase().db;
     final result = await database.query(AccountsTable.table,
-        where: '${AccountsTable.indexColumn} = ?', whereArgs: [index]);
+        where: '${AccountsTable.accountIndexColumn} = ?', whereArgs: [index]);
     if (result.isEmpty) {
       throw Exception('Not Found');
     }

@@ -10,15 +10,21 @@ import 'package:kriptum/ui/views/create_new_wallet_page/create_new_wallet_page.d
 import 'package:kriptum/ui/views/home_page/home_page.dart';
 import 'package:kriptum/ui/views/import_wallet/import_wallet_page.dart';
 import 'package:kriptum/ui/views/setup_page.dart';
+import 'package:kriptum/ui/views/unlock_wallet/unlock_wallet_page.dart';
 
 class AppRoutes {
   static const setup = '/setup';
   static const createNewWallet = '/create-new-wallet';
   static const importWallet = '/import-wallet';
   static const home = '/home';
+  static const unlockWallet = '/unlock-wallet';
 }
 
 final routes = [
+  GoRoute(
+    path: AppRoutes.unlockWallet,
+    builder: (context, state) => UnlockWalletPage(),
+  ),
   GoRoute(
     path: AppRoutes.setup,
     builder: (context, state) => const SetupPage(),
@@ -26,13 +32,14 @@ final routes = [
   GoRoute(
     path: AppRoutes.createNewWallet,
     builder: (context, state) => CreateNewWalletPage(
+      settingsController: locator.get<SettingsController>(),
       createNewWalletController: locator.get<CreateNewWalletController>(),
       stepController: locator.get<CreateWalletStepsController>(),
     ),
   ),
   GoRoute(
     path: AppRoutes.importWallet,
-    builder: (context, state) =>  ImportWalletPage(
+    builder: (context, state) => ImportWalletPage(
       importWalletController: locator.get<ImportWalletController>(),
     ),
   ),
@@ -46,4 +53,19 @@ final routes = [
   ),
 ];
 
-final router = GoRouter(initialLocation: AppRoutes.setup, routes: routes);
+final router = GoRouter(
+  
+    redirect: (context, state) {
+      final settingsController = locator.get<SettingsController>();
+      final isCreatingWallet = state.fullPath == AppRoutes.createNewWallet ||
+          state.fullPath == AppRoutes.importWallet;
+      final inSetupPage = state.fullPath == AppRoutes.setup;
+      if (!settingsController.settings.containsWallet &&
+          !isCreatingWallet &&
+          !inSetupPage) {
+        return AppRoutes.setup;
+      }
+      return null;
+    },
+    initialLocation: AppRoutes.unlockWallet,
+    routes: routes);
