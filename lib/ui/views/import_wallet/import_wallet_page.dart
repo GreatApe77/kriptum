@@ -64,6 +64,7 @@ class ImportWalletPage extends StatelessWidget {
                         height: 24,
                       ),
                       TextFormField(
+                        obscureText: true,
                         controller: passwordTextController,
                         validator: (password) =>
                             PasswordValidatorController.validLength(password),
@@ -76,6 +77,7 @@ class ImportWalletPage extends StatelessWidget {
                         height: 24,
                       ),
                       TextFormField(
+                        obscureText:true,
                         controller: confirmPasswordTextController,
                         validator: (confirmPassword) =>
                             PasswordValidatorController.validLength(
