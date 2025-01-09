@@ -1,4 +1,4 @@
-class PasswordValidatorController {
+abstract class PasswordValidatorController {
   static const _minimumPasswordLength = 8;
   static String? validLength(String? password) {
     String notNullPassword = password ?? '';
