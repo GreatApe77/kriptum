@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/controllers/erase_wallet_controller.dart';
@@ -6,7 +7,6 @@ import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
-import 'package:kriptum/data/repositories/account/account_repository__memory_impl.dart';
 import 'package:kriptum/data/repositories/account/account_repository_db_impl.dart';
 import 'package:kriptum/data/services/settings_service.dart';
 import 'package:kriptum/data/services/settings_service_impl.dart';
@@ -37,8 +37,7 @@ Future<void> setup() async {
   //await locator.get<SettingsController>().setContainsWallet(false);
   locator.registerFactory<ImportWalletController>(
     () => ImportWalletController(
-      accountRepository: locator.get<AccountRepository>()
-    ),
+        accountRepository: locator.get<AccountRepository>()),
   );
   locator.registerFactory(
     () => UnlockWalletController(
@@ -48,5 +47,9 @@ Future<void> setup() async {
   locator.registerFactory<EraseWalletController>(
     () => EraseWalletController(
         accountRepository: locator.get<AccountRepository>()),
+  );
+  locator.registerFactory<AccountBalanceController>(
+    () =>
+        AccountBalanceController(walletServices: locator.get<WalletServices>()),
   );
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/locator.dart';
 import 'package:kriptum/router.dart';
-import 'package:kriptum/ui/views/setup_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

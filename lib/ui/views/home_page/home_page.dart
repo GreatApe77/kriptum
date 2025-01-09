@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
@@ -9,11 +10,12 @@ class HomePage extends StatefulWidget {
   final NavigationBarController navigationBarController;
   final AccountsController connectedAccountController;
   final SettingsController settingsController;
+  final AccountBalanceController accountBalanceController;
   const HomePage(
       {super.key,
       required this.navigationBarController,
       required this.connectedAccountController,
-      required this.settingsController});
+      required this.settingsController, required this.accountBalanceController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -82,6 +84,7 @@ class _HomePageState extends State<HomePage> {
                     WalletScreen(
                       settingsController: widget.settingsController,
                       accountsController: widget.connectedAccountController,
+                      accountBalanceController: widget.accountBalanceController,
                     ),
                     Center(
                         child: Text(

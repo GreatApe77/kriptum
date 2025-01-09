@@ -50,7 +50,7 @@ class WalletServices {
     final ethClient = Web3Client(rpcEndpoint, httpClient);
     final balance =
         await ethClient.getBalance(EthereumAddress.fromHex(address));
-
+    print('BALANCE :${balance.getValueInUnit(EtherUnit.ether)}');
     return balance.getInWei;
   }
 

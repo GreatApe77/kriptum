@@ -1,23 +1,37 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kriptum/controllers/account_balance_controller.dart';
 
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
+import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/views/home_page/controllers/copy_to_clipboard_controller.dart';
 
-class WalletScreen extends StatelessWidget {
+class WalletScreen extends StatefulWidget {
   final AccountsController accountsController;
   final SettingsController settingsController;
-  final CopyToClipboardController copyToClipboardController =
-      CopyToClipboardController();
+  final AccountBalanceController accountBalanceController;
   WalletScreen({
     super.key,
     required this.accountsController,
-    required this.settingsController,
+    required this.settingsController, required this.accountBalanceController,
   });
 
+  @override
+  State<WalletScreen> createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends State<WalletScreen> {
+  final CopyToClipboardController copyToClipboardController =
+      CopyToClipboardController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    widget.accountBalanceController.loadAccountBalance(widget.accountsController.connectedAccount!.address);
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,12 +52,12 @@ class WalletScreen extends StatelessWidget {
                   width: 8,
                 ),
                 Text(
-                    'Account ${settingsController.settings.lastConnectedIndex + 1}'),
+                    'Account ${widget.settingsController.settings.lastConnectedIndex + 1}'),
                 Icon(Icons.keyboard_arrow_down)
               ],
             ),
             Text(
-              formatAddress(accountsController.connectedAccount!.address),
+              formatAddress(widget.accountsController.connectedAccount!.address),
               style: TextStyle(fontSize: 14),
             )
           ],
@@ -51,7 +65,7 @@ class WalletScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () => copyToClipboardController.copyToClipboard(
-                    content: accountsController.connectedAccount!.address,
+                    content: widget.accountsController.connectedAccount!.address,
                     onCopied: (content) {
                       showDialog(
                         barrierColor: Colors.transparent,
@@ -66,19 +80,18 @@ class WalletScreen extends StatelessWidget {
                                     Navigator.of(context).pop();
                                   }
                                   return AlertDialog(
-
                                     title: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
                                           Icons.check_circle_rounded,
-                                          size: 80
-                                          
-                                          ,
+                                          size: 80,
                                         ),
-                                        SizedBox(height: 12,),
+                                        SizedBox(
+                                          height: 12,
+                                        ),
                                         Text(
-                                          'Public address ${formatAddress(accountsController.connectedAccount!.address)} copied to clipboard',
+                                          'Public address ${formatAddress(widget.accountsController.connectedAccount!.address)} copied to clipboard',
                                           textAlign: TextAlign.center,
                                         )
                                       ],
@@ -94,6 +107,26 @@ class WalletScreen extends StatelessWidget {
           IconButton(
               onPressed: () {}, icon: Icon(Icons.qr_code_scanner_rounded))
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+            padding: AppSpacings.horizontalPadding,
+            margin: EdgeInsets.symmetric(vertical: 20),
+            child: Row(
+              children: [
+                ListenableBuilder(
+                  listenable: widget.accountBalanceController,
+                  builder: (context,child) {
+                    return Text(
+                      '\$0 ${widget.accountBalanceController.balance.toString()}',
+                      style: TextStyle(fontSize: 40),
+                    );
+                  }
+                ),
+                IconButton(
+                    onPressed: () {}, icon: Icon(Icons.remove_red_eye_rounded))
+              ],
+            )),
       ),
     );
   }
