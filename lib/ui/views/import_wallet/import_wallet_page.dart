@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:kriptum/controllers/import_wallet_controller.dart';
+import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
 import 'package:kriptum/ui/shared/widgets/title_app_bar.dart';
-
+//test test test test test test test test test test test junk
 class ImportWalletPage extends StatelessWidget {
   final ImportWalletController importWalletController;
+  final SettingsController settingsController;
   ImportWalletPage({
     super.key,
-    required this.importWalletController,
+    required this.importWalletController, required this.settingsController,
   });
   final GlobalKey<FormState> formKey = GlobalKey();
   final mnemonicTextController = TextEditingController();
@@ -26,7 +28,7 @@ class ImportWalletPage extends StatelessWidget {
           listenable: importWalletController,
           builder: (context, child) {
             if(importWalletController.loading){
-              return BasicLoading();
+              return const BasicLoading();
             }
             return Padding(
               padding: AppSpacings.horizontalPadding,
@@ -81,7 +83,9 @@ class ImportWalletPage extends StatelessWidget {
                             await importWalletController.importWallet(
                                 mnemonic: mnemonicTextController.text,
                                 password: passwordTextController.text);
-                            GoRouter.of(context).push(AppRoutes.home);
+                                await settingsController.setContainsWallet(true);
+                                await settingsController.changeCurrentAccountIndex(0);
+                            GoRouter.of(context).pushReplacement(AppRoutes.home);
                           },
                           child: const Text('IMPORT'))
                     ],

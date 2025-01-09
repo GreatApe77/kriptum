@@ -46,6 +46,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.importWallet,
     builder: (context, state) => ImportWalletPage(
+      settingsController: locator.get<SettingsController>(),
       importWalletController: locator.get<ImportWalletController>(),
     ),
   ),

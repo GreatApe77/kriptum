@@ -5,17 +5,24 @@ import 'package:kriptum/data/services/wallet_services.dart';
 
 class ImportWalletController extends ChangeNotifier {
   bool loading = false;
-  late final AccountRepository accountRepository;
+   final AccountRepository accountRepository;
+
+  ImportWalletController({required this.accountRepository});
   Future<void> importWallet(
       {required String mnemonic, required String password}) async {
     loading = true;
     notifyListeners();
-    final account = await compute(
-        WalletServices.getAccountFromMnemonic,
-        AccountFromMnemonicParams(
-            mnemonic: mnemonic, encryptionPassword: password));
+    try {
+      final account = await compute(
+          WalletServices.getAccountFromMnemonic,
+          AccountFromMnemonicParams(
+              mnemonic: mnemonic, encryptionPassword: password));
 
-    await accountRepository.saveAccount(account);
+      await accountRepository.saveAccount(account);
+    } catch (e) {
+      print('DEU ERRO AQUI');
+      print(e.toString());
+    }
     loading = false;
     notifyListeners();
   }

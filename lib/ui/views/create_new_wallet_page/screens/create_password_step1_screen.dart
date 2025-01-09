@@ -5,7 +5,7 @@ import 'package:kriptum/ui/shared/widgets/password_dont_match_alert.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
 import 'package:kriptum/ui/shared/widgets/linear_check_in_progress_bar.dart';
-import 'package:kriptum/ui/views/create_new_wallet_page/controllers/password_validator_controller.dart';
+import 'package:kriptum/ui/shared/controllers/password_validator_controller.dart';
 
 class CreatePasswordStep1Screen extends StatelessWidget {
   final SettingsController _settingsController;

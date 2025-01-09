@@ -36,7 +36,9 @@ Future<void> setup() async {
   await locator.get<SettingsController>().initialize();
   //await locator.get<SettingsController>().setContainsWallet(false);
   locator.registerFactory<ImportWalletController>(
-    () => ImportWalletController(),
+    () => ImportWalletController(
+      accountRepository: locator.get<AccountRepository>()
+    ),
   );
   locator.registerFactory(
     () => UnlockWalletController(
