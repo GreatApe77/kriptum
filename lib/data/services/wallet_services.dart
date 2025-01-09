@@ -45,7 +45,7 @@ class WalletServices {
   }
 
   Future<BigInt> getBalance(String address,
-      {String rpcEndpoint = 'http://127.0.0.1:8545'}) async {
+      {String rpcEndpoint = 'http://10.0.2.2:8545'}) async {
     final httpClient = Client();
     final ethClient = Web3Client(rpcEndpoint, httpClient);
     final balance =

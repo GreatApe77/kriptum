@@ -25,13 +25,13 @@ class _WalletScreenState extends State<WalletScreen> {
   final CopyToClipboardController copyToClipboardController =
       CopyToClipboardController();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    widget.accountBalanceController.loadAccountBalance(widget.accountsController.connectedAccount!.address);
-    super.initState();
-  }
   
+  @override
+  void didUpdateWidget(covariant WalletScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    widget.accountBalanceController.loadAccountBalance(widget.accountsController.connectedAccount!.address);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,26 +108,29 @@ class _WalletScreenState extends State<WalletScreen> {
               onPressed: () {}, icon: Icon(Icons.qr_code_scanner_rounded))
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-            padding: AppSpacings.horizontalPadding,
-            margin: EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              children: [
-                ListenableBuilder(
-                  listenable: widget.accountBalanceController,
-                  builder: (context,child) {
-                    return Text(
-                      '\$0 ${widget.accountBalanceController.balance.toString()}',
+      body: Container(
+          padding: AppSpacings.horizontalPadding,
+          margin: EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListenableBuilder(
+                listenable: widget.accountBalanceController,
+                builder: (context,child) {
+                  return Container(
+                    width: 400,
+                    child: Text(
+                      '\$0 ${widget.accountBalanceController.balance.toString()}',overflow: TextOverflow.fade,
+            
                       style: TextStyle(fontSize: 40),
-                    );
-                  }
-                ),
-                IconButton(
-                    onPressed: () {}, icon: Icon(Icons.remove_red_eye_rounded))
-              ],
-            )),
-      ),
+                    ),
+                  );
+                }
+              ),
+              IconButton(
+                  onPressed: () {}, icon: Icon(Icons.remove_red_eye_rounded))
+            ],
+          )),
     );
   }
 }
