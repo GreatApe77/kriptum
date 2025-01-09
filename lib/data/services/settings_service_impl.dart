@@ -34,4 +34,11 @@ class SettingsServiceImpl implements SettingsService {
     await sh.setBool('containsWallet', containsWallet);
     
   }
+  
+  @override
+  Future<void> clearCurrentAccountIndex()async  {
+    final sh = await SharedPreferences.getInstance();
+    await sh.remove('currentAccountIndex');
+
+  }
 }

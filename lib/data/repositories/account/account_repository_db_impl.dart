@@ -20,4 +20,10 @@ class AccountRepositoryDbImpl implements AccountRepository {
     final database = await SqliteDatabase().db;
     await database.insert(AccountsTable.table, account.toMap());
   }
+
+  @override
+  Future<void> clearAccounts() async {
+    final database = await SqliteDatabase().db;
+    await database.delete(AccountsTable.table);
+  }
 }

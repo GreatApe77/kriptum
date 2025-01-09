@@ -14,5 +14,11 @@ import 'package:kriptum/domain/models/account.dart';
     return data[index];
   }
   
+  @override
+  Future<void> clearAccounts() {
+    // TODO: implement clearAccounts
+    throw UnimplementedError();
+  }
+  
   
 }

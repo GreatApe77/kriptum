@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kriptum/controllers/erase_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/router.dart';
@@ -11,10 +12,12 @@ import 'package:kriptum/ui/views/unlock_wallet/widgets/erase_wallet_dialog.dart'
 class UnlockWalletPage extends StatelessWidget {
   final UnlockWalletController unlockWalletController;
   final SettingsController settingsController;
+  final EraseWalletController eraseWalletController;
   UnlockWalletPage(
       {super.key,
       required this.unlockWalletController,
-      required this.settingsController});
+      required this.settingsController,
+      required this.eraseWalletController});
   final passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -63,7 +66,8 @@ class UnlockWalletPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       TextButton(
-                          onPressed: () => _showDeleteWalletModal(context), child: const Text('Reset Wallet'))
+                          onPressed: () => _showDeleteWalletModal(context),
+                          child: const Text('Reset Wallet'))
                     ],
                   ),
                 ),
@@ -73,17 +77,27 @@ class UnlockWalletPage extends StatelessWidget {
     );
   }
 
+  void _triggerEraseWallet(BuildContext context) async {
+    await eraseWalletController.eraseWallet();
+    await settingsController.clearWalletConfig();
+    GoRouter.of(context).pushReplacement(AppRoutes.setup);
+  }
+
   void _showDeleteWalletModal(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
-        return EraseWalletDialog(
-          onCancel: () {
-            Navigator.pop(context);
-          },
-          onContinue: () {
-            
-          },
+        return ListenableBuilder(
+          listenable: eraseWalletController,
+          builder: (context,child) {
+            return EraseWalletDialog(
+              isLoading: eraseWalletController.isLoading,
+              onCancel: () {
+                Navigator.pop(context);
+              },
+              onContinue: () => _triggerEraseWallet(context),
+            );
+          }
         );
       },
     );

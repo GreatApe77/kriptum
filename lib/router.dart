@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
+import 'package:kriptum/controllers/erase_wallet_controller.dart';
 import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
@@ -25,6 +26,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.unlockWallet,
     builder: (context, state) => UnlockWalletPage(
+      eraseWalletController: locator.get<EraseWalletController>(),
       settingsController: locator.get<SettingsController>(),
       unlockWalletController: locator.get<UnlockWalletController>(),
     ),

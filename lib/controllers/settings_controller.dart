@@ -44,7 +44,12 @@ class SettingsController extends ChangeNotifier implements LateInitializable {
   Future<void> initialize() async {
     _settings = await settingsService.loadSettings();
   }
-
+  Future<void> clearWalletConfig()async {
+    _settings.lastConnectedIndex = 0;
+    await settingsService.clearCurrentAccountIndex();
+    await setContainsWallet(false);
+    notifyListeners();
+  }
   Future<void> toggleTheme() async {
     _settings.isDarkTheme = !_settings.isDarkTheme;
     await settingsService.setIsDarkTheme(_settings.isDarkTheme);

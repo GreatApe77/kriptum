@@ -4,4 +4,5 @@ abstract class AccountRepository {
   
   Future<void> saveAccount(Account account);
   Future<Account> getAccount(int index);
+  Future<void> clearAccounts();
 }
