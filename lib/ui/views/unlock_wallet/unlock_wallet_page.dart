@@ -6,6 +6,7 @@ import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
+import 'package:kriptum/ui/views/unlock_wallet/widgets/erase_wallet_dialog.dart';
 
 class UnlockWalletPage extends StatelessWidget {
   final UnlockWalletController unlockWalletController;
@@ -21,7 +22,7 @@ class UnlockWalletPage extends StatelessWidget {
       body: ListenableBuilder(
           listenable: unlockWalletController,
           builder: (context, child) {
-            if(unlockWalletController.isLoading){
+            if (unlockWalletController.isLoading) {
               return const BasicLoading();
             }
             return Padding(
@@ -62,7 +63,7 @@ class UnlockWalletPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       TextButton(
-                          onPressed: () {}, child: const Text('Reset Wallet'))
+                          onPressed: () => _showDeleteWalletModal(context), child: const Text('Reset Wallet'))
                     ],
                   ),
                 ),
@@ -72,9 +73,25 @@ class UnlockWalletPage extends StatelessWidget {
     );
   }
 
+  void _showDeleteWalletModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return EraseWalletDialog(
+          onCancel: () {
+            Navigator.pop(context);
+          },
+          onContinue: () {
+            
+          },
+        );
+      },
+    );
+  }
+
   void _onWrongPassword(BuildContext context) {
     ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Colors.red,
         showCloseIcon: true,
         behavior: SnackBarBehavior.floating,
