@@ -88,13 +88,14 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         ElevatedButton(
-            onPressed: () => _navigateToHome(context),
+            onPressed: () => _triggerSaveAccount(context),
             child: const Text('I backed up my keys'))
       ],
     );
   }
 
-  void _navigateToHome(BuildContext context) {
+  void _triggerSaveAccount(BuildContext context)async {
+    await _createNewWalletController.saveAccount();
     GoRouter.of(context).pushReplacement(AppRoutes.home);
   }
 }
