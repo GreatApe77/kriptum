@@ -5,6 +5,7 @@ import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
+import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/views/home_page/controllers/copy_to_clipboard_controller.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -14,7 +15,8 @@ class WalletScreen extends StatefulWidget {
   WalletScreen({
     super.key,
     required this.accountsController,
-    required this.settingsController, required this.accountBalanceController,
+    required this.settingsController,
+    required this.accountBalanceController,
   });
 
   @override
@@ -25,13 +27,14 @@ class _WalletScreenState extends State<WalletScreen> {
   final CopyToClipboardController copyToClipboardController =
       CopyToClipboardController();
 
-  
   @override
   void didUpdateWidget(covariant WalletScreen oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-    widget.accountBalanceController.loadAccountBalance(widget.accountsController.connectedAccount!.address);
+    widget.accountBalanceController.loadAccountBalance(
+        widget.accountsController.connectedAccount!.address);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +60,8 @@ class _WalletScreenState extends State<WalletScreen> {
               ],
             ),
             Text(
-              formatAddress(widget.accountsController.connectedAccount!.address),
+              formatAddress(
+                  widget.accountsController.connectedAccount!.address),
               style: TextStyle(fontSize: 14),
             )
           ],
@@ -65,7 +69,8 @@ class _WalletScreenState extends State<WalletScreen> {
         actions: [
           IconButton(
               onPressed: () => copyToClipboardController.copyToClipboard(
-                    content: widget.accountsController.connectedAccount!.address,
+                    content:
+                        widget.accountsController.connectedAccount!.address,
                     onCopied: (content) {
                       showDialog(
                         barrierColor: Colors.transparent,
@@ -112,21 +117,19 @@ class _WalletScreenState extends State<WalletScreen> {
           padding: AppSpacings.horizontalPadding,
           margin: EdgeInsets.symmetric(vertical: 20),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
               ListenableBuilder(
-                listenable: widget.accountBalanceController,
-                builder: (context,child) {
-                  return Container(
-                    width: 400,
-                    child: Text(
-                      '\$0 ${widget.accountBalanceController.balance.toString()}',overflow: TextOverflow.fade,
-            
-                      style: TextStyle(fontSize: 40),
-                    ),
-                  );
-                }
-              ),
+                  listenable: widget.accountBalanceController,
+                  builder: (context, child) {
+                    return Flexible(
+                      child: Text(
+                        'ETH ${formatEther(widget.accountBalanceController.balance)}',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 36),
+                      ),
+                    );
+                  }),
               IconButton(
                   onPressed: () {}, icon: Icon(Icons.remove_red_eye_rounded))
             ],
