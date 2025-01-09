@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
 import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
@@ -44,6 +42,16 @@ class WalletServices {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<BigInt> getBalance(String address,
+      {String rpcEndpoint = 'http://127.0.0.1:8545'}) async {
+    final httpClient = Client();
+    final ethClient = Web3Client(rpcEndpoint, httpClient);
+    final balance =
+        await ethClient.getBalance(EthereumAddress.fromHex(address));
+
+    return balance.getInWei;
   }
 
   static Future<Account> getAccountFromMnemonic(
@@ -173,5 +181,5 @@ void main(List<String> args) async {
   final receiverBalanceAfter =
       await ethClient.getBalance(EthereumAddress.fromHex(myEthAddress));
   print(
-      'RECEIVER BALANCE AFTER: ${receiverBalanceAfter.getValueInUnit(EtherUnit.ether)}');  
+      'RECEIVER BALANCE AFTER: ${receiverBalanceAfter.getValueInUnit(EtherUnit.ether)}');
 }
