@@ -118,7 +118,7 @@ class UnlockWalletPage extends StatelessWidget {
       accountIndex: settingsController.settings.lastConnectedIndex,
       onWrongPassword: () => _onWrongPassword(context),
       onSuccess: () {
-        GoRouter.of(context).push(AppRoutes.home);
+        GoRouter.of(context).pushReplacement(AppRoutes.home);
       },
     );
   }

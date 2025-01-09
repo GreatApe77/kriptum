@@ -3,6 +3,7 @@ import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
 import 'package:kriptum/ui/views/home_page/screens/settings_screen.dart';
+import 'package:kriptum/ui/views/home_page/screens/wallet_screen.dart';
 
 class HomePage extends StatefulWidget {
   final NavigationBarController navigationBarController;
@@ -75,9 +76,13 @@ class _HomePageState extends State<HomePage> {
                 listenable: widget.navigationBarController,
                 builder: (context, child) {
                   final pages = [
-                    Center(
-                        child: Text(
-                            'PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'}')),
+                    // Center(
+                    //     child: Text(
+                    //         'PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'}')),
+                    WalletScreen(
+                      settingsController: widget.settingsController,
+                      accountsController: widget.connectedAccountController,
+                    ),
                     Center(
                         child: Text(
                             'PAGE: ${widget.navigationBarController.selectedPage}')),
