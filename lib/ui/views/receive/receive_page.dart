@@ -40,17 +40,17 @@ class ReceivePage extends StatelessWidget {
                     }, icon: const Icon(Icons.close))
                   ],
                 ),
-                SizedBox(height: 24,),
+                const SizedBox(height: 24,),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SegmentedButton(onSelectionChanged: (p0) {}, segments: [
-                      const ButtonSegment<int>(
+                    SegmentedButton(onSelectionChanged: (p0) {}, segments: const [
+                      ButtonSegment<int>(
                           value: 1, label: Text('Scan QR code')),
-                      const ButtonSegment<int>(
+                      ButtonSegment<int>(
                           value: 2, label: Text('Your QR code'))
-                    ], selected: {
+                    ], selected: const {
                       2
                     }),
                   ],
@@ -114,11 +114,3 @@ class ReceivePage extends StatelessWidget {
   }
 }
 
-class ScanOrDisplayQrCodeTab extends StatelessWidget {
-  const ScanOrDisplayQrCodeTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
