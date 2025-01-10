@@ -3,10 +3,12 @@ import 'package:kriptum/controllers/account_balance_controller.dart';
 
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
+import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/views/home_page/controllers/copy_to_clipboard_controller.dart';
+import 'package:kriptum/ui/views/home_page/widgets/account_viewer_btn.dart';
 
 class WalletScreen extends StatefulWidget {
   final AccountsController accountsController;
@@ -29,7 +31,7 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   void didUpdateWidget(covariant WalletScreen oldWidget) {
-    // TODO: implement didUpdateWidget
+    
     super.didUpdateWidget(oldWidget);
     widget.accountBalanceController.loadAccountBalance(
         widget.accountsController.connectedAccount!.address);
@@ -41,31 +43,7 @@ class _WalletScreenState extends State<WalletScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  radius: 10,
-                  backgroundColor: Colors.red,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                    'Account ${widget.settingsController.settings.lastConnectedIndex + 1}'),
-                Icon(Icons.keyboard_arrow_down)
-              ],
-            ),
-            Text(
-              formatAddress(
-                  widget.accountsController.connectedAccount!.address),
-              style: TextStyle(fontSize: 14),
-            )
-          ],
-        ),
+        title: AccountViewerBtn(account: widget.accountsController.connectedAccount!, onPressed: () {  },),
         actions: [
           IconButton(
               onPressed: () => copyToClipboardController.copyToClipboard(
@@ -137,3 +115,4 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 }
+
