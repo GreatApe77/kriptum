@@ -7,7 +7,7 @@ import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
-import 'package:kriptum/ui/views/home_page/controllers/copy_to_clipboard_controller.dart';
+import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 import 'package:kriptum/ui/views/home_page/widgets/account_viewer_btn.dart';
 
 class WalletScreen extends StatefulWidget {

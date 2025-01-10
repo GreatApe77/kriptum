@@ -1,11 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
+import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 
 class ReceivePage extends StatelessWidget {
   final AccountsController accountsController;
-  const ReceivePage({
+  final CopyToClipboardController copyToClipboardController =
+      CopyToClipboardController();
+  ReceivePage({
     super.key,
     required this.accountsController,
   });
@@ -20,8 +24,9 @@ class ReceivePage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Receive',
@@ -30,33 +35,40 @@ class ReceivePage extends StatelessWidget {
                         Text('Network')
                       ],
                     )),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.close))
+                    IconButton(onPressed: () {
+                      Navigator.pop(context);
+                    }, icon: const Icon(Icons.close))
                   ],
                 ),
+                SizedBox(height: 24,),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SegmentedButton(onSelectionChanged: (p0) {}, segments: [
-                      ButtonSegment<int>(value: 1, label: Text('Scan QR code')),
-                      ButtonSegment<int>(value: 2, label: Text('Your QR code'))
+                      const ButtonSegment<int>(
+                          value: 1, label: Text('Scan QR code')),
+                      const ButtonSegment<int>(
+                          value: 2, label: Text('Your QR code'))
                     ], selected: {
                       2
                     }),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Expanded(
                     flex: 2,
                     child: Center(
-                      child: SizedBox(
-                        child: Container(
-                          color: Colors.red,
+                      child: Container(
+                        color: Colors.white,
+                        child: QrImageView(
+                          data: accountsController.connectedAccount!.address,
+                          version: QrVersions.auto,
+                          size: 250.0,
+
                         ),
-                        height: 20,
-                        width: 20,
                       ),
                     )),
                 Expanded(
@@ -64,21 +76,34 @@ class ReceivePage extends StatelessWidget {
                     children: [
                       Text(
                         'Account ${accountsController.connectedAccount!.accountIndex + 1}',
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 24,
                       ),
                       Text(
                         '${accountsController.connectedAccount?.address}',
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 14),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 12,
                       ),
-                      TextButton.icon(onPressed: () {
-                        
-                      },label: Text('Copy address'), icon: Icon(Icons.copy),)
+                      TextButton.icon(
+                        onPressed: () =>
+                            copyToClipboardController.copyToClipboard(
+                          content: accountsController.connectedAccount!.address,
+                          onCopied: (content) {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    behavior: SnackBarBehavior.floating,
+                                    content:
+                                        Text('Address copied to clipboard')));
+                          },
+                        ),
+                        label: const Text('Copy address'),
+                        icon: const Icon(Icons.copy),
+                      )
                     ],
                   ),
                 )
