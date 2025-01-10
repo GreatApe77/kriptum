@@ -26,4 +26,15 @@ class AccountRepositoryDbImpl implements AccountRepository {
     final database = await SqliteDatabase().db;
     await database.delete(AccountsTable.table);
   }
+
+  @override
+  Future<List<Account>> getAccounts() async {
+    final database = await SqliteDatabase().db;
+    final queryResult = await database.query(AccountsTable.table);
+    return queryResult
+        .map(
+          (accountMap) => Account.fromMap(accountMap),
+        )
+        .toList();
+  }
 }
