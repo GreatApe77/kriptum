@@ -12,6 +12,7 @@ import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller
 import 'package:kriptum/ui/views/create_new_wallet_page/create_new_wallet_page.dart';
 import 'package:kriptum/ui/views/home_page/home_page.dart';
 import 'package:kriptum/ui/views/import_wallet/import_wallet_page.dart';
+import 'package:kriptum/ui/views/receive/receive_page.dart';
 import 'package:kriptum/ui/views/setup_page.dart';
 import 'package:kriptum/ui/views/unlock_wallet/unlock_wallet_page.dart';
 
@@ -21,6 +22,7 @@ class AppRoutes {
   static const importWallet = '/import-wallet';
   static const home = '/home';
   static const unlockWallet = '/unlock-wallet';
+  static const receive = '/receive';
 }
 
 final routes = [
@@ -60,10 +62,15 @@ final routes = [
       navigationBarController: locator.get<NavigationBarController>(),
     ),
   ),
+  GoRoute(
+    path: AppRoutes.receive,
+    builder: (context, state) => ReceivePage(
+      accountsController: locator.get<AccountsController>(),
+    ),
+  )
 ];
 
 final router = GoRouter(
-  
     redirect: (context, state) {
       final settingsController = locator.get<SettingsController>();
       final isCreatingWallet = state.fullPath == AppRoutes.createNewWallet ||

@@ -14,7 +14,7 @@ class WalletScreen extends StatefulWidget {
   final AccountsController accountsController;
   final SettingsController settingsController;
   final AccountBalanceController accountBalanceController;
-  WalletScreen({
+  const WalletScreen({
     super.key,
     required this.accountsController,
     required this.settingsController,
@@ -56,7 +56,7 @@ class _WalletScreenState extends State<WalletScreen> {
                         builder: (context) {
                           return Builder(builder: (context) {
                             return FutureBuilder(
-                                future: Future.delayed(Duration(seconds: 1))
+                                future: Future.delayed(const Duration(seconds: 1))
                                     .then((value) => true),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
@@ -66,11 +66,11 @@ class _WalletScreenState extends State<WalletScreen> {
                                     title: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.check_circle_rounded,
                                           size: 80,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 12,
                                         ),
                                         Text(
@@ -86,14 +86,14 @@ class _WalletScreenState extends State<WalletScreen> {
                       );
                     },
                   ),
-              icon: Icon(Icons.copy)),
+              icon: const Icon(Icons.copy)),
           IconButton(
-              onPressed: () {}, icon: Icon(Icons.qr_code_scanner_rounded))
+              onPressed: () {}, icon: const Icon(Icons.qr_code_scanner_rounded))
         ],
       ),
       body: Container(
           padding: AppSpacings.horizontalPadding,
-          margin: EdgeInsets.symmetric(vertical: 20),
+          margin: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -102,14 +102,14 @@ class _WalletScreenState extends State<WalletScreen> {
                   builder: (context, child) {
                     return Flexible(
                       child: Text(
-                        'ETH ${formatEther(widget.accountBalanceController.balance)}',
+                        formatEther(widget.accountBalanceController.balance),
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 36),
+                        style: const TextStyle(fontSize: 36),
                       ),
                     );
                   }),
               IconButton(
-                  onPressed: () {}, icon: Icon(Icons.remove_red_eye_rounded))
+                  onPressed: () {}, icon: const Icon(Icons.remove_red_eye_rounded))
             ],
           )),
     );

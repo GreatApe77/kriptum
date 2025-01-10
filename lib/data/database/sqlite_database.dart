@@ -1,4 +1,5 @@
 import 'package:kriptum/data/database/accounts_table.dart';
+import 'package:kriptum/data/database/networks_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -12,7 +13,7 @@ class SqliteDatabase {
   final _dbFileName = 'kriptum.db';
   Database? _db;
 
-   Future<Database> get db async {
+  Future<Database> get db async {
     if (_db != null) return _db!;
 
     _db = await initializeDb();
@@ -28,6 +29,7 @@ class SqliteDatabase {
       version: 1,
       onCreate: (db, version) async {
         await _createAccountsTable(db);
+        await _createNetworksTable(db);
       },
     );
   }
@@ -40,6 +42,22 @@ class SqliteDatabase {
           ${AccountsTable.encryptedJsonWalletColumn} TEXT
         );
 
+      ''');
+    
+  }
+
+  Future<void> _createNetworksTable(Database db) async {
+    await db.execute(
+      '''
+        CREATE TABLE IF NOT EXISTS ${NetworksTable.table}(
+          ${NetworksTable.idColumn} INTEGER PRIMARY KEY NOT NULL,
+          ${NetworksTable.rpcUrlColumn} VARCHAR(255) NOT NULL,
+          ${NetworksTable.nameColumn} VARCHAR(255) NOT NULL,
+          ${NetworksTable.blockExplorerNameColumn} VARCHAR(255),
+          ${NetworksTable.blockExplorerUrlColumn} VARCHAR(255),
+          ${NetworksTable.tickerColumn} VARCHAR(10) NOT NULL,
+          ${NetworksTable.currencyDecimalsColumn} INTEGER NOT NULL
+        );
       ''');
   }
 }

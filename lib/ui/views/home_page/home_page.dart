@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
+import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
 import 'package:kriptum/ui/views/home_page/screens/settings_screen.dart';
 import 'package:kriptum/ui/views/home_page/screens/wallet_screen.dart';
@@ -15,7 +17,8 @@ class HomePage extends StatefulWidget {
       {super.key,
       required this.navigationBarController,
       required this.connectedAccountController,
-      required this.settingsController, required this.accountBalanceController});
+      required this.settingsController,
+      required this.accountBalanceController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -38,8 +41,50 @@ class _HomePageState extends State<HomePage> {
           listenable: widget.navigationBarController,
           builder: (BuildContext context, Widget? child) {
             return NavigationBar(
-              animationDuration: Duration(seconds: 1),
-              onDestinationSelected: (value) {
+              animationDuration: const Duration(seconds: 1),
+              onDestinationSelected: (value) async {
+                if (value == 2) {
+                  //open sendOrReceiveTransactionModal
+                  await showModalBottomSheet(
+                    showDragHandle: true,
+                    context: context,
+                    builder: (context) =>  Padding(
+                      padding:
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: () {
+                              
+                            },
+                            child: const ListTile(
+                              leading: Icon(Icons.arrow_outward_rounded),
+                              title: Text('Send'),
+                               subtitle: Text('Send crypto to any account'),
+                               
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                              GoRouter.of(context).push(AppRoutes.receive);
+                            },
+                            borderRadius: BorderRadius.circular(8),
+                            child: const ListTile(
+                              leading: Icon(Icons.call_received_rounded),
+                              title: Text('Receive'),
+                               subtitle: Text('Receive crypto'),
+                               
+                            ),
+                          ),
+                        ],
+                      ))
+                            ,
+                  );
+                  return;
+                }
                 widget.navigationBarController.navigateToScreen(value);
               },
               selectedIndex: widget.navigationBarController.selectedPage,
@@ -55,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                   label: '',
                 ),
                 NavigationDestination(
-                    icon: Icon(Icons.compare_arrows), label: ''),
+                    icon: Icon(Icons.compare_arrows,), label: ''),
                 NavigationDestination(
                     icon: Icon(Icons.screen_search_desktop_sharp), label: ''),
                 NavigationDestination(icon: Icon(Icons.settings), label: ''),
