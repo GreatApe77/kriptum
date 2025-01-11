@@ -6,6 +6,7 @@ import 'package:kriptum/controllers/erase_wallet_controller.dart';
 import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
+import 'package:kriptum/data/repositories/networks/network_repository.dart';
 import 'package:kriptum/locator.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
@@ -13,6 +14,7 @@ import 'package:kriptum/ui/views/create_new_wallet_page/create_new_wallet_page.d
 import 'package:kriptum/ui/views/home_page/home_page.dart';
 import 'package:kriptum/ui/views/import_wallet/import_wallet_page.dart';
 import 'package:kriptum/ui/views/receive/receive_page.dart';
+import 'package:kriptum/ui/views/settings/settings_page.dart';
 import 'package:kriptum/ui/views/setup_page.dart';
 import 'package:kriptum/ui/views/unlock_wallet/unlock_wallet_page.dart';
 
@@ -23,6 +25,7 @@ class AppRoutes {
   static const home = '/home';
   static const unlockWallet = '/unlock-wallet';
   static const receive = '/receive';
+  static const settings = '/settings';
 }
 
 final routes = [
@@ -67,7 +70,14 @@ final routes = [
     builder: (context, state) => ReceivePage(
       accountsController: locator.get<AccountsController>(),
     ),
-  )
+  ),
+  GoRoute(
+    path: AppRoutes.settings,
+    builder: (context, state) => SettingsPage(
+      networkRepository: locator.get<NetworkRepository>(),
+      settingsController: locator.get<SettingsController>(),
+    ),
+  ),
 ];
 
 final router = GoRouter(

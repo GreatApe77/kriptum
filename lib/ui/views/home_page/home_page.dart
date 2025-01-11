@@ -5,7 +5,7 @@ import 'package:kriptum/controllers/accounts_controller.dart.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
-import 'package:kriptum/ui/views/home_page/screens/settings_screen.dart';
+import 'package:kriptum/ui/views/settings/settings_page.dart';
 import 'package:kriptum/ui/views/home_page/screens/wallet_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -85,6 +85,11 @@ class _HomePageState extends State<HomePage> {
                   );
                   return;
                 }
+
+                if(value==4){
+                  GoRouter.of(context).push(AppRoutes.settings);
+                  return;
+                }
                 widget.navigationBarController.navigateToScreen(value);
               },
               selectedIndex: widget.navigationBarController.selectedPage,
@@ -140,8 +145,8 @@ class _HomePageState extends State<HomePage> {
                     Center(
                         child: Text(
                             'PAGE: ${widget.navigationBarController.selectedPage}')),
-                    SettingsScreen(
-                        settingsController: widget.settingsController),
+                    //SettingsScreen(
+                    //    settingsController: widget.settingsController),
                   ];
                   return pages[widget.navigationBarController.selectedPage];
                 },

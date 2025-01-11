@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 
-class SettingsScreen extends StatelessWidget {
+class GeneralScreen extends StatelessWidget {
   final SettingsController settingsController;
-   SettingsScreen({super.key, required this.settingsController});
+  const GeneralScreen({super.key, required this.settingsController});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(
-      children: [
-        ListTile(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('General'),
+      ),
+      body: ListView(
+        children: [
+           ListTile(
           title: Text('Dark Theme'),
           trailing: ListenableBuilder(
             listenable: settingsController,
@@ -22,7 +25,8 @@ class SettingsScreen extends StatelessWidget {
             }
           ),
         )
-      ],
-    ));
+        ],
+      ),
+    );
   }
 }
