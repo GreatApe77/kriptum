@@ -4,6 +4,8 @@ import 'package:kriptum/domain/models/network.dart';
 class NetworkRepositoryMemoryImpl implements NetworkRepository {
   final _repo = [
     Network(rpcUrl: 'https://rpc.sepolia.org', name: 'Sepolia', ticker: 'ETH', currencyDecimals: 18),
+     Network(rpcUrl: 'https://rpc.sepolia.org', name: 'Ethereum Mainnet', ticker: 'ETH', currencyDecimals: 18),
+    Network(rpcUrl: 'https://rpc.sepolia.org', name: 'Fantom Testnet', ticker: 'FTM', currencyDecimals: 18), 
     //Network(rpcUrl: '', name: 'Ethereum Mainnet', ticker: 'ETH', currencyDecimals: 18),
    // Network(rpcUrl: '', name: 'Sepolia', ticker: 'ETH', currencyDecimals: 18),
    // Network(rpcUrl: '', name: 'Sepolia', ticker: 'ETH', currencyDecimals: 18),

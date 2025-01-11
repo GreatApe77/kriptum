@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/data/repositories/networks/network_repository.dart';
 import 'package:kriptum/ui/views/settings/screens/general_screen.dart';
-import 'package:kriptum/ui/views/settings/screens/networks_screen.dart';
+import 'package:kriptum/ui/views/settings/screens/networks/networks_screen.dart';
 import 'package:kriptum/ui/views/settings/widgets/settings_submenu_card.dart';
 
 class SettingsPage extends StatelessWidget {
   final SettingsController settingsController;
-  final NetworkRepository networkRepository;
-  SettingsPage({super.key, required this.settingsController, required this.networkRepository});
+  final NetworksController networksController;
+  SettingsPage({super.key, required this.settingsController, required this.networksController});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class SettingsPage extends StatelessWidget {
         children: [
           SettingsSubmenuCard(
             title: 'General',
-            description: 'General settings like theme...',
+            description: 'General settings like theming...',
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
                   GeneralScreen(settingsController: settingsController),
@@ -28,10 +29,10 @@ class SettingsPage extends StatelessWidget {
           ),
           SettingsSubmenuCard(
             title: 'Networks',
-            description: 'Manage your connected networks',
+            description: 'Add and edit custom RPC networks',
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
-                  NetworksScreen(networkRepository:networkRepository ),
+                  NetworksScreen(networksController:networksController ),
             )),
           )
         ],
