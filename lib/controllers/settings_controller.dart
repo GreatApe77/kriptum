@@ -65,4 +65,9 @@ class SettingsController extends ChangeNotifier implements LateInitializable {
     await settingsService.setContainsWallet(containsWallet);
     notifyListeners();
   }
+  Future<void> changeLastConnectedNetworkId(int networkId)async {
+    _settings.lastConnectedChainId = networkId;
+    await settingsService.setLastConnectedNetworkId(networkId);
+    notifyListeners();
+  }
 }

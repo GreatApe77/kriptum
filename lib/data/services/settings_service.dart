@@ -5,5 +5,6 @@ abstract class SettingsService {
   Future<void> setIsDarkTheme(bool isDarkTheme);
   Future<void> setContainsWallet(bool containsWallet);
   Future<void> clearCurrentAccountIndex();
+  Future<void> setLastConnectedNetworkId(int networkId);
   Future<Settings> loadSettings();
 }

@@ -9,7 +9,10 @@ import 'package:kriptum/ui/views/settings/widgets/settings_submenu_card.dart';
 class SettingsPage extends StatelessWidget {
   final SettingsController settingsController;
   final NetworksController networksController;
-  SettingsPage({super.key, required this.settingsController, required this.networksController});
+  SettingsPage(
+      {super.key,
+      required this.settingsController,
+      required this.networksController});
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +34,10 @@ class SettingsPage extends StatelessWidget {
             title: 'Networks',
             description: 'Add and edit custom RPC networks',
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  NetworksScreen(networksController:networksController ),
+              builder: (context) => NetworksScreen(
+                networksController: networksController,
+                settingsController: settingsController,
+              ),
             )),
           )
         ],

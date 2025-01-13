@@ -40,6 +40,7 @@ class _WalletScreenState extends State<WalletScreen> {
     _loadNetworks();
     
   }
+  
   void _loadNetworks() async{
     await widget.networksController.loadNetworks();
   }
@@ -70,7 +71,9 @@ class _WalletScreenState extends State<WalletScreen> {
                 isScrollControlled: true,
                 showDragHandle: true,
                 context: context, builder:
-              (context) => NetworksList(networksController: widget.networksController));
+              (context) => NetworksList(
+                settingsController: widget.settingsController,
+                networksController: widget.networksController));
             },
             label: ListenableBuilder(
                 listenable: widget.networksController,
