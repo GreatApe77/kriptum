@@ -1,3 +1,3 @@
-class NetworkNotFoundException {
-  
+class NetworkNotFoundException extends Error {
+
 }

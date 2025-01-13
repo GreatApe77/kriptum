@@ -1,0 +1,1 @@
+class DuplicatedNetworkException  extends Error{}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/data/repositories/networks/network_repository.dart';
+import 'package:kriptum/domain/exceptions/duplicated_network_exception.dart';
 import 'package:kriptum/domain/models/network.dart';
 
 class NetworksController extends ChangeNotifier {
@@ -11,26 +12,34 @@ class NetworksController extends ChangeNotifier {
   Network? get currentConnectedNetwork => _currentConnectedNetwork;
   List<Network> get networks => _networks;
 
-  addNetwork(
-      {required int id,
-      required String name,
-      required String rpcUrl,
-      String? blockExplorerName,
-      String? blockExplorerUrl,
-      required String ticker,
-      int? currencyDecimals}) async {
-    final Network network = Network(
-        rpcUrl: rpcUrl,
-        name: name,
-        ticker: ticker,
-        currencyDecimals: currencyDecimals ?? 18,
-        blockExplorerName: blockExplorerName,
-        blockExplorerUrl: blockExplorerUrl,
-        id: id);
+  addNetwork({
+    required int id,
+    required String name,
+    required String rpcUrl,
+    String? blockExplorerName,
+    String? blockExplorerUrl,
+    required String ticker,
+    int? currencyDecimals,
+    required Function() onSuccess,
+    required Function() onFail,
+  }) async {
+    try {
+      final Network network = Network(
+          rpcUrl: rpcUrl,
+          name: name,
+          ticker: ticker,
+          currencyDecimals: currencyDecimals ?? 18,
+          blockExplorerName: blockExplorerName,
+          blockExplorerUrl: blockExplorerUrl,
+          id: id);
 
-    _networks.add(network);
-    await _networkRepository.saveNetwork(network);
-    notifyListeners();
+      //_networks.add(network);
+      await _networkRepository.saveNetwork(network);
+      notifyListeners();
+      onSuccess();
+    } on DuplicatedNetworkException {
+      onFail();
+    }
   }
 
   loadCurrentConnectedNetwork(int networkId) async {

@@ -4,6 +4,13 @@ import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 
 class AddNetworkScreen extends StatelessWidget {
   final NetworksController networksController;
+  final networkNameController = TextEditingController();
+  final rpcUrlController = TextEditingController();
+  final chainIdController = TextEditingController();
+  final symbolController = TextEditingController();
+  final blockExplorerNameController = TextEditingController();
+  final blockExplorerUrlController = TextEditingController();
+  final currencyDecimalsController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   AddNetworkScreen({super.key, required this.networksController});
 
@@ -11,7 +18,7 @@ class AddNetworkScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add a Network'),
+        title: const Text('Add a Network'),
       ),
       body: Padding(
         padding: AppSpacings.horizontalPadding,
@@ -19,51 +26,75 @@ class AddNetworkScreen extends StatelessWidget {
           key: formKey,
           child: ListView(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               TextFormField(
-                decoration: InputDecoration(
+                controller: networkNameController,
+                decoration: const InputDecoration(
                     label: Text('Network Name'), border: OutlineInputBorder()),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               TextFormField(
-                decoration: InputDecoration(
+                controller: rpcUrlController,
+                decoration: const InputDecoration(
                     label: Text('RPC Url'), border: OutlineInputBorder()),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               TextFormField(
-                decoration: InputDecoration(
+                controller: chainIdController,
+                decoration: const InputDecoration(
                     label: Text('Chain ID'), border: OutlineInputBorder()),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               TextFormField(
-                decoration: InputDecoration(
+                controller: symbolController,
+                decoration: const InputDecoration(
                     label: Text('Symbol'), border: OutlineInputBorder()),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               TextFormField(
-                decoration: InputDecoration(
-                    label: Text('Block Explorer URL'), border: OutlineInputBorder()),
+                controller: blockExplorerNameController,
+                decoration: const InputDecoration(
+                    label: Text('Block Explorer Name'),
+                    border: OutlineInputBorder()),
               ),
-              SizedBox(
+              const SizedBox(
+                height: 24,
+              ),
+              TextFormField(
+                controller:blockExplorerUrlController,
+
+                decoration: const InputDecoration(
+                    label: Text('Block Explorer URL'),
+                    border: OutlineInputBorder()),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              TextFormField(
+                controller: currencyDecimalsController,
+                decoration: const InputDecoration(
+                    label: Text('Currency Decimals'),
+                    border: OutlineInputBorder()),
+              ),
+              const SizedBox(
                 height: 24,
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ElevatedButton(onPressed: () {
-                    
-                  }, child: const Text('Save'))
+                  ElevatedButton(onPressed: 
+                  () => _triggerAddNetwork(context), child: const Text('Save'))
                 ],
               )
             ],
@@ -71,5 +102,27 @@ class AddNetworkScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _triggerAddNetwork(BuildContext context) async {
+    await networksController.addNetwork(
+        onFail: () {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Already registered Network!'),
+            backgroundColor: Colors.red,
+            showCloseIcon: true,
+          ));
+        },
+        onSuccess: () {
+          Navigator.pop(context);
+        },
+        id: int.parse(chainIdController.text),
+        name: networkNameController.text,
+        rpcUrl: rpcUrlController.text,
+        ticker: symbolController.text,
+        blockExplorerName: blockExplorerNameController.text,
+        blockExplorerUrl: blockExplorerUrlController.text,
+        currencyDecimals: int.parse(currencyDecimalsController.text));
   }
 }
