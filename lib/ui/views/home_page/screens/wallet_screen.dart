@@ -36,11 +36,17 @@ class _WalletScreenState extends State<WalletScreen> {
   @override
   void didUpdateWidget(covariant WalletScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
+    
     _loadBalance();
     _loadNetworks();
     
   }
-  
+  @override
+  void dispose() {
+    
+    super.dispose();
+
+  }
   void _loadNetworks() async{
     await widget.networksController.loadNetworks();
   }
