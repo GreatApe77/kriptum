@@ -9,6 +9,7 @@ import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
+import 'package:kriptum/ui/shared/widgets/networks_list.dart';
 import 'package:kriptum/ui/views/home_page/widgets/account_viewer_btn.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -36,8 +37,12 @@ class _WalletScreenState extends State<WalletScreen> {
   void didUpdateWidget(covariant WalletScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     _loadBalance();
+    _loadNetworks();
+    
   }
-
+  void _loadNetworks() async{
+    await widget.networksController.loadNetworks();
+  }
   void _loadBalance() async {
     final networkId = widget.settingsController.settings.lastConnectedChainId;
 
@@ -59,7 +64,14 @@ class _WalletScreenState extends State<WalletScreen> {
           onPressed: () {},
         ),
         leading: TextButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                useSafeArea: true,
+                isScrollControlled: true,
+                showDragHandle: true,
+                context: context, builder:
+              (context) => NetworksList(networksController: widget.networksController));
+            },
             label: ListenableBuilder(
                 listenable: widget.networksController,
                 builder: (context, child) {
