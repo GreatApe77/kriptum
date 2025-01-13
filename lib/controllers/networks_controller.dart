@@ -4,6 +4,7 @@ import 'package:kriptum/domain/exceptions/duplicated_network_exception.dart';
 import 'package:kriptum/domain/models/network.dart';
 
 class NetworksController extends ChangeNotifier {
+  List<Network> _filteredList = [];
   List<Network> _networks = [];
   Network? _currentConnectedNetwork;
   final NetworkRepository _networkRepository;
@@ -11,6 +12,17 @@ class NetworksController extends ChangeNotifier {
       : _networkRepository = networkRepository;
   Network? get currentConnectedNetwork => _currentConnectedNetwork;
   List<Network> get networks => _networks;
+  List<Network> get filteredList => _filteredList;
+  void filterNetworks(String nameFilter) {
+    _filteredList = _networks
+        .where(
+          (network) =>  network.name.toLowerCase().startsWith(nameFilter.toLowerCase()),
+        )
+        .toList();
+
+    notifyListeners();
+    
+  }
 
   addNetwork({
     required int id,

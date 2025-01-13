@@ -7,7 +7,8 @@ import 'package:kriptum/ui/views/settings/screens/networks/screens/add_network_s
 
 class NetworksList extends StatelessWidget {
   final NetworksController networksController;
-  const NetworksList({super.key, required this.networksController});
+  final filterController = TextEditingController();
+  NetworksList({super.key, required this.networksController});
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +18,33 @@ class NetworksList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const TextField(
-              decoration: InputDecoration(border: OutlineInputBorder()),
+            TextField(
+              controller: filterController,
+              decoration: const InputDecoration(border: OutlineInputBorder()),
+              onChanged: (value) {
+                
+                  networksController.filterNetworks(value);
+                
+              },
             ),
             Expanded(
                 child: ListenableBuilder(
                     listenable: networksController,
                     builder: (context, child) {
+                      if (filterController.text.isNotEmpty) {
+                        return ListView.builder(
+                          itemCount:
+                              networksController.filteredList.length,
+                          itemBuilder: (context, index) => ListTile(
+                            title: Text(networksController
+                                .filteredList[index].name),
+                          ),
+                        );
+                      }
                       return ListView.builder(
                         itemCount: networksController.networks.length,
                         itemBuilder: (context, index) => ListTile(
-                          title: Text(
-                              networksController.networks[index].name),
+                          title: Text(networksController.networks[index].name),
                         ),
                       );
                     })),
