@@ -5,10 +5,12 @@ class Settings {
   int lastConnectedIndex;
   bool isDarkTheme;
   bool containsWallet;
+  int lastConnectedChainId;
   Settings({
     required this.lastConnectedIndex,
     required this.isDarkTheme,
     required this.containsWallet,
+    required this.lastConnectedChainId,
   });
   
 
@@ -16,11 +18,13 @@ class Settings {
     int? lastConnectedIndex,
     bool? isDarkTheme,
     bool? containsWallet,
+    int? lastConnectedChainId,
   }) {
     return Settings(
       lastConnectedIndex: lastConnectedIndex ?? this.lastConnectedIndex,
       isDarkTheme: isDarkTheme ?? this.isDarkTheme,
       containsWallet: containsWallet ?? this.containsWallet,
+      lastConnectedChainId: lastConnectedChainId ?? this.lastConnectedChainId,
     );
   }
 
@@ -29,6 +33,7 @@ class Settings {
       'lastConnectedIndex': lastConnectedIndex,
       'isDarkTheme': isDarkTheme,
       'containsWallet': containsWallet,
+      'lastConnectedChainId': lastConnectedChainId,
     };
   }
 
@@ -37,6 +42,7 @@ class Settings {
       lastConnectedIndex: map['lastConnectedIndex'] as int,
       isDarkTheme: map['isDarkTheme'] as bool,
       containsWallet: map['containsWallet'] as bool,
+      lastConnectedChainId: map['lastConnectedChainId'] as int,
     );
   }
 
@@ -45,7 +51,9 @@ class Settings {
   factory Settings.fromJson(String source) => Settings.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet)';
+  String toString() {
+    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, lastConnectedChainId: $lastConnectedChainId)';
+  }
 
   @override
   bool operator ==(covariant Settings other) {
@@ -54,9 +62,15 @@ class Settings {
     return 
       other.lastConnectedIndex == lastConnectedIndex &&
       other.isDarkTheme == isDarkTheme &&
-      other.containsWallet == containsWallet;
+      other.containsWallet == containsWallet &&
+      other.lastConnectedChainId == lastConnectedChainId;
   }
 
   @override
-  int get hashCode => lastConnectedIndex.hashCode ^ isDarkTheme.hashCode ^ containsWallet.hashCode;
+  int get hashCode {
+    return lastConnectedIndex.hashCode ^
+      isDarkTheme.hashCode ^
+      containsWallet.hashCode ^
+      lastConnectedChainId.hashCode;
+  }
 }

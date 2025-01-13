@@ -60,6 +60,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.home,
     builder: (context, state) => HomePage(
+      networksController: locator.get<NetworksController>(),
       accountBalanceController: locator.get<AccountBalanceController>(),
       settingsController: locator.get<SettingsController>(),
       connectedAccountController: locator.get<AccountsController>(),

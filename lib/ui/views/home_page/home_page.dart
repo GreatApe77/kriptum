@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
+import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
@@ -13,12 +14,13 @@ class HomePage extends StatefulWidget {
   final AccountsController connectedAccountController;
   final SettingsController settingsController;
   final AccountBalanceController accountBalanceController;
+  final NetworksController networksController;
   const HomePage(
       {super.key,
       required this.navigationBarController,
       required this.connectedAccountController,
       required this.settingsController,
-      required this.accountBalanceController});
+      required this.accountBalanceController, required this.networksController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -132,6 +134,7 @@ class _HomePageState extends State<HomePage> {
                     //     child: Text(
                     //         'PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'}')),
                     WalletScreen(
+                      networksController: widget.networksController,
                       settingsController: widget.settingsController,
                       accountsController: widget.connectedAccountController,
                       accountBalanceController: widget.accountBalanceController,

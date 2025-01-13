@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 
 import 'package:kriptum/controllers/accounts_controller.dart.dart';
+import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
@@ -14,11 +15,13 @@ class WalletScreen extends StatefulWidget {
   final AccountsController accountsController;
   final SettingsController settingsController;
   final AccountBalanceController accountBalanceController;
+  final NetworksController networksController;
   const WalletScreen({
     super.key,
     required this.accountsController,
     required this.settingsController,
     required this.accountBalanceController,
+    required this.networksController,
   });
 
   @override
@@ -31,10 +34,18 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   void didUpdateWidget(covariant WalletScreen oldWidget) {
-    
     super.didUpdateWidget(oldWidget);
+    _loadBalance();
+  }
+
+  void _loadBalance() async {
+    final networkId = widget.settingsController.settings.lastConnectedChainId;
+
+    await widget.networksController.loadCurrentConnectedNetwork(networkId);
+    final connectedChain = widget.networksController.currentConnectedNetwork;
     widget.accountBalanceController.loadAccountBalance(
-        widget.accountsController.connectedAccount!.address);
+        widget.accountsController.connectedAccount!.address,
+        rpcEndpoint: connectedChain?.rpcUrl);
   }
 
   @override
@@ -43,7 +54,25 @@ class _WalletScreenState extends State<WalletScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: AccountViewerBtn(account: widget.accountsController.connectedAccount!, onPressed: () {  },),
+        title: AccountViewerBtn(
+          account: widget.accountsController.connectedAccount!,
+          onPressed: () {},
+        ),
+        leading: TextButton.icon(
+            onPressed: () {},
+            label: ListenableBuilder(
+                listenable: widget.networksController,
+                builder: (context, child) {
+                  return Text(
+                    widget.networksController.currentConnectedNetwork == null
+                        ? 'Loading...'
+                        : widget
+                            .networksController.currentConnectedNetwork!.name,
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  );
+                })),
         actions: [
           IconButton(
               onPressed: () => copyToClipboardController.copyToClipboard(
@@ -56,8 +85,9 @@ class _WalletScreenState extends State<WalletScreen> {
                         builder: (context) {
                           return Builder(builder: (context) {
                             return FutureBuilder(
-                                future: Future.delayed(const Duration(seconds: 1))
-                                    .then((value) => true),
+                                future:
+                                    Future.delayed(const Duration(seconds: 1))
+                                        .then((value) => true),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     Navigator.of(context).pop();
@@ -109,10 +139,10 @@ class _WalletScreenState extends State<WalletScreen> {
                     );
                   }),
               IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.remove_red_eye_rounded))
+                  onPressed: () {},
+                  icon: const Icon(Icons.remove_red_eye_rounded))
             ],
           )),
     );
   }
 }
-

@@ -9,8 +9,10 @@ class AccountBalanceController extends ChangeNotifier {
   AccountBalanceController({required WalletServices walletServices})
       : _walletServices = walletServices;
 
-  loadAccountBalance(String accountAddress) async {
-    balance = await _walletServices.getBalance(accountAddress);
+  loadAccountBalance(String accountAddress, {String? rpcEndpoint}) async {
+    balance = await _walletServices.getBalance(accountAddress,
+        rpcEndpoint: rpcEndpoint ?? 'http://10.0.2.2:8545');
+        print(balance);
     notifyListeners();
   }
 }

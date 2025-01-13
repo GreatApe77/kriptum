@@ -60,4 +60,5 @@ Future<void> setup() async {
     () =>
         NetworksController(networkRepository: locator.get<NetworkRepository>()),
   );
+  
 }

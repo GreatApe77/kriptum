@@ -22,23 +22,23 @@ class SettingsServiceImpl implements SettingsService {
     bool? isDarkTheme = sh.getBool('isDarkTheme');
     int? currentAccountIndex = sh.getInt('currentAccountIndex');
     bool? containsWallet = sh.getBool('containsWallet');
+    int? lastConnectedChainId = sh.getInt('lastConnectedChainId');
     return Settings(
         lastConnectedIndex: currentAccountIndex ?? 0,
         isDarkTheme: isDarkTheme ?? false,
-        containsWallet: containsWallet ?? false);
+        containsWallet: containsWallet ?? false,
+        lastConnectedChainId: lastConnectedChainId ?? 1337);
   }
-  
+
   @override
-  Future<void> setContainsWallet(bool containsWallet)async  {
+  Future<void> setContainsWallet(bool containsWallet) async {
     final sh = await SharedPreferences.getInstance();
     await sh.setBool('containsWallet', containsWallet);
-    
   }
-  
+
   @override
-  Future<void> clearCurrentAccountIndex()async  {
+  Future<void> clearCurrentAccountIndex() async {
     final sh = await SharedPreferences.getInstance();
     await sh.remove('currentAccountIndex');
-
   }
 }
