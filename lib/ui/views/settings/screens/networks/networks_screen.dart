@@ -27,25 +27,27 @@ class _NetworksScreenState extends State<NetworksScreen> {
       ),
       body: Padding(
         padding: AppSpacings.horizontalPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              decoration: InputDecoration(border: OutlineInputBorder()),
-            ),
-            Expanded(
-                child: ListenableBuilder(
-                    listenable: widget.networksController,
-                    builder: (context, child) {
-                      return ListView.builder(
-                        itemCount: widget.networksController.networks.length,
-                        itemBuilder: (context, index) => ListTile(
-                          title: Text(widget.networksController.networks[index].name),
-                        ),
-                      );
-                    })),
-            ElevatedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNetworkScreen(networksController: widget.networksController),)), child: Text('Add Network'))
-          ],
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                decoration: InputDecoration(border: OutlineInputBorder()),
+              ),
+              Expanded(
+                  child: ListenableBuilder(
+                      listenable: widget.networksController,
+                      builder: (context, child) {
+                        return ListView.builder(
+                          itemCount: widget.networksController.networks.length,
+                          itemBuilder: (context, index) => ListTile(
+                            title: Text(widget.networksController.networks[index].name),
+                          ),
+                        );
+                      })),
+              ElevatedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNetworkScreen(networksController: widget.networksController),)), child: Text('Add Network'))
+            ],
+          ),
         ),
       ),
     );
