@@ -12,6 +12,7 @@ class AccountBalanceController extends ChangeNotifier {
   loadAccountBalance(String accountAddress, {String? rpcEndpoint}) async {
     isLoading = true;
     notifyListeners();
+    
     balance = await _walletServices.getBalance(accountAddress,
         rpcEndpoint: rpcEndpoint ?? 'http://10.0.2.2:8545');
     isLoading = false;
