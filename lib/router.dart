@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
+import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/erase_wallet_controller.dart';
 import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
@@ -60,6 +61,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.home,
     builder: (context, state) => HomePage(
+      currentNetworkController: locator.get<CurrentNetworkController>(),
       networksController: locator.get<NetworksController>(),
       accountBalanceController: locator.get<AccountBalanceController>(),
       settingsController: locator.get<SettingsController>(),
@@ -76,6 +78,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.settings,
     builder: (context, state) => SettingsPage(
+      currentNetworkController: locator.get<CurrentNetworkController>(),
       networksController: locator.get<NetworksController>(),
       settingsController: locator.get<SettingsController>(),
     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/data/repositories/networks/network_repository.dart';
@@ -9,7 +10,8 @@ import 'package:kriptum/ui/views/settings/screens/networks/screens/add_network_s
 class NetworksScreen extends StatefulWidget {
   final NetworksController networksController;
   final SettingsController settingsController;
-  const NetworksScreen({super.key, required this.networksController, required this.settingsController});
+  final CurrentNetworkController currentNetworkController;
+  const NetworksScreen({super.key, required this.networksController, required this.settingsController, required this.currentNetworkController});
 
   @override
   State<NetworksScreen> createState() => _NetworksScreenState();
@@ -29,8 +31,17 @@ class _NetworksScreenState extends State<NetworksScreen> {
         title: const Text('Networks'),
       ),
       body: NetworksList(
+        currentNetworkController: widget.currentNetworkController,
         settingsController: widget.settingsController,
-        networksController: widget.networksController),
+        networksController: widget.networksController, onNetworkChooseSideEffect: () { 
+          _onNetworkChooseSideEffect();
+         },),
+    );
+  }
+  void _onNetworkChooseSideEffect(){
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Switched to ${widget.currentNetworkController.currentConnectedNetwork?.name}'))
     );
   }
 }

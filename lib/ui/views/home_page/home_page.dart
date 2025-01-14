@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart';
+import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
@@ -15,12 +16,15 @@ class HomePage extends StatefulWidget {
   final SettingsController settingsController;
   final AccountBalanceController accountBalanceController;
   final NetworksController networksController;
+  final CurrentNetworkController currentNetworkController;
   const HomePage(
       {super.key,
       required this.navigationBarController,
       required this.connectedAccountController,
       required this.settingsController,
-      required this.accountBalanceController, required this.networksController});
+      required this.accountBalanceController,
+      required this.networksController,
+      required this.currentNetworkController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -50,45 +54,40 @@ class _HomePageState extends State<HomePage> {
                   await showModalBottomSheet(
                     showDragHandle: true,
                     context: context,
-                    builder: (context) =>  Padding(
-                      padding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          InkWell(
-                            borderRadius: BorderRadius.circular(8),
-                            onTap: () {
-                              
-                            },
-                            child: const ListTile(
-                              leading: Icon(Icons.arrow_outward_rounded),
-                              title: Text('Send'),
-                               subtitle: Text('Send crypto to any account'),
-                               
+                    builder: (context) => Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () {},
+                              child: const ListTile(
+                                leading: Icon(Icons.arrow_outward_rounded),
+                                title: Text('Send'),
+                                subtitle: Text('Send crypto to any account'),
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pop(context);
-                              GoRouter.of(context).push(AppRoutes.receive);
-                            },
-                            borderRadius: BorderRadius.circular(8),
-                            child: const ListTile(
-                              leading: Icon(Icons.call_received_rounded),
-                              title: Text('Receive'),
-                               subtitle: Text('Receive crypto'),
-                               
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                                GoRouter.of(context).push(AppRoutes.receive);
+                              },
+                              borderRadius: BorderRadius.circular(8),
+                              child: const ListTile(
+                                leading: Icon(Icons.call_received_rounded),
+                                title: Text('Receive'),
+                                subtitle: Text('Receive crypto'),
+                              ),
                             ),
-                          ),
-                        ],
-                      ))
-                            ,
+                          ],
+                        )),
                   );
                   return;
                 }
 
-                if(value==4){
+                if (value == 4) {
                   GoRouter.of(context).push(AppRoutes.settings);
                   return;
                 }
@@ -107,7 +106,10 @@ class _HomePageState extends State<HomePage> {
                   label: '',
                 ),
                 NavigationDestination(
-                    icon: Icon(Icons.compare_arrows,), label: ''),
+                    icon: Icon(
+                      Icons.compare_arrows,
+                    ),
+                    label: ''),
                 NavigationDestination(
                     icon: Icon(Icons.screen_search_desktop_sharp), label: ''),
                 NavigationDestination(icon: Icon(Icons.settings), label: ''),
@@ -134,6 +136,7 @@ class _HomePageState extends State<HomePage> {
                     //     child: Text(
                     //         'PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'}')),
                     WalletScreen(
+                      currentNetworkController: widget.currentNetworkController,
                       networksController: widget.networksController,
                       settingsController: widget.settingsController,
                       accountsController: widget.connectedAccountController,

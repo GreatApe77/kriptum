@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/domain/models/network.dart';
@@ -10,14 +11,17 @@ import 'package:kriptum/ui/shared/widgets/network_list_tile.dart';
 import 'package:kriptum/ui/views/settings/screens/networks/screens/add_network_screen.dart';
 
 class NetworksList extends StatelessWidget {
+  final Function() onNetworkChooseSideEffect;
   final NetworksController networksController;
   final SettingsController settingsController;
+  final CurrentNetworkController currentNetworkController;
   final filterController = TextEditingController();
 
   NetworksList(
       {super.key,
       required this.networksController,
-      required this.settingsController});
+      required this.settingsController,
+      required this.currentNetworkController, required this.onNetworkChooseSideEffect});
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +72,14 @@ class NetworksList extends StatelessWidget {
   void _onNetworkTap(int networkIndex, BuildContext context) async {
     await settingsController.changeLastConnectedNetworkId(
         networksController.networks[networkIndex].id!);
-    await networksController.switchNetwork(
-      networkIndex,
-      onSuccess: ()  {
-        Navigator.pop(context);
-      },
-    );
+    currentNetworkController
+        .switchNetwork(networksController.networks[networkIndex]);
+    onNetworkChooseSideEffect();
+    // await networksController.switchNetwork(
+    //   networkIndex,
+    //   onSuccess: ()  {
+    //     Navigator.pop(context);
+    //   },
+    // );
   }
 }

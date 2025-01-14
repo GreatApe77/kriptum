@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 
 import 'package:kriptum/controllers/accounts_controller.dart';
+import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/domain/models/account.dart';
@@ -17,12 +18,14 @@ class WalletScreen extends StatefulWidget {
   final SettingsController settingsController;
   final AccountBalanceController accountBalanceController;
   final NetworksController networksController;
+  final CurrentNetworkController currentNetworkController;
   const WalletScreen({
     super.key,
     required this.accountsController,
     required this.settingsController,
     required this.accountBalanceController,
     required this.networksController,
+    required this.currentNetworkController,
   });
 
   @override
@@ -36,43 +39,19 @@ class _WalletScreenState extends State<WalletScreen> {
   @override
   void initState() {
     super.initState();
-    widget.networksController.addListener(_onNetworkChanged);
+    _loadCurrentNetwork();
     _loadNetworks();
   }
-  @override
-  void dispose() {
-     widget.networksController.removeListener(_onNetworkChanged);
-    super.dispose();
 
+  void _loadCurrentNetwork() {
+    final connectedNetworkId =
+        widget.settingsController.settings.lastConnectedChainId;
+    widget.networksController.loadCurrentConnectedNetwork(connectedNetworkId);
   }
-  /// This function is triggered when the network changes
-  void _onNetworkChanged() async{
-    final connectedChain = widget.networksController.currentConnectedNetwork;
-    if (connectedChain != null) {
-      // Update balance using existing network data without re-triggering network load
-      widget.accountBalanceController.loadAccountBalance(
-        widget.accountsController.connectedAccount!.address,
-        rpcEndpoint: connectedChain.rpcUrl,
-      );
-    }
+
+  void _loadNetworks() {
+    widget.networksController.loadNetworks();
   }
-  void _loadInitialBalance() {
-  final connectedChain = widget.networksController.currentConnectedNetwork;
-  if (connectedChain != null) {
-    widget.accountBalanceController.loadAccountBalance(
-      widget.accountsController.connectedAccount!.address,
-      rpcEndpoint: connectedChain.rpcUrl,
-    );
-  }
-}
-  /// Loads available networks when the screen initializes
-  void _loadNetworks() async {
-    final networkId = widget.settingsController.settings.lastConnectedChainId;
-    await widget.networksController.loadNetworks();
-    await widget.networksController.loadCurrentConnectedNetwork(networkId);
-     _loadInitialBalance();
-  }
- 
 
   @override
   Widget build(BuildContext context) {
@@ -84,25 +63,31 @@ class _WalletScreenState extends State<WalletScreen> {
           account: widget.accountsController.connectedAccount!,
           onPressed: () {},
         ),
+        leadingWidth: 100,
         leading: TextButton.icon(
+            
             onPressed: () {
               showModalBottomSheet(
-                useSafeArea: true,
-                isScrollControlled: true,
-                showDragHandle: true,
-                context: context, builder:
-              (context) => NetworksList(
-                settingsController: widget.settingsController,
-                networksController: widget.networksController));
+                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: true,
+                  context: context,
+                  builder: (context) => NetworksList(
+                      onNetworkChooseSideEffect: () {
+                        _onNetworkChooseSideEffect(context);
+                      },
+                      currentNetworkController: widget.currentNetworkController,
+                      settingsController: widget.settingsController,
+                      networksController: widget.networksController));
             },
             label: ListenableBuilder(
-                listenable: widget.networksController,
+                listenable: widget.currentNetworkController,
                 builder: (context, child) {
                   return Text(
                     widget.networksController.currentConnectedNetwork == null
                         ? 'Loading...'
-                        : widget
-                            .networksController.currentConnectedNetwork!.name,
+                        : widget.currentNetworkController
+                            .currentConnectedNetwork!.name,
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -179,5 +164,9 @@ class _WalletScreenState extends State<WalletScreen> {
             ],
           )),
     );
+  }
+
+  void _onNetworkChooseSideEffect(BuildContext context) {
+    Navigator.pop(context);
   }
 }

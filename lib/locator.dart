@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
+import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/erase_wallet_controller.dart';
 import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
@@ -33,21 +34,24 @@ Future<void> setup() async {
   );
 
   locator.registerLazySingleton<AccountsController>(
-    () => AccountsController(accountRepository: locator.get<AccountRepository>()),
+    () =>
+        AccountsController(accountRepository: locator.get<AccountRepository>()),
   );
 
   locator.registerLazySingleton<SettingsService>(() => SettingsServiceImpl());
-  
+
   locator.registerLazySingleton<SettingsController>(
     () => SettingsController(settingsService: locator.get<SettingsService>()),
   );
 
   await locator.get<SettingsController>().initialize();
 
-  locator.registerLazySingleton<NavigationBarController>(() => NavigationBarController());
-  
+  locator.registerLazySingleton<NavigationBarController>(
+      () => NavigationBarController());
+
   locator.registerFactory<ImportWalletController>(
-    () => ImportWalletController(accountRepository: locator.get<AccountRepository>()),
+    () => ImportWalletController(
+        accountRepository: locator.get<AccountRepository>()),
   );
 
   locator.registerFactory<UnlockWalletController>(
@@ -58,15 +62,20 @@ Future<void> setup() async {
   );
 
   locator.registerFactory<EraseWalletController>(
-    () => EraseWalletController(accountRepository: locator.get<AccountRepository>()),
+    () => EraseWalletController(
+        accountRepository: locator.get<AccountRepository>()),
   );
 
   locator.registerLazySingleton<AccountBalanceController>(
-    () => AccountBalanceController(walletServices: locator.get<WalletServices>()),
+    () =>
+        AccountBalanceController(walletServices: locator.get<WalletServices>()),
   );
-
+  locator.registerLazySingleton(
+    () => CurrentNetworkController(
+        networkRepository: locator.get<NetworkRepository>()),
+  );
   locator.registerLazySingleton<NetworksController>(
-    () => NetworksController(networkRepository: locator.get<NetworkRepository>()),
+    () =>
+        NetworksController(networkRepository: locator.get<NetworkRepository>()),
   );
 }
-

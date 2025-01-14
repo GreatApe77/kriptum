@@ -10,7 +10,7 @@ class NetworkListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(Icons.public),
-      title: GestureDetector(
+      title: InkWell(
         onTap: () => onNetworkTap(),
         child: Text(network.name)),
       trailing: IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),

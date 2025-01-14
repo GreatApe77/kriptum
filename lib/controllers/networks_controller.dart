@@ -64,10 +64,6 @@ class NetworksController extends ChangeNotifier {
     _networks = await _networkRepository.loadNetworks();
     notifyListeners();
   }
-  switchNetwork(int index,{required Function() onSuccess}){
-    _currentConnectedNetwork = networks[index];
-    onSuccess();
-    notifyListeners();
-  }
+
   
 }
