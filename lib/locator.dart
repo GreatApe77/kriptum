@@ -70,12 +70,11 @@ Future<void> setup() async {
     () =>
         AccountBalanceController(walletServices: locator.get<WalletServices>()),
   );
-  locator.registerLazySingleton(
-    () => CurrentNetworkController(
+  locator.registerSingleton(
+    CurrentNetworkController(
         networkRepository: locator.get<NetworkRepository>()),
   );
-  locator.registerLazySingleton<NetworksController>(
-    () =>
-        NetworksController(networkRepository: locator.get<NetworkRepository>()),
+  locator.registerSingleton<NetworksController>(
+    NetworksController(networkRepository: locator.get<NetworkRepository>()),
   );
 }

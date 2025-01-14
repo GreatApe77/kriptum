@@ -39,14 +39,25 @@ class _WalletScreenState extends State<WalletScreen> {
   @override
   void initState() {
     super.initState();
+    widget.currentNetworkController.addListener(_onNetworkChange);
     _loadCurrentNetwork();
     _loadNetworks();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    widget.currentNetworkController.removeListener(_onNetworkChange);
+  }
+  void _onNetworkChange(){
+    final accountAddress = widget.accountsController.connectedAccount?.address;
+    widget.accountBalanceController.loadAccountBalance(accountAddress!,
+    rpcEndpoint: widget.currentNetworkController.currentConnectedNetwork?.rpcUrl);
+  }
   void _loadCurrentNetwork() {
     final connectedNetworkId =
         widget.settingsController.settings.lastConnectedChainId;
-    widget.networksController.loadCurrentConnectedNetwork(connectedNetworkId);
+    widget.currentNetworkController.loadCurrentConnectedNetwork(connectedNetworkId);
   }
 
   void _loadNetworks() {
@@ -59,9 +70,17 @@ class _WalletScreenState extends State<WalletScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: AccountViewerBtn(
-          account: widget.accountsController.connectedAccount!,
-          onPressed: () {},
+        title: ListenableBuilder(
+          listenable: widget.accountsController,
+          builder: (context,child) {
+            if (widget.accountsController.connectedAccount==null){
+              return const CircularProgressIndicator();
+            }
+            return AccountViewerBtn(
+              account: widget.accountsController.connectedAccount!,
+              onPressed: () {},
+            );
+          }
         ),
         leadingWidth: 100,
         leading: TextButton.icon(
@@ -84,7 +103,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 listenable: widget.currentNetworkController,
                 builder: (context, child) {
                   return Text(
-                    widget.networksController.currentConnectedNetwork == null
+                    widget.currentNetworkController.currentConnectedNetwork == null
                         ? 'Loading...'
                         : widget.currentNetworkController
                             .currentConnectedNetwork!.name,
@@ -152,6 +171,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   builder: (context, child) {
                     return Flexible(
                       child: Text(
+                        widget.accountBalanceController.isLoading?'Loading...':
                         formatEther(widget.accountBalanceController.balance),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 36),

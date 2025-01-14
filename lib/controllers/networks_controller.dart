@@ -54,11 +54,7 @@ class NetworksController extends ChangeNotifier {
     }
   }
 
-  loadCurrentConnectedNetwork(int networkId) async {
-    _currentConnectedNetwork =
-        await _networkRepository.getNetworkById(networkId);
-    notifyListeners();
-  }
+ 
 
   loadNetworks() async {
     _networks = await _networkRepository.loadNetworks();
