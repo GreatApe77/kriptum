@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 
@@ -19,15 +20,13 @@ class AccountViewerBtn extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(4),
         child: Column(
-          
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircleAvatar(
-                  radius: 10,
-                  backgroundColor: Colors.red,
+                Jazzicon.getIconWidget(
+                  Jazzicon.getJazziconData(20, address: account.address),
                 ),
                 SizedBox(
                   width: 8,
