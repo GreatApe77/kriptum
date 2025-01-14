@@ -122,49 +122,57 @@ class _WalletScreenState extends State<WalletScreen> {
                   );
                 })),
         actions: [
-          IconButton(
-              onPressed: () => copyToClipboardController.copyToClipboard(
-                    content:
-                        widget.accountsController.connectedAccount!.address,
-                    onCopied: (content) {
-                      showDialog(
-                        barrierColor: Colors.transparent,
-                        context: context,
-                        builder: (context) {
-                          return Builder(builder: (context) {
-                            return FutureBuilder(
-                                future:
-                                    Future.delayed(const Duration(seconds: 1))
-                                        .then((value) => true),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    Navigator.of(context).pop();
-                                  }
-                                  return AlertDialog(
-                                    title: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(
-                                          Icons.check_circle_rounded,
-                                          size: 80,
-                                        ),
-                                        const SizedBox(
-                                          height: 12,
-                                        ),
-                                        Text(
-                                          'Public address ${formatAddress(widget.accountsController.connectedAccount!.address)} copied to clipboard',
-                                          textAlign: TextAlign.center,
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                });
-                          });
-                        },
-                      );
-                    },
-                  ),
-              icon: const Icon(Icons.copy)),
+          ListenableBuilder(
+              listenable: widget.currentAccountController,
+              builder: (context, child) {
+                return IconButton(
+                    onPressed: widget
+                                .currentAccountController.connectedAccount ==
+                            null
+                        ? null
+                        : () => copyToClipboardController.copyToClipboard(
+                              content: widget.currentAccountController
+                                  .connectedAccount!.address,
+                              onCopied: (content) {
+                                showDialog(
+                                  barrierColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return Builder(builder: (context) {
+                                      return FutureBuilder(
+                                          future: Future.delayed(
+                                                  const Duration(seconds: 1))
+                                              .then((value) => true),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              Navigator.of(context).pop();
+                                            }
+                                            return AlertDialog(
+                                              title: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Icon(
+                                                    Icons.check_circle_rounded,
+                                                    size: 80,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 12,
+                                                  ),
+                                                  Text(
+                                                    'Public address ${formatAddress(widget.currentAccountController.connectedAccount!.address)} copied to clipboard',
+                                                    textAlign: TextAlign.center,
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    });
+                                  },
+                                );
+                              },
+                            ),
+                    icon: const Icon(Icons.copy));
+              }),
           IconButton(
               onPressed: () {}, icon: const Icon(Icons.qr_code_scanner_rounded))
         ],

@@ -74,7 +74,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.receive,
     builder: (context, state) => ReceivePage(
-      accountsController: locator.get<AccountsController>(),
+      currentAccountController: locator.get<CurrentAccountController>(),
     ),
   ),
   GoRoute(

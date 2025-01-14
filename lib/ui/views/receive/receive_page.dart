@@ -1,18 +1,27 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 
-class ReceivePage extends StatelessWidget {
-  final AccountsController accountsController;
-  final CopyToClipboardController copyToClipboardController =
-      CopyToClipboardController();
+class ReceivePage extends StatefulWidget {
+  
+  final CurrentAccountController currentAccountController;
+
   ReceivePage({
     super.key,
-    required this.accountsController,
+    required this.currentAccountController,
   });
+
+  @override
+  State<ReceivePage> createState() => _ReceivePageState();
+}
+
+class _ReceivePageState extends State<ReceivePage> {
+  final CopyToClipboardController copyToClipboardController =
+      CopyToClipboardController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +73,7 @@ class ReceivePage extends StatelessWidget {
                       child: Container(
                         color: Colors.white,
                         child: QrImageView(
-                          data: accountsController.connectedAccount!.address,
+                          data: widget.currentAccountController.connectedAccount!.address,
                           version: QrVersions.auto,
                           size: 250.0,
 
@@ -75,14 +84,14 @@ class ReceivePage extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Account ${accountsController.connectedAccount!.accountIndex + 1}',
+                        'Account ${widget.currentAccountController.connectedAccount!.accountIndex + 1}',
                         style: const TextStyle(fontSize: 20),
                       ),
                       const SizedBox(
                         height: 24,
                       ),
                       Text(
-                        '${accountsController.connectedAccount?.address}',
+                        '${widget.currentAccountController.connectedAccount?.address}',
                         style: const TextStyle(fontSize: 14),
                       ),
                       const SizedBox(
@@ -91,7 +100,7 @@ class ReceivePage extends StatelessWidget {
                       TextButton.icon(
                         onPressed: () =>
                             copyToClipboardController.copyToClipboard(
-                          content: accountsController.connectedAccount!.address,
+                          content: widget.currentAccountController.connectedAccount!.address,
                           onCopied: (content) {
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(
