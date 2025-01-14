@@ -64,7 +64,10 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             InkWell(
                               borderRadius: BorderRadius.circular(8),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pop(context);
+                                GoRouter.of(context).push(AppRoutes.send);
+                              },
                               child: const ListTile(
                                 leading: Icon(Icons.arrow_outward_rounded),
                                 title: Text('Send'),

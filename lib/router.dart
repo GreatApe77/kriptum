@@ -17,6 +17,7 @@ import 'package:kriptum/ui/views/create_new_wallet_page/create_new_wallet_page.d
 import 'package:kriptum/ui/views/home_page/home_page.dart';
 import 'package:kriptum/ui/views/import_wallet/import_wallet_page.dart';
 import 'package:kriptum/ui/views/receive/receive_page.dart';
+import 'package:kriptum/ui/views/send/send_page.dart';
 import 'package:kriptum/ui/views/settings/settings_page.dart';
 import 'package:kriptum/ui/views/setup_page.dart';
 import 'package:kriptum/ui/views/unlock_wallet/unlock_wallet_page.dart';
@@ -29,6 +30,7 @@ class AppRoutes {
   static const unlockWallet = '/unlock-wallet';
   static const receive = '/receive';
   static const settings = '/settings';
+  static const send = '/send';
 }
 
 final routes = [
@@ -83,6 +85,15 @@ final routes = [
       currentNetworkController: locator.get<CurrentNetworkController>(),
       networksController: locator.get<NetworksController>(),
       settingsController: locator.get<SettingsController>(),
+    ),
+  ),
+  GoRoute(
+    path: AppRoutes.send,
+    builder: (context, state) => SendPage(
+      currentNetworkController: locator.get<CurrentNetworkController>(),
+      accountsController: locator.get<AccountsController>(),
+      currentAccountController: locator.get<CurrentAccountController>(),
+      accountBalanceController: locator.get<AccountBalanceController>(),
     ),
   ),
 ];

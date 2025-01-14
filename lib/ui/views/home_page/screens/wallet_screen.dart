@@ -95,7 +95,7 @@ class _WalletScreenState extends State<WalletScreen> {
               return AccountViewerBtn(
                 account: widget.currentAccountController.connectedAccount!,
                 onPressed: () {
-                  final arrayDeTeste = ['aa', 'bb', 'cc'];
+                  
                   showModalBottomSheet(
                     useSafeArea: true,
                     isScrollControlled: true,
@@ -131,7 +131,9 @@ class _WalletScreenState extends State<WalletScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _showCreateNewAccountDialog(context);
+                                    },
                                     child: const Text('Add account')),
                               ],
                             ),
@@ -256,6 +258,36 @@ class _WalletScreenState extends State<WalletScreen> {
           )),
     );
   }
+
+  void _showCreateNewAccountDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Create a password for this account'),
+        content: const TextField(
+          obscureText: true,
+          decoration:  InputDecoration(
+            label: Text('Password')
+          ),
+        ),
+        contentPadding: AppSpacings.horizontalPadding,
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Create'))
+        ],
+      ),
+    );
+  }
+
+  void _triggerCreateNewAccount(BuildContext context) {}
 
   void _onNetworkChooseSideEffect(BuildContext context) {
     Navigator.pop(context);
