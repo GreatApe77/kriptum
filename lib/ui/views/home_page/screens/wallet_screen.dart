@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 
 import 'package:kriptum/controllers/accounts_controller.dart';
+import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
@@ -19,6 +20,7 @@ class WalletScreen extends StatefulWidget {
   final AccountBalanceController accountBalanceController;
   final NetworksController networksController;
   final CurrentNetworkController currentNetworkController;
+  final CurrentAccountController currentAccountController;
   const WalletScreen({
     super.key,
     required this.accountsController,
@@ -26,6 +28,7 @@ class WalletScreen extends StatefulWidget {
     required this.accountBalanceController,
     required this.networksController,
     required this.currentNetworkController,
+    required this.currentAccountController,
   });
 
   @override
@@ -49,15 +52,22 @@ class _WalletScreenState extends State<WalletScreen> {
     super.dispose();
     widget.currentNetworkController.removeListener(_onNetworkChange);
   }
-  void _onNetworkChange(){
-    final accountAddress = widget.accountsController.connectedAccount?.address;
+
+  void _onNetworkChange() async {
+    await widget.currentAccountController.loadCurrentAccount(
+        widget.settingsController.settings.lastConnectedIndex);
+    final accountAddress =
+        widget.currentAccountController.connectedAccount?.address;
     widget.accountBalanceController.loadAccountBalance(accountAddress!,
-    rpcEndpoint: widget.currentNetworkController.currentConnectedNetwork?.rpcUrl);
+        rpcEndpoint:
+            widget.currentNetworkController.currentConnectedNetwork?.rpcUrl);
   }
+
   void _loadCurrentNetwork() {
     final connectedNetworkId =
         widget.settingsController.settings.lastConnectedChainId;
-    widget.currentNetworkController.loadCurrentConnectedNetwork(connectedNetworkId);
+    widget.currentNetworkController
+        .loadCurrentConnectedNetwork(connectedNetworkId);
   }
 
   void _loadNetworks() {
@@ -71,20 +81,18 @@ class _WalletScreenState extends State<WalletScreen> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: ListenableBuilder(
-          listenable: widget.accountsController,
-          builder: (context,child) {
-            if (widget.accountsController.connectedAccount==null){
-              return const CircularProgressIndicator();
-            }
-            return AccountViewerBtn(
-              account: widget.accountsController.connectedAccount!,
-              onPressed: () {},
-            );
-          }
-        ),
+            listenable: widget.currentAccountController,
+            builder: (context, child) {
+              if (widget.currentAccountController.connectedAccount == null) {
+                return const CircularProgressIndicator();
+              }
+              return AccountViewerBtn(
+                account: widget.currentAccountController.connectedAccount!,
+                onPressed: () {},
+              );
+            }),
         leadingWidth: 100,
         leading: TextButton.icon(
-            
             onPressed: () {
               showModalBottomSheet(
                   useSafeArea: true,
@@ -103,7 +111,8 @@ class _WalletScreenState extends State<WalletScreen> {
                 listenable: widget.currentNetworkController,
                 builder: (context, child) {
                   return Text(
-                    widget.currentNetworkController.currentConnectedNetwork == null
+                    widget.currentNetworkController.currentConnectedNetwork ==
+                            null
                         ? 'Loading...'
                         : widget.currentNetworkController
                             .currentConnectedNetwork!.name,
@@ -171,8 +180,10 @@ class _WalletScreenState extends State<WalletScreen> {
                   builder: (context, child) {
                     return Flexible(
                       child: Text(
-                        widget.accountBalanceController.isLoading?'Loading...':
-                        formatEther(widget.accountBalanceController.balance),
+                        widget.accountBalanceController.isLoading
+                            ? 'Loading...'
+                            : formatEther(
+                                widget.accountBalanceController.balance),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 36),
                       ),

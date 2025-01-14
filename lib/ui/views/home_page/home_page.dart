@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart';
+import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
@@ -12,19 +13,20 @@ import 'package:kriptum/ui/views/home_page/screens/wallet_screen.dart';
 
 class HomePage extends StatefulWidget {
   final NavigationBarController navigationBarController;
-  final AccountsController connectedAccountController;
+  final AccountsController accountsController;
   final SettingsController settingsController;
   final AccountBalanceController accountBalanceController;
   final NetworksController networksController;
   final CurrentNetworkController currentNetworkController;
+  final CurrentAccountController currentAccountController;
   const HomePage(
       {super.key,
       required this.navigationBarController,
-      required this.connectedAccountController,
+      required this.accountsController,
       required this.settingsController,
       required this.accountBalanceController,
       required this.networksController,
-      required this.currentNetworkController});
+      required this.currentNetworkController, required this.currentAccountController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -36,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    widget.connectedAccountController.loadCurrentAccount(
+    widget.currentAccountController.loadCurrentAccount(
         widget.settingsController.settings.lastConnectedIndex);
   }
 
@@ -126,37 +128,34 @@ class _HomePageState extends State<HomePage> {
         //   BottomNavigationBarItem(label: '', icon: Icon(Icons.wallet)),
         // ]),
         body: ListenableBuilder(
-            listenable: widget.connectedAccountController,
-            builder: (context, child) {
-              return ListenableBuilder(
-                listenable: widget.navigationBarController,
-                builder: (context, child) {
-                  final pages = [
-                    // Center(
-                    //     child: Text(
-                    //         'PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'}')),
-                    WalletScreen(
-                      currentNetworkController: widget.currentNetworkController,
-                      networksController: widget.networksController,
-                      settingsController: widget.settingsController,
-                      accountsController: widget.connectedAccountController,
-                      accountBalanceController: widget.accountBalanceController,
-                    ),
-                    Center(
-                        child: Text(
-                            'PAGE: ${widget.navigationBarController.selectedPage}')),
-                    Center(
-                        child: Text(
-                            'PAGE: ${widget.navigationBarController.selectedPage}')),
-                    Center(
-                        child: Text(
-                            'PAGE: ${widget.navigationBarController.selectedPage}')),
-                    //SettingsScreen(
-                    //    settingsController: widget.settingsController),
-                  ];
-                  return pages[widget.navigationBarController.selectedPage];
-                },
-              );
-            }));
+          listenable: widget.navigationBarController,
+          builder: (context, child) {
+            final pages = [
+              // Center(
+              //     child: Text(
+              //         'PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'}')),
+              WalletScreen(
+                currentAccountController: widget.currentAccountController,
+                currentNetworkController: widget.currentNetworkController,
+                networksController: widget.networksController,
+                settingsController: widget.settingsController,
+                accountsController: widget.accountsController,
+                accountBalanceController: widget.accountBalanceController,
+              ),
+              Center(
+                  child: Text(
+                      'PAGE: ${widget.navigationBarController.selectedPage}')),
+              Center(
+                  child: Text(
+                      'PAGE: ${widget.navigationBarController.selectedPage}')),
+              Center(
+                  child: Text(
+                      'PAGE: ${widget.navigationBarController.selectedPage}')),
+              //SettingsScreen(
+              //    settingsController: widget.settingsController),
+            ];
+            return pages[widget.navigationBarController.selectedPage];
+          },
+        ));
   }
 }
