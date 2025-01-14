@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
-import 'package:kriptum/controllers/accounts_controller.dart.dart';
+import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/controllers/erase_wallet_controller.dart';
 import 'package:kriptum/controllers/import_wallet_controller.dart';

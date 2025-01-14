@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 
-import 'package:kriptum/controllers/accounts_controller.dart.dart';
+import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/domain/models/account.dart';
@@ -34,31 +34,45 @@ class _WalletScreenState extends State<WalletScreen> {
       CopyToClipboardController();
 
   @override
-  void didUpdateWidget(covariant WalletScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    
-    _loadBalance();
+  void initState() {
+    super.initState();
+    widget.networksController.addListener(_onNetworkChanged);
     _loadNetworks();
-    
   }
   @override
   void dispose() {
-    
+     widget.networksController.removeListener(_onNetworkChanged);
     super.dispose();
 
   }
-  void _loadNetworks() async{
-    await widget.networksController.loadNetworks();
-  }
-  void _loadBalance() async {
-    final networkId = widget.settingsController.settings.lastConnectedChainId;
-
-    await widget.networksController.loadCurrentConnectedNetwork(networkId);
+  /// This function is triggered when the network changes
+  void _onNetworkChanged() async{
     final connectedChain = widget.networksController.currentConnectedNetwork;
-    widget.accountBalanceController.loadAccountBalance(
+    if (connectedChain != null) {
+      // Update balance using existing network data without re-triggering network load
+      widget.accountBalanceController.loadAccountBalance(
         widget.accountsController.connectedAccount!.address,
-        rpcEndpoint: connectedChain?.rpcUrl);
+        rpcEndpoint: connectedChain.rpcUrl,
+      );
+    }
   }
+  void _loadInitialBalance() {
+  final connectedChain = widget.networksController.currentConnectedNetwork;
+  if (connectedChain != null) {
+    widget.accountBalanceController.loadAccountBalance(
+      widget.accountsController.connectedAccount!.address,
+      rpcEndpoint: connectedChain.rpcUrl,
+    );
+  }
+}
+  /// Loads available networks when the screen initializes
+  void _loadNetworks() async {
+    final networkId = widget.settingsController.settings.lastConnectedChainId;
+    await widget.networksController.loadNetworks();
+    await widget.networksController.loadCurrentConnectedNetwork(networkId);
+     _loadInitialBalance();
+  }
+ 
 
   @override
   Widget build(BuildContext context) {

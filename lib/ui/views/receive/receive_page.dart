@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import 'package:kriptum/controllers/accounts_controller.dart.dart';
+import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 
 class ReceivePage extends StatelessWidget {
