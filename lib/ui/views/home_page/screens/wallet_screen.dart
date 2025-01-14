@@ -11,6 +11,7 @@ import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
+import 'package:kriptum/ui/shared/widgets/account_tile.dart';
 import 'package:kriptum/ui/shared/widgets/networks_list.dart';
 import 'package:kriptum/ui/views/home_page/widgets/account_viewer_btn.dart';
 
@@ -45,12 +46,17 @@ class _WalletScreenState extends State<WalletScreen> {
     widget.currentNetworkController.addListener(_onNetworkChange);
     _loadCurrentNetwork();
     _loadNetworks();
+    _loadAccounts();
   }
 
   @override
   void dispose() {
     super.dispose();
     widget.currentNetworkController.removeListener(_onNetworkChange);
+  }
+
+  void _loadAccounts() async {
+    widget.accountsController.loadAccounts();
   }
 
   void _onNetworkChange() async {
@@ -88,7 +94,53 @@ class _WalletScreenState extends State<WalletScreen> {
               }
               return AccountViewerBtn(
                 account: widget.currentAccountController.connectedAccount!,
-                onPressed: () {},
+                onPressed: () {
+                  final arrayDeTeste = ['aa', 'bb', 'cc'];
+                  showModalBottomSheet(
+                    useSafeArea: true,
+                    isScrollControlled: true,
+                    showDragHandle: true,
+                    context: context,
+                    builder: (context) => SafeArea(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Text(
+                            'Accounts',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.w500),
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                                itemCount:
+                                    widget.accountsController.accounts.length,
+                                itemBuilder: (context, index) => AccountTile(
+                                    isSelected: widget.currentAccountController
+                                            .connectedAccount?.accountIndex ==
+                                        widget.accountsController
+                                            .accounts[index].accountIndex,
+                                    onSelected: () {},
+                                    account: widget
+                                        .accountsController.accounts[index])),
+                          ),
+                          Padding(
+                            padding: AppSpacings.horizontalPadding,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () {},
+                                    child: const Text('Add account')),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
               );
             }),
         leadingWidth: 100,
@@ -116,7 +168,7 @@ class _WalletScreenState extends State<WalletScreen> {
                         ? 'Loading...'
                         : widget.currentNetworkController
                             .currentConnectedNetwork!.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                     ),
                   );
