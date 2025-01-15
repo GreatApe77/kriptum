@@ -50,6 +50,7 @@ class NetworksList extends StatelessWidget {
                       return ListView.builder(
                         itemCount: networksController.networks.length,
                         itemBuilder: (context, index) => NetworkListTile(
+                          selected: currentNetworkController.currentConnectedNetwork?.id==networksController.networks[index].id,
                             onNetworkTap: () => _onNetworkTap(index, context),
                             network: networksController.networks[index]),
                       );

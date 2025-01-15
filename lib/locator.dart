@@ -28,7 +28,7 @@ Future<void> setup() async {
   locator.registerSingleton<AccountRepository>(AccountRepositoryDbImpl());
 
   locator.registerLazySingleton<WalletServices>(() => WalletServices());
-
+  locator.registerFactory<CreateWalletStepsController>(() => CreateWalletStepsController(),);
   locator.registerLazySingleton<CreateNewWalletController>(
     () => CreateNewWalletController(
       accountRepository: locator.get<AccountRepository>(),
