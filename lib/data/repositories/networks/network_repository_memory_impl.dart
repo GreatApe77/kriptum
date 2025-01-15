@@ -5,8 +5,8 @@ import 'package:kriptum/domain/models/network.dart';
 class NetworkRepositoryMemoryImpl implements NetworkRepository {
   final _repo = [
     Network(
-        id: 2,
-        rpcUrl: 'https://rpc.sepolia.org',
+        id: 11155111,
+        rpcUrl: 'https://endpoints.omniatech.io/v1/eth/sepolia/public',
         name: 'Sepolia',
         ticker: 'ETH',
         currencyDecimals: 18),

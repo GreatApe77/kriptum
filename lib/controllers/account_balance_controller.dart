@@ -18,9 +18,11 @@ class AccountBalanceController extends ChangeNotifier {
     String key =MemoryCacheKeyBuilders.buildKeyForAccountBalanceCache(
             accountAddress: accountAddress, networkId: network.id!.toString()); 
     BigInt? retrievedBalance = MemoryCache.get<BigInt>(key);
+    
     if (retrievedBalance == null) {
+      
       retrievedBalance = await _walletServices.getBalance(accountAddress,rpcEndpoint: network.rpcUrl);
-      MemoryCache.store<BigInt>(key,retrievedBalance);
+      MemoryCache.store<BigInt>(key,retrievedBalance,duration: const Duration(seconds: 60));
     }
     balance = retrievedBalance;
     //balance = await _walletServices.getBalance(accountAddress,
