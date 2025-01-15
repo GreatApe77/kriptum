@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/erase_wallet_controller.dart';
+import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/router.dart';
@@ -13,11 +14,13 @@ class UnlockWalletPage extends StatelessWidget {
   final UnlockWalletController unlockWalletController;
   final SettingsController settingsController;
   final EraseWalletController eraseWalletController;
+  final PasswordController passwordController;
   UnlockWalletPage(
       {super.key,
+      
       required this.unlockWalletController,
       required this.settingsController,
-      required this.eraseWalletController});
+      required this.eraseWalletController, required this.passwordController});
   final passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -118,6 +121,7 @@ class UnlockWalletPage extends StatelessWidget {
       accountIndex: settingsController.settings.lastConnectedIndex,
       onWrongPassword: () => _onWrongPassword(context),
       onSuccess: () {
+        passwordController.setPassord(passwordTextController.text);
         GoRouter.of(context).pushReplacement(AppRoutes.home);
       },
     );

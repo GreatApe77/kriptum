@@ -32,11 +32,12 @@ class UnlockWalletController extends ChangeNotifier {
             password: password,
             encryptedJsonAccount: account.encryptedJsonWallet));
     isLoading = false;
-    notifyListeners();
+    
     if (rightPassword) {
       onSuccess();
     } else {
       onWrongPassword();
     }
+    notifyListeners();
   }
 }

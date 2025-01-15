@@ -47,4 +47,10 @@ class SettingsServiceImpl implements SettingsService {
      final sh = await SharedPreferences.getInstance();
     await sh.setInt('lastConnectedChainId', networkId);
   }
+  
+  @override
+  Future<void> clearSettings() async{
+     final sh = await SharedPreferences.getInstance();
+     await sh.clear();
+  }
 }
