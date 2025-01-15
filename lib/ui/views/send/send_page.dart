@@ -5,6 +5,8 @@ import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
+import 'package:kriptum/controllers/send/send_amount_controller.dart';
+import 'package:kriptum/controllers/send/to_address_controller.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/shared/widgets/account_tile.dart';
@@ -16,12 +18,16 @@ class SendPage extends StatelessWidget {
   final AccountBalanceController accountBalanceController;
   final AccountsController accountsController;
   final CurrentNetworkController currentNetworkController;
+  final SendAmountController sendAmountController;
+  final ToAddressController toAddressController;
   const SendPage(
       {super.key,
       required this.currentAccountController,
       required this.accountsController,
       required this.currentNetworkController,
-      required this.accountBalanceController});
+      required this.accountBalanceController,
+      required this.sendAmountController,
+      required this.toAddressController});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +40,7 @@ class SendPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'))
+              child: const Text('Cancel'))
         ],
         title: PageTitle(
           title: 'Send to',
@@ -52,7 +58,7 @@ class SendPage extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      const Text(
                         'From: ',
                         style: TextStyle(fontSize: 22),
                       ),
@@ -69,13 +75,16 @@ class SendPage extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      const Text(
                         'To: ',
                         style: TextStyle(fontSize: 22),
                       ),
                       Flexible(
                           child: TextFormField(
-                        decoration: InputDecoration(
+                        onChanged: (value) {
+                          toAddressController.setToAddress(value);
+                        },
+                        decoration: const InputDecoration(
                             label: Text('Ethereum Address'),
                             border: OutlineInputBorder()),
                       ))
@@ -83,14 +92,14 @@ class SendPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
-              Text(
+              const Text(
                 'Your Accounts',
                 style: TextStyle(fontSize: 22),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
               Expanded(
@@ -107,13 +116,17 @@ class SendPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => AmountScreen(
+                              toAddressController: toAddressController,
+                              currentAccountController:
+                                  currentAccountController,
+                              sendAmountController: sendAmountController,
                               accountBalanceController:
                                   accountBalanceController,
                               currentNetworkController:
                                   currentNetworkController),
                         ));
                       },
-                      child: Text('Next')),
+                      child: const Text('Next')),
                 ],
               )
             ],

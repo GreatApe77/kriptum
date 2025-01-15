@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
+import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
+import 'package:kriptum/controllers/send/send_amount_controller.dart';
+import 'package:kriptum/controllers/send/to_address_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
@@ -12,11 +15,15 @@ import 'package:kriptum/ui/views/send/widgets/page_title.dart';
 class AmountScreen extends StatelessWidget {
   final AccountBalanceController accountBalanceController;
   final CurrentNetworkController currentNetworkController;
-
+  final SendAmountController sendAmountController;
+  final CurrentAccountController currentAccountController;
+  final ToAddressController toAddressController;
   const AmountScreen(
       {super.key,
       required this.accountBalanceController,
-      required this.currentNetworkController});
+      required this.currentNetworkController,
+      required this.sendAmountController,
+      required this.currentAccountController, required this.toAddressController});
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +73,9 @@ class AmountScreen extends StatelessWidget {
               height: 36,
             ),
             TextField(
+              onChanged: (value) {
+                sendAmountController.updateAmountValueInEth(value);
+              },
               keyboardType: TextInputType.numberWithOptions(),
               style: TextStyle(fontSize: 40),
               textAlign: TextAlign.center,
@@ -87,8 +97,12 @@ class AmountScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ConfirmScreen(
-                              currentNetworkController:
-                                  currentNetworkController),
+                            toAddressController: toAddressController,
+                            accountBalanceController: accountBalanceController,
+                            currentAccountController: currentAccountController,
+                            currentNetworkController: currentNetworkController,
+                            sendAmountController: sendAmountController,
+                          ),
                         ));
                       },
                       child: Text('Next')),
