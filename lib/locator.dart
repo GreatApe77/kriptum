@@ -7,6 +7,7 @@ import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/erase_wallet_controller.dart';
 import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
+import 'package:kriptum/controllers/send_amount_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
@@ -80,4 +81,7 @@ Future<void> setup() async {
   );
   locator.registerSingleton<CurrentAccountController>(CurrentAccountController(
       accountRepository: locator.get<AccountRepository>()));
+  locator.registerFactory<SendAmountController>(
+    () => SendAmountController(),
+  );
 }

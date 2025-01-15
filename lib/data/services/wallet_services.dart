@@ -48,6 +48,7 @@ class WalletServices {
       {String rpcEndpoint = 'http://10.0.2.2:8545'}) async {
     final httpClient = Client();
     final ethClient = Web3Client(rpcEndpoint, httpClient);
+    
     final balance =
         await ethClient.getBalance(EthereumAddress.fromHex(address));
     return balance.getInWei;

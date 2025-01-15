@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
-import 'package:kriptum/domain/models/network.dart';
-import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/widgets/network_list_tile.dart';
 import 'package:kriptum/ui/views/settings/screens/networks/screens/add_network_screen.dart';
@@ -21,7 +17,8 @@ class NetworksList extends StatelessWidget {
       {super.key,
       required this.networksController,
       required this.settingsController,
-      required this.currentNetworkController, required this.onNetworkChooseSideEffect});
+      required this.currentNetworkController,
+      required this.onNetworkChooseSideEffect});
 
   @override
   Widget build(BuildContext context) {

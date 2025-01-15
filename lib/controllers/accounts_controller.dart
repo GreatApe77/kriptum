@@ -6,10 +6,9 @@ import 'package:kriptum/domain/models/account.dart';
 
 class AccountsController extends ChangeNotifier {
   List<Account> _accounts = [];
-  AccountRepository _accountRepository;
+  final AccountRepository _accountRepository;
   
-  Account? _connectedAccount;
-  Account? get connectedAccount => _connectedAccount;
+
   List<Account> get accounts =>_accounts;
   //int accountIndex = 0;
   AccountsController({
@@ -24,9 +23,5 @@ class AccountsController extends ChangeNotifier {
     
   }
 
-  loadCurrentAccount(int accountIndex) async {
-    _connectedAccount = await _accountRepository.getAccount(accountIndex);
-    notifyListeners();
-  }
 
 }

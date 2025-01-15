@@ -7,9 +7,17 @@ class MemoryCache {
     Future.delayed(
       duration,
       () {
-        _cacheHashMap[key] = null;
+        remove(key);
       },
     );
+  }
+
+  static void clearCache() {
+    _cacheHashMap.clear();
+  }
+
+  static void remove(String key) {
+    _cacheHashMap.remove(key);
   }
 
   static V? get<V>(String key) {

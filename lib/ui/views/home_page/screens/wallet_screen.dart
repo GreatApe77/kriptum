@@ -14,6 +14,7 @@ import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart'
 import 'package:kriptum/ui/shared/widgets/account_tile.dart';
 import 'package:kriptum/ui/shared/widgets/networks_list.dart';
 import 'package:kriptum/ui/views/home_page/widgets/account_viewer_btn.dart';
+import 'package:kriptum/ui/views/home_page/widgets/main_balance_view_.dart';
 
 class WalletScreen extends StatefulWidget {
   final AccountsController accountsController;
@@ -65,8 +66,7 @@ class _WalletScreenState extends State<WalletScreen> {
     final accountAddress =
         widget.currentAccountController.connectedAccount?.address;
     widget.accountBalanceController.loadAccountBalance(accountAddress!,
-        rpcEndpoint:
-            widget.currentNetworkController.currentConnectedNetwork?.rpcUrl);
+        widget.currentNetworkController.currentConnectedNetwork!);
   }
 
   void _loadCurrentNetwork() {
@@ -94,73 +94,12 @@ class _WalletScreenState extends State<WalletScreen> {
               }
               return AccountViewerBtn(
                 account: widget.currentAccountController.connectedAccount!,
-                onPressed: () {
-                  
-                  showModalBottomSheet(
-                    useSafeArea: true,
-                    isScrollControlled: true,
-                    showDragHandle: true,
-                    context: context,
-                    builder: (context) => SafeArea(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const Text(
-                            'Accounts',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w500),
-                          ),
-                          Expanded(
-                            child: ListView.builder(
-                                itemCount:
-                                    widget.accountsController.accounts.length,
-                                itemBuilder: (context, index) => AccountTile(
-                                    isSelected: widget.currentAccountController
-                                            .connectedAccount?.accountIndex ==
-                                        widget.accountsController
-                                            .accounts[index].accountIndex,
-                                    onSelected: () {},
-                                    account: widget
-                                        .accountsController.accounts[index])),
-                          ),
-                          Padding(
-                            padding: AppSpacings.horizontalPadding,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ElevatedButton(
-                                    onPressed: () {
-                                      _showCreateNewAccountDialog(context);
-                                    },
-                                    child: const Text('Add account')),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
+                onPressed: () => _showAccountsModal(context),
               );
             }),
         leadingWidth: 100,
         leading: TextButton.icon(
-            onPressed: () {
-              showModalBottomSheet(
-                  useSafeArea: true,
-                  isScrollControlled: true,
-                  showDragHandle: true,
-                  context: context,
-                  builder: (context) => NetworksList(
-                      onNetworkChooseSideEffect: () {
-                        _onNetworkChooseSideEffect(context);
-                      },
-                      currentNetworkController: widget.currentNetworkController,
-                      settingsController: widget.settingsController,
-                      networksController: widget.networksController));
-            },
+            onPressed: () => _showNetworksModal(context),
             label: ListenableBuilder(
                 listenable: widget.currentNetworkController,
                 builder: (context, child) {
@@ -180,51 +119,15 @@ class _WalletScreenState extends State<WalletScreen> {
               listenable: widget.currentAccountController,
               builder: (context, child) {
                 return IconButton(
-                    onPressed: widget
-                                .currentAccountController.connectedAccount ==
-                            null
-                        ? null
-                        : () => copyToClipboardController.copyToClipboard(
-                              content: widget.currentAccountController
-                                  .connectedAccount!.address,
-                              onCopied: (content) {
-                                showDialog(
-                                  barrierColor: Colors.transparent,
-                                  context: context,
-                                  builder: (context) {
-                                    return Builder(builder: (context) {
-                                      return FutureBuilder(
-                                          future: Future.delayed(
-                                                  const Duration(seconds: 1))
-                                              .then((value) => true),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              Navigator.of(context).pop();
-                                            }
-                                            return AlertDialog(
-                                              title: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.check_circle_rounded,
-                                                    size: 80,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Text(
-                                                    'Public address ${formatAddress(widget.currentAccountController.connectedAccount!.address)} copied to clipboard',
-                                                    textAlign: TextAlign.center,
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          });
-                                    });
-                                  },
-                                );
-                              },
-                            ),
+                    onPressed:
+                        widget.currentAccountController.connectedAccount == null
+                            ? null
+                            : () => copyToClipboardController.copyToClipboard(
+                                  content: widget.currentAccountController
+                                      .connectedAccount!.address,
+                                  onCopied: (content) =>
+                                      _onCopyToClipboard(content),
+                                ),
                     icon: const Icon(Icons.copy));
               }),
           IconButton(
@@ -234,28 +137,106 @@ class _WalletScreenState extends State<WalletScreen> {
       body: Container(
           padding: AppSpacings.horizontalPadding,
           margin: const EdgeInsets.symmetric(vertical: 20),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              ListenableBuilder(
-                  listenable: widget.accountBalanceController,
-                  builder: (context, child) {
-                    return Flexible(
-                      child: Text(
-                        widget.accountBalanceController.isLoading
-                            ? 'Loading...'
-                            : formatEther(
-                                widget.accountBalanceController.balance),
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 36),
+          child: MainBalanceView(
+              accountBalanceController: widget.accountBalanceController)),
+    );
+  }
+
+  void _onCopyToClipboard(String content) {
+    showDialog(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return Builder(builder: (context) {
+          return FutureBuilder(
+              future: Future.delayed(const Duration(seconds: 1))
+                  .then((value) => true),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  Navigator.of(context).pop();
+                }
+                return AlertDialog(
+                  title: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.check_circle_rounded,
+                        size: 80,
                       ),
-                    );
-                  }),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.remove_red_eye_rounded))
-            ],
-          )),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        'Public address ${formatAddress(widget.currentAccountController.connectedAccount!.address)} copied to clipboard',
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
+                );
+              });
+        });
+      },
+    );
+  }
+
+  void _showNetworksModal(BuildContext context) {
+    showModalBottomSheet(
+        useSafeArea: true,
+        isScrollControlled: true,
+        showDragHandle: true,
+        context: context,
+        builder: (context) => NetworksList(
+            onNetworkChooseSideEffect: () {
+              _onNetworkChooseSideEffect(context);
+            },
+            currentNetworkController: widget.currentNetworkController,
+            settingsController: widget.settingsController,
+            networksController: widget.networksController));
+  }
+
+  void _showAccountsModal(BuildContext context) {
+    showModalBottomSheet(
+      useSafeArea: true,
+      isScrollControlled: true,
+      showDragHandle: true,
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              'Accounts',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+            ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: widget.accountsController.accounts.length,
+                  itemBuilder: (context, index) => AccountTile(
+                      isSelected: widget.currentAccountController
+                              .connectedAccount?.accountIndex ==
+                          widget
+                              .accountsController.accounts[index].accountIndex,
+                      onSelected: () {},
+                      account: widget.accountsController.accounts[index])),
+            ),
+            Padding(
+              padding: AppSpacings.horizontalPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        _showCreateNewAccountDialog(context);
+                      },
+                      child: const Text('Add account')),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -266,9 +247,7 @@ class _WalletScreenState extends State<WalletScreen> {
         title: const Text('Create a password for this account'),
         content: const TextField(
           obscureText: true,
-          decoration:  InputDecoration(
-            label: Text('Password')
-          ),
+          decoration: InputDecoration(label: Text('Password')),
         ),
         contentPadding: AppSpacings.horizontalPadding,
         actions: [

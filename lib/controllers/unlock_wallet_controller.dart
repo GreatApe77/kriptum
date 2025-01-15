@@ -5,13 +5,11 @@ import 'package:kriptum/data/services/wallet_services.dart';
 class UnlockWalletController extends ChangeNotifier {
   bool isLoading = false;
   final AccountRepository _accountsRepository;
-  final WalletServices _walletServices;
 
   UnlockWalletController(
       {required AccountRepository accountsRepository,
       required WalletServices walletServices})
-      : _accountsRepository = accountsRepository,
-        _walletServices = walletServices;
+      : _accountsRepository = accountsRepository;
 
   unlockWallet({
     required String password,
