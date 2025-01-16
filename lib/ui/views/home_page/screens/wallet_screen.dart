@@ -260,6 +260,8 @@ class _WalletScreenState extends State<WalletScreen> {
                                                       .updateAccount(
                                                           updatedAccount);
                                                 }
+                                                if(!context.mounted) return;
+                                                Navigator.of(context).pop();
                                               },
                                               leading: Icon(Icons.edit),
                                               title: Text('Edit account name'),
