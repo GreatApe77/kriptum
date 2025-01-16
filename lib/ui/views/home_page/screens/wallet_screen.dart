@@ -276,6 +276,11 @@ class _WalletScreenState extends State<WalletScreen> {
                                   onSelected: ()async {
                                     await widget.settingsController.changeCurrentAccountIndex(widget.accountsController.accounts[index].accountIndex);
                                     widget.currentAccountController.updateAccount(widget.accountsController.accounts[index]);
+                                    final account = widget.currentAccountController.connectedAccount;
+                                    final network = widget.currentNetworkController.currentConnectedNetwork;
+                                    widget.accountBalanceController.loadAccountBalance(account!.address, network!);
+                                    if(!context.mounted) return;
+                                    Navigator.of(context).pop();
                                   },
                                   account: widget
                                       .accountsController.accounts[index]));

@@ -22,7 +22,7 @@ class AccountBalanceController extends ChangeNotifier {
     if (retrievedBalance == null) {
       
       retrievedBalance = await _walletServices.getBalance(accountAddress,rpcEndpoint: network.rpcUrl);
-      MemoryCache.store<BigInt>(key,retrievedBalance,duration: const Duration(seconds: 60));
+      MemoryCache.store<BigInt>(key,retrievedBalance,duration: const Duration(seconds: 120));
     }
     balance = retrievedBalance;
     //balance = await _walletServices.getBalance(accountAddress,

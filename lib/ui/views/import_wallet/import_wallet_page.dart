@@ -53,7 +53,9 @@ class ImportWalletPage extends StatelessWidget {
                         height: 24,
                       ),
                       TextFormField(
-                        validator: (mnemonic) => MnemonicValidatorController.validateMnemonic(mnemonic),
+                        validator: (mnemonic) =>
+                            MnemonicValidatorController.validateMnemonic(
+                                mnemonic),
                         controller: mnemonicTextController,
                         decoration: const InputDecoration(
                             hintText: 'Enter your Secret Recovery Phrase',
@@ -77,7 +79,7 @@ class ImportWalletPage extends StatelessWidget {
                         height: 24,
                       ),
                       TextFormField(
-                        obscureText:true,
+                        obscureText: true,
                         controller: confirmPasswordTextController,
                         validator: (confirmPassword) =>
                             PasswordValidatorController.validLength(
@@ -92,24 +94,7 @@ class ImportWalletPage extends StatelessWidget {
                         height: 24,
                       ),
                       ElevatedButton(
-                          onPressed: () async {
-                            if (!formKey.currentState!.validate()) return;
-                            if (passwordTextController.text !=
-                                confirmPasswordTextController.text) {
-                              ScaffoldMessenger.of(context).clearSnackBars();
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(buildPasswordDontMatchAlert());
-                                  return;
-                            }
-                            await importWalletController.importWallet(
-                                mnemonic: mnemonicTextController.text,
-                                password: passwordTextController.text);
-                            await settingsController.setContainsWallet(true);
-                            await settingsController
-                                .changeCurrentAccountIndex(0);
-                            GoRouter.of(context)
-                                .pushReplacement(AppRoutes.home);
-                          },
+                          onPressed: () => _triggerImportWallet(context),
                           child: const Text('IMPORT'))
                     ],
                   ),
@@ -117,6 +102,33 @@ class ImportWalletPage extends StatelessWidget {
               ),
             );
           }),
+    );
+  }
+
+  void _triggerImportWallet(BuildContext context) async {
+    if (!formKey.currentState!.validate()) return;
+    if (passwordTextController.text != confirmPasswordTextController.text) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(buildPasswordDontMatchAlert());
+      return;
+    }
+    await importWalletController.importWalletWithMultipleAccounts(
+      mnemonic: mnemonicTextController.text,
+      password: passwordTextController.text,
+      onError: () {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+              content: Text('Something went wrong!')));
+      },
+      onSuccess: () async {
+        await settingsController.setContainsWallet(true);
+        await settingsController.changeCurrentAccountIndex(0);
+        if (!context.mounted) return;
+        GoRouter.of(context).pushReplacement(AppRoutes.home);
+      },
     );
   }
 }

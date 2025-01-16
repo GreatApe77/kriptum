@@ -31,7 +31,7 @@ class AccountViewerBtn extends StatelessWidget {
                 SizedBox(
                   width: 8,
                 ),
-                Text(account.alias??'Account ${account.accountIndex + 1}'),
+                Flexible(child: Text(account.alias??'Account ${account.accountIndex + 1}',overflow: TextOverflow.fade,)),
                 Icon(Icons.keyboard_arrow_down)
               ],
             ),
