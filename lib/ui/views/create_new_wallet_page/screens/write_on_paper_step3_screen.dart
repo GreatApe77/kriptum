@@ -95,7 +95,8 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
   }
 
   void _triggerSaveAccount(BuildContext context)async {
-    await _createNewWalletController.saveAccount();
+    await _createNewWalletController.saveAccounts();
+    if(!context.mounted) return;
     GoRouter.of(context).pushReplacement(AppRoutes.home);
   }
 }

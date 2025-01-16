@@ -103,7 +103,7 @@ class CreatePasswordStep1Screen extends StatelessWidget {
       return;
     }
     await _createNewWalletController
-        .createNewWallet(confirmPasswordTextController.text);
+        .createNewWalletWithAccounts(confirmPasswordTextController.text);
     await _settingsController.setContainsWallet(true);
     _createWalletStepsController.nextStep();
   }

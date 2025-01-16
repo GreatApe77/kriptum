@@ -12,7 +12,7 @@ class CreateNewWalletPage extends StatelessWidget {
   final SettingsController _settingsController;
   final CreateWalletStepsController _createWalletStepsController;
   final CreateNewWalletController _createNewWalletController;
-  CreateNewWalletPage(
+  const CreateNewWalletPage(
       {super.key,
       required CreateWalletStepsController stepController,
       required CreateNewWalletController createNewWalletController,
