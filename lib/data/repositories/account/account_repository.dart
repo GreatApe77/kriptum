@@ -1,6 +1,7 @@
 import 'package:kriptum/domain/models/account.dart';
 
 abstract class AccountRepository {
+  Future<void> saveAccounts(List<Account> accounts);
   Future<void> updateAccount(int index,Account account);
   Future<void> saveAccount(Account account);
   Future<Account> getAccount(int index);

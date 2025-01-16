@@ -41,10 +41,18 @@ class AccountRepositoryDbImpl implements AccountRepository {
   @override
   Future<void> updateAccount(int index, Account account) async {
     final database = await SqliteDatabase().db;
-    
-        await database.update(AccountsTable.table, account.toMap(),
-        where: '${AccountsTable.accountIndexColumn} = ?',
-        whereArgs: [index]);
 
+    await database.update(AccountsTable.table, account.toMap(),
+        where: '${AccountsTable.accountIndexColumn} = ?', whereArgs: [index]);
+  }
+
+  @override
+  Future<void> saveAccounts(List<Account> accounts) async {
+    final database = await SqliteDatabase().db;
+    final batch = database.batch();
+    for (var i = 0; i < accounts.length; i++) {
+      batch.insert(AccountsTable.table, accounts[i].toMap());
+    }
+    await batch.commit();
   }
 }

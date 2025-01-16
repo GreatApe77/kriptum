@@ -7,6 +7,7 @@ import 'package:kriptum/domain/models/account.dart';
 class CreateNewWalletController extends ChangeNotifier {
   String _generatedMnemonic = '';
   Account? _createdAccount;
+  List<Account> _createdAccounts = [];
   bool _loading = false;
 
   final WalletServices _walletServices;
@@ -18,9 +19,25 @@ class CreateNewWalletController extends ChangeNotifier {
         _accountRepository = accountRepository;
   String get generatedMnemonic => _generatedMnemonic;
   bool get loading => _loading;
-  Future<void> saveAccount()async{
+  Future<void> saveAccount() async {
     await _accountRepository.saveAccount(_createdAccount!);
   }
+  Future<void> saveAccounts() async {
+    await _accountRepository.saveAccounts(_createdAccounts);
+  }
+
+  Future<void> createNewWalletWithAccounts(String password) async {
+    _loading = true;
+    notifyListeners();
+    _generatedMnemonic = _walletServices.generateMnemonic();
+    _createdAccounts = await compute(
+        WalletServices.generateAccountsFromMnemonic,
+        AccountsFromMnemonicParams(
+            mnemonic: _generatedMnemonic, encryptionPassword: password));
+    _loading = false;
+    notifyListeners();
+  }
+
   Future<void> createNewWallet(String password) async {
     //pegar mnemonico gerado
     //gerar os pares (private,pub)
@@ -40,7 +57,7 @@ class CreateNewWalletController extends ChangeNotifier {
         AccountFromMnemonicParams(
             mnemonic: _generatedMnemonic, encryptionPassword: password));
     //await _accountRepository.saveAccount(account);
-    
+
     _loading = false;
     notifyListeners();
   }

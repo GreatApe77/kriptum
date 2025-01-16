@@ -28,4 +28,10 @@ class AccountRepositoryMemoryImpl implements AccountRepository {
     // TODO: implement updateAccount
     throw UnimplementedError();
   }
+  
+  @override
+  Future<void> saveAccounts(List<Account> accounts) {
+    // TODO: implement saveAccounts
+    throw UnimplementedError();
+  }
 }
