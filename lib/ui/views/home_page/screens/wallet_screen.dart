@@ -205,61 +205,82 @@ class _WalletScreenState extends State<WalletScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
+            Text(
               'Accounts',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             Expanded(
               child: ListenableBuilder(
-                listenable: widget.accountsController,
-                builder: (context,child) {
-                  return ListView.builder(
-                      itemCount: widget.accountsController.accounts.length,
-                      itemBuilder: (context, index) => AccountTile(
-                          includeMenu: true,
-                          onOptionsMenuSelected: () {
-                            showModalBottomSheet(
-                              showDragHandle: true,
-                              context: context,
-                              builder: (context) => SafeArea(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    ListTile(
-                                      onTap: () async {
-                                        final String? nameResult =
-                                            await Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              UpdateAccountAliasScreen(
-                                                  account: widget.accountsController
-                                                      .accounts[index]),
-                                        ));
-                  
-                                        Account updatedAccount = widget
-                                            .accountsController.accounts[index]
-                                            .copyWith(alias: nameResult);
-                                        await widget.accountsController
-                                            .updateAccount(index, updatedAccount);
-                                        widget.currentAccountController.updateAccount(updatedAccount);
-                                      },
-                                      leading: Icon(Icons.edit),
-                                      title: Text('Edit account name'),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                          isSelected: widget.currentAccountController
-                                  .connectedAccount?.accountIndex ==
-                              widget
-                                  .accountsController.accounts[index].accountIndex,
-                          onSelected: () {},
-                          account: widget.accountsController.accounts[index]));
-                }
-              ),
+                  listenable: widget.accountsController,
+                  builder: (context, child) {
+                    return ListenableBuilder(
+                        listenable: widget.currentAccountController,
+                        builder: (context, child) {
+                          return ListView.builder(
+                              itemCount:
+                                  widget.accountsController.accounts.length,
+                              itemBuilder: (context, index) => AccountTile(
+                                  includeMenu: true,
+                                  onOptionsMenuSelected: () {
+                                    showModalBottomSheet(
+                                      showDragHandle: true,
+                                      context: context,
+                                      builder: (context) => SafeArea(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ListTile(
+                                              onTap: () async {
+                                                final String? nameResult =
+                                                    await Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      UpdateAccountAliasScreen(
+                                                          account: widget
+                                                              .accountsController
+                                                              .accounts[index]),
+                                                ));
+
+                                                Account updatedAccount = widget
+                                                    .accountsController
+                                                    .accounts[index]
+                                                    .copyWith(
+                                                        alias: nameResult);
+                                                await widget.accountsController
+                                                    .updateAccount(
+                                                        index, updatedAccount);
+                                                if (updatedAccount.address ==
+                                                    widget
+                                                        .currentAccountController
+                                                        .connectedAccount
+                                                        ?.address) {
+                                                  widget
+                                                      .currentAccountController
+                                                      .updateAccount(
+                                                          updatedAccount);
+                                                }
+                                              },
+                                              leading: Icon(Icons.edit),
+                                              title: Text('Edit account name'),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  isSelected: widget.currentAccountController
+                                          .connectedAccount?.accountIndex ==
+                                      widget.accountsController.accounts[index]
+                                          .accountIndex,
+                                  onSelected: ()async {
+                                    await widget.settingsController.changeCurrentAccountIndex(widget.accountsController.accounts[index].accountIndex);
+                                    widget.currentAccountController.updateAccount(widget.accountsController.accounts[index]);
+                                  },
+                                  account: widget
+                                      .accountsController.accounts[index]));
+                        });
+                  }),
             ),
             Padding(
               padding: AppSpacings.horizontalPadding,

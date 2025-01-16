@@ -30,7 +30,10 @@ class NetworksList extends StatelessWidget {
           children: [
             TextField(
               controller: filterController,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
+              decoration: const InputDecoration(
+                labelText: 'Search',
+                suffixIcon: Icon(Icons.search),
+                border: OutlineInputBorder()),
               onChanged: (value) {
                 networksController.filterNetworks(value);
               },

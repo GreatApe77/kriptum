@@ -20,6 +20,7 @@ class AccountTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onSelected,
       selected: isSelected,
       leading: Jazzicon.getIconWidget(
         Jazzicon.getJazziconData(20, address: account.address),
