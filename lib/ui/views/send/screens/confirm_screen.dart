@@ -87,7 +87,7 @@ class ConfirmScreen extends StatelessWidget {
                             currentAccountController.connectedAccount?.address),
                   ),
                   title: Text(
-                    'Account ${currentAccountController.connectedAccount!.accountIndex + 1}',
+                    '${currentAccountController.connectedAccount!.alias ?? currentAccountController.connectedAccount!.accountIndex + 1}',
                   ),
                   subtitle: Text('${formatAddress(
                     currentAccountController.connectedAccount!.address,

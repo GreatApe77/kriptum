@@ -7,7 +7,6 @@ import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 
 class ReceivePage extends StatefulWidget {
-  
   final CurrentAccountController currentAccountController;
 
   ReceivePage({
@@ -35,7 +34,7 @@ class _ReceivePageState extends State<ReceivePage> {
                   children: [
                     const Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Receive',
@@ -44,24 +43,31 @@ class _ReceivePageState extends State<ReceivePage> {
                         Text('Network')
                       ],
                     )),
-                    IconButton(onPressed: () {
-                      Navigator.pop(context);
-                    }, icon: const Icon(Icons.close))
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.close))
                   ],
                 ),
-                const SizedBox(height: 24,),
+                const SizedBox(
+                  height: 24,
+                ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SegmentedButton(onSelectionChanged: (p0) {}, segments: const [
-                      ButtonSegment<int>(
-                          value: 1, label: Text('Scan QR code')),
-                      ButtonSegment<int>(
-                          value: 2, label: Text('Your QR code'))
-                    ], selected: const {
-                      2
-                    }),
+                    SegmentedButton(
+                        onSelectionChanged: (p0) {},
+                        segments: const [
+                          ButtonSegment<int>(
+                              value: 1, label: Text('Scan QR code')),
+                          ButtonSegment<int>(
+                              value: 2, label: Text('Your QR code'))
+                        ],
+                        selected: const {
+                          2
+                        }),
                   ],
                 ),
                 const SizedBox(
@@ -73,10 +79,10 @@ class _ReceivePageState extends State<ReceivePage> {
                       child: Container(
                         color: Colors.white,
                         child: QrImageView(
-                          data: widget.currentAccountController.connectedAccount!.address,
+                          data: widget.currentAccountController
+                              .connectedAccount!.address,
                           version: QrVersions.auto,
                           size: 250.0,
-
                         ),
                       ),
                     )),
@@ -84,7 +90,7 @@ class _ReceivePageState extends State<ReceivePage> {
                   child: Column(
                     children: [
                       Text(
-                        'Account ${widget.currentAccountController.connectedAccount!.accountIndex + 1}',
+                        '${widget.currentAccountController.connectedAccount?.alias ?? widget.currentAccountController.connectedAccount!.accountIndex + 1}',
                         style: const TextStyle(fontSize: 20),
                       ),
                       const SizedBox(
@@ -100,7 +106,8 @@ class _ReceivePageState extends State<ReceivePage> {
                       TextButton.icon(
                         onPressed: () =>
                             copyToClipboardController.copyToClipboard(
-                          content: widget.currentAccountController.connectedAccount!.address,
+                          content: widget.currentAccountController
+                              .connectedAccount!.address,
                           onCopied: (content) {
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -122,4 +129,3 @@ class _ReceivePageState extends State<ReceivePage> {
     );
   }
 }
-

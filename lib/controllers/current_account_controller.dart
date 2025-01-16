@@ -15,4 +15,8 @@ class CurrentAccountController extends ChangeNotifier {
     _connectedAccount = await _accountRepository.getAccount(accountIndex);
     notifyListeners();
   }
+  void updateAccount(Account account){
+    _connectedAccount = account;
+    notifyListeners();
+  }
 }

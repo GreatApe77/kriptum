@@ -37,4 +37,14 @@ class AccountRepositoryDbImpl implements AccountRepository {
         )
         .toList();
   }
+
+  @override
+  Future<void> updateAccount(int index, Account account) async {
+    final database = await SqliteDatabase().db;
+    
+        await database.update(AccountsTable.table, account.toMap(),
+        where: '${AccountsTable.accountIndexColumn} = ?',
+        whereArgs: [index]);
+
+  }
 }

@@ -22,4 +22,10 @@ class AccountRepositoryMemoryImpl implements AccountRepository {
   Future<List<Account>> getAccounts() {
     return Future.value([]);
   }
+  
+  @override
+  Future<void> updateAccount(int index, Account account) {
+    // TODO: implement updateAccount
+    throw UnimplementedError();
+  }
 }

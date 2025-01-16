@@ -65,7 +65,7 @@ class SendPage extends StatelessWidget {
                       Flexible(
                         child: ListTile(
                           title: Text(
-                              'Account ${currentAccountController.connectedAccount!.accountIndex + 1}'),
+                              '${currentAccountController.connectedAccount?.alias ?? currentAccountController.connectedAccount!.accountIndex + 1}'),
                           subtitle: Text(
                               'Balance: ${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}'),
                         ),
@@ -106,6 +106,9 @@ class SendPage extends StatelessWidget {
                   child: ListView.builder(
                 itemCount: accountsController.accounts.length,
                 itemBuilder: (context, index) => AccountTile(
+                  onOptionsMenuSelected: () {
+                    
+                  },
                     onSelected: () {},
                     account: accountsController.accounts[index]),
               )),

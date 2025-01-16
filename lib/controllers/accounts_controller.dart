@@ -17,10 +17,15 @@ class AccountsController extends ChangeNotifier {
   }):_accountRepository=accountRepository;
 
 
-  loadAccounts()async{
+  void loadAccounts()async{
     _accounts = await _accountRepository.getAccounts();
     notifyListeners();
     
+  }
+  Future<void> updateAccount(int index,Account account) async{
+    _accounts[index] = account;
+    await _accountRepository.updateAccount(account.accountIndex,account);
+    notifyListeners();
   }
 
 

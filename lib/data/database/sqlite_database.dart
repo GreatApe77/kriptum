@@ -38,8 +38,9 @@ class SqliteDatabase {
     await db.execute('''
         CREATE TABLE ${AccountsTable.table}(
           ${AccountsTable.accountIndexColumn} INTEGER PRIMARY KEY,
-          ${AccountsTable.addressColumn} TEXT,
-          ${AccountsTable.encryptedJsonWalletColumn} TEXT
+          ${AccountsTable.addressColumn} VARCHAR(255),
+          ${AccountsTable.encryptedJsonWalletColumn} TEXT,
+          ${AccountsTable.aliasColumn} VARCHAR(255)
         );
 
       ''');

@@ -5,21 +5,25 @@ class Account {
   int accountIndex;
   String address;
   String encryptedJsonWallet;
+  String? alias;
   Account({
     required this.accountIndex,
     required this.address,
     required this.encryptedJsonWallet,
+    this.alias,
   });
 
   Account copyWith({
     int? accountIndex,
     String? address,
     String? encryptedJsonWallet,
+    String? alias,
   }) {
     return Account(
       accountIndex: accountIndex ?? this.accountIndex,
       address: address ?? this.address,
       encryptedJsonWallet: encryptedJsonWallet ?? this.encryptedJsonWallet,
+      alias: alias ?? this.alias,
     );
   }
 
@@ -28,6 +32,7 @@ class Account {
       'accountIndex': accountIndex,
       'address': address,
       'encryptedJsonWallet': encryptedJsonWallet,
+      'alias': alias,
     };
   }
 
@@ -36,6 +41,7 @@ class Account {
       accountIndex: map['accountIndex'] as int,
       address: map['address'] as String,
       encryptedJsonWallet: map['encryptedJsonWallet'] as String,
+      alias: map['alias'] != null ? map['alias'] as String : null,
     );
   }
 
@@ -44,7 +50,9 @@ class Account {
   factory Account.fromJson(String source) => Account.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Account(accountIndex: $accountIndex, address: $address, encryptedJsonWallet: $encryptedJsonWallet)';
+  String toString() {
+    return 'Account(accountIndex: $accountIndex, address: $address, encryptedJsonWallet: $encryptedJsonWallet, alias: $alias)';
+  }
 
   @override
   bool operator ==(covariant Account other) {
@@ -53,9 +61,15 @@ class Account {
     return 
       other.accountIndex == accountIndex &&
       other.address == address &&
-      other.encryptedJsonWallet == encryptedJsonWallet;
+      other.encryptedJsonWallet == encryptedJsonWallet &&
+      other.alias == alias;
   }
 
   @override
-  int get hashCode => accountIndex.hashCode ^ address.hashCode ^ encryptedJsonWallet.hashCode;
+  int get hashCode {
+    return accountIndex.hashCode ^
+      address.hashCode ^
+      encryptedJsonWallet.hashCode ^
+      alias.hashCode;
+  }
 }
