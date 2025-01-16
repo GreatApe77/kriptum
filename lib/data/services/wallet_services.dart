@@ -17,6 +17,17 @@ class AccountFromMnemonicParams {
   });
 }
 
+class AccountsFromMnemonicParams {
+  final String mnemonic;
+  final String encryptionPassword;
+  int amount;
+
+  AccountsFromMnemonicParams(
+      {required this.mnemonic,
+      required this.encryptionPassword,
+      this.amount = 20});
+}
+
 class DecryptAccountWithPasswordParams {
   final String password;
   final String encryptedJsonAccount;
@@ -42,15 +53,46 @@ class WalletServices {
     }
   }
 
+  static Future<List<Account>> generateAccountsFromMnemonic(
+      AccountsFromMnemonicParams params) {
+    final accounts = <Account>[];
+    final seed = bip39.mnemonicToSeed(params.mnemonic);
+    final hdWallet = HDWallet.fromSeed(seed: seed);
+    final keys = [];
+    for (int i = 0; i < params.amount; i++) {
+      keys.add(hdWallet.deriveKey(
+          purpose: Purpose.BIP44,
+          coinType: 60,
+          account: 0,
+          change: 0,
+          index: i));
+      final ethPrivateKey =
+          EthPrivateKey.fromHex(HEX.encode(keys[i].privKeyBytes!));
+      final address = ethPrivateKey.address.hex;
+      final String encryptedAccount = Wallet.createNew(
+              ethPrivateKey, params.encryptionPassword, Random.secure())
+          .toJson();
+
+      Account account = Account(
+          alias: 'Account ${i + 1}',
+          accountIndex: i,
+          address: address,
+          encryptedJsonWallet: encryptedAccount);
+      accounts.add(account);
+    }
+    return Future.value(accounts);
+  }
+
   Future<BigInt> getBalance(String address,
       {String rpcEndpoint = 'http://10.0.2.2:8545'}) async {
     final httpClient = Client();
     final ethClient = Web3Client(rpcEndpoint, httpClient);
-    
+
     final balance =
         await ethClient.getBalance(EthereumAddress.fromHex(address));
     return balance.getInWei;
   }
+
   static Future<Account> getAccountFromMnemonic(
       AccountFromMnemonicParams params) {
     if (!bip39.validateMnemonic(params.mnemonic)) {
@@ -71,7 +113,7 @@ class WalletServices {
             ethPrivateKey, params.encryptionPassword, Random.secure())
         .toJson();
     Account account = Account(
-        alias: 'Account ${params.index+1}' ,
+        alias: 'Account ${params.index + 1}',
         address: address,
         encryptedJsonWallet: encryptedAccount,
         accountIndex: params.index);
@@ -149,7 +191,21 @@ class WalletServices {
   }
 }
 
-void main(List<String> args) async {
+void main(List<String> args)async  {
+  WalletServices w = WalletServices();
+  String hardhatMnemonic =
+      'test test test test test test test test test test test junk';
+  String mnemonic = w.generateMnemonic();
+  final accounts = await WalletServices.generateAccountsFromMnemonic(
+      AccountsFromMnemonicParams(
+          mnemonic: hardhatMnemonic, encryptionPassword: 'senha'));
+
+  accounts.forEach((element) {
+    print(element);
+  },);
+}
+
+void a(List<String> args) async {
   final myEthAddress = "0x8274Cf5D8bFE3f5cb246bd8fA80dB31D544C5f30";
   final ganacheAddress = "0xAa790f8885B45d9bd427DCB9B0fcEbCaF7a77Ec4";
 
