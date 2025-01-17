@@ -4,6 +4,7 @@ import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/send/send_amount_controller.dart';
+import 'package:kriptum/controllers/send/send_transaction_controller.dart';
 import 'package:kriptum/controllers/send/to_address_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
@@ -21,13 +22,14 @@ class AmountScreen extends StatelessWidget {
   final SendAmountController sendAmountController;
   final CurrentAccountController currentAccountController;
   final ToAddressController toAddressController;
+  final SendTransactionController sendTransactionController;
   AmountScreen(
       {super.key,
       required this.accountBalanceController,
       required this.currentNetworkController,
       required this.sendAmountController,
       required this.currentAccountController,
-      required this.toAddressController});
+      required this.toAddressController, required this.sendTransactionController});
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +132,7 @@ class AmountScreen extends StatelessWidget {
     }
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => ConfirmScreen(
+        sendTransactionController: sendTransactionController,
         toAddressController: toAddressController,
         accountBalanceController: accountBalanceController,
         currentAccountController: currentAccountController,

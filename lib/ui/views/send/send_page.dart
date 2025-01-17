@@ -6,6 +6,7 @@ import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/send/send_amount_controller.dart';
+import 'package:kriptum/controllers/send/send_transaction_controller.dart';
 import 'package:kriptum/controllers/send/to_address_controller.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
@@ -24,6 +25,7 @@ class SendPage extends StatelessWidget {
   final CurrentNetworkController currentNetworkController;
   final SendAmountController sendAmountController;
   final ToAddressController toAddressController;
+  final SendTransactionController sendTransactionController;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   SendPage(
       {super.key,
@@ -32,7 +34,8 @@ class SendPage extends StatelessWidget {
       required this.currentNetworkController,
       required this.accountBalanceController,
       required this.sendAmountController,
-      required this.toAddressController});
+      required this.toAddressController,
+      required this.sendTransactionController});
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +145,7 @@ class SendPage extends StatelessWidget {
     if (!formKey.currentState!.validate()) return;
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => AmountScreen(
+          sendTransactionController: sendTransactionController,
           toAddressController: toAddressController,
           currentAccountController: currentAccountController,
           sendAmountController: sendAmountController,

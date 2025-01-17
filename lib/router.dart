@@ -9,6 +9,7 @@ import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/send/send_amount_controller.dart';
+import 'package:kriptum/controllers/send/send_transaction_controller.dart';
 import 'package:kriptum/controllers/send/to_address_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
@@ -97,6 +98,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.send,
     builder: (context, state) => SendPage(
+      sendTransactionController: locator.get<SendTransactionController>(),
       toAddressController: locator.get<ToAddressController>(),
       sendAmountController: locator.get<SendAmountController>(),
       currentNetworkController: locator.get<CurrentNetworkController>(),

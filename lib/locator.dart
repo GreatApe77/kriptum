@@ -9,6 +9,7 @@ import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/send/send_amount_controller.dart';
+import 'package:kriptum/controllers/send/send_transaction_controller.dart';
 import 'package:kriptum/controllers/send/to_address_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/controllers/unlock_wallet_controller.dart';
@@ -29,7 +30,9 @@ Future<void> setup() async {
   locator.registerSingleton<AccountRepository>(AccountRepositoryDbImpl());
 
   locator.registerLazySingleton<WalletServices>(() => WalletServices());
-  locator.registerFactory<CreateWalletStepsController>(() => CreateWalletStepsController(),);
+  locator.registerFactory<CreateWalletStepsController>(
+    () => CreateWalletStepsController(),
+  );
   locator.registerLazySingleton<CreateNewWalletController>(
     () => CreateNewWalletController(
       accountRepository: locator.get<AccountRepository>(),
@@ -89,7 +92,8 @@ Future<void> setup() async {
   locator.registerFactory<ToAddressController>(
     () => ToAddressController(),
   );
-  locator.registerSingleton<PasswordController>(
-    PasswordController()
+  locator.registerSingleton<PasswordController>(PasswordController());
+  locator.registerFactory<SendTransactionController>(
+    () => SendTransactionController(),
   );
 }
