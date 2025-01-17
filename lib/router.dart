@@ -53,6 +53,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.createNewWallet,
     builder: (context, state) => CreateNewWalletPage(
+      passwordController: locator.get<PasswordController>(),
       settingsController: locator.get<SettingsController>(),
       createNewWalletController: locator.get<CreateNewWalletController>(),
       stepController: locator.get<CreateWalletStepsController>(),
@@ -61,6 +62,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.importWallet,
     builder: (context, state) => ImportWalletPage(
+      passwordController: locator.get<PasswordController>(),
       settingsController: locator.get<SettingsController>(),
       importWalletController: locator.get<ImportWalletController>(),
     ),
@@ -86,6 +88,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.settings,
     builder: (context, state) => SettingsPage(
+      passwordController: locator.get<PasswordController>(),
       currentNetworkController: locator.get<CurrentNetworkController>(),
       networksController: locator.get<NetworksController>(),
       settingsController: locator.get<SettingsController>(),
@@ -114,6 +117,14 @@ final router = GoRouter(
           !isCreatingWallet &&
           !inSetupPage) {
         return AppRoutes.setup;
+      }
+      final isUnlockingWallet = state.fullPath == AppRoutes.unlockWallet;
+      if(!isUnlockingWallet
+        && !inSetupPage
+        && !isCreatingWallet
+        
+       && settingsController.settings.isLockedWallet){
+        return AppRoutes.unlockWallet;
       }
       return null;
     },

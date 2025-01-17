@@ -5,11 +5,13 @@ class Settings {
   int lastConnectedIndex;
   bool isDarkTheme;
   bool containsWallet;
+  bool isLockedWallet;
   int lastConnectedChainId;
   Settings({
     required this.lastConnectedIndex,
     required this.isDarkTheme,
     required this.containsWallet,
+    required this.isLockedWallet,
     required this.lastConnectedChainId,
   });
   
@@ -18,12 +20,14 @@ class Settings {
     int? lastConnectedIndex,
     bool? isDarkTheme,
     bool? containsWallet,
+    bool? isLockedWallet,
     int? lastConnectedChainId,
   }) {
     return Settings(
       lastConnectedIndex: lastConnectedIndex ?? this.lastConnectedIndex,
       isDarkTheme: isDarkTheme ?? this.isDarkTheme,
       containsWallet: containsWallet ?? this.containsWallet,
+      isLockedWallet: isLockedWallet ?? this.isLockedWallet,
       lastConnectedChainId: lastConnectedChainId ?? this.lastConnectedChainId,
     );
   }
@@ -33,6 +37,7 @@ class Settings {
       'lastConnectedIndex': lastConnectedIndex,
       'isDarkTheme': isDarkTheme,
       'containsWallet': containsWallet,
+      'isLockedWallet': isLockedWallet,
       'lastConnectedChainId': lastConnectedChainId,
     };
   }
@@ -42,6 +47,7 @@ class Settings {
       lastConnectedIndex: map['lastConnectedIndex'] as int,
       isDarkTheme: map['isDarkTheme'] as bool,
       containsWallet: map['containsWallet'] as bool,
+      isLockedWallet: map['isLockedWallet'] as bool,
       lastConnectedChainId: map['lastConnectedChainId'] as int,
     );
   }
@@ -52,7 +58,7 @@ class Settings {
 
   @override
   String toString() {
-    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, lastConnectedChainId: $lastConnectedChainId)';
+    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, isLockedWallet: $isLockedWallet, lastConnectedChainId: $lastConnectedChainId)';
   }
 
   @override
@@ -63,6 +69,7 @@ class Settings {
       other.lastConnectedIndex == lastConnectedIndex &&
       other.isDarkTheme == isDarkTheme &&
       other.containsWallet == containsWallet &&
+      other.isLockedWallet == isLockedWallet &&
       other.lastConnectedChainId == lastConnectedChainId;
   }
 
@@ -71,6 +78,7 @@ class Settings {
     return lastConnectedIndex.hashCode ^
       isDarkTheme.hashCode ^
       containsWallet.hashCode ^
+      isLockedWallet.hashCode ^
       lastConnectedChainId.hashCode;
   }
 }

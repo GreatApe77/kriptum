@@ -83,6 +83,7 @@ class UnlockWalletPage extends StatelessWidget {
   void _triggerEraseWallet(BuildContext context) async {
     await eraseWalletController.eraseWallet();
     await settingsController.clearWalletConfig();
+    if(!context.mounted) return;
     GoRouter.of(context).pushReplacement(AppRoutes.setup);
   }
 
@@ -120,8 +121,10 @@ class UnlockWalletPage extends StatelessWidget {
       password: passwordTextController.text,
       accountIndex: settingsController.settings.lastConnectedIndex,
       onWrongPassword: () => _onWrongPassword(context),
-      onSuccess: () {
+      onSuccess: ()  async{
         passwordController.setPassord(passwordTextController.text);
+        await settingsController.setIsLockedWallet(false);
+        if(!context.mounted) return;
         GoRouter.of(context).pushReplacement(AppRoutes.home);
       },
     );

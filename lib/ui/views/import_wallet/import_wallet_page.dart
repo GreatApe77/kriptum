@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:kriptum/controllers/import_wallet_controller.dart';
+import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
@@ -14,12 +15,14 @@ import 'package:kriptum/ui/views/import_wallet/controllers/mnemonic_validator_co
 
 //test test test test test test test test test test test junk
 class ImportWalletPage extends StatelessWidget {
+  final PasswordController passwordController;
   final ImportWalletController importWalletController;
   final SettingsController settingsController;
   ImportWalletPage({
     super.key,
     required this.importWalletController,
     required this.settingsController,
+    required this.passwordController,
   });
   final GlobalKey<FormState> formKey = GlobalKey();
   final mnemonicTextController = TextEditingController();
@@ -117,15 +120,16 @@ class ImportWalletPage extends StatelessWidget {
       password: passwordTextController.text,
       onError: () {
         ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.red,
-              content: Text('Something went wrong!')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+            content: Text('Something went wrong!')));
       },
       onSuccess: () async {
         await settingsController.setContainsWallet(true);
         await settingsController.changeCurrentAccountIndex(0);
+        await settingsController.setIsLockedWallet(false);
+        passwordController.setPassord(passwordTextController.text);
         if (!context.mounted) return;
         GoRouter.of(context).pushReplacement(AppRoutes.home);
       },

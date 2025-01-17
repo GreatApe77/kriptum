@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
+import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
@@ -12,11 +13,13 @@ class CreateNewWalletPage extends StatelessWidget {
   final SettingsController _settingsController;
   final CreateWalletStepsController _createWalletStepsController;
   final CreateNewWalletController _createNewWalletController;
+  final PasswordController passwordController;
   const CreateNewWalletPage(
       {super.key,
       required CreateWalletStepsController stepController,
       required CreateNewWalletController createNewWalletController,
-      required SettingsController settingsController})
+      required SettingsController settingsController,
+      required this.passwordController})
       : _settingsController = settingsController,
         _createWalletStepsController = stepController,
         _createNewWalletController = createNewWalletController;
@@ -27,6 +30,7 @@ class CreateNewWalletPage extends StatelessWidget {
       Padding(
           padding: AppSpacings.horizontalPadding,
           child: CreatePasswordStep1Screen(
+            passwordController: passwordController,
             settingsController: _settingsController,
             stepController: _createWalletStepsController,
             createNewWalletController: _createNewWalletController,
@@ -39,6 +43,7 @@ class CreateNewWalletPage extends StatelessWidget {
       Padding(
           padding: AppSpacings.horizontalPadding,
           child: WriteOnPaperStep3Screen(
+            settingsController: _settingsController,
             createNewWalletController: _createNewWalletController,
             stepController: _createWalletStepsController,
           )),

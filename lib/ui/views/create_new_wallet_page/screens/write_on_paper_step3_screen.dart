@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
+import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/widgets/linear_check_in_progress_bar.dart';
@@ -11,10 +12,12 @@ final exampleMnemonic =
 class WriteOnPaperStep3Screen extends StatelessWidget {
   final CreateWalletStepsController _createWalletStepsController;
   final CreateNewWalletController _createNewWalletController;
+  final SettingsController settingsController;
   const WriteOnPaperStep3Screen(
       {super.key,
       required CreateWalletStepsController stepController,
-      required CreateNewWalletController createNewWalletController})
+      required CreateNewWalletController createNewWalletController,
+      required this.settingsController})
       : _createWalletStepsController = stepController,
         _createNewWalletController = createNewWalletController;
 
@@ -94,9 +97,10 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
     );
   }
 
-  void _triggerSaveAccount(BuildContext context)async {
+  void _triggerSaveAccount(BuildContext context) async {
     await _createNewWalletController.saveAccounts();
-    if(!context.mounted) return;
+    await settingsController.setIsLockedWallet(false);
+    if (!context.mounted) return;
     GoRouter.of(context).pushReplacement(AppRoutes.home);
   }
 }

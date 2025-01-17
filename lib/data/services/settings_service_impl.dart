@@ -23,11 +23,14 @@ class SettingsServiceImpl implements SettingsService {
     int? currentAccountIndex = sh.getInt('currentAccountIndex');
     bool? containsWallet = sh.getBool('containsWallet');
     int? lastConnectedChainId = sh.getInt('lastConnectedChainId');
+    bool? isLockedWallet = sh.getBool('isLockedWallet');
     return Settings(
         lastConnectedIndex: currentAccountIndex ?? 0,
         isDarkTheme: isDarkTheme ?? false,
         containsWallet: containsWallet ?? false,
-        lastConnectedChainId: lastConnectedChainId ?? 1337);
+        lastConnectedChainId: lastConnectedChainId ?? 1337,
+        isLockedWallet: isLockedWallet ?? true
+        );
   }
 
   @override
@@ -52,5 +55,11 @@ class SettingsServiceImpl implements SettingsService {
   Future<void> clearSettings() async{
      final sh = await SharedPreferences.getInstance();
      await sh.clear();
+  }
+  
+  @override
+  Future<void> setIsLockedWallet(bool isLockedWallet)async {
+    final sh = await SharedPreferences.getInstance();
+    await sh.setBool('isLockedWallet', isLockedWallet);
   }
 }

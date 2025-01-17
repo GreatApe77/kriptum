@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
+import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/data/repositories/networks/network_repository.dart';
+import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/settings/screens/general_screen.dart';
 import 'package:kriptum/ui/views/settings/screens/networks/networks_screen.dart';
 import 'package:kriptum/ui/views/settings/widgets/settings_submenu_card.dart';
 
 class SettingsPage extends StatelessWidget {
+  final PasswordController passwordController;
   final SettingsController settingsController;
   final NetworksController networksController;
   final CurrentNetworkController currentNetworkController;
-  SettingsPage(
+  const SettingsPage(
       {super.key,
-      
       required this.settingsController,
-      required this.networksController, required this.currentNetworkController});
+      required this.networksController,
+      required this.currentNetworkController,
+      required this.passwordController});
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +48,20 @@ class SettingsPage extends StatelessWidget {
                 settingsController: settingsController,
               ),
             )),
+          ),
+          ListTile(
+            title: Text('Lock Wallet'),
+            onTap: () => _triggerLockWallet(context),
           )
         ],
       ),
     );
+  }
+
+  void _triggerLockWallet(BuildContext context) async {
+    passwordController.clearPassword();
+    await settingsController.setIsLockedWallet(true);
+    if (!context.mounted) return;
+    GoRouter.of(context).go(AppRoutes.unlockWallet);
   }
 }
