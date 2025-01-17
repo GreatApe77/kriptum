@@ -1,31 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
+import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 
 class MainBalanceView extends StatelessWidget {
   final AccountBalanceController accountBalanceController;
-  const MainBalanceView({super.key, required this.accountBalanceController});
+  final SettingsController settingsController;
+  const MainBalanceView(
+      {super.key,
+      required this.accountBalanceController,
+      required this.settingsController});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ListenableBuilder(
-            listenable: accountBalanceController,
+            listenable: settingsController,
             builder: (context, child) {
-              return Flexible(
-                child: Text(
-                  accountBalanceController.isLoading
-                      ? 'Loading...'
-                      : formatEther(accountBalanceController.balance),
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 36),
-                ),
-              );
+              if (settingsController.settings.hideBalance) {
+                return Flexible(
+                    child: Text('••••••••', style: TextStyle(fontSize: 36)));
+              }
+              return ListenableBuilder(
+                  listenable: accountBalanceController,
+                  builder: (context, child) {
+                    if (accountBalanceController.isLoading) {
+                      return const Flexible(
+                          child: Text('Loading...',
+                              style: TextStyle(fontSize: 36)));
+                    }
+                    if (accountBalanceController.failed) {
+                      return const Flexible(
+                          child: Text('Error!',
+                              style:
+                                  TextStyle(fontSize: 36, color: Colors.red)));
+                    }
+                    return Flexible(
+                      child: Text(
+                        formatEther(accountBalanceController.balance),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 36),
+                      ),
+                    );
+                  });
             }),
         IconButton(
-            onPressed: () {}, icon: const Icon(Icons.remove_red_eye_rounded))
+            onPressed: () async {
+              await settingsController
+                  .setHideBalance(!settingsController.settings.hideBalance);
+            },
+            icon: ListenableBuilder(
+                listenable: settingsController,
+                builder: (context, child) {
+                  if (settingsController.settings.hideBalance) {
+                    return const Icon(Icons.visibility_off_rounded);
+                  }
+                  return const Icon(Icons.visibility_rounded);
+                }))
       ],
     );
   }

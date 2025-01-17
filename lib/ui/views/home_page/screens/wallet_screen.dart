@@ -56,7 +56,7 @@ class _WalletScreenState extends State<WalletScreen> {
     super.dispose();
     widget.currentNetworkController.removeListener(_onNetworkChange);
   }
-  
+
   void _loadAccounts() async {
     widget.accountsController.loadAccounts();
   }
@@ -139,6 +139,7 @@ class _WalletScreenState extends State<WalletScreen> {
           padding: AppSpacings.horizontalPadding,
           margin: const EdgeInsets.symmetric(vertical: 20),
           child: MainBalanceView(
+              settingsController: widget.settingsController,
               accountBalanceController: widget.accountBalanceController)),
     );
   }
@@ -260,7 +261,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                                       .updateAccount(
                                                           updatedAccount);
                                                 }
-                                                if(!context.mounted) return;
+                                                if (!context.mounted) return;
                                                 Navigator.of(context).pop();
                                               },
                                               leading: Icon(Icons.edit),
@@ -275,13 +276,25 @@ class _WalletScreenState extends State<WalletScreen> {
                                           .connectedAccount?.accountIndex ==
                                       widget.accountsController.accounts[index]
                                           .accountIndex,
-                                  onSelected: ()async {
-                                    await widget.settingsController.changeCurrentAccountIndex(widget.accountsController.accounts[index].accountIndex);
-                                    widget.currentAccountController.updateAccount(widget.accountsController.accounts[index]);
-                                    final account = widget.currentAccountController.connectedAccount;
-                                    final network = widget.currentNetworkController.currentConnectedNetwork;
-                                    widget.accountBalanceController.loadAccountBalance(account!.address, network!);
-                                    if(!context.mounted) return;
+                                  onSelected: () async {
+                                    await widget.settingsController
+                                        .changeCurrentAccountIndex(widget
+                                            .accountsController
+                                            .accounts[index]
+                                            .accountIndex);
+                                    widget.currentAccountController
+                                        .updateAccount(widget.accountsController
+                                            .accounts[index]);
+                                    final account = widget
+                                        .currentAccountController
+                                        .connectedAccount;
+                                    final network = widget
+                                        .currentNetworkController
+                                        .currentConnectedNetwork;
+                                    widget.accountBalanceController
+                                        .loadAccountBalance(
+                                            account!.address, network!);
+                                    if (!context.mounted) return;
                                     Navigator.of(context).pop();
                                   },
                                   account: widget

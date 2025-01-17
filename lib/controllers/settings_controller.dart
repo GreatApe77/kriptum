@@ -75,4 +75,9 @@ class SettingsController extends ChangeNotifier implements LateInitializable {
     await settingsService.setLastConnectedNetworkId(networkId);
     notifyListeners();
   }
+  Future<void> setHideBalance(bool hideBalance) async {
+    _settings.hideBalance = hideBalance;
+    await settingsService.setHideBalance(hideBalance);
+    notifyListeners();
+  }
 }

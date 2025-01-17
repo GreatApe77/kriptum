@@ -6,12 +6,14 @@ class Settings {
   bool isDarkTheme;
   bool containsWallet;
   bool isLockedWallet;
+  bool hideBalance;
   int lastConnectedChainId;
   Settings({
     required this.lastConnectedIndex,
     required this.isDarkTheme,
     required this.containsWallet,
     required this.isLockedWallet,
+    required this.hideBalance,
     required this.lastConnectedChainId,
   });
   
@@ -21,6 +23,7 @@ class Settings {
     bool? isDarkTheme,
     bool? containsWallet,
     bool? isLockedWallet,
+    bool? hideBalance,
     int? lastConnectedChainId,
   }) {
     return Settings(
@@ -28,6 +31,7 @@ class Settings {
       isDarkTheme: isDarkTheme ?? this.isDarkTheme,
       containsWallet: containsWallet ?? this.containsWallet,
       isLockedWallet: isLockedWallet ?? this.isLockedWallet,
+      hideBalance: hideBalance ?? this.hideBalance,
       lastConnectedChainId: lastConnectedChainId ?? this.lastConnectedChainId,
     );
   }
@@ -38,6 +42,7 @@ class Settings {
       'isDarkTheme': isDarkTheme,
       'containsWallet': containsWallet,
       'isLockedWallet': isLockedWallet,
+      'hideBalance': hideBalance,
       'lastConnectedChainId': lastConnectedChainId,
     };
   }
@@ -48,6 +53,7 @@ class Settings {
       isDarkTheme: map['isDarkTheme'] as bool,
       containsWallet: map['containsWallet'] as bool,
       isLockedWallet: map['isLockedWallet'] as bool,
+      hideBalance: map['hideBalance'] as bool,
       lastConnectedChainId: map['lastConnectedChainId'] as int,
     );
   }
@@ -58,7 +64,7 @@ class Settings {
 
   @override
   String toString() {
-    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, isLockedWallet: $isLockedWallet, lastConnectedChainId: $lastConnectedChainId)';
+    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, isLockedWallet: $isLockedWallet, hideBalance: $hideBalance, lastConnectedChainId: $lastConnectedChainId)';
   }
 
   @override
@@ -70,6 +76,7 @@ class Settings {
       other.isDarkTheme == isDarkTheme &&
       other.containsWallet == containsWallet &&
       other.isLockedWallet == isLockedWallet &&
+      other.hideBalance == hideBalance &&
       other.lastConnectedChainId == lastConnectedChainId;
   }
 
@@ -79,6 +86,7 @@ class Settings {
       isDarkTheme.hashCode ^
       containsWallet.hashCode ^
       isLockedWallet.hashCode ^
+      hideBalance.hashCode ^
       lastConnectedChainId.hashCode;
   }
 }

@@ -5,6 +5,8 @@ import 'package:kriptum/shared/utils/memory_cache.dart';
 import 'package:kriptum/shared/utils/memory_cache_key_builders.dart';
 
 class AccountBalanceController extends ChangeNotifier {
+  
+  bool failed = false;
   bool isLoading = false;
   BigInt balance = BigInt.from(0);
   final WalletServices _walletServices;
@@ -13,21 +15,28 @@ class AccountBalanceController extends ChangeNotifier {
       : _walletServices = walletServices;
 
   loadAccountBalance(String accountAddress, Network network) async {
-    isLoading = true;
-    notifyListeners();
-    String key =MemoryCacheKeyBuilders.buildKeyForAccountBalanceCache(
-            accountAddress: accountAddress, networkId: network.id!.toString()); 
-    BigInt? retrievedBalance = MemoryCache.get<BigInt>(key);
-    
-    if (retrievedBalance == null) {
-      
-      retrievedBalance = await _walletServices.getBalance(accountAddress,rpcEndpoint: network.rpcUrl);
-      MemoryCache.store<BigInt>(key,retrievedBalance,duration: const Duration(seconds: 120));
+    try {
+      isLoading = true;
+      failed =false;
+      notifyListeners();
+      String key = MemoryCacheKeyBuilders.buildKeyForAccountBalanceCache(
+          accountAddress: accountAddress, networkId: network.id!.toString());
+      BigInt? retrievedBalance = MemoryCache.get<BigInt>(key);
+
+      if (retrievedBalance == null) {
+        retrievedBalance = await _walletServices.getBalance(accountAddress,
+            rpcEndpoint: network.rpcUrl);
+        MemoryCache.store<BigInt>(key, retrievedBalance,
+            duration: const Duration(seconds: 120));
+      }
+      balance = retrievedBalance;
+      //balance = await _walletServices.getBalance(accountAddress,
+      //    rpcEndpoint: network.rpcUrl);
+    } catch (e) {
+      failed = true;
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
-    balance = retrievedBalance;
-    //balance = await _walletServices.getBalance(accountAddress,
-    //    rpcEndpoint: network.rpcUrl);
-    isLoading = false;
-    notifyListeners();
   }
 }

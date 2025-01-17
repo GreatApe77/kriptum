@@ -24,13 +24,14 @@ class SettingsServiceImpl implements SettingsService {
     bool? containsWallet = sh.getBool('containsWallet');
     int? lastConnectedChainId = sh.getInt('lastConnectedChainId');
     bool? isLockedWallet = sh.getBool('isLockedWallet');
+    bool? hideBalance = sh.getBool('hideBalance');
     return Settings(
+        hideBalance: hideBalance ?? false,
         lastConnectedIndex: currentAccountIndex ?? 0,
         isDarkTheme: isDarkTheme ?? false,
         containsWallet: containsWallet ?? false,
         lastConnectedChainId: lastConnectedChainId ?? 1337,
-        isLockedWallet: isLockedWallet ?? true
-        );
+        isLockedWallet: isLockedWallet ?? true);
   }
 
   @override
@@ -44,22 +45,28 @@ class SettingsServiceImpl implements SettingsService {
     final sh = await SharedPreferences.getInstance();
     await sh.remove('currentAccountIndex');
   }
-  
+
   @override
-  Future<void> setLastConnectedNetworkId(int networkId)async {
-     final sh = await SharedPreferences.getInstance();
+  Future<void> setLastConnectedNetworkId(int networkId) async {
+    final sh = await SharedPreferences.getInstance();
     await sh.setInt('lastConnectedChainId', networkId);
   }
-  
+
   @override
-  Future<void> clearSettings() async{
-     final sh = await SharedPreferences.getInstance();
-     await sh.clear();
+  Future<void> clearSettings() async {
+    final sh = await SharedPreferences.getInstance();
+    await sh.clear();
+  }
+
+  @override
+  Future<void> setIsLockedWallet(bool isLockedWallet) async {
+    final sh = await SharedPreferences.getInstance();
+    await sh.setBool('isLockedWallet', isLockedWallet);
   }
   
   @override
-  Future<void> setIsLockedWallet(bool isLockedWallet)async {
+  Future<void> setHideBalance(bool hideBalance)async {
     final sh = await SharedPreferences.getInstance();
-    await sh.setBool('isLockedWallet', isLockedWallet);
+    await sh.setBool('hideBalance', hideBalance);
   }
 }
