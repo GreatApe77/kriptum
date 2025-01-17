@@ -3,6 +3,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:hd_wallet_kit/hd_wallet_kit.dart';
 import 'package:hex/hex.dart';
 import 'package:http/http.dart';
+import 'package:kriptum/domain/models/network.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:kriptum/domain/models/account.dart';
 
@@ -91,6 +92,28 @@ class WalletServices {
     final balance =
         await ethClient.getBalance(EthereumAddress.fromHex(address));
     return balance.getInWei;
+  }
+
+  static Future<String> sendTransaction(
+      {required String encryptedJsonAccount,
+      required String password,
+      required String to,
+      required BigInt amountInWei,
+      required Network network}) async {
+    
+    final httpClient = Client();
+    final ethClient = Web3Client(network.rpcUrl, httpClient);
+    final account = Wallet.fromJson(encryptedJsonAccount, password);
+    final txHash = await ethClient.sendTransaction(
+      account.privateKey,
+      Transaction(
+        to: EthereumAddress.fromHex(to),
+        //gasPrice: EtherAmount.inWei(BigInt.one),
+
+        value: EtherAmount.fromBigInt(EtherUnit.wei, amountInWei),
+      ),
+    );
+    return txHash;
   }
 
   static Future<Account> getAccountFromMnemonic(
@@ -191,7 +214,7 @@ class WalletServices {
   }
 }
 
-void main(List<String> args)async  {
+void main(List<String> args) async {
   WalletServices w = WalletServices();
   String hardhatMnemonic =
       'test test test test test test test test test test test junk';
@@ -200,9 +223,11 @@ void main(List<String> args)async  {
       AccountsFromMnemonicParams(
           mnemonic: hardhatMnemonic, encryptionPassword: 'senha'));
 
-  accounts.forEach((element) {
-    print(element);
-  },);
+  accounts.forEach(
+    (element) {
+      print(element);
+    },
+  );
 }
 
 void a(List<String> args) async {
@@ -212,7 +237,6 @@ void a(List<String> args) async {
   final ethRpcEndpoint = 'http://127.0.0.1:8545';
   final httpClient = Client();
   final ethClient = Web3Client(ethRpcEndpoint, httpClient);
-
   final balance =
       await ethClient.getBalance(EthereumAddress.fromHex(ganacheAddress));
   print('BALANCE BEFORE: ${balance.getValueInUnit(EtherUnit.ether)}');
