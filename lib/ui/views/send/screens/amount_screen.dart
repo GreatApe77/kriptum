@@ -7,23 +7,27 @@ import 'package:kriptum/controllers/send/send_amount_controller.dart';
 import 'package:kriptum/controllers/send/to_address_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
+import 'package:kriptum/ui/shared/controllers/balance_validator_controller.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/views/send/screens/confirm_screen.dart';
 import 'package:kriptum/ui/views/send/send_page.dart';
 import 'package:kriptum/ui/views/send/widgets/page_title.dart';
 
 class AmountScreen extends StatelessWidget {
+  final TextEditingController amountTextEditingController =
+      TextEditingController();
   final AccountBalanceController accountBalanceController;
   final CurrentNetworkController currentNetworkController;
   final SendAmountController sendAmountController;
   final CurrentAccountController currentAccountController;
   final ToAddressController toAddressController;
-  const AmountScreen(
+  AmountScreen(
       {super.key,
       required this.accountBalanceController,
       required this.currentNetworkController,
       required this.sendAmountController,
-      required this.currentAccountController, required this.toAddressController});
+      required this.currentAccountController,
+      required this.toAddressController});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class AmountScreen extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Back')),
+            child: const Text('Back')),
         actions: [
           TextButton(
               onPressed: () {},
@@ -46,7 +50,7 @@ class AmountScreen extends StatelessWidget {
                   onPressed: () {
                     GoRouter.of(context).pushReplacement(AppRoutes.home);
                   },
-                  child: Text('Cancel')))
+                  child: const Text('Cancel')))
         ],
       ),
       body: SafeArea(
@@ -59,30 +63,31 @@ class AmountScreen extends StatelessWidget {
                   child: ElevatedButton.icon(
                       iconAlignment: IconAlignment.end,
                       onPressed: () {},
-                      icon: Icon(Icons.keyboard_arrow_down_rounded),
+                      icon: const Icon(Icons.keyboard_arrow_down_rounded),
                       label: Text(
                           '${currentNetworkController.currentConnectedNetwork?.name} ${currentNetworkController.currentConnectedNetwork?.ticker}')),
                 ),
                 Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                        onPressed: () {}, child: const Text('USE MAX')))
+                        onPressed: () => _useMax(), child: const Text('USE MAX')))
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 36,
             ),
             TextField(
+              controller: amountTextEditingController,
               onChanged: (value) {
                 sendAmountController.updateAmountValueInEth(value);
               },
-              keyboardType: TextInputType.numberWithOptions(),
-              style: TextStyle(fontSize: 40),
+              keyboardType: const TextInputType.numberWithOptions(),
+              style: const TextStyle(fontSize: 40),
               textAlign: TextAlign.center,
               decoration:
-                  InputDecoration(hintText: '0', border: InputBorder.none),
+                  const InputDecoration(hintText: '0', border: InputBorder.none),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Text(
@@ -94,18 +99,8 @@ class AmountScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ConfirmScreen(
-                            toAddressController: toAddressController,
-                            accountBalanceController: accountBalanceController,
-                            currentAccountController: currentAccountController,
-                            currentNetworkController: currentNetworkController,
-                            sendAmountController: sendAmountController,
-                          ),
-                        ));
-                      },
-                      child: Text('Next')),
+                      onPressed: () => _onNextStep(context),
+                      child: const Text('Next')),
                 ],
               ),
             )
@@ -113,5 +108,34 @@ class AmountScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _useMax(){
+    amountTextEditingController.text = formatEther(accountBalanceController.balance);
+    sendAmountController.updateAmountValueInEth(amountTextEditingController.text);
+  }
+  void _onNextStep(BuildContext context) {
+    if (!BalanceValidatorController.validateBalance(
+        amountTextEditingController.text, accountBalanceController.balance)) {
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+
+          const SnackBar(
+            backgroundColor: Colors.red,
+            showCloseIcon: true,
+            content: Text('Amount must not exceed account balance!')));
+
+            return;
+    }
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => ConfirmScreen(
+        toAddressController: toAddressController,
+        accountBalanceController: accountBalanceController,
+        currentAccountController: currentAccountController,
+        currentNetworkController: currentNetworkController,
+        sendAmountController: sendAmountController,
+      ),
+    ));
   }
 }

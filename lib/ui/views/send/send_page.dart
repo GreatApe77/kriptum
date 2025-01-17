@@ -7,20 +7,25 @@ import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/send/send_amount_controller.dart';
 import 'package:kriptum/controllers/send/to_address_controller.dart';
+import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
+import 'package:kriptum/ui/shared/controllers/eth_address_validator_controller.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/shared/widgets/account_tile.dart';
 import 'package:kriptum/ui/views/send/screens/amount_screen.dart';
 import 'package:kriptum/ui/views/send/widgets/page_title.dart';
 
 class SendPage extends StatelessWidget {
+  final TextEditingController ethAddressFieldController =
+      TextEditingController();
   final CurrentAccountController currentAccountController;
   final AccountBalanceController accountBalanceController;
   final AccountsController accountsController;
   final CurrentNetworkController currentNetworkController;
   final SendAmountController sendAmountController;
   final ToAddressController toAddressController;
-  const SendPage(
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  SendPage(
       {super.key,
       required this.currentAccountController,
       required this.accountsController,
@@ -80,13 +85,20 @@ class SendPage extends StatelessWidget {
                         style: TextStyle(fontSize: 22),
                       ),
                       Flexible(
-                          child: TextFormField(
-                        onChanged: (value) {
-                          toAddressController.setToAddress(value);
-                        },
-                        decoration: const InputDecoration(
-                            label: Text('Ethereum Address'),
-                            border: OutlineInputBorder()),
+                          child: Form(
+                        key: formKey,
+                        child: TextFormField(
+                          validator: (value) =>
+                              EthAddressValidatorController.validateEthAddress(
+                                  value ?? ''),
+                          controller: ethAddressFieldController,
+                          onChanged: (value) {
+                            toAddressController.setToAddress(value);
+                          },
+                          decoration: const InputDecoration(
+                              label: Text('Ethereum Address'),
+                              border: OutlineInputBorder()),
+                        ),
                       ))
                     ],
                   ),
@@ -106,29 +118,16 @@ class SendPage extends StatelessWidget {
                   child: ListView.builder(
                 itemCount: accountsController.accounts.length,
                 itemBuilder: (context, index) => AccountTile(
-                  onOptionsMenuSelected: () {
-                    
-                  },
-                    onSelected: () {},
+                    onOptionsMenuSelected: () {},
+                    onSelected: () =>
+                        _onAccountTapped(accountsController.accounts[index]),
                     account: accountsController.accounts[index]),
               )),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => AmountScreen(
-                              toAddressController: toAddressController,
-                              currentAccountController:
-                                  currentAccountController,
-                              sendAmountController: sendAmountController,
-                              accountBalanceController:
-                                  accountBalanceController,
-                              currentNetworkController:
-                                  currentNetworkController),
-                        ));
-                      },
+                      onPressed: () => _onNextStep(context),
                       child: const Text('Next')),
                 ],
               )
@@ -137,5 +136,22 @@ class SendPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onNextStep(BuildContext context) {
+    if (!formKey.currentState!.validate()) return;
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => AmountScreen(
+          toAddressController: toAddressController,
+          currentAccountController: currentAccountController,
+          sendAmountController: sendAmountController,
+          accountBalanceController: accountBalanceController,
+          currentNetworkController: currentNetworkController),
+    ));
+  }
+
+  void _onAccountTapped(Account account) {
+    ethAddressFieldController.text = account.address;
+    toAddressController.setToAddress(account.address);
   }
 }
