@@ -160,7 +160,7 @@ class ConfirmScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ElevatedButton(
+                          FilledButton(
                               onPressed: sendTransactionController.isLoading? null :() => _triggerSendTransaction(context),
                               child:  Text(sendTransactionController.isLoading?'Submitting Transaction':'Send'))
                         ],

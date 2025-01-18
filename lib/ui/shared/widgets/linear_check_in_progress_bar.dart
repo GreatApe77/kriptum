@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class LinearCheckInProgressBar extends StatelessWidget {
   final int currentDot;
-  
+
   const LinearCheckInProgressBar({
     super.key,
     required this.currentDot,
@@ -17,13 +17,18 @@ class LinearCheckInProgressBar extends StatelessWidget {
   }
 
   Widget _dot(
+    
       {required Color borderColor,
       required Color backgroundColor,
+      required Color textColor,
       required String step}) {
     return Container(
       padding: EdgeInsets.all(8),
       child: Center(
-        child: Text(step),
+        child: Text(
+          step,
+          style: TextStyle(color: textColor),
+        ),
       ),
       decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -34,25 +39,32 @@ class LinearCheckInProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).buttonTheme.colorScheme!.primary;
+    final primaryColor = Theme.of(context).colorScheme.primary;
+    final onPrimary  =Theme.of(context).colorScheme.onPrimary;
     return Column(
       children: [
         Row(
           mainAxisSize: MainAxisSize.max,
           children: [
             _dot(
+                textColor: currentDot==1?onPrimary:primaryColor,
                 borderColor: primaryColor,
-                backgroundColor:currentDot==1?primaryColor: Colors.transparent,
+                backgroundColor:
+                    currentDot == 1 ? primaryColor : Colors.transparent,
                 step: '1'),
             _line(color: Colors.grey),
             _dot(
+              textColor: currentDot==2?onPrimary:primaryColor,
                 borderColor: primaryColor,
-                backgroundColor:currentDot==2?primaryColor: Colors.transparent,
+                backgroundColor:
+                    currentDot == 2 ? primaryColor : Colors.transparent,
                 step: '2'),
             _line(color: Colors.grey),
             _dot(
+              textColor: currentDot==3?onPrimary:primaryColor,
                 borderColor: primaryColor,
-                backgroundColor:currentDot==3?primaryColor: Colors.transparent,
+                backgroundColor:
+                    currentDot == 3 ? primaryColor : Colors.transparent,
                 step: '3'),
             // Container(
             //   padding: EdgeInsets.all(8),

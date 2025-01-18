@@ -100,7 +100,7 @@ class AmountScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ElevatedButton(
+                  FilledButton(
                       onPressed: () => _onNextStep(context),
                       child: const Text('Next')),
                 ],
@@ -123,8 +123,8 @@ class AmountScreen extends StatelessWidget {
         ..clearSnackBars()
         ..showSnackBar(
 
-          const SnackBar(
-            backgroundColor: Colors.red,
+           SnackBar(
+            backgroundColor: Theme.of(context).colorScheme.error,
             showCloseIcon: true,
             content: Text('Amount must not exceed account balance!')));
 

@@ -43,10 +43,7 @@ class SetupPage extends StatelessWidget {
 
               onPressed: () => _navigateToImportWalletPage(context), child: const Text('Import using Secret Recovery Phrase')),
             const SizedBox(height: 8,),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                
-              ),
+            FilledButton(
               onPressed: () => _navigateToCreateNewWalletPage(context), child: const Text('Create a new wallet')),
             const SizedBox(height: 42,),
           ],

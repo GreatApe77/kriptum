@@ -129,7 +129,7 @@ class SendPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ElevatedButton(
+                  FilledButton(
                       onPressed: () => _onNextStep(context),
                       child: const Text('Next')),
                 ],

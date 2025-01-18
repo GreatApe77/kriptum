@@ -29,22 +29,17 @@ class SecureWalletStep2Screen extends StatelessWidget {
         const SizedBox(
           height: 24,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Secure your wallet\'s ',
-              style: TextStyle(fontSize: 16),
-            ),
-            GestureDetector(
-              onTap: () => _showSecretRecoveryPhraseDialog(context),
-              child: Text(
-                'Secret Recovery Phrase',
-                style: TextStyle(
-                    color: Theme.of(context).primaryColor, fontSize: 16),
-              ),
-            )
-          ],
+        const Text(
+          'Secure your wallet\'s ',
+          style: TextStyle(fontSize: 16),
+        ),
+        GestureDetector(
+          onTap: () => _showSecretRecoveryPhraseDialog(context),
+          child: Text(
+            'Secret Recovery Phrase',
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primary, fontSize: 16),
+          ),
         ),
         const SizedBox(
           height: 24,
@@ -68,7 +63,7 @@ class SecureWalletStep2Screen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ElevatedButton(
+                      FilledButton(
                           onPressed: () =>
                               _createWalletStepsController.nextStep(),
                           child: const Text('Start')),

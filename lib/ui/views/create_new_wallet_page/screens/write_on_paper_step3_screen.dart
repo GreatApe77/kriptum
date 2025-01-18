@@ -90,7 +90,7 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
                   })),
         ),
         const SizedBox(height: 24),
-        ElevatedButton(
+        FilledButton(
             onPressed: () => _triggerSaveAccount(context),
             child: const Text('I backed up my keys'))
       ],
