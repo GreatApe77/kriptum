@@ -231,50 +231,50 @@ class WalletServices {
   }
 }
 
-void main(List<String> args) async {
-  WalletServices w = WalletServices();
-  String hardhatMnemonic =
-      'test test test test test test test test test test test junk';
-  String mnemonic = w.generateMnemonic();
-  final accounts = await WalletServices.generateAccountsFromMnemonic(
-      AccountsFromMnemonicParams(
-          mnemonic: hardhatMnemonic, encryptionPassword: 'senha'));
+// void main(List<String> args) async {
+//   WalletServices w = WalletServices();
+//   String hardhatMnemonic =
+//       'test test test test test test test test test test test junk';
+//   String mnemonic = w.generateMnemonic();
+//   final accounts = await WalletServices.generateAccountsFromMnemonic(
+//       AccountsFromMnemonicParams(
+//           mnemonic: hardhatMnemonic, encryptionPassword: 'senha'));
 
-  accounts.forEach(
-    (element) {
-      print(element);
-    },
-  );
-}
+//   accounts.forEach(
+//     (element) {
+//       print(element);
+//     },
+//   );
+// }
 
-void a(List<String> args) async {
-  final myEthAddress = "0x8274Cf5D8bFE3f5cb246bd8fA80dB31D544C5f30";
-  final ganacheAddress = "0xAa790f8885B45d9bd427DCB9B0fcEbCaF7a77Ec4";
+// void a(List<String> args) async {
+//   final myEthAddress = "0x8274Cf5D8bFE3f5cb246bd8fA80dB31D544C5f30";
+//   final ganacheAddress = "0xAa790f8885B45d9bd427DCB9B0fcEbCaF7a77Ec4";
 
-  final ethRpcEndpoint = 'http://127.0.0.1:8545';
-  final httpClient = Client();
-  final ethClient = Web3Client(ethRpcEndpoint, httpClient);
-  final balance =
-      await ethClient.getBalance(EthereumAddress.fromHex(ganacheAddress));
-  print('BALANCE BEFORE: ${balance.getValueInUnit(EtherUnit.ether)}');
-  final result = await ethClient.sendTransaction(
-    EthPrivateKey.fromHex(
-        '0x7b4c95ceb78227b95e1fdea9d52411b22439af3823b914637eb23d4ec512f192'),
-    Transaction(
-      to: EthereumAddress.fromHex(myEthAddress),
-      //gasPrice: EtherAmount.inWei(BigInt.one),
+//   final ethRpcEndpoint = 'http://127.0.0.1:8545';
+//   final httpClient = Client();
+//   final ethClient = Web3Client(ethRpcEndpoint, httpClient);
+//   final balance =
+//       await ethClient.getBalance(EthereumAddress.fromHex(ganacheAddress));
+//   print('BALANCE BEFORE: ${balance.getValueInUnit(EtherUnit.ether)}');
+//   final result = await ethClient.sendTransaction(
+//     EthPrivateKey.fromHex(
+//         '0x7b4c95ceb78227b95e1fdea9d52411b22439af3823b914637eb23d4ec512f192'),
+//     Transaction(
+//       to: EthereumAddress.fromHex(myEthAddress),
+//       //gasPrice: EtherAmount.inWei(BigInt.one),
 
-      value: EtherAmount.fromInt(EtherUnit.finney, 2500),
-    ),
-  );
-  print('TRANSACTION HASH: ${result}');
-  final senderBalanceAfter =
-      await ethClient.getBalance(EthereumAddress.fromHex(ganacheAddress));
-  print(
-      'SENDER BALANCE AFTER: ${senderBalanceAfter.getValueInUnit(EtherUnit.ether)}');
+//       value: EtherAmount.fromInt(EtherUnit.finney, 2500),
+//     ),
+//   );
+//   print('TRANSACTION HASH: ${result}');
+//   final senderBalanceAfter =
+//       await ethClient.getBalance(EthereumAddress.fromHex(ganacheAddress));
+//   print(
+//       'SENDER BALANCE AFTER: ${senderBalanceAfter.getValueInUnit(EtherUnit.ether)}');
 
-  final receiverBalanceAfter =
-      await ethClient.getBalance(EthereumAddress.fromHex(myEthAddress));
-  print(
-      'RECEIVER BALANCE AFTER: ${receiverBalanceAfter.getValueInUnit(EtherUnit.ether)}');
-}
+//   final receiverBalanceAfter =
+//       await ethClient.getBalance(EthereumAddress.fromHex(myEthAddress));
+//   print(
+//       'RECEIVER BALANCE AFTER: ${receiverBalanceAfter.getValueInUnit(EtherUnit.ether)}');
+// }
