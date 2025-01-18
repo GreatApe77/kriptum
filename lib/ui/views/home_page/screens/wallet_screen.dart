@@ -139,6 +139,7 @@ class _WalletScreenState extends State<WalletScreen> {
           padding: AppSpacings.horizontalPadding,
           margin: const EdgeInsets.symmetric(vertical: 20),
           child: MainBalanceView(
+            currentNetworkController: widget.currentNetworkController,
               settingsController: widget.settingsController,
               accountBalanceController: widget.accountBalanceController)),
     );
