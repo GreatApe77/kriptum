@@ -22,27 +22,27 @@ class MainBalanceView extends StatelessWidget {
             builder: (context, child) {
               if (settingsController.settings.hideBalance) {
                 return Flexible(
-                    child: Text('••••••••', style: TextStyle(fontSize: 36)));
+                    child: Text('••••••••', style: Theme.of(context).textTheme.displayMedium));
               }
               return ListenableBuilder(
                   listenable: accountBalanceController,
                   builder: (context, child) {
                     if (accountBalanceController.isLoading) {
-                      return const Flexible(
+                      return  Flexible(
                           child: Text('Loading...',
-                              style: TextStyle(fontSize: 36)));
+                             style:Theme.of(context).textTheme.displayMedium));
                     }
                     if (accountBalanceController.failed) {
                       return  Flexible(
                           child: Text('Error!',
                               style:
-                                  TextStyle(fontSize: 36, color: Theme.of(context).colorScheme.error)));
+                                  Theme.of(context).textTheme.displayMedium));
                     }
                     return Flexible(
                       child: Text(
                         formatEther(accountBalanceController.balance),
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 36),
+                        style:  Theme.of(context).textTheme.displayMedium,
                       ),
                     );
                   });

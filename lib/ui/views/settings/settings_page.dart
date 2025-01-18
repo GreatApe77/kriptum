@@ -50,7 +50,9 @@ class SettingsPage extends StatelessWidget {
             )),
           ),
           ListTile(
-            title: Text('Lock Wallet'),
+            title:  Text('Lock Wallet',style: TextStyle(
+              color: Theme.of(context).colorScheme.tertiary
+            ),),
             onTap: () => _triggerLockWallet(context),
           )
         ],
