@@ -31,6 +31,7 @@ class SendTransactionController extends ChangeNotifier {
       txHashResult = txHash;
       onSuccess();
     } catch (e) {
+      //print(e.toString());
       failed = true;
       onFail();
     } finally {

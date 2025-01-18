@@ -43,8 +43,8 @@ class ImportWalletController extends ChangeNotifier {
 
       await accountRepository.saveAccount(account);
     } catch (e) {
-      print('DEU ERRO AQUI');
-      print(e.toString());
+      // print('DEU ERRO AQUI');
+      // print(e.toString());
     }
     loading = false;
     notifyListeners();

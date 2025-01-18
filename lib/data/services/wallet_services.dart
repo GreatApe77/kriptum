@@ -103,14 +103,21 @@ class WalletServices {
     
     final httpClient = Client();
     final ethClient = Web3Client(network.rpcUrl, httpClient);
+    final chainId = await ethClient.getChainId();
+    //print({chainId});
     final account = Wallet.fromJson(encryptedJsonAccount, password);
+    //final testValue = EtherAmount.inWei(BigInt.parse("1000000000000000000"));
+    
     final txHash = await ethClient.sendTransaction(
+      chainId: chainId.toInt(),
       account.privateKey,
       Transaction(
+
+        from: account.privateKey.address,
         to: EthereumAddress.fromHex(to),
         //gasPrice: EtherAmount.inWei(BigInt.one),
-
-        value: EtherAmount.fromBigInt(EtherUnit.wei, amountInWei),
+        value: EtherAmount.inWei(amountInWei)
+        //value: EtherAmount.fromBigInt(EtherUnit.wei, amountInWei),
       ),
     );
     return txHash;
