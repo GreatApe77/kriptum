@@ -58,7 +58,7 @@ class NetworksList extends StatelessWidget {
                             network: networksController.networks[index]),
                       );
                     })),
-            ElevatedButton(
+            FilledButton(
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => AddNetworkScreen(
                           networksController: networksController),
