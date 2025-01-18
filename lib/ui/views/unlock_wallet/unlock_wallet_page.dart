@@ -58,7 +58,7 @@ class UnlockWalletPage extends StatelessWidget {
                       const SizedBox(
                         height: 32,
                       ),
-                      ElevatedButton(
+                      FilledButton(
                           onPressed: () => _triggerUnlockWallet(context),
                           child: const Text('UNLOCK')),
                       const SizedBox(
