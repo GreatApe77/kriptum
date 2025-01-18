@@ -202,7 +202,7 @@ class ConfirmScreen extends StatelessWidget {
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(SnackBar(
-              backgroundColor: Colors.red,
+              backgroundColor:Theme.of(context).colorScheme.error,
               content: Text('Something went wrong')));
       },
     );

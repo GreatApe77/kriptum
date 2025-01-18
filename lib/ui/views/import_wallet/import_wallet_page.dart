@@ -112,7 +112,7 @@ class ImportWalletPage extends StatelessWidget {
     if (!formKey.currentState!.validate()) return;
     if (passwordTextController.text != confirmPasswordTextController.text) {
       ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(buildPasswordDontMatchAlert());
+      ScaffoldMessenger.of(context).showSnackBar(buildPasswordDontMatchAlert(context));
       return;
     }
     await importWalletController.importWalletWithMultipleAccounts(
@@ -120,10 +120,10 @@ class ImportWalletPage extends StatelessWidget {
       password: passwordTextController.text,
       onError: () {
         ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar( SnackBar(
             behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-            content: Text('Something went wrong!')));
+            backgroundColor: Theme.of(context).colorScheme.error,
+            content: const Text('Something went wrong!')));
       },
       onSuccess: () async {
         await settingsController.setContainsWallet(true);

@@ -108,9 +108,9 @@ class AddNetworkScreen extends StatelessWidget {
     await networksController.addNetwork(
         onFail: () {
           ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Already registered Network!'),
-            backgroundColor: Colors.red,
+          ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+            content: const Text('Already registered Network!'),
+            backgroundColor:Theme.of(context).colorScheme.error,
             showCloseIcon: true,
           ));
         },

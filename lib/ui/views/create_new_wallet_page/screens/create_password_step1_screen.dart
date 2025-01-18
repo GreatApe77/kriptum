@@ -103,7 +103,7 @@ class CreatePasswordStep1Screen extends StatelessWidget {
     if (!formKey.currentState!.validate()) return;
     if (confirmPasswordTextController.text != passwordTextController.text) {
       ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(buildPasswordDontMatchAlert());
+      ScaffoldMessenger.of(context).showSnackBar(buildPasswordDontMatchAlert(context));
       return;
     }
     _passwordController.setPassord(passwordTextController.text);

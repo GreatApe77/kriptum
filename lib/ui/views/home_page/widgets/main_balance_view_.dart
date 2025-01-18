@@ -33,10 +33,10 @@ class MainBalanceView extends StatelessWidget {
                               style: TextStyle(fontSize: 36)));
                     }
                     if (accountBalanceController.failed) {
-                      return const Flexible(
+                      return  Flexible(
                           child: Text('Error!',
                               style:
-                                  TextStyle(fontSize: 36, color: Colors.red)));
+                                  TextStyle(fontSize: 36, color: Theme.of(context).colorScheme.error)));
                     }
                     return Flexible(
                       child: Text(

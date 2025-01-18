@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-SnackBar buildPasswordDontMatchAlert() {
-  return const SnackBar(
+SnackBar buildPasswordDontMatchAlert(BuildContext context) {
+  return  SnackBar(
       behavior: SnackBarBehavior.floating,
       showCloseIcon: true,
-      backgroundColor: Colors.red,
+      backgroundColor: Theme.of(context).colorScheme.error,
       content: Text('Passwords don\'t match'));
 }

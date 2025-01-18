@@ -109,8 +109,8 @@ class UnlockWalletPage extends StatelessWidget {
 
   void _onWrongPassword(BuildContext context) {
     ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        backgroundColor: Colors.red,
+    ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.error,
         showCloseIcon: true,
         behavior: SnackBarBehavior.floating,
         content: Text('Wrong Password!')));
