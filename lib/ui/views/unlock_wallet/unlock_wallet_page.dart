@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/erase_wallet_controller.dart';
@@ -113,7 +112,7 @@ class UnlockWalletPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.error,
         showCloseIcon: true,
         behavior: SnackBarBehavior.floating,
-        content: Text('Wrong Password!')));
+        content: const Text('Wrong Password!')));
   }
 
   _triggerUnlockWallet(BuildContext context) async {

@@ -5,10 +5,10 @@ class PageTitle extends StatelessWidget {
   final String title;
   final String networkName;
   const PageTitle({
-    Key? key,
+    super.key,
     required this.title,
     required this.networkName,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

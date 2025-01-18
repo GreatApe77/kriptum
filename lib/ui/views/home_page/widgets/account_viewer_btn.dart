@@ -28,16 +28,16 @@ class AccountViewerBtn extends StatelessWidget {
                 Jazzicon.getIconWidget(
                   Jazzicon.getJazziconData(20, address: account.address),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Flexible(child: Text(account.alias??'Account ${account.accountIndex + 1}',overflow: TextOverflow.fade,)),
-                Icon(Icons.keyboard_arrow_down)
+                const Icon(Icons.keyboard_arrow_down)
               ],
             ),
             Text(
               formatAddress(account.address),
-              style: TextStyle(fontSize: 14),
+              style: const TextStyle(fontSize: 14),
             )
           ],
         ),

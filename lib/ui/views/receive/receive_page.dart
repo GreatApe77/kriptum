@@ -2,14 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-
-import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 
 class ReceivePage extends StatefulWidget {
   final CurrentAccountController currentAccountController;
 
-  ReceivePage({
+  const ReceivePage({
     super.key,
     required this.currentAccountController,
   });

@@ -8,7 +8,6 @@ import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
-import 'package:kriptum/ui/views/settings/settings_page.dart';
 import 'package:kriptum/ui/views/home_page/screens/wallet_screen.dart';
 
 class HomePage extends StatefulWidget {

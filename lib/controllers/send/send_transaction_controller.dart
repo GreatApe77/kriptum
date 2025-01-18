@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:kriptum/data/services/wallet_services.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/network.dart';

@@ -1,4 +1,3 @@
-
 abstract class NetworksTable {
   static const table = 'networks';
   static const idColumn = 'id';

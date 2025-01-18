@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
-
 import 'package:kriptum/controllers/accounts_controller.dart';
 import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
@@ -9,7 +8,6 @@ import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
-import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 import 'package:kriptum/ui/shared/widgets/account_tile.dart';
 import 'package:kriptum/ui/shared/widgets/networks_list.dart';
@@ -265,8 +263,8 @@ class _WalletScreenState extends State<WalletScreen> {
                                                 if (!context.mounted) return;
                                                 Navigator.of(context).pop();
                                               },
-                                              leading: Icon(Icons.edit),
-                                              title: Text('Edit account name'),
+                                              leading: const Icon(Icons.edit),
+                                              title: const Text('Edit account name'),
                                             )
                                           ],
                                         ),

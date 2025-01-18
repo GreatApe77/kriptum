@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-class AppSpacings {
+ abstract class AppSpacings {
   static const horizontalPadding = EdgeInsets.symmetric(horizontal: 16);
 }

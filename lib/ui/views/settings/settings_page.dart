@@ -4,7 +4,6 @@ import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
-import 'package:kriptum/data/repositories/networks/network_repository.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/settings/screens/general_screen.dart';
 import 'package:kriptum/ui/views/settings/screens/networks/networks_screen.dart';
@@ -26,7 +25,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: Column(
         children: [

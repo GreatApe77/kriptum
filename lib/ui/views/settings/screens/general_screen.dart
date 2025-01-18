@@ -13,18 +13,17 @@ class GeneralScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-           ListTile(
-          title: Text('Dark Theme'),
-          trailing: ListenableBuilder(
-            listenable: settingsController,
-            builder: (context,child) {
-              return Switch(
-                value: settingsController.settings.isDarkTheme,
-                onChanged: (value) => settingsController.toggleTheme(),
-              );
-            }
-          ),
-        )
+          ListTile(
+            title: const Text('Dark Theme'),
+            trailing: ListenableBuilder(
+                listenable: settingsController,
+                builder: (context, child) {
+                  return Switch(
+                    value: settingsController.settings.isDarkTheme,
+                    onChanged: (value) => settingsController.toggleTheme(),
+                  );
+                }),
+          )
         ],
       ),
     );

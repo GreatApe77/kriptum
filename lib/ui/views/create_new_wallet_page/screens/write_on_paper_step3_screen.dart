@@ -6,8 +6,6 @@ import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/widgets/linear_check_in_progress_bar.dart';
 
-final exampleMnemonic =
-    'bom dia como vai voce hoje eh sabado amanha domingo depois segunda';
 
 class WriteOnPaperStep3Screen extends StatelessWidget {
   final CreateWalletStepsController _createWalletStepsController;

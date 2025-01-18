@@ -11,7 +11,6 @@ import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/controllers/balance_validator_controller.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/views/send/screens/confirm_screen.dart';
-import 'package:kriptum/ui/views/send/send_page.dart';
 import 'package:kriptum/ui/views/send/widgets/page_title.dart';
 
 class AmountScreen extends StatelessWidget {
@@ -126,7 +125,7 @@ class AmountScreen extends StatelessWidget {
            SnackBar(
             backgroundColor: Theme.of(context).colorScheme.error,
             showCloseIcon: true,
-            content: Text('Amount must not exceed account balance!')));
+            content: const Text('Amount must not exceed account balance!')));
 
             return;
     }

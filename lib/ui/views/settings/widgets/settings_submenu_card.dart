@@ -17,12 +17,12 @@ class SettingsSubmenuCard extends StatelessWidget {
     return InkWell(
       onTap: () => onPressed(),
       child: ListTile(
-        title: Text(title,style: TextStyle(
+        title: Text(title,style: const TextStyle(
           fontWeight: FontWeight.w500,
           fontSize: 20
         ),),
         subtitle: Text(description),
-        trailing: Icon( Icons.arrow_forward_ios_rounded),
+        trailing: const Icon( Icons.arrow_forward_ios_rounded),
       ),
     );
   }

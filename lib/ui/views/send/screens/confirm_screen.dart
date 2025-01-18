@@ -4,7 +4,6 @@ import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
-import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/send/send_amount_controller.dart';
 import 'package:kriptum/controllers/send/send_transaction_controller.dart';
@@ -15,7 +14,6 @@ import 'package:kriptum/shared/utils/memory_cache.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
-import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
 import 'package:kriptum/ui/views/send/widgets/page_title.dart';
 import 'package:kriptum/ui/views/send/widgets/waiting_transaction_snack_bar.dart';
 
@@ -69,7 +67,7 @@ class ConfirmScreen extends StatelessWidget {
                   padding: AppSpacings.horizontalPadding,
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 24,
                       ),
                       Column(
@@ -90,7 +88,7 @@ class ConfirmScreen extends StatelessWidget {
                                     width: 1,
                                     color: Theme.of(context).hintColor),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
+                                    const BorderRadius.all(Radius.circular(10))),
                             trailing: Text(
                                 '${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}',
                                 style: Theme.of(context).textTheme.bodyLarge),
@@ -108,7 +106,7 @@ class ConfirmScreen extends StatelessWidget {
                                   .connectedAccount!.address,
                             )} '),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
                           Text(
@@ -127,7 +125,7 @@ class ConfirmScreen extends StatelessWidget {
                                       width: 1,
                                       color: Theme.of(context).hintColor),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
+                                      const BorderRadius.all(Radius.circular(10))),
                               leading: Jazzicon.getIconWidget(
                                 size: 30,
                                 Jazzicon.getJazziconData(30,
@@ -138,7 +136,7 @@ class ConfirmScreen extends StatelessWidget {
                       Expanded(
                           child: ListView(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
                           Text(
@@ -146,7 +144,7 @@ class ConfirmScreen extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
                           Text(
@@ -203,7 +201,7 @@ class ConfirmScreen extends StatelessWidget {
           ..clearSnackBars()
           ..showSnackBar(SnackBar(
               backgroundColor:Theme.of(context).colorScheme.error,
-              content: Text('Something went wrong')));
+              content: const Text('Something went wrong')));
       },
     );
   }

@@ -25,7 +25,7 @@ class UpdateAccountAliasScreen extends StatelessWidget {
                     label: Text('Name'),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 TextFormField(
@@ -43,11 +43,11 @@ class UpdateAccountAliasScreen extends StatelessWidget {
               children: [
                 ElevatedButton(onPressed: () {
                   Navigator.pop(context);
-                }, child: Text('Cancel')),
+                }, child: const Text('Cancel')),
                 ElevatedButton(onPressed: () {
                   String? accountName = newAliasNameController.text.isEmpty? null:newAliasNameController.text;
                   Navigator.pop(context,accountName);
-                }, child: Text('Save'))
+                }, child: const Text('Save'))
               ],
             )
           ],
