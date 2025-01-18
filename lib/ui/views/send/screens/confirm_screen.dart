@@ -15,7 +15,9 @@ import 'package:kriptum/shared/utils/memory_cache.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
+import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
 import 'package:kriptum/ui/views/send/widgets/page_title.dart';
+import 'package:kriptum/ui/views/send/widgets/waiting_transaction_snack_bar.dart';
 
 class ConfirmScreen extends StatelessWidget {
   final CurrentNetworkController currentNetworkController;
@@ -62,6 +64,7 @@ class ConfirmScreen extends StatelessWidget {
           child: ListenableBuilder(
               listenable: sendTransactionController,
               builder: (context, child) {
+                
                 return Padding(
                   padding: AppSpacings.horizontalPadding,
                   child: Column(
@@ -158,8 +161,8 @@ class ConfirmScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ElevatedButton(
-                              onPressed: () => _triggerSendTransaction(context),
-                              child: Text('Send'))
+                              onPressed: sendTransactionController.isLoading? null :() => _triggerSendTransaction(context),
+                              child:  Text(sendTransactionController.isLoading?'Submitting Transaction':'Send'))
                         ],
                       )
                     ],
@@ -177,12 +180,23 @@ class ConfirmScreen extends StatelessWidget {
       to: toAddressController.toAddress,
       amountInWei: sendAmountController.amount,
       onSuccess: () {
+        GoRouter.of(context).pushReplacement(AppRoutes.home);
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(SnackBar(
-              backgroundColor: Colors.green,
-              content: Text(sendTransactionController.txHashResult)));
+          ..showSnackBar(
+            
+            buildWaitngTransactionSnackBar(context)
+      //       const SnackBar(
+      // behavior: SnackBarBehavior.floating,
+
+      // content: ListTile(
+      //   //leading: CircularProgressIndicator(),
+      //   title: Text('Transaction Submited'),
+      //   subtitle: Text('Waiting for confirmation...'),
+      // ))
+             );
         MemoryCache.clearCache();
+  
       },
       onFail: () {
         ScaffoldMessenger.of(context)

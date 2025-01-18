@@ -17,7 +17,7 @@ class NetworkRepositoryMemoryImpl implements NetworkRepository {
         ticker: 'ETH',
         currencyDecimals: 18),
     Network(
-        id: 97,
+        id: 4002,
         rpcUrl: 'https://rpc.testnet.fantom.network',
         name: 'Fantom Testnet',
         ticker: 'FTM',
