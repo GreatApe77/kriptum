@@ -37,6 +37,22 @@ class DecryptAccountWithPasswordParams {
       {required this.password, required this.encryptedJsonAccount});
 }
 
+class SendTransactionParams {
+  final String encryptedJsonAccount;
+
+  final String password;
+  final String to;
+  final BigInt amountInWei;
+  final Network network;
+
+  SendTransactionParams(
+      {required this.encryptedJsonAccount,
+      required this.password,
+      required this.to,
+      required this.amountInWei,
+      required this.network});
+}
+
 class WalletServices {
   // // Generate a mnemonic phrase
   String generateMnemonic() {
@@ -94,31 +110,25 @@ class WalletServices {
     return balance.getInWei;
   }
 
-  static Future<String> sendTransaction(
-      {required String encryptedJsonAccount,
-      required String password,
-      required String to,
-      required BigInt amountInWei,
-      required Network network}) async {
-    
+  static Future<String> sendTransaction(SendTransactionParams params) async {
     final httpClient = Client();
-    final ethClient = Web3Client(network.rpcUrl, httpClient);
+    final ethClient = Web3Client(params.network.rpcUrl, httpClient);
     final chainId = await ethClient.getChainId();
     //print({chainId});
-    final account = Wallet.fromJson(encryptedJsonAccount, password);
+    final account =
+        Wallet.fromJson(params.encryptedJsonAccount, params.password);
     //final testValue = EtherAmount.inWei(BigInt.parse("1000000000000000000"));
-    
+
     final txHash = await ethClient.sendTransaction(
       chainId: chainId.toInt(),
       account.privateKey,
       Transaction(
-
-        from: account.privateKey.address,
-        to: EthereumAddress.fromHex(to),
-        //gasPrice: EtherAmount.inWei(BigInt.one),
-        value: EtherAmount.inWei(amountInWei)
-        //value: EtherAmount.fromBigInt(EtherUnit.wei, amountInWei),
-      ),
+          from: account.privateKey.address,
+          to: EthereumAddress.fromHex(params.to),
+          //gasPrice: EtherAmount.inWei(BigInt.one),
+          value: EtherAmount.inWei(params.amountInWei)
+          //value: EtherAmount.fromBigInt(EtherUnit.wei, amountInWei),
+          ),
     );
     return txHash;
   }

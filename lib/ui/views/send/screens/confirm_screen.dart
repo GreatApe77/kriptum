@@ -157,7 +157,9 @@ class ConfirmScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          ElevatedButton(onPressed: () => _triggerSendTransaction(context), child: Text('Send'))
+                          ElevatedButton(
+                              onPressed: () => _triggerSendTransaction(context),
+                              child: Text('Send'))
                         ],
                       )
                     ],
@@ -177,14 +179,17 @@ class ConfirmScreen extends StatelessWidget {
       onSuccess: () {
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(
-              SnackBar(content: Text(sendTransactionController.txHashResult)));
+          ..showSnackBar(SnackBar(
+              backgroundColor: Colors.green,
+              content: Text(sendTransactionController.txHashResult)));
         MemoryCache.clearCache();
       },
       onFail: () {
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(SnackBar(content: Text('Something went wrong')));
+          ..showSnackBar(SnackBar(
+              backgroundColor: Colors.red,
+              content: Text('Something went wrong')));
       },
     );
   }

@@ -22,12 +22,14 @@ class SendTransactionController extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      final txHash = await WalletServices.sendTransaction(
-          encryptedJsonAccount: connectedAccount.encryptedJsonWallet,
-          password: password,
-          to: to,
-          amountInWei: amountInWei,
-          network: connectedNetwork);
+      final txHash = await compute(
+          WalletServices.sendTransaction,
+          (SendTransactionParams(
+              encryptedJsonAccount: connectedAccount.encryptedJsonWallet,
+              password: password,
+              to: to,
+              amountInWei: amountInWei,
+              network: connectedNetwork)));
       txHashResult = txHash;
       onSuccess();
     } catch (e) {
