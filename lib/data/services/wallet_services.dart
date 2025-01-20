@@ -37,6 +37,13 @@ class DecryptAccountWithPasswordParams {
       {required this.password, required this.encryptedJsonAccount});
 }
 
+class ImportAccountParams {
+  final String privateKey;
+  final String password;
+
+  ImportAccountParams({required this.privateKey, required this.password});
+}
+
 class SendTransactionParams {
   final String encryptedJsonAccount;
 
@@ -70,6 +77,17 @@ class WalletServices {
     }
   }
 
+  // static Future<Account> importAccountFromPrivateKey(
+  //     ImportAccountParams params) async {
+  //       final ethPrivateKey = EthPrivateKey.fromHex(params.privateKey);
+  //       final accountAddress = ethPrivateKey.address;
+  //       final encryptedJsonAccount = Wallet.createNew(ethPrivateKey, params.password, Random.secure()).toJson();
+  //       final now = DateTime.now().toLocal();
+  //       final accountAlias = 'Imported at ${now.year}-${now.month}-${now.day}';
+
+  //       //Account account = Account(accountIndex: accountIndex, address: address, encryptedJsonWallet: encryptedJsonWallet)
+      
+  //     }
   static Future<List<Account>> generateAccountsFromMnemonic(
       AccountsFromMnemonicParams params) {
     final accounts = <Account>[];

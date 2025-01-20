@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
-import 'package:kriptum/controllers/accounts_controller.dart';
-import 'package:kriptum/controllers/current_account_controller.dart';
+import 'package:kriptum/controllers/accounts/accounts_controller.dart';
+import 'package:kriptum/controllers/accounts/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
@@ -301,17 +301,20 @@ class _WalletScreenState extends State<WalletScreen> {
                         });
                   }),
             ),
+            const SizedBox(
+              height: 24,
+            ),
             Padding(
               padding: AppSpacings.horizontalPadding,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ElevatedButton(
+                  OutlinedButton(
                       onPressed: () {
-                        _showCreateNewAccountDialog(context);
+                        _showCreateNewAccountBottomSheet(context);
                       },
-                      child: const Text('Add account')),
+                      child: const Text('Add or Import Account')),
                 ],
               ),
             )
@@ -321,28 +324,43 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 
-  void _showCreateNewAccountDialog(BuildContext context) {
-    showDialog(
+  void _showCreateNewAccountBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      showDragHandle: true,
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Create a password for this account'),
-        content: const TextField(
-          obscureText: true,
-          decoration: InputDecoration(label: Text('Password')),
+      builder: (context) => SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(onPressed: () {
+                    Navigator.pop(context);
+                  }, icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text('Add account',style: Theme.of(context).textTheme.headlineSmall,),
+                )
+              ],
+            ),
+            ListTile(
+              leading: Icon(Icons.add),
+              title: Text('Add new account'),
+
+            ),
+            ListTile(
+              leading: Icon(Icons.file_download_outlined),
+              title: Text('Import account'),
+
+            ),
+
+          ],
         ),
-        contentPadding: AppSpacings.horizontalPadding,
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel')),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Create'))
-        ],
       ),
     );
   }

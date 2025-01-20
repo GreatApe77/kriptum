@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
-import 'package:kriptum/controllers/accounts_controller.dart';
-import 'package:kriptum/controllers/current_account_controller.dart';
+import 'package:kriptum/controllers/accounts/accounts_controller.dart';
+import 'package:kriptum/controllers/accounts/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';

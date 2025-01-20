@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
-import 'package:kriptum/controllers/current_account_controller.dart';
+import 'package:kriptum/controllers/accounts/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/send/send_amount_controller.dart';

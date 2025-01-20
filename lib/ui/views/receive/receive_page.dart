@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:kriptum/controllers/current_account_controller.dart';
+import 'package:kriptum/controllers/accounts/current_account_controller.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 
