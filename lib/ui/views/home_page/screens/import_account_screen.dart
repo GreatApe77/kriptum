@@ -47,7 +47,7 @@ class ImportAccountScreen extends StatelessWidget {
                       ),
                       Text(
                         'Import account',
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: Theme.of(context).textTheme.displaySmall,
                       ),
                       SizedBox(
                         height: 12,
@@ -67,6 +67,37 @@ class ImportAccountScreen extends StatelessWidget {
           Expanded(
               child: Container(
             color: Theme.of(context).colorScheme.surface,
+            child: Padding(
+              padding: AppSpacings.horizontalPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Text(
+                    'Paste your private key string',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  TextField(
+                    
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      FilledButton(onPressed: () {}, child: Text('IMPORT'))
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ))
         ],
       )),
