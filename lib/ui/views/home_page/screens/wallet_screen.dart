@@ -4,6 +4,7 @@ import 'package:kriptum/controllers/accounts/accounts_controller.dart';
 import 'package:kriptum/controllers/accounts/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
+import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
@@ -17,6 +18,7 @@ import 'package:kriptum/ui/views/home_page/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/views/home_page/widgets/main_balance_view_.dart';
 
 class WalletScreen extends StatefulWidget {
+  final PasswordController passwordController;
   final AccountsController accountsController;
   final SettingsController settingsController;
   final AccountBalanceController accountBalanceController;
@@ -31,6 +33,7 @@ class WalletScreen extends StatefulWidget {
     required this.networksController,
     required this.currentNetworkController,
     required this.currentAccountController,
+    required this.passwordController,
   });
 
   @override
@@ -364,6 +367,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
                     return ImportAccountScreen(
+                        passwordController: widget.passwordController,
                         accountsController: widget.accountsController);
                   },
                 ));

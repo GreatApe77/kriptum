@@ -5,12 +5,14 @@ import 'package:kriptum/controllers/accounts/accounts_controller.dart';
 import 'package:kriptum/controllers/accounts/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
+import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller.dart';
 import 'package:kriptum/ui/views/home_page/screens/wallet_screen.dart';
 
 class HomePage extends StatefulWidget {
+  final PasswordController passwordController;
   final NavigationBarController navigationBarController;
   final AccountsController accountsController;
   final SettingsController settingsController;
@@ -25,7 +27,7 @@ class HomePage extends StatefulWidget {
       required this.settingsController,
       required this.accountBalanceController,
       required this.networksController,
-      required this.currentNetworkController, required this.currentAccountController});
+      required this.currentNetworkController, required this.currentAccountController, required this.passwordController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -137,6 +139,7 @@ class _HomePageState extends State<HomePage> {
               //     child: Text(
               //         'PAGE: ${widget.navigationBarController.selectedPage} \n CURRENT ACCOUNT : ${widget.connectedAccountController.connectedAccount?.address ?? 'NAO TEM'}')),
               WalletScreen(
+                passwordController: widget.passwordController,
                 currentAccountController: widget.currentAccountController,
                 currentNetworkController: widget.currentNetworkController,
                 networksController: widget.networksController,

@@ -70,6 +70,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.home,
     builder: (context, state) => HomePage(
+      passwordController: locator.get<PasswordController>(),
       currentAccountController: locator.get<CurrentAccountController>(),
       currentNetworkController: locator.get<CurrentNetworkController>(),
       networksController: locator.get<NetworksController>(),
