@@ -32,7 +32,7 @@ class CreateNewWalletController extends ChangeNotifier {
     _createdAccounts = await compute(
         WalletServices.generateAccountsFromMnemonic,
         AccountsFromMnemonicParams(
-            mnemonic: _generatedMnemonic, encryptionPassword: password));
+            mnemonic: _generatedMnemonic, encryptionPassword: password,amount: 1));
     _loading = false;
     notifyListeners();
   }

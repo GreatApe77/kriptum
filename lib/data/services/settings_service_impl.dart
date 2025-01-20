@@ -25,13 +25,15 @@ class SettingsServiceImpl implements SettingsService {
     int? lastConnectedChainId = sh.getInt('lastConnectedChainId');
     bool? isLockedWallet = sh.getBool('isLockedWallet');
     bool? hideBalance = sh.getBool('hideBalance');
+    int? nextHdAccountIndex = sh.getInt('nextHdAccountIndex');
     return Settings(
         hideBalance: hideBalance ?? false,
         lastConnectedIndex: currentAccountIndex ?? 0,
         isDarkTheme: isDarkTheme ?? false,
         containsWallet: containsWallet ?? false,
         lastConnectedChainId: lastConnectedChainId ?? 1337,
-        isLockedWallet: isLockedWallet ?? true);
+        isLockedWallet: isLockedWallet ?? true,
+        nextHdAccountIndex: nextHdAccountIndex ?? 1);
   }
 
   @override
@@ -63,10 +65,16 @@ class SettingsServiceImpl implements SettingsService {
     final sh = await SharedPreferences.getInstance();
     await sh.setBool('isLockedWallet', isLockedWallet);
   }
-  
+
   @override
-  Future<void> setHideBalance(bool hideBalance)async {
+  Future<void> setHideBalance(bool hideBalance) async {
     final sh = await SharedPreferences.getInstance();
     await sh.setBool('hideBalance', hideBalance);
+  }
+  
+  @override
+  Future<void> setNextHdAccountIndex(int nextHdAccountIndex)async {
+    final sh = await SharedPreferences.getInstance();
+    await sh.setInt('nextHdAccountIndex', nextHdAccountIndex);
   }
 }

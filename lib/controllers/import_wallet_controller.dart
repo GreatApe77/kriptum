@@ -20,7 +20,7 @@ class ImportWalletController extends ChangeNotifier {
       final accounts = await compute(
           WalletServices.generateAccountsFromMnemonic,
           AccountsFromMnemonicParams(
-              mnemonic: mnemonic, encryptionPassword: password));
+              mnemonic: mnemonic, encryptionPassword: password,amount: 1));
       await accountRepository.saveAccounts(accounts);
        onSuccess();
     } catch (e) {

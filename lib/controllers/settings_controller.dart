@@ -80,4 +80,8 @@ class SettingsController extends ChangeNotifier implements LateInitializable {
     await settingsService.setHideBalance(hideBalance);
     notifyListeners();
   }
+  Future<void> setNextHdAccountIndex(int nextHdAccountIndex) async {
+    _settings.nextHdAccountIndex = nextHdAccountIndex;
+    await settingsService.setNextHdAccountIndex(nextHdAccountIndex);
+  }
 }

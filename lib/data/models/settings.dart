@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class Settings {
@@ -7,6 +8,7 @@ class Settings {
   bool isLockedWallet;
   bool hideBalance;
   int lastConnectedChainId;
+  int nextHdAccountIndex;
   Settings({
     required this.lastConnectedIndex,
     required this.isDarkTheme,
@@ -14,6 +16,7 @@ class Settings {
     required this.isLockedWallet,
     required this.hideBalance,
     required this.lastConnectedChainId,
+    required this.nextHdAccountIndex,
   });
   
 
@@ -24,6 +27,7 @@ class Settings {
     bool? isLockedWallet,
     bool? hideBalance,
     int? lastConnectedChainId,
+    int? nextHdAccountIndex,
   }) {
     return Settings(
       lastConnectedIndex: lastConnectedIndex ?? this.lastConnectedIndex,
@@ -32,6 +36,7 @@ class Settings {
       isLockedWallet: isLockedWallet ?? this.isLockedWallet,
       hideBalance: hideBalance ?? this.hideBalance,
       lastConnectedChainId: lastConnectedChainId ?? this.lastConnectedChainId,
+      nextHdAccountIndex: nextHdAccountIndex ?? this.nextHdAccountIndex,
     );
   }
 
@@ -43,6 +48,7 @@ class Settings {
       'isLockedWallet': isLockedWallet,
       'hideBalance': hideBalance,
       'lastConnectedChainId': lastConnectedChainId,
+      'nextHdAccountIndex': nextHdAccountIndex,
     };
   }
 
@@ -54,6 +60,7 @@ class Settings {
       isLockedWallet: map['isLockedWallet'] as bool,
       hideBalance: map['hideBalance'] as bool,
       lastConnectedChainId: map['lastConnectedChainId'] as int,
+      nextHdAccountIndex: map['nextHdAccountIndex'] as int,
     );
   }
 
@@ -63,7 +70,7 @@ class Settings {
 
   @override
   String toString() {
-    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, isLockedWallet: $isLockedWallet, hideBalance: $hideBalance, lastConnectedChainId: $lastConnectedChainId)';
+    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, isLockedWallet: $isLockedWallet, hideBalance: $hideBalance, lastConnectedChainId: $lastConnectedChainId, nextHdAccountIndex: $nextHdAccountIndex)';
   }
 
   @override
@@ -76,7 +83,8 @@ class Settings {
       other.containsWallet == containsWallet &&
       other.isLockedWallet == isLockedWallet &&
       other.hideBalance == hideBalance &&
-      other.lastConnectedChainId == lastConnectedChainId;
+      other.lastConnectedChainId == lastConnectedChainId &&
+      other.nextHdAccountIndex == nextHdAccountIndex;
   }
 
   @override
@@ -86,6 +94,7 @@ class Settings {
       containsWallet.hashCode ^
       isLockedWallet.hashCode ^
       hideBalance.hashCode ^
-      lastConnectedChainId.hashCode;
+      lastConnectedChainId.hashCode ^
+      nextHdAccountIndex.hashCode;
   }
 }

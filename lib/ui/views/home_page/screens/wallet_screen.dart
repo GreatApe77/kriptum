@@ -11,6 +11,7 @@ import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 import 'package:kriptum/ui/shared/widgets/account_tile.dart';
 import 'package:kriptum/ui/shared/widgets/networks_list.dart';
+import 'package:kriptum/ui/views/home_page/screens/import_account_screen.dart';
 import 'package:kriptum/ui/views/home_page/screens/update_account_alias_screen.dart';
 import 'package:kriptum/ui/views/home_page/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/views/home_page/widgets/main_balance_view_.dart';
@@ -137,7 +138,7 @@ class _WalletScreenState extends State<WalletScreen> {
           padding: AppSpacings.horizontalPadding,
           margin: const EdgeInsets.symmetric(vertical: 20),
           child: MainBalanceView(
-            currentNetworkController: widget.currentNetworkController,
+              currentNetworkController: widget.currentNetworkController,
               settingsController: widget.settingsController,
               accountBalanceController: widget.accountBalanceController)),
     );
@@ -264,7 +265,8 @@ class _WalletScreenState extends State<WalletScreen> {
                                                 Navigator.of(context).pop();
                                               },
                                               leading: const Icon(Icons.edit),
-                                              title: const Text('Edit account name'),
+                                              title: const Text(
+                                                  'Edit account name'),
                                             )
                                           ],
                                         ),
@@ -338,27 +340,37 @@ class _WalletScreenState extends State<WalletScreen> {
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: IconButton(onPressed: () {
-                    Navigator.pop(context);
-                  }, icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded)),
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: Text('Add account',style: Theme.of(context).textTheme.headlineSmall,),
+                  child: Text(
+                    'Add account',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 )
               ],
             ),
             ListTile(
               leading: Icon(Icons.add),
               title: Text('Add new account'),
-
             ),
             ListTile(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return ImportAccountScreen(
+                        accountsController: widget.accountsController);
+                  },
+                ));
+              },
               leading: Icon(Icons.file_download_outlined),
               title: Text('Import account'),
-
             ),
-
           ],
         ),
       ),
