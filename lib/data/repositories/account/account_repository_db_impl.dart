@@ -12,13 +12,19 @@ class AccountRepositoryDbImpl implements AccountRepository {
     if (result.isEmpty) {
       throw Exception('Not Found');
     }
-    result[0]['isImported'] = result[0]['isImported'] == 1 ? true : false;
+    
+
+    //accountMap.update('isImported', accountMap['isImported']==1?true:false);
+    //final sanitizedMap = result[0].update(key, update)
+    //accountMap['isImported'] = accountMap['isImported'] == 1 ? true : false;
     return Account.fromMap(result[0]);
   }
 
   @override
   Future<void> saveAccount(Account account) async {
     final database = await SqliteDatabase().db;
+    final accountMap = account.toMap();
+    accountMap['isImported'] = account.isImported?1:0;
     await database.insert(AccountsTable.table, account.toMap());
   }
 
@@ -33,7 +39,7 @@ class AccountRepositoryDbImpl implements AccountRepository {
     final database = await SqliteDatabase().db;
     final queryResult = await database.query(AccountsTable.table);
     return queryResult.map((accountMap) {
-      accountMap['isImported'] = accountMap['isImported'] == 1 ? true : false;
+      //accountMap['isImported'] = accountMap['isImported'] == 1 ? true : false;
       return Account.fromMap(accountMap);
     }).toList();
   }

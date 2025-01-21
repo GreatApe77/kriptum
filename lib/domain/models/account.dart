@@ -46,7 +46,7 @@ class Account {
       accountIndex: map['accountIndex'] as int,
       address: map['address'] as String,
       encryptedJsonWallet: map['encryptedJsonWallet'] as String,
-      isImported: map['isImported'] as bool,
+      isImported: map['isImported']==1?true:false,
       alias: map['alias'] != null ? map['alias'] as String : null,
     );
   }
