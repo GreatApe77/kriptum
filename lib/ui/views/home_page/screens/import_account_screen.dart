@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/accounts/accounts_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
+import 'package:kriptum/ui/shared/controllers/private_key_validator_controller.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
 
 class ImportAccountScreen extends StatelessWidget {
   final AccountsController accountsController;
   final TextEditingController privateKeyController = TextEditingController();
   final PasswordController passwordController;
+  final formKey = GlobalKey<FormState>();
   ImportAccountScreen(
       {super.key,
       required this.accountsController,
@@ -16,15 +18,15 @@ class ImportAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: SingleChildScrollView(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+          constraints:
+              BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
           child: SafeArea(
             child: ListenableBuilder(
                 listenable: accountsController,
                 builder: (context, child) {
-                  if(accountsController.importLoading){
+                  if (accountsController.importLoading) {
                     return const BasicLoading();
                   }
                   return Column(
@@ -32,14 +34,16 @@ class ImportAccountScreen extends StatelessWidget {
                     children: [
                       Expanded(
                           child: Container(
-                        color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                        color:
+                            Theme.of(context).colorScheme.surfaceContainerHigh,
                         child: Padding(
                           padding: AppSpacings.horizontalPadding,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -69,8 +73,9 @@ class ImportAccountScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     'Import account',
-                                    style:
-                                        Theme.of(context).textTheme.displaySmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displaySmall,
                                   ),
                                   const SizedBox(
                                     height: 12,
@@ -102,15 +107,20 @@ class ImportAccountScreen extends StatelessWidget {
                               ),
                               Text(
                                 'Paste your private key string',
-                                style: Theme.of(context).textTheme.headlineSmall,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
                               const SizedBox(
                                 height: 24,
                               ),
-                              TextField(
-                                controller: privateKeyController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
+                              Form(
+                                key: formKey,
+                                child: TextFormField(
+                                  validator: (privateKey) => PrivateKeyValidatorController.validate(privateKey ?? ''),
+                                  controller: privateKeyController,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                  ),
                                 ),
                               ),
                               Expanded(child: Container()),
@@ -138,9 +148,17 @@ class ImportAccountScreen extends StatelessWidget {
   }
 
   void _triggerImportAccount(BuildContext context) async {
+    if(!formKey.currentState!.validate()) return;
     await accountsController.importAccountFromPrivateKey(
       privateKey: privateKeyController.text,
       password: passwordController.password,
+      onAlreadyExistingAccount: () {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              content: const Text('Account already imported!')));
+      },
       onSuccess: () {
         Navigator.pop(context);
         ScaffoldMessenger.of(context)

@@ -12,6 +12,7 @@ class AccountRepositoryDbImpl implements AccountRepository {
     if (result.isEmpty) {
       throw Exception('Not Found');
     }
+    result[0]['isImported'] = result[0]['isImported'] == 1 ? true : false;
     return Account.fromMap(result[0]);
   }
 
@@ -31,11 +32,10 @@ class AccountRepositoryDbImpl implements AccountRepository {
   Future<List<Account>> getAccounts() async {
     final database = await SqliteDatabase().db;
     final queryResult = await database.query(AccountsTable.table);
-    return queryResult
-        .map(
-          (accountMap) => Account.fromMap(accountMap),
-        )
-        .toList();
+    return queryResult.map((accountMap) {
+      accountMap['isImported'] = accountMap['isImported'] == 1 ? true : false;
+      return Account.fromMap(accountMap);
+    }).toList();
   }
 
   @override

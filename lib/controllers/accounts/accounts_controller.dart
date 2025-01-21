@@ -37,7 +37,9 @@ class AccountsController extends ChangeNotifier {
       {required String privateKey,
       required String password,
       required Function() onSuccess,
-      required Function() onFail}) async {
+      required Function() onFail,
+      required Function() onAlreadyExistingAccount
+      }) async {
     // Account importedAccount = await WalletServices.importAccountFromPrivateKey(
     //     ImportAccountParams(_accounts.length,
     //         privateKey: privateKey, password: password));
@@ -50,9 +52,15 @@ class AccountsController extends ChangeNotifier {
           WalletServices.importAccountFromPrivateKey,
           ImportAccountParams(_accounts.length,
               privateKey: privateKey, password: password));
-      await _accountRepository.saveAccount(importedAccount);
-      _accounts.add(importedAccount);
-      onSuccess();
+      final index = _accounts.indexWhere(
+        (element) => element.address == importedAccount.address,
+      );
+      if (index != -1) {
+      } else {
+        await _accountRepository.saveAccount(importedAccount);
+        _accounts.add(importedAccount);
+        onSuccess();
+      }
     } catch (e) {
       onFail();
     } finally {
