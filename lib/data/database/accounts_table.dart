@@ -4,4 +4,5 @@ class AccountsTable {
   static const accountIndexColumn = 'accountIndex';
   static const addressColumn = 'address';
   static const encryptedJsonWalletColumn = 'encryptedJsonWallet';
+  static const isImportedColumn = 'isImported';
 }

@@ -90,6 +90,7 @@ class WalletServices {
     final accountAlias = 'Imported at ${now.year}-${now.month}-${now.day}';
 
     Account account = Account(
+        isImported: true,
         accountIndex: params.index,
         address: accountAddress.hex,
         alias: accountAlias,

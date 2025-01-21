@@ -25,11 +25,21 @@ class AccountTile extends StatelessWidget {
       leading: Jazzicon.getIconWidget(
         Jazzicon.getJazziconData(20, address: account.address),
       ),
-      trailing: includeMenu?
-      IconButton(onPressed: onOptionsMenuSelected, icon: const Icon(Icons.more_vert_rounded))
-      :null,
+      trailing: includeMenu
+          ? IconButton(
+              onPressed: onOptionsMenuSelected,
+              icon: const Icon(Icons.more_vert_rounded))
+          : null,
       title: Text(account.alias ?? 'Account ${account.accountIndex + 1}'),
-      subtitle: Text(formatAddress(account.address)),
+      subtitle: account.isImported
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [Text(formatAddress(account.address)),Text('IMPORTED',style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.primary
+              ),)],
+            )
+          : Text(formatAddress(account.address)),
+      //subtitle: Text('${formatAddress(account.address)} ${account.isImported?'SIM':'NAO'}'),
     );
   }
 }

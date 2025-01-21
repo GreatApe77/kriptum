@@ -5,11 +5,13 @@ class Account {
   int accountIndex;
   String address;
   String encryptedJsonWallet;
+  bool isImported;
   String? alias;
   Account({
     required this.accountIndex,
     required this.address,
     required this.encryptedJsonWallet,
+    this.isImported=false,
     this.alias,
   });
 

@@ -16,115 +16,124 @@ class ImportAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: ListenableBuilder(
-              listenable: accountsController,
-              builder: (context, child) {
-                if(accountsController.importLoading){
-                  return const BasicLoading();
-                }
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                        child: Container(
-                      color: Theme.of(context).colorScheme.surfaceContainerHigh,
-                      child: Padding(
-                        padding: AppSpacings.horizontalPadding,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+      
+      body: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+          child: SafeArea(
+            child: ListenableBuilder(
+                listenable: accountsController,
+                builder: (context, child) {
+                  if(accountsController.importLoading){
+                    return const BasicLoading();
+                  }
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                          child: Container(
+                        color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                        child: Padding(
+                          padding: AppSpacings.horizontalPadding,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        icon: const Icon(
+                                          Icons.close,
+                                          size: 36,
+                                        ))
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.close,
-                                        size: 36,
-                                      ))
+                                  Icon(
+                                    Icons.file_download_outlined,
+                                    size: 72,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  const SizedBox(
+                                    height: 24,
+                                  ),
+                                  Text(
+                                    'Import account',
+                                    style:
+                                        Theme.of(context).textTheme.displaySmall,
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  const Text(
+                                      'Imported accounts are viewable in your wallet but are not recoverable with your Kriptum Secret Recovery Phrase.'),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  const Text(
+                                      'Learn more about imported accounts here.')
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        color: Theme.of(context).colorScheme.surface,
+                        child: Padding(
+                          padding: AppSpacings.horizontalPadding,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                'Paste your private key string',
+                                style: Theme.of(context).textTheme.headlineSmall,
+                              ),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                              TextField(
+                                controller: privateKeyController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                              Expanded(child: Container()),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  FilledButton(
+                                      onPressed: () =>
+                                          _triggerImportAccount(context),
+                                      child: const Text('IMPORT'))
                                 ],
                               ),
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.file_download_outlined,
-                                  size: 72,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                ),
-                                const SizedBox(
-                                  height: 24,
-                                ),
-                                Text(
-                                  'Import account',
-                                  style:
-                                      Theme.of(context).textTheme.displaySmall,
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                const Text(
-                                    'Imported accounts are viewable in your wallet but are not recoverable with your Kriptum Secret Recovery Phrase.'),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                const Text(
-                                    'Learn more about imported accounts here.')
-                              ],
-                            )
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    )),
-                    Expanded(
-                        child: Container(
-                      color: Theme.of(context).colorScheme.surface,
-                      child: Padding(
-                        padding: AppSpacings.horizontalPadding,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            Text(
-                              'Paste your private key string',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            TextField(
-                              controller: privateKeyController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                            Expanded(child: Container()),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                FilledButton(
-                                    onPressed: () =>
-                                        _triggerImportAccount(context),
-                                    child: const Text('IMPORT'))
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ))
-                  ],
-                );
-              })),
+                      ))
+                    ],
+                  );
+                }),
+          ),
+        ),
+      ),
     );
   }
 

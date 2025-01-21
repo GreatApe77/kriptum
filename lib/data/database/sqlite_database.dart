@@ -40,7 +40,8 @@ class SqliteDatabase {
           ${AccountsTable.accountIndexColumn} INTEGER PRIMARY KEY,
           ${AccountsTable.addressColumn} VARCHAR(255),
           ${AccountsTable.encryptedJsonWalletColumn} TEXT,
-          ${AccountsTable.aliasColumn} VARCHAR(255)
+          ${AccountsTable.aliasColumn} VARCHAR(255),
+          ${AccountsTable.isImportedColumn} INTEGER
         );
 
       ''');
