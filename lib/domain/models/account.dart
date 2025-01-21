@@ -19,12 +19,14 @@ class Account {
     int? accountIndex,
     String? address,
     String? encryptedJsonWallet,
+    bool? isImported,
     String? alias,
   }) {
     return Account(
       accountIndex: accountIndex ?? this.accountIndex,
       address: address ?? this.address,
       encryptedJsonWallet: encryptedJsonWallet ?? this.encryptedJsonWallet,
+      isImported: isImported ?? this.isImported,
       alias: alias ?? this.alias,
     );
   }
@@ -34,6 +36,7 @@ class Account {
       'accountIndex': accountIndex,
       'address': address,
       'encryptedJsonWallet': encryptedJsonWallet,
+      'isImported': isImported,
       'alias': alias,
     };
   }
@@ -43,6 +46,7 @@ class Account {
       accountIndex: map['accountIndex'] as int,
       address: map['address'] as String,
       encryptedJsonWallet: map['encryptedJsonWallet'] as String,
+      isImported: map['isImported'] as bool,
       alias: map['alias'] != null ? map['alias'] as String : null,
     );
   }
@@ -53,7 +57,7 @@ class Account {
 
   @override
   String toString() {
-    return 'Account(accountIndex: $accountIndex, address: $address, encryptedJsonWallet: $encryptedJsonWallet, alias: $alias)';
+    return 'Account(accountIndex: $accountIndex, address: $address, encryptedJsonWallet: $encryptedJsonWallet, isImported: $isImported, alias: $alias)';
   }
 
   @override
@@ -64,6 +68,7 @@ class Account {
       other.accountIndex == accountIndex &&
       other.address == address &&
       other.encryptedJsonWallet == encryptedJsonWallet &&
+      other.isImported == isImported &&
       other.alias == alias;
   }
 
@@ -72,6 +77,7 @@ class Account {
     return accountIndex.hashCode ^
       address.hashCode ^
       encryptedJsonWallet.hashCode ^
+      isImported.hashCode ^
       alias.hashCode;
   }
 }
