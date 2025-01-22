@@ -183,7 +183,7 @@ class ConfirmScreen extends StatelessWidget {
       to: toAddressController.toAddress,
       amountInWei: sendAmountController.amount,
       onSuccess: (transactionHash) async {
-        GoRouter.of(context).pushReplacement(AppRoutes.home);
+        //GoRouter.of(context).pushReplacement(AppRoutes.home);
         
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
@@ -200,6 +200,7 @@ class ConfirmScreen extends StatelessWidget {
          showDialog(
           context: context,
           builder: (context) => TransactionInfoDialog(
+            dateTime: DateTime.now(),
               network: currentNetworkController.currentConnectedNetwork!,
               from: currentAccountController.connectedAccount!,
               toAddress: toAddressController.toAddress,

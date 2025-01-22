@@ -11,13 +11,14 @@ class TransactionInfoDialog extends StatefulWidget {
       required this.from,
       required this.toAddress,
       required this.transactionHash,
-      required this.amount});
+      required this.amount,
+      required this.dateTime});
   final Network network;
   final Account from;
   final String toAddress;
   final String transactionHash;
   final BigInt amount;
-
+  final DateTime dateTime;
   @override
   State<TransactionInfoDialog> createState() => _TransactionInfoDialogState();
 }
@@ -95,28 +96,28 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                     widget.transactionHash,
                     overflow: TextOverflow.clip,
                   ),
-                  trailing:copiedToClipboard? IconButton(onPressed: () {
-                    
-                  }, icon: Icon(Icons.check)):IconButton(
-                      onPressed: () {
-                        copyToClipboardController.copyToClipboard(
-                          content: widget.transactionHash,
-                          onCopied: (content) {
-                            setState(() {
-                              copiedToClipboard = true;
-                            });
-                            Future.delayed(
-                              const Duration(seconds: 1),
-                              () {
+                  trailing: copiedToClipboard
+                      ? IconButton(onPressed: () {}, icon: Icon(Icons.check))
+                      : IconButton(
+                          onPressed: () {
+                            copyToClipboardController.copyToClipboard(
+                              content: widget.transactionHash,
+                              onCopied: (content) {
                                 setState(() {
-                                  copiedToClipboard = false;
+                                  copiedToClipboard = true;
                                 });
+                                Future.delayed(
+                                  const Duration(seconds: 1),
+                                  () {
+                                    setState(() {
+                                      copiedToClipboard = false;
+                                    });
+                                  },
+                                );
                               },
                             );
                           },
-                        );
-                      },
-                      icon: Icon(Icons.copy)),
+                          icon: Icon(Icons.copy)),
                 ),
                 const Spacer(),
                 TextButton(
