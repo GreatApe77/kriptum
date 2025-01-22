@@ -64,6 +64,7 @@ Future<void> setup() async {
 
   locator.registerFactory<ImportWalletController>(
     () => ImportWalletController(
+        encryptionService: locator.get<EncryptionService>(),
         accountRepository: locator.get<AccountRepository>()),
   );
 

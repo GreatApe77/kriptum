@@ -3,6 +3,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:hd_wallet_kit/hd_wallet_kit.dart';
 import 'package:hex/hex.dart';
 import 'package:http/http.dart';
+import 'package:kriptum/data/services/encryption_service.dart';
 import 'package:kriptum/domain/models/network.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:kriptum/domain/models/account.dart';

@@ -1,5 +1,4 @@
 BigInt convertEthToWei(String ethAmount) {
-  //print(ethAmount);
   if(ethAmount.contains(',')){
     ethAmount = ethAmount.replaceAll(',', '.');
   }
@@ -8,7 +7,6 @@ BigInt convertEthToWei(String ethAmount) {
   }
   BigInt weiPerEth = BigInt.from(10).pow(18); // 1 ETH = 10^18 wei
   List<String> parts = ethAmount.split('.');
-  //print(parts);
   BigInt wholePart = BigInt.parse(parts[0]) * weiPerEth;
   BigInt fractionalPart = BigInt.zero;
 
@@ -16,7 +14,6 @@ BigInt convertEthToWei(String ethAmount) {
     String fractionalString = parts[1].padRight(18, '0').substring(0, 18);
     fractionalPart = BigInt.parse(fractionalString);
   }
-  //print(wholePart+fractionalPart);
   return wholePart + fractionalPart;
 }
 

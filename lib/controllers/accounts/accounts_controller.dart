@@ -43,6 +43,7 @@ class AccountsController extends ChangeNotifier {
       notifyListeners();
       String decryptedMnemonic =
           _encryptionService.decrypt(password, encryptedMnemonic);
+
       final Account generatedAccount = await compute(
           WalletServices.getAccountFromMnemonic,
           AccountFromMnemonicParams(

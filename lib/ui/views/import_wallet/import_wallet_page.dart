@@ -116,6 +116,7 @@ class ImportWalletPage extends StatelessWidget {
       return;
     }
     await importWalletController.importWalletWithMultipleAccounts(
+      settingsController: settingsController,
       mnemonic: mnemonicTextController.text,
       password: passwordTextController.text,
       onError: () {
