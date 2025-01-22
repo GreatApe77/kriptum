@@ -26,14 +26,16 @@ class SettingsServiceImpl implements SettingsService {
     bool? isLockedWallet = sh.getBool('isLockedWallet');
     bool? hideBalance = sh.getBool('hideBalance');
     int? nextHdAccountIndex = sh.getInt('nextHdAccountIndex');
+    String? encryptedMnemonic = sh.getString('encryptedMnemonic');
     return Settings(
         hideBalance: hideBalance ?? false,
         lastConnectedIndex: currentAccountIndex ?? 0,
         isDarkTheme: isDarkTheme ?? false,
         containsWallet: containsWallet ?? false,
-        lastConnectedChainId: lastConnectedChainId ?? 1337,
+        lastConnectedChainId: lastConnectedChainId ?? 1,
         isLockedWallet: isLockedWallet ?? true,
-        nextHdAccountIndex: nextHdAccountIndex ?? 1);
+        nextHdAccountIndex: nextHdAccountIndex ?? 1,
+        encryptedMnemonic: encryptedMnemonic ?? '');
   }
 
   @override
@@ -71,10 +73,16 @@ class SettingsServiceImpl implements SettingsService {
     final sh = await SharedPreferences.getInstance();
     await sh.setBool('hideBalance', hideBalance);
   }
-  
+
   @override
-  Future<void> setNextHdAccountIndex(int nextHdAccountIndex)async {
+  Future<void> setNextHdAccountIndex(int nextHdAccountIndex) async {
     final sh = await SharedPreferences.getInstance();
     await sh.setInt('nextHdAccountIndex', nextHdAccountIndex);
+  }
+  
+  @override
+  Future<void> setEncryptedMnemonic(String encryptedMnemonic) async {
+    final sh = await SharedPreferences.getInstance();
+    await sh.setString('encryptedMnemonic', encryptedMnemonic);
   }
 }

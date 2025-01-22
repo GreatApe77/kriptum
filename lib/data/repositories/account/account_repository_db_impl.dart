@@ -25,7 +25,7 @@ class AccountRepositoryDbImpl implements AccountRepository {
     final database = await SqliteDatabase().db;
     final accountMap = account.toMap();
     accountMap['isImported'] = account.isImported?1:0;
-    await database.insert(AccountsTable.table, account.toMap());
+    await database.insert(AccountsTable.table, accountMap);
   }
 
   @override
@@ -57,7 +57,9 @@ class AccountRepositoryDbImpl implements AccountRepository {
     final database = await SqliteDatabase().db;
     final batch = database.batch();
     for (var i = 0; i < accounts.length; i++) {
-      batch.insert(AccountsTable.table, accounts[i].toMap());
+      final accountMap = accounts[i].toMap();
+      accountMap['isImported'] = accounts[i].isImported?1:0;
+      batch.insert(AccountsTable.table, accountMap);
     }
     await batch.commit();
   }

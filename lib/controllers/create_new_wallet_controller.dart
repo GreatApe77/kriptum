@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
+import 'package:kriptum/data/services/encryption_service.dart';
 import 'package:kriptum/data/services/wallet_services.dart';
 import 'package:kriptum/domain/models/account.dart';
 
@@ -11,11 +13,12 @@ class CreateNewWalletController extends ChangeNotifier {
 
   final WalletServices _walletServices;
   final AccountRepository _accountRepository;
-  CreateNewWalletController(
-      {required WalletServices walletServices,
+  final EncryptionService _encryptionService;
+  CreateNewWalletController({required EncryptionService encryptionService, 
+      required WalletServices walletServices,
       required AccountRepository accountRepository})
       : _walletServices = walletServices,
-        _accountRepository = accountRepository;
+        _accountRepository = accountRepository,_encryptionService=encryptionService;
   String get generatedMnemonic => _generatedMnemonic;
   bool get loading => _loading;
   Future<void> saveAccount() async {
@@ -25,7 +28,7 @@ class CreateNewWalletController extends ChangeNotifier {
     await _accountRepository.saveAccounts(_createdAccounts);
   }
 
-  Future<void> createNewWalletWithAccounts(String password) async {
+  Future<void> createNewWalletWithAccounts(String password,SettingsController settingsController) async {
     _loading = true;
     notifyListeners();
     _generatedMnemonic = _walletServices.generateMnemonic();
@@ -33,6 +36,8 @@ class CreateNewWalletController extends ChangeNotifier {
         WalletServices.generateAccountsFromMnemonic,
         AccountsFromMnemonicParams(
             mnemonic: _generatedMnemonic, encryptionPassword: password,amount: 1));
+    String encryptedMnemonic = _encryptionService.encrypt(password, _generatedMnemonic);
+    await settingsController.setEncryptedMnemonic(encryptedMnemonic);
     _loading = false;
     notifyListeners();
   }

@@ -46,8 +46,11 @@ class SettingsController extends ChangeNotifier implements LateInitializable {
   }
   Future<void> clearWalletConfig()async {
     _settings.lastConnectedIndex = 0;
+    _settings.nextHdAccountIndex = 1;
+
     await settingsService.clearCurrentAccountIndex();
     await setContainsWallet(false);
+    await settingsService.setNextHdAccountIndex(_settings.nextHdAccountIndex);
     notifyListeners();
   }
   Future<void> toggleTheme() async {
@@ -83,5 +86,9 @@ class SettingsController extends ChangeNotifier implements LateInitializable {
   Future<void> setNextHdAccountIndex(int nextHdAccountIndex) async {
     _settings.nextHdAccountIndex = nextHdAccountIndex;
     await settingsService.setNextHdAccountIndex(nextHdAccountIndex);
+  }
+  Future<void> setEncryptedMnemonic(String encryptedMnemonic)async{
+    _settings.encryptedMnemonic=encryptedMnemonic;
+    await settingsService.setEncryptedMnemonic(encryptedMnemonic);
   }
 }

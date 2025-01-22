@@ -334,54 +334,98 @@ class _WalletScreenState extends State<WalletScreen> {
       showDragHandle: true,
       context: context,
       builder: (context) => SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              alignment: Alignment.center,
+        child: ListenableBuilder(
+          listenable: widget.accountsController,
+          builder: (context,child) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-                ),
-                Align(
+                Stack(
                   alignment: Alignment.center,
-                  child: Text(
-                    'Add account',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                )
-              ],
-            ),
-            ListTile(
-              leading: Icon(Icons.add),
-              title: Text('Add new account'),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return ImportAccountScreen(
-                        passwordController: widget.passwordController,
-                        accountsController: widget.accountsController);
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Add account',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    )
+                  ],
+                ),
+                ListTile(
+                  enabled: !widget.accountsController.addAccountLoading,
+                  onTap: () => _triggerCreateNewAccount(context),
+                  leading: widget.accountsController.addAccountLoading?const CircularProgressIndicator():const Icon(Icons.add),
+                  title: const Text('Add new account'),
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return ImportAccountScreen(
+                            passwordController: widget.passwordController,
+                            accountsController: widget.accountsController);
+                      },
+                    ));
                   },
-                ));
-              },
-              leading: Icon(Icons.file_download_outlined),
-              title: Text('Import account'),
-            ),
-          ],
+                  leading: const Icon(Icons.file_download_outlined),
+                  title: const Text('Import account'),
+                ),
+              ],
+            );
+          }
         ),
       ),
     );
   }
 
-  void _triggerCreateNewAccount(BuildContext context) {}
+  void _triggerCreateNewAccount(BuildContext context) async {
+    final password = widget.passwordController.password;
+    final encryptedMnemonic =
+        widget.settingsController.settings.encryptedMnemonic;
+    final nextAccountIndex =
+        widget.settingsController.settings.nextHdAccountIndex;
+    await widget.accountsController.addAccount(
+      password,
+      encryptedMnemonic,
+      hdWalletAccountIndex: nextAccountIndex,
+      onSuccess: (String accountAddress) async {
+        await widget.settingsController
+            .setNextHdAccountIndex(nextAccountIndex + 1);
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.primaryFixed,
+              content: Text(
+                'Imported: ${formatAddress(accountAddress)}',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimaryFixed),
+              )));
+      },
+      onFail: () {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              content: Text(
+                'Something went wrong',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimaryFixed),
+              )));
+      },
+    );
+  }
 
   void _onNetworkChooseSideEffect(BuildContext context) {
     Navigator.pop(context);

@@ -11,7 +11,7 @@ class Account {
     required this.accountIndex,
     required this.address,
     required this.encryptedJsonWallet,
-    this.isImported=false,
+    this.isImported = false,
     this.alias,
   });
 
@@ -42,18 +42,25 @@ class Account {
   }
 
   factory Account.fromMap(Map<String, dynamic> map) {
+    bool isImported;
+    if (map['isImported'] is num) {
+      isImported = map['isImported'] == 0 ? false : true;
+    }else{
+      isImported = map['isImported'];
+    }
     return Account(
       accountIndex: map['accountIndex'] as int,
       address: map['address'] as String,
       encryptedJsonWallet: map['encryptedJsonWallet'] as String,
-      isImported: map['isImported']==1?true:false,
+      isImported: isImported,
       alias: map['alias'] != null ? map['alias'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Account.fromJson(String source) => Account.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Account.fromJson(String source) =>
+      Account.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -63,21 +70,20 @@ class Account {
   @override
   bool operator ==(covariant Account other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.accountIndex == accountIndex &&
-      other.address == address &&
-      other.encryptedJsonWallet == encryptedJsonWallet &&
-      other.isImported == isImported &&
-      other.alias == alias;
+
+    return other.accountIndex == accountIndex &&
+        other.address == address &&
+        other.encryptedJsonWallet == encryptedJsonWallet &&
+        other.isImported == isImported &&
+        other.alias == alias;
   }
 
   @override
   int get hashCode {
     return accountIndex.hashCode ^
-      address.hashCode ^
-      encryptedJsonWallet.hashCode ^
-      isImported.hashCode ^
-      alias.hashCode;
+        address.hashCode ^
+        encryptedJsonWallet.hashCode ^
+        isImported.hashCode ^
+        alias.hashCode;
   }
 }

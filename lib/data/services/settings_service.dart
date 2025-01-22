@@ -10,5 +10,6 @@ abstract class SettingsService {
   Future<void> clearSettings();
   Future<void> setLastConnectedNetworkId(int networkId);
   Future<void> setNextHdAccountIndex(int nextHdAccountIndex);
+  Future<void> setEncryptedMnemonic(String encryptedMnemonic);
   Future<Settings> loadSettings();
 }

@@ -9,6 +9,7 @@ class Settings {
   bool hideBalance;
   int lastConnectedChainId;
   int nextHdAccountIndex;
+  String encryptedMnemonic;
   Settings({
     required this.lastConnectedIndex,
     required this.isDarkTheme,
@@ -17,6 +18,7 @@ class Settings {
     required this.hideBalance,
     required this.lastConnectedChainId,
     required this.nextHdAccountIndex,
+    required this.encryptedMnemonic,
   });
   
 
@@ -28,6 +30,7 @@ class Settings {
     bool? hideBalance,
     int? lastConnectedChainId,
     int? nextHdAccountIndex,
+    String? encryptedMnemonic,
   }) {
     return Settings(
       lastConnectedIndex: lastConnectedIndex ?? this.lastConnectedIndex,
@@ -37,6 +40,7 @@ class Settings {
       hideBalance: hideBalance ?? this.hideBalance,
       lastConnectedChainId: lastConnectedChainId ?? this.lastConnectedChainId,
       nextHdAccountIndex: nextHdAccountIndex ?? this.nextHdAccountIndex,
+      encryptedMnemonic: encryptedMnemonic ?? this.encryptedMnemonic,
     );
   }
 
@@ -49,6 +53,7 @@ class Settings {
       'hideBalance': hideBalance,
       'lastConnectedChainId': lastConnectedChainId,
       'nextHdAccountIndex': nextHdAccountIndex,
+      'encryptedMnemonic': encryptedMnemonic,
     };
   }
 
@@ -61,6 +66,7 @@ class Settings {
       hideBalance: map['hideBalance'] as bool,
       lastConnectedChainId: map['lastConnectedChainId'] as int,
       nextHdAccountIndex: map['nextHdAccountIndex'] as int,
+      encryptedMnemonic: map['encryptedMnemonic'] as String,
     );
   }
 
@@ -70,7 +76,7 @@ class Settings {
 
   @override
   String toString() {
-    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, isLockedWallet: $isLockedWallet, hideBalance: $hideBalance, lastConnectedChainId: $lastConnectedChainId, nextHdAccountIndex: $nextHdAccountIndex)';
+    return 'Settings(lastConnectedIndex: $lastConnectedIndex, isDarkTheme: $isDarkTheme, containsWallet: $containsWallet, isLockedWallet: $isLockedWallet, hideBalance: $hideBalance, lastConnectedChainId: $lastConnectedChainId, nextHdAccountIndex: $nextHdAccountIndex, encryptedMnemonic: $encryptedMnemonic)';
   }
 
   @override
@@ -84,7 +90,8 @@ class Settings {
       other.isLockedWallet == isLockedWallet &&
       other.hideBalance == hideBalance &&
       other.lastConnectedChainId == lastConnectedChainId &&
-      other.nextHdAccountIndex == nextHdAccountIndex;
+      other.nextHdAccountIndex == nextHdAccountIndex &&
+      other.encryptedMnemonic == encryptedMnemonic;
   }
 
   @override
@@ -95,6 +102,7 @@ class Settings {
       isLockedWallet.hashCode ^
       hideBalance.hashCode ^
       lastConnectedChainId.hashCode ^
-      nextHdAccountIndex.hashCode;
+      nextHdAccountIndex.hashCode ^
+      encryptedMnemonic.hashCode;
   }
 }
