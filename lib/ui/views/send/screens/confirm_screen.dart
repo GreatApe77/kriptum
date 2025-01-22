@@ -15,6 +15,8 @@ import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
 import 'package:kriptum/ui/views/send/widgets/page_title.dart';
+import 'package:kriptum/ui/views/send/widgets/submitted_transaction_snack_bar.dart';
+import 'package:kriptum/ui/views/send/widgets/transaction_info_dialog.dart';
 import 'package:kriptum/ui/views/send/widgets/waiting_transaction_snack_bar.dart';
 
 class ConfirmScreen extends StatelessWidget {
@@ -62,7 +64,6 @@ class ConfirmScreen extends StatelessWidget {
           child: ListenableBuilder(
               listenable: sendTransactionController,
               builder: (context, child) {
-                
                 return Padding(
                   padding: AppSpacings.horizontalPadding,
                   child: Column(
@@ -87,8 +88,8 @@ class ConfirmScreen extends StatelessWidget {
                                 side: BorderSide(
                                     width: 1,
                                     color: Theme.of(context).hintColor),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
                             trailing: Text(
                                 '${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}',
                                 style: Theme.of(context).textTheme.bodyLarge),
@@ -124,8 +125,8 @@ class ConfirmScreen extends StatelessWidget {
                                   side: BorderSide(
                                       width: 1,
                                       color: Theme.of(context).hintColor),
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(10))),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
                               leading: Jazzicon.getIconWidget(
                                 size: 30,
                                 Jazzicon.getJazziconData(30,
@@ -159,8 +160,12 @@ class ConfirmScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           FilledButton(
-                              onPressed: sendTransactionController.isLoading? null :() => _triggerSendTransaction(context),
-                              child:  Text(sendTransactionController.isLoading?'Submitting Transaction':'Send'))
+                              onPressed: sendTransactionController.isLoading
+                                  ? null
+                                  : () => _triggerSendTransaction(context),
+                              child: Text(sendTransactionController.isLoading
+                                  ? 'Submitting Transaction'
+                                  : 'Send'))
                         ],
                       )
                     ],
@@ -177,30 +182,53 @@ class ConfirmScreen extends StatelessWidget {
       password: locator.get<PasswordController>().password,
       to: toAddressController.toAddress,
       amountInWei: sendAmountController.amount,
-      onSuccess: () {
+      onSuccess: (transactionHash) async {
         GoRouter.of(context).pushReplacement(AppRoutes.home);
+        
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(
-            
-            buildWaitngTransactionSnackBar(context)
-      //       const SnackBar(
-      // behavior: SnackBarBehavior.floating,
+          ..showSnackBar(buildWaitngTransactionSnackBar(context)
+              //       const SnackBar(
+              // behavior: SnackBarBehavior.floating,
 
-      // content: ListTile(
-      //   //leading: CircularProgressIndicator(),
-      //   title: Text('Transaction Submited'),
-      //   subtitle: Text('Waiting for confirmation...'),
-      // ))
-             );
-        MemoryCache.clearCache();
-  
+              // content: ListTile(
+              //   //leading: CircularProgressIndicator(),
+              //   title: Text('Transaction Submited'),
+              //   subtitle: Text('Waiting for confirmation...'),
+              // ))
+              );
+         showDialog(
+          context: context,
+          builder: (context) => TransactionInfoDialog(
+              network: currentNetworkController.currentConnectedNetwork!,
+              from: currentAccountController.connectedAccount!,
+              toAddress: toAddressController.toAddress,
+              transactionHash: transactionHash,
+              amount: sendAmountController.amount),
+        );
+        // ScaffoldMessenger.of(context)
+        //     .showSnackBar(buildSubmittedTransactionSnackBar(
+        //   context,
+        //   (context) {
+        //     showDialog(
+        //       context: context,
+        //       builder: (context) {
+        //         return TransactionInfoDialog(
+        //             network: currentNetworkController.currentConnectedNetwork!,
+        //             from: currentAccountController.connectedAccount!,
+        //             toAddress: toAddressController.toAddress,
+        //             transactionHash: transactionHash,
+        //             amount: sendAmountController.amount);
+        //       },
+        //     );
+        //   },
+        // ));
       },
       onFail: () {
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(SnackBar(
-              backgroundColor:Theme.of(context).colorScheme.error,
+              backgroundColor: Theme.of(context).colorScheme.error,
               content: const Text('Something went wrong')));
       },
     );

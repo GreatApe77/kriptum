@@ -13,7 +13,9 @@ class SendTransactionController extends ChangeNotifier {
     required String password,
     required String to,
     required BigInt amountInWei,
-    required Function() onSuccess,
+    required Function(
+      String transactionHash
+    ) onSuccess,
     required Function() onFail,
   }) async {
     try {
@@ -30,7 +32,7 @@ class SendTransactionController extends ChangeNotifier {
               amountInWei: amountInWei,
               network: connectedNetwork)));
       txHashResult = txHash;
-      onSuccess();
+      onSuccess(txHash);
     } catch (e) {
       //print(e.toString());
       failed = true;
