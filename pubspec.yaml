@@ -49,6 +49,7 @@ dependencies:
   http: ^1.2.2
   qr_flutter: ^4.1.0
   jazzicon: ^1.1.0
+  encrypt: ^5.0.3
 
 dev_dependencies:
   flutter_test:
