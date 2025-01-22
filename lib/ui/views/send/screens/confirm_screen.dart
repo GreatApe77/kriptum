@@ -175,63 +175,51 @@ class ConfirmScreen extends StatelessWidget {
     );
   }
 
-  void _triggerSendTransaction(BuildContext context) async {
-    await sendTransactionController.sendTransaction(
-      connectedAccount: currentAccountController.connectedAccount!,
-      connectedNetwork: currentNetworkController.currentConnectedNetwork!,
-      password: locator.get<PasswordController>().password,
-      to: toAddressController.toAddress,
-      amountInWei: sendAmountController.amount,
-      onSuccess: (transactionHash) async {
-        //GoRouter.of(context).pushReplacement(AppRoutes.home);
-        
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          ..showSnackBar(buildWaitngTransactionSnackBar(context)
-              //       const SnackBar(
-              // behavior: SnackBarBehavior.floating,
+void _triggerSendTransaction(BuildContext context) async {
+  await sendTransactionController.sendTransaction(
+    connectedAccount: currentAccountController.connectedAccount!,
+    connectedNetwork: currentNetworkController.currentConnectedNetwork!,
+    password: locator.get<PasswordController>().password,
+    to: toAddressController.toAddress,
+    amountInWei: sendAmountController.amount,
+    onSuccess: (transactionHash) async {
+      // Use context before navigation
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        //..showSnackBar(buildWaitngTransactionSnackBar(context))
+        ..showSnackBar(
+          
+          buildSubmittedTransactionSnackBar(
+          
+          context,
+          (dialogContext) {
+            showDialog(
+              context: navigatorKey.currentContext!,
+              builder: (context) => TransactionInfoDialog(
+                dateTime: DateTime.now(),
+                network: currentNetworkController.currentConnectedNetwork!,
+                from: currentAccountController.connectedAccount!,
+                toAddress: toAddressController.toAddress,
+                transactionHash: transactionHash,
+                amount: sendAmountController.amount,
+              ),
+            );
+          },
+        ));
+      // Navigate after showing SnackBars
+      GoRouter.of(context).pushReplacement(AppRoutes.home);
+    },
+    onFail: () {
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(SnackBar(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          content: const Text('Something went wrong'),
+        ));
+    },
+  );
+}
 
-              // content: ListTile(
-              //   //leading: CircularProgressIndicator(),
-              //   title: Text('Transaction Submited'),
-              //   subtitle: Text('Waiting for confirmation...'),
-              // ))
-              );
-         showDialog(
-          context: context,
-          builder: (context) => TransactionInfoDialog(
-            dateTime: DateTime.now(),
-              network: currentNetworkController.currentConnectedNetwork!,
-              from: currentAccountController.connectedAccount!,
-              toAddress: toAddressController.toAddress,
-              transactionHash: transactionHash,
-              amount: sendAmountController.amount),
-        );
-        // ScaffoldMessenger.of(context)
-        //     .showSnackBar(buildSubmittedTransactionSnackBar(
-        //   context,
-        //   (context) {
-        //     showDialog(
-        //       context: context,
-        //       builder: (context) {
-        //         return TransactionInfoDialog(
-        //             network: currentNetworkController.currentConnectedNetwork!,
-        //             from: currentAccountController.connectedAccount!,
-        //             toAddress: toAddressController.toAddress,
-        //             transactionHash: transactionHash,
-        //             amount: sendAmountController.amount);
-        //       },
-        //     );
-        //   },
-        // ));
-      },
-      onFail: () {
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          ..showSnackBar(SnackBar(
-              backgroundColor: Theme.of(context).colorScheme.error,
-              content: const Text('Something went wrong')));
-      },
-    );
-  }
+
+
 }

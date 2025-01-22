@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts/accounts_controller.dart';
@@ -35,6 +36,7 @@ class AppRoutes {
   static const settings = '/settings';
   static const send = '/send';
 }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final routes = [
   GoRoute(
@@ -110,6 +112,7 @@ final routes = [
 ];
 
 final router = GoRouter(
+  navigatorKey: navigatorKey,
     redirect: (context, state) {
       final settingsController = locator.get<SettingsController>();
       final isCreatingWallet = state.fullPath == AppRoutes.createNewWallet ||
