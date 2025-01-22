@@ -3,6 +3,7 @@ import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/network.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
+import 'package:kriptum/ui/shared/utils/format_ether.dart';
 
 class TransactionInfoDialog extends StatefulWidget {
   TransactionInfoDialog(
@@ -33,10 +34,8 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
     return AlertDialog(
         insetPadding: const EdgeInsets.symmetric(horizontal: 1),
         content: Builder(builder: (context) {
-          // Get available height and width of the build area of this widget. Make a choice depending on the size.
-          var height = MediaQuery.of(context).size.height;
           var width = MediaQuery.of(context).size.width;
-          return Container(
+          return SizedBox(
             width: width - 100,
             child: Column(
               children: [
@@ -97,7 +96,7 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                     overflow: TextOverflow.clip,
                   ),
                   trailing: copiedToClipboard
-                      ? IconButton(onPressed: () {}, icon: Icon(Icons.check))
+                      ? IconButton(onPressed: () {}, icon: const Icon(Icons.check))
                       : IconButton(
                           onPressed: () {
                             copyToClipboardController.copyToClipboard(
@@ -117,7 +116,13 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                               },
                             );
                           },
-                          icon: Icon(Icons.copy)),
+                          icon: const Icon(Icons.copy)),
+                ),
+                const Divider(),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Amount'),
+                  trailing: Text('${formatEther(widget.amount)} ${widget.network.ticker}',style: Theme.of(context).textTheme.bodyMedium,),
                 ),
                 const Spacer(),
                 TextButton(

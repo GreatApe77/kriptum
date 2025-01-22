@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:kriptum/data/services/wallet_services.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/network.dart';
+import 'package:kriptum/shared/utils/memory_cache.dart';
 
 class SendTransactionController extends ChangeNotifier {
   bool isLoading = false;
@@ -33,6 +34,7 @@ class SendTransactionController extends ChangeNotifier {
               network: connectedNetwork)));
       txHashResult = txHash;
       onSuccess(txHash);
+      MemoryCache.clearCache();
     } catch (e) {
       //print(e.toString());
       failed = true;
