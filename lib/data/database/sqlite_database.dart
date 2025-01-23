@@ -1,5 +1,6 @@
 import 'package:kriptum/data/database/accounts_table.dart';
 import 'package:kriptum/data/database/networks_table.dart';
+import 'package:kriptum/ui/shared/constants/standard_networks.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -30,6 +31,7 @@ class SqliteDatabase {
       onCreate: (db, version) async {
         await _createAccountsTable(db);
         await _createNetworksTable(db);
+        await _insertStandardChains(db);
       },
     );
   }
@@ -47,7 +49,13 @@ class SqliteDatabase {
       ''');
     
   }
-
+  Future<void> _insertStandardChains(Database db)async{
+    final batch = db.batch();
+    for (var i = 0; i < standardNetworks.length; i++) {
+      batch.insert(NetworksTable.table, standardNetworks[i].toMap());
+    }
+    await batch.commit();
+  }
   Future<void> _createNetworksTable(Database db) async {
     await db.execute(
       '''

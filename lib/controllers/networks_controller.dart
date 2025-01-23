@@ -47,6 +47,7 @@ class NetworksController extends ChangeNotifier {
 
       //_networks.add(network);
       await _networkRepository.saveNetwork(network);
+      _networks.add(network);
       notifyListeners();
       onSuccess();
     } on DuplicatedNetworkException {
