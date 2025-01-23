@@ -55,7 +55,7 @@ class AccountsController extends ChangeNotifier {
 
       await onSuccess(generatedAccount.address);
     } catch (e) {
-      print(e.toString());
+      
       onFail();
     } finally {
       addAccountLoading = false;

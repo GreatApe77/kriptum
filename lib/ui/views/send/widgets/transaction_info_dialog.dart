@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/network.dart';
+import 'package:kriptum/shared/utils/datetime_helper.dart';
 import 'package:kriptum/ui/shared/controllers/copy_to_clipboard_controller.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/shared/utils/format_ether.dart';
@@ -28,6 +29,8 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
   final CopyToClipboardController copyToClipboardController =
       CopyToClipboardController();
   bool copiedToClipboard = false;
+  
+  
   @override
   Widget build(BuildContext context) {
     final labelStyle = Theme.of(context).textTheme.labelMedium;
@@ -59,7 +62,7 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                           'Date',
                           style: labelStyle,
                         ),
-                        const Text('Jan 22 at 10:24 am'),
+                        Text(DatetimeHelper.getReadableDate(widget.dateTime.toLocal())),
                       ],
                     ),
                   ],
