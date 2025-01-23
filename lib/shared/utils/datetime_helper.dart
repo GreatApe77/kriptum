@@ -25,8 +25,10 @@ class DatetimeHelper {
     int day = date.day;
     int hour = date.hour;
     int minute = date.minute;
+    bool minuteLessThan10 = minute<10;
+    bool hourLessThan10 = hour<10;
     
-    return '$month $day at $hour:$minute';
+    return '$month $day at ${hourLessThan10?'0':''}$hour:${minuteLessThan10?'0':''}$minute';
   }
 
   

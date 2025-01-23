@@ -62,7 +62,7 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                           'Date',
                           style: labelStyle,
                         ),
-                        Text(DatetimeHelper.getReadableDate(widget.dateTime.toLocal())),
+                        Text(DatetimeHelper.getReadableDate(widget.dateTime.toUtc().toLocal())),
                       ],
                     ),
                   ],
