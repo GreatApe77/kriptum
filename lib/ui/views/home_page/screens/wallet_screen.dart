@@ -419,9 +419,9 @@ class _WalletScreenState extends State<WalletScreen> {
           ..showSnackBar(SnackBar(
               backgroundColor: Theme.of(context).colorScheme.error,
               content: Text(
-                'Something went wrong',
+                'Something went wrong While adding a new account',
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryFixed),
+                    color: Theme.of(context).colorScheme.onError),
               )));
       },
     );

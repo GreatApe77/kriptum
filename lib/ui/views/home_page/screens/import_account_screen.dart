@@ -172,7 +172,9 @@ class ImportAccountScreen extends StatelessWidget {
           ..clearSnackBars()
           ..showSnackBar(SnackBar(
               backgroundColor: Theme.of(context).colorScheme.error,
-              content: const Text('Something went wrong')));
+              content:  Text('Something went wrong while importing account',style: TextStyle(
+                color: Theme.of(context).colorScheme.onError
+              ),)));
       },
     );
   }
