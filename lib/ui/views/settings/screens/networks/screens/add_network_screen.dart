@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/networks_controller.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
+import 'package:kriptum/ui/shared/controllers/network_validator_controller.dart';
 
 class AddNetworkScreen extends StatelessWidget {
   final NetworksController networksController;
   final networkNameController = TextEditingController();
   final rpcUrlController = TextEditingController();
   final chainIdController = TextEditingController();
-  final symbolController = TextEditingController();
+  final symbolController = TextEditingController(text: 'ETH');
   final blockExplorerNameController = TextEditingController();
   final blockExplorerUrlController = TextEditingController();
-  final currencyDecimalsController = TextEditingController();
+  final currencyDecimalsController = TextEditingController(text: '18');
   final formKey = GlobalKey<FormState>();
   AddNetworkScreen({super.key, required this.networksController});
 
@@ -30,6 +31,8 @@ class AddNetworkScreen extends StatelessWidget {
                 height: 24,
               ),
               TextFormField(
+                validator: (value) =>
+                    NetworkValidatorController.validateName(value ?? ''),
                 controller: networkNameController,
                 decoration: const InputDecoration(
                     label: Text('Network Name'), border: OutlineInputBorder()),
@@ -38,6 +41,8 @@ class AddNetworkScreen extends StatelessWidget {
                 height: 24,
               ),
               TextFormField(
+                validator: (value) =>
+                    NetworkValidatorController.validateRpcUrl(value ?? ''),
                 controller: rpcUrlController,
                 decoration: const InputDecoration(
                     label: Text('RPC Url'), border: OutlineInputBorder()),
@@ -46,6 +51,9 @@ class AddNetworkScreen extends StatelessWidget {
                 height: 24,
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
+                validator: (value) =>
+                    NetworkValidatorController.validateChainId(value ?? ''),
                 controller: chainIdController,
                 decoration: const InputDecoration(
                     label: Text('Chain ID'), border: OutlineInputBorder()),
@@ -54,14 +62,21 @@ class AddNetworkScreen extends StatelessWidget {
                 height: 24,
               ),
               TextFormField(
+                validator: (value) =>
+                    NetworkValidatorController.validateTicker(value ?? ''),
                 controller: symbolController,
                 decoration: const InputDecoration(
-                    label: Text('Symbol'), border: OutlineInputBorder()),
+                    label: Text('Ticker'), border: OutlineInputBorder()),
               ),
               const SizedBox(
                 height: 24,
               ),
               TextFormField(
+                validator: (value) =>
+                    NetworkValidatorController.validateBlockExplorerName(
+                        value ?? '',
+                        blockExplorerUrlController.text.isNotEmpty ||
+                            blockExplorerNameController.text.isNotEmpty),
                 controller: blockExplorerNameController,
                 decoration: const InputDecoration(
                     label: Text('Block Explorer Name'),
@@ -71,8 +86,12 @@ class AddNetworkScreen extends StatelessWidget {
                 height: 24,
               ),
               TextFormField(
-                controller:blockExplorerUrlController,
-
+                validator: (value) =>
+                    NetworkValidatorController.validateBlockExplorerUrl(
+                        value ?? '',
+                        blockExplorerUrlController.text.isNotEmpty ||
+                            blockExplorerNameController.text.isNotEmpty),
+                controller: blockExplorerUrlController,
                 decoration: const InputDecoration(
                     label: Text('Block Explorer URL'),
                     border: OutlineInputBorder()),
@@ -81,6 +100,9 @@ class AddNetworkScreen extends StatelessWidget {
                 height: 24,
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
+                validator: (value) =>
+                    NetworkValidatorController.validateDecimals(value ?? ''),
                 controller: currencyDecimalsController,
                 decoration: const InputDecoration(
                     label: Text('Currency Decimals'),
@@ -93,8 +115,9 @@ class AddNetworkScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ElevatedButton(onPressed: 
-                  () => _triggerAddNetwork(context), child: const Text('Save'))
+                  FilledButton(
+                      onPressed: () => _triggerAddNetwork(context),
+                      child: const Text('Save'))
                 ],
               )
             ],
@@ -105,12 +128,13 @@ class AddNetworkScreen extends StatelessWidget {
   }
 
   _triggerAddNetwork(BuildContext context) async {
+    if(!formKey.currentState!.validate()) return;
     await networksController.addNetwork(
         onFail: () {
           ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: const Text('Already registered Network!'),
-            backgroundColor:Theme.of(context).colorScheme.error,
+            backgroundColor: Theme.of(context).colorScheme.error,
             showCloseIcon: true,
           ));
         },

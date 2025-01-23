@@ -16,7 +16,7 @@ import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
 import 'package:kriptum/data/repositories/account/account_repository_db_impl.dart';
 import 'package:kriptum/data/repositories/networks/network_repository.dart';
-import 'package:kriptum/data/repositories/networks/network_repository_memory_impl.dart';
+import 'package:kriptum/data/repositories/networks/network_repository_db_implementation.dart';
 import 'package:kriptum/data/services/encryption_service.dart';
 import 'package:kriptum/data/services/settings_service.dart';
 import 'package:kriptum/data/services/settings_service_impl.dart';
@@ -28,7 +28,7 @@ final locator = GetIt.instance;
 
 Future<void> setup() async {
   locator.registerCachedFactory(() => EncryptionService(),);
-  locator.registerSingleton<NetworkRepository>(NetworkRepositoryMemoryImpl());
+  locator.registerSingleton<NetworkRepository>(NetworkRepositoryDbImplementation());
   locator.registerSingleton<AccountRepository>(AccountRepositoryDbImpl());
 
   locator.registerLazySingleton<WalletServices>(() => WalletServices());
