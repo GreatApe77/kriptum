@@ -26,7 +26,7 @@ class MainBalanceView extends StatelessWidget {
               if (settingsController.settings.hideBalance) {
                 return Flexible(
                     child: Text('••••••••',
-                        style: Theme.of(context).textTheme.displayMedium));
+                        style: Theme.of(context).textTheme.headlineLarge));
               }
               return ListenableBuilder(
                   listenable: accountBalanceController,
@@ -35,19 +35,19 @@ class MainBalanceView extends StatelessWidget {
                       return Flexible(
                           child: Text('Loading...',
                               style:
-                                  Theme.of(context).textTheme.displayMedium));
+                                  Theme.of(context).textTheme.headlineLarge));
                     }
                     if (accountBalanceController.failed) {
                       return Flexible(
                           child: Text('Error!',
                               style:
-                                  Theme.of(context).textTheme.displayMedium));
+                                  Theme.of(context).textTheme.headlineLarge));
                     }
                     return Flexible(
                       child: Text(
                         '${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}',
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.displayMedium,
+                        style: Theme.of(context).textTheme.headlineLarge,
                       ),
                     );
                   });
