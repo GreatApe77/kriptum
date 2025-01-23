@@ -364,7 +364,13 @@ class _WalletScreenState extends State<WalletScreen> {
                 ListTile(
                   enabled: !widget.accountsController.addAccountLoading,
                   onTap: () => _triggerCreateNewAccount(context),
-                  leading: widget.accountsController.addAccountLoading?const CircularProgressIndicator():const Icon(Icons.add),
+                  leading: widget.accountsController.addAccountLoading? SizedBox(
+                    width: Theme.of(context).listTileTheme.minLeadingWidth,
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      
+                    ),
+                  ):const Icon(Icons.add),
                   title: const Text('Add new account'),
                 ),
                 ListTile(
@@ -429,5 +435,8 @@ class _WalletScreenState extends State<WalletScreen> {
 
   void _onNetworkChooseSideEffect(BuildContext context) {
     Navigator.pop(context);
+    ScaffoldMessenger.of(context)
+    ..clearSnackBars()
+    ..showSnackBar(SnackBar(content: Text('Switched to ${widget.currentNetworkController.currentConnectedNetwork?.name ?? ''}')));
   }
 }
