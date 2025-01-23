@@ -50,6 +50,7 @@ dependencies:
   qr_flutter: ^4.1.0
   jazzicon: ^1.1.0
   encrypt: ^5.0.3
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
