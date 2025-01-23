@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/data/services/url_launcher_services.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/network.dart';
 import 'package:kriptum/shared/utils/datetime_helper.dart';
@@ -29,8 +30,7 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
   final CopyToClipboardController copyToClipboardController =
       CopyToClipboardController();
   bool copiedToClipboard = false;
-  
-  
+
   @override
   Widget build(BuildContext context) {
     final labelStyle = Theme.of(context).textTheme.labelMedium;
@@ -62,7 +62,8 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                           'Date',
                           style: labelStyle,
                         ),
-                        Text(DatetimeHelper.getReadableDate(widget.dateTime.toUtc().toLocal())),
+                        Text(DatetimeHelper.getReadableDate(
+                            widget.dateTime.toUtc().toLocal())),
                       ],
                     ),
                   ],
@@ -99,7 +100,8 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                     overflow: TextOverflow.clip,
                   ),
                   trailing: copiedToClipboard
-                      ? IconButton(onPressed: () {}, icon: const Icon(Icons.check))
+                      ? IconButton(
+                          onPressed: () {}, icon: const Icon(Icons.check))
                       : IconButton(
                           onPressed: () {
                             copyToClipboardController.copyToClipboard(
@@ -125,20 +127,27 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Amount'),
-                  trailing: Text('${formatEther(widget.amount)} ${widget.network.ticker}',style: Theme.of(context).textTheme.bodyMedium,),
+                  trailing: Text(
+                    '${formatEther(widget.amount)} ${widget.network.ticker}',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
                 const Spacer(),
-                TextButton(
-                    onPressed: () {},
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                            textAlign: TextAlign.center,
-                            'View on ${widget.network.blockExplorerName ?? 'Block Explorer'}'),
-                      ],
-                    )),
+                widget.network.blockExplorerUrl != null
+                    ? TextButton(
+                        onPressed: () async {
+                          await _triggerViewTxOnBlockExplorer(context);
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                                textAlign: TextAlign.center,
+                                'View on ${widget.network.blockExplorerName ?? 'Block Explorer'}'),
+                          ],
+                        ))
+                    : Container(),
               ],
             ),
           );
@@ -154,5 +163,10 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                 icon: const Icon(Icons.close))
           ],
         ));
+  }
+
+  _triggerViewTxOnBlockExplorer(BuildContext context) async {
+    await UrlLauncherServices.launchInBrowser(
+        '${widget.network.blockExplorerUrl}/tx/${widget.transactionHash}');
   }
 }
