@@ -7,6 +7,7 @@ import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
+import 'package:kriptum/ui/shared/widgets/build_error_snack_bar.dart';
 import 'package:kriptum/ui/views/unlock_wallet/widgets/erase_wallet_dialog.dart';
 
 class UnlockWalletPage extends StatelessWidget {
@@ -107,12 +108,9 @@ class UnlockWalletPage extends StatelessWidget {
   }
 
   void _onWrongPassword(BuildContext context) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar( SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.error,
-        showCloseIcon: true,
-        behavior: SnackBarBehavior.floating,
-        content: const Text('Wrong Password!')));
+    ScaffoldMessenger.of(context)..
+    clearSnackBars()..showSnackBar(buildErrorSnackBar(context,'Wrong Password'));
+    
   }
 
   _triggerUnlockWallet(BuildContext context) async {

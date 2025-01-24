@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
 import 'package:kriptum/router.dart';
+import 'package:kriptum/ui/shared/widgets/build_error_snack_bar.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/widgets/linear_check_in_progress_bar.dart';
-
 
 class WriteOnPaperStep3Screen extends StatelessWidget {
   final CreateWalletStepsController _createWalletStepsController;
@@ -96,9 +96,18 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
   }
 
   void _triggerSaveAccount(BuildContext context) async {
-    await _createNewWalletController.saveAccounts();
-    await settingsController.setIsLockedWallet(false);
-    if (!context.mounted) return;
-    GoRouter.of(context).pushReplacement(AppRoutes.home);
+    await _createNewWalletController.saveAccounts(
+      onSuccess: () async {
+        await settingsController.setIsLockedWallet(false);
+        if (!context.mounted) return;
+        await GoRouter.of(context).pushReplacement(AppRoutes.home);
+      },
+      onFail: () {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(
+              buildErrorSnackBar(context, 'Error while Saving Account'));
+      },
+    );
   }
 }

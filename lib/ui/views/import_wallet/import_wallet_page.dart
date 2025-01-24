@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:kriptum/controllers/import_wallet_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
@@ -9,7 +8,7 @@ import 'package:kriptum/router.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/controllers/password_validator_controller.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
-import 'package:kriptum/ui/shared/widgets/password_dont_match_alert.dart';
+import 'package:kriptum/ui/shared/widgets/build_error_snack_bar.dart';
 import 'package:kriptum/ui/shared/widgets/title_app_bar.dart';
 import 'package:kriptum/ui/views/import_wallet/controllers/mnemonic_validator_controller.dart';
 
@@ -112,7 +111,7 @@ class ImportWalletPage extends StatelessWidget {
     if (!formKey.currentState!.validate()) return;
     if (passwordTextController.text != confirmPasswordTextController.text) {
       ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(buildPasswordDontMatchAlert(context));
+      ScaffoldMessenger.of(context).showSnackBar(buildErrorSnackBar(context,'Passwords don\'t match'));
       return;
     }
     await importWalletController.importWalletWithMultipleAccounts(
@@ -132,7 +131,7 @@ class ImportWalletPage extends StatelessWidget {
         await settingsController.setIsLockedWallet(false);
         passwordController.setPassord(passwordTextController.text);
         if (!context.mounted) return;
-        GoRouter.of(context).pushReplacement(AppRoutes.home);
+        await GoRouter.of(context).pushReplacement(AppRoutes.home);
       },
     );
   }

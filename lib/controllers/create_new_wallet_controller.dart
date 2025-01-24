@@ -14,32 +14,58 @@ class CreateNewWalletController extends ChangeNotifier {
   final WalletServices _walletServices;
   final AccountRepository _accountRepository;
   final EncryptionService _encryptionService;
-  CreateNewWalletController({required EncryptionService encryptionService, 
+  CreateNewWalletController(
+      {required EncryptionService encryptionService,
       required WalletServices walletServices,
       required AccountRepository accountRepository})
       : _walletServices = walletServices,
-        _accountRepository = accountRepository,_encryptionService=encryptionService;
+        _accountRepository = accountRepository,
+        _encryptionService = encryptionService;
   String get generatedMnemonic => _generatedMnemonic;
   bool get loading => _loading;
   Future<void> saveAccount() async {
     await _accountRepository.saveAccount(_createdAccount!);
   }
-  Future<void> saveAccounts() async {
-    await _accountRepository.saveAccounts(_createdAccounts);
+
+  Future<void> saveAccounts({
+    required Function() onSuccess,
+    required Function() onFail,
+  }) async {
+    try {
+      await _accountRepository.saveAccounts(_createdAccounts);
+      await onSuccess();
+    } catch (e) {
+      await onFail();
+    }
   }
 
-  Future<void> createNewWalletWithAccounts(String password,SettingsController settingsController) async {
-    _loading = true;
-    notifyListeners();
-    _generatedMnemonic = _walletServices.generateMnemonic();
-    _createdAccounts = await compute(
-        WalletServices.generateAccountsFromMnemonic,
-        AccountsFromMnemonicParams(
-            mnemonic: _generatedMnemonic, encryptionPassword: password,amount: 1));
-    String encryptedMnemonic = _encryptionService.encrypt(password, _generatedMnemonic);
-    await settingsController.setEncryptedMnemonic(encryptedMnemonic);
-    _loading = false;
-    notifyListeners();
+  Future<void> createNewWalletWithAccounts({
+    required String password,
+    required SettingsController settingsController,
+    required Function() onSuccess,
+    required Function() onFail,
+  }) async {
+    try {
+      _loading = true;
+      notifyListeners();
+      _generatedMnemonic = _walletServices.generateMnemonic();
+      _createdAccounts = await compute(
+          WalletServices.generateAccountsFromMnemonic,
+          AccountsFromMnemonicParams(
+              mnemonic: _generatedMnemonic,
+              encryptionPassword: password,
+              amount: 1));
+
+      String encryptedMnemonic =
+          _encryptionService.encrypt(password, _generatedMnemonic);
+      await settingsController.setEncryptedMnemonic(encryptedMnemonic);
+      await onSuccess();
+    } catch (e) {
+      await onFail();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> createNewWallet(String password) async {

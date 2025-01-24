@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/controllers/settings_controller.dart';
-import 'package:kriptum/ui/shared/widgets/password_dont_match_alert.dart';
+import 'package:kriptum/ui/shared/widgets/build_error_snack_bar.dart';
 import 'package:kriptum/ui/views/create_new_wallet_page/controllers/create_wallet_steps_controller.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
 import 'package:kriptum/ui/shared/widgets/linear_check_in_progress_bar.dart';
@@ -104,14 +104,30 @@ class CreatePasswordStep1Screen extends StatelessWidget {
     if (confirmPasswordTextController.text != passwordTextController.text) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context)
-          .showSnackBar(buildPasswordDontMatchAlert(context));
+          .showSnackBar(buildErrorSnackBar(context, 'Passwords don\'t match'));
       return;
     }
     _passwordController.setPassord(passwordTextController.text);
     await _createNewWalletController.createNewWalletWithAccounts(
-        confirmPasswordTextController.text, _settingsController);
-    await _settingsController.setContainsWallet(true);
-
-    _createWalletStepsController.nextStep();
+      password: passwordTextController.text,
+      settingsController: _settingsController,
+      onFail: () {
+        ScaffoldMessenger.of(context)
+          ..clearSnackBars()
+          ..showSnackBar(SnackBar(
+            backgroundColor: Theme.of(context).colorScheme.error,
+            content: Text(
+              'Error while computing new wallet',
+              
+              style: TextStyle(color: Theme.of(context).colorScheme.onError),
+            ),
+          ));
+        return;
+      },
+      onSuccess: () async {
+        await _settingsController.setContainsWallet(true);
+        _createWalletStepsController.nextStep();
+      },
+    );
   }
 }

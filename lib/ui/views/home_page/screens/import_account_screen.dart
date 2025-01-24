@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/accounts/accounts_controller.dart';
 import 'package:kriptum/controllers/password_controller.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/controllers/private_key_validator_controller.dart';
 import 'package:kriptum/ui/shared/widgets/basic_loading.dart';
+import 'package:kriptum/ui/shared/widgets/build_error_snack_bar.dart';
 
 class ImportAccountScreen extends StatelessWidget {
   final AccountsController accountsController;
@@ -155,12 +157,12 @@ class ImportAccountScreen extends StatelessWidget {
       onAlreadyExistingAccount: () {
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(SnackBar(
-              backgroundColor: Theme.of(context).colorScheme.error,
-              content: const Text('Account already imported!')));
+          ..showSnackBar(buildErrorSnackBar(context,'Account already imported!'));
       },
-      onSuccess: () {
+      onSuccess: () async{
         Navigator.pop(context);
+        await Future.delayed(const Duration(milliseconds: 750));
+        if(!context.mounted) return;
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
           ..showSnackBar(SnackBar(
@@ -170,11 +172,7 @@ class ImportAccountScreen extends StatelessWidget {
       onFail: () {
         ScaffoldMessenger.of(context)
           ..clearSnackBars()
-          ..showSnackBar(SnackBar(
-              backgroundColor: Theme.of(context).colorScheme.error,
-              content:  Text('Something went wrong while importing account',style: TextStyle(
-                color: Theme.of(context).colorScheme.onError
-              ),)));
+          ..showSnackBar(buildErrorSnackBar(context, 'Error while importing account'));
       },
     );
   }
