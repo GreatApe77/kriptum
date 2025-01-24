@@ -37,10 +37,12 @@ class ContactsRepositoryMemoryImpl implements ContactsRepository {
   }
 
   @override
-  Future<void> saveContact(Contact contact)async {
-    _nextId++;
-    contact.id = _nextId;
+  Future<int> saveContact(Contact contact)async {
+    int insertedId = _nextId;
+    contact.id = insertedId;
     _repo.add(contact);
+    _nextId++;
+    return insertedId;
 
   }
 
