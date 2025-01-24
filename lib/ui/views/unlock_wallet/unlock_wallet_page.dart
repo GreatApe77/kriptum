@@ -124,7 +124,7 @@ class UnlockWalletPage extends StatelessWidget {
         passwordController.setPassord(passwordTextController.text);
         await settingsController.setIsLockedWallet(false);
         if(!context.mounted) return;
-        GoRouter.of(context).pushReplacement(AppRoutes.home);
+        await GoRouter.of(context).pushReplacement(AppRoutes.home);
       },
     );
   }

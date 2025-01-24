@@ -34,9 +34,9 @@ class UnlockWalletController extends ChangeNotifier {
     isLoading = false;
     
     if (rightPassword) {
-      onSuccess();
+      await onSuccess();
     } else {
-      onWrongPassword();
+      await onWrongPassword();
     }
     notifyListeners();
   }
