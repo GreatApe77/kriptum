@@ -4,6 +4,7 @@ import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/controllers/contacts/contacts_controller.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
+import 'package:kriptum/ui/views/settings/screens/contacts/screens/add_contact_screen.dart';
 
 class ContactsScreen extends StatefulWidget {
   final ContactsController contactsController;
@@ -62,7 +63,14 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 );
               },
             )),
-            FilledButton(onPressed: () {}, child: const Text('Add contact'))
+            FilledButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddContactScreen(
+                        contactsController: widget.contactsController),
+                  ));
+                },
+                child: const Text('Add contact'))
           ],
         ),
       )),
