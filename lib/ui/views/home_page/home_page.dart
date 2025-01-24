@@ -27,7 +27,9 @@ class HomePage extends StatefulWidget {
       required this.settingsController,
       required this.accountBalanceController,
       required this.networksController,
-      required this.currentNetworkController, required this.currentAccountController, required this.passwordController});
+      required this.currentNetworkController,
+      required this.currentAccountController,
+      required this.passwordController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -147,15 +149,9 @@ class _HomePageState extends State<HomePage> {
                 accountsController: widget.accountsController,
                 accountBalanceController: widget.accountBalanceController,
               ),
-              Center(
-                  child: Text(
-                      'PAGE: ${widget.navigationBarController.selectedPage}')),
-              Center(
-                  child: Text(
-                      'PAGE: ${widget.navigationBarController.selectedPage}')),
-              Center(
-                  child: Text(
-                      'PAGE: ${widget.navigationBarController.selectedPage}')),
+              const Center(child: Text('Coming soon...')),
+              Container(),
+              const Center(child: Text('Coming soon...')),
               //SettingsScreen(
               //    settingsController: widget.settingsController),
             ];
