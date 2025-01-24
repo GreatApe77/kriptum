@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts/accounts_controller.dart';
+import 'package:kriptum/controllers/contacts/contacts_controller.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/controllers/accounts/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
@@ -29,8 +30,11 @@ import 'package:kriptum/ui/views/home_page/controllers/navigation_bar_controller
 final locator = GetIt.instance;
 
 Future<void> setup() async {
-  locator.registerCachedFactory(() => EncryptionService(),);
-  locator.registerSingleton<NetworkRepository>(NetworkRepositoryDbImplementation());
+  locator.registerCachedFactory(
+    () => EncryptionService(),
+  );
+  locator.registerSingleton<NetworkRepository>(
+      NetworkRepositoryDbImplementation());
   locator.registerSingleton<AccountRepository>(AccountRepositoryDbImpl());
   locator.registerSingleton<ContactsRepository>(ContactsRepositoryMemoryImpl());
 
@@ -47,13 +51,15 @@ Future<void> setup() async {
   );
 
   locator.registerLazySingleton<AccountsController>(
-    () =>
-        AccountsController(
-          encryptionService: locator.get<EncryptionService>(),
-          walletServices: locator.get<WalletServices>(),
-          accountRepository: locator.get<AccountRepository>()),
+    () => AccountsController(
+        encryptionService: locator.get<EncryptionService>(),
+        walletServices: locator.get<WalletServices>(),
+        accountRepository: locator.get<AccountRepository>()),
   );
-
+  locator.registerLazySingleton<ContactsController>(
+    () => ContactsController(
+        contactsRepository: locator.get<ContactsRepository>()),
+  );
   locator.registerLazySingleton<SettingsService>(() => SettingsServiceImpl());
 
   locator.registerLazySingleton<SettingsController>(

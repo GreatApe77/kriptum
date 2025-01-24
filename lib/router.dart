@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts/accounts_controller.dart';
+import 'package:kriptum/controllers/contacts/contacts_controller.dart';
 import 'package:kriptum/controllers/create_new_wallet_controller.dart';
 import 'package:kriptum/controllers/accounts/current_account_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
@@ -91,6 +92,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.settings,
     builder: (context, state) => SettingsPage(
+      contactsController: locator.get<ContactsController>(),
       passwordController: locator.get<PasswordController>(),
       currentNetworkController: locator.get<CurrentNetworkController>(),
       networksController: locator.get<NetworksController>(),
