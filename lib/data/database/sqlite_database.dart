@@ -1,4 +1,5 @@
 import 'package:kriptum/data/database/accounts_table.dart';
+import 'package:kriptum/data/database/contacts_table.dart';
 import 'package:kriptum/data/database/networks_table.dart';
 import 'package:kriptum/ui/shared/constants/standard_networks.dart';
 import 'package:path/path.dart';
@@ -31,6 +32,7 @@ class SqliteDatabase {
       onCreate: (db, version) async {
         await _createAccountsTable(db);
         await _createNetworksTable(db);
+        await _createContactsTable(db);
         await _insertStandardChains(db);
       },
     );
@@ -47,18 +49,18 @@ class SqliteDatabase {
         );
 
       ''');
-    
   }
-  Future<void> _insertStandardChains(Database db)async{
+
+  Future<void> _insertStandardChains(Database db) async {
     final batch = db.batch();
     for (var i = 0; i < standardNetworks.length; i++) {
       batch.insert(NetworksTable.table, standardNetworks[i].toMap());
     }
     await batch.commit();
   }
+
   Future<void> _createNetworksTable(Database db) async {
-    await db.execute(
-      '''
+    await db.execute('''
         CREATE TABLE IF NOT EXISTS ${NetworksTable.table}(
           ${NetworksTable.idColumn} INTEGER PRIMARY KEY NOT NULL,
           ${NetworksTable.rpcUrlColumn} VARCHAR(255) NOT NULL,
@@ -67,6 +69,16 @@ class SqliteDatabase {
           ${NetworksTable.blockExplorerUrlColumn} VARCHAR(255),
           ${NetworksTable.tickerColumn} VARCHAR(10) NOT NULL,
           ${NetworksTable.currencyDecimalsColumn} INTEGER NOT NULL
+        );
+      ''');
+  }
+
+  Future<void> _createContactsTable(Database db) async {
+    await db.execute('''
+        CREATE TABLE IF NOT EXISTS ${ContactsTable.table}(
+          ${ContactsTable.idColumn} INTEGER PRIMARY KEY NOT NULL,
+          ${ContactsTable.nameColumn} VARCHAR(255) NOT NULL,
+          ${ContactsTable.addressColumn} VARCHAR(42) UNIQUE NOT NULL 
         );
       ''');
   }
