@@ -37,7 +37,8 @@ class SendPage extends StatelessWidget {
       required this.accountBalanceController,
       required this.sendAmountController,
       required this.toAddressController,
-      required this.sendTransactionController, required this.contactsController});
+      required this.sendTransactionController,
+      required this.contactsController});
 
   @override
   Widget build(BuildContext context) {
