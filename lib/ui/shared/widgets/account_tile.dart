@@ -23,7 +23,7 @@ class AccountTile extends StatelessWidget {
       onTap: onSelected,
       selected: isSelected,
       leading: Jazzicon.getIconWidget(
-        Jazzicon.getJazziconData(20, address: account.address),
+        Jazzicon.getJazziconData(40, address: account.address),
       ),
       trailing: includeMenu
           ? IconButton(
@@ -34,9 +34,16 @@ class AccountTile extends StatelessWidget {
       subtitle: account.isImported
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(formatAddress(account.address)),Text('IMPORTED',style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.primary
-              ),)],
+              children: [
+                Text(formatAddress(account.address)),
+                Text(
+                  'IMPORTED',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                )
+              ],
             )
           : Text(formatAddress(account.address)),
       //subtitle: Text('${formatAddress(account.address)} ${account.isImported?'SIM':'NAO'}'),
