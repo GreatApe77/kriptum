@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/controllers/contacts/contacts_controller.dart';
+import 'package:kriptum/domain/models/contact.dart';
 import 'package:kriptum/ui/shared/constants/app_spacings.dart';
 import 'package:kriptum/ui/shared/utils/format_address.dart';
 import 'package:kriptum/ui/views/settings/screens/contacts/screens/add_contact_screen.dart';
+import 'package:kriptum/ui/views/settings/screens/contacts/screens/edit_contact_screen.dart';
 
 class ContactsScreen extends StatefulWidget {
   final ContactsController contactsController;
@@ -51,6 +53,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     final contact = widget.contactsController.contacts[index];
 
                     return ListTile(
+                      onTap: () => _navigateToEditContactPage(
+                          context, widget.contactsController.contacts[index]),
                       contentPadding: EdgeInsets.zero,
                       minLeadingWidth: 40,
                       leading: Jazzicon.getIconWidget(Jazzicon.getJazziconData(
@@ -75,5 +79,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
         ),
       )),
     );
+  }
+
+  void _navigateToEditContactPage(BuildContext context, Contact contact) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => EditContactScreen(
+          contact: contact, contactsController: widget.contactsController),
+    ));
   }
 }
