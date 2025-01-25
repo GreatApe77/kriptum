@@ -56,7 +56,7 @@ Future<void> setup() async {
         walletServices: locator.get<WalletServices>(),
         accountRepository: locator.get<AccountRepository>()),
   );
-  locator.registerLazySingleton<ContactsController>(
+  locator.registerFactory<ContactsController>(
     () => ContactsController(
         contactsRepository: locator.get<ContactsRepository>()),
   );

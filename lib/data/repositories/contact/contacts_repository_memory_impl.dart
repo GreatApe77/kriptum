@@ -33,7 +33,7 @@ class ContactsRepositoryMemoryImpl implements ContactsRepository {
   @override
   Future<List<Contact>> getContacts() async {
     await Future.delayed(Duration(seconds: 1));
-    return Future.value(_repo);
+    return Future.value(List.from(_repo));
   }
 
   @override
