@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqliteDatabase {
+  static const _dbVersion=2;
   static final _instance = SqliteDatabase._internal();
 
   SqliteDatabase._internal();
@@ -28,19 +29,24 @@ class SqliteDatabase {
 
     return await openDatabase(
       dbPath,
-      version: 1,
+      version: _dbVersion,
       onCreate: (db, version) async {
         await _createAccountsTable(db);
         await _createNetworksTable(db);
         await _createContactsTable(db);
         await _insertStandardChains(db);
       },
+      onUpgrade: (db, oldVersion, newVersion)async {
+        if(oldVersion<2){
+          await _upgradeV2(db);
+        }
+      },
     );
   }
-
+  
   Future<void> _createAccountsTable(Database db) async {
     await db.execute('''
-        CREATE TABLE ${AccountsTable.table}(
+        CREATE TABLE IF NOT EXISTS ${AccountsTable.table}(
           ${AccountsTable.accountIndexColumn} INTEGER PRIMARY KEY,
           ${AccountsTable.addressColumn} VARCHAR(255),
           ${AccountsTable.encryptedJsonWalletColumn} TEXT,
@@ -81,5 +87,8 @@ class SqliteDatabase {
           ${ContactsTable.addressColumn} VARCHAR(42) UNIQUE NOT NULL 
         );
       ''');
+  }
+  Future<void> _upgradeV2(Database db) async {
+    await _createContactsTable(db);
   }
 }

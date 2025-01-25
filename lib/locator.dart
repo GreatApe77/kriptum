@@ -17,7 +17,7 @@ import 'package:kriptum/controllers/unlock_wallet_controller.dart';
 import 'package:kriptum/data/repositories/account/account_repository.dart';
 import 'package:kriptum/data/repositories/account/account_repository_db_impl.dart';
 import 'package:kriptum/data/repositories/contact/contacts_repository.dart';
-import 'package:kriptum/data/repositories/contact/contacts_repository_memory_impl.dart';
+import 'package:kriptum/data/repositories/contact/contacts_repository_db_impl.dart';
 import 'package:kriptum/data/repositories/networks/network_repository.dart';
 import 'package:kriptum/data/repositories/networks/network_repository_db_implementation.dart';
 import 'package:kriptum/data/services/encryption_service.dart';
@@ -36,7 +36,7 @@ Future<void> setup() async {
   locator.registerSingleton<NetworkRepository>(
       NetworkRepositoryDbImplementation());
   locator.registerSingleton<AccountRepository>(AccountRepositoryDbImpl());
-  locator.registerSingleton<ContactsRepository>(ContactsRepositoryMemoryImpl());
+  locator.registerSingleton<ContactsRepository>(ContactsRepositoryDbImpl());
 
   locator.registerLazySingleton<WalletServices>(() => WalletServices());
   locator.registerFactory<CreateWalletStepsController>(

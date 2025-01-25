@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/data/repositories/contact/contacts_repository.dart';
+import 'package:kriptum/domain/exceptions/duplicated_contact_exception.dart';
 import 'package:kriptum/domain/models/contact.dart';
 
 class ContactsController extends ChangeNotifier {
@@ -24,7 +25,7 @@ class ContactsController extends ChangeNotifier {
       _contacts[idx] = editedContactData;
       onSuccess();
       notifyListeners();
-    } catch (e) {
+    } on DuplicatedContactException {
       onFail();
     }
   }
