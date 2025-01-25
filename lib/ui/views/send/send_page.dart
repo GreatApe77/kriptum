@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kriptum/controllers/account_balance_controller.dart';
 import 'package:kriptum/controllers/accounts/accounts_controller.dart';
 import 'package:kriptum/controllers/accounts/current_account_controller.dart';
+import 'package:kriptum/controllers/contacts/contacts_controller.dart';
 import 'package:kriptum/controllers/current_network_controller.dart';
 import 'package:kriptum/controllers/send/send_amount_controller.dart';
 import 'package:kriptum/controllers/send/send_transaction_controller.dart';
@@ -25,6 +26,7 @@ class SendPage extends StatelessWidget {
   final CurrentNetworkController currentNetworkController;
   final SendAmountController sendAmountController;
   final ToAddressController toAddressController;
+  final ContactsController contactsController;
   final SendTransactionController sendTransactionController;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   SendPage(
@@ -35,7 +37,7 @@ class SendPage extends StatelessWidget {
       required this.accountBalanceController,
       required this.sendAmountController,
       required this.toAddressController,
-      required this.sendTransactionController});
+      required this.sendTransactionController, required this.contactsController});
 
   @override
   Widget build(BuildContext context) {

@@ -102,6 +102,7 @@ final routes = [
   GoRoute(
     path: AppRoutes.send,
     builder: (context, state) => SendPage(
+      contactsController: locator.get<ContactsController>(),
       sendTransactionController: locator.get<SendTransactionController>(),
       toAddressController: locator.get<ToAddressController>(),
       sendAmountController: locator.get<SendAmountController>(),

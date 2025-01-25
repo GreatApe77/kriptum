@@ -11,6 +11,24 @@ class ContactsController extends ChangeNotifier {
 
   List<Contact> get contacts => _contacts;
 
+  Future<void> updateContact(
+      {required int contactId,
+      required Contact editedContactData,
+      required Function() onSuccess,
+      required Function() onFail}) async {
+    try {
+      await _contactsRepository.updateContact(contactId, editedContactData);
+      int idx = _contacts.indexWhere(
+        (element) => element.id == contactId,
+      );
+      _contacts[idx] = editedContactData;
+      onSuccess();
+      notifyListeners();
+    } catch (e) {
+      onFail();
+    }
+  }
+
   Future<void> deleteContact(
       {required Contact contact,
       required Function() onSuccess,
