@@ -87,6 +87,7 @@ class _WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: ListenableBuilder(
@@ -137,13 +138,41 @@ class _WalletScreenState extends State<WalletScreen> {
               onPressed: () {}, icon: const Icon(Icons.qr_code_scanner_rounded))
         ],
       ),
-      body: Container(
-          padding: AppSpacings.horizontalPadding,
-          margin: const EdgeInsets.symmetric(vertical: 20),
-          child: MainBalanceView(
-              currentNetworkController: widget.currentNetworkController,
-              settingsController: widget.settingsController,
-              accountBalanceController: widget.accountBalanceController)),
+      // body: Container(
+      //     padding: AppSpacings.horizontalPadding,
+      //     //margin: const EdgeInsets.symmetric(vertical: 20),
+      //     child: MainBalanceView(
+      //         currentNetworkController: widget.currentNetworkController,
+      //         settingsController: widget.settingsController,
+      //         accountBalanceController: widget.accountBalanceController)),
+      body: SizedBox(
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+                blurRadius: 15,
+                offset: const Offset(0, 1),
+                spreadRadius: 4,
+              ),
+            ],
+            color: Theme.of(context).colorScheme.inversePrimary,
+            borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30)),
+          ),
+          child: Padding(
+            padding: AppSpacings.horizontalPadding,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 24, bottom: 24),
+              child: MainBalanceView(
+                  currentNetworkController: widget.currentNetworkController,
+                  settingsController: widget.settingsController,
+                  accountBalanceController: widget.accountBalanceController),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -335,61 +364,62 @@ class _WalletScreenState extends State<WalletScreen> {
       context: context,
       builder: (context) => SafeArea(
         child: ListenableBuilder(
-          listenable: widget.accountsController,
-          builder: (context,child) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Add account',
-                        style: Theme.of(context).textTheme.headlineSmall,
+            listenable: widget.accountsController,
+            builder: (context, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.arrow_back_ios_new_rounded)),
                       ),
-                    )
-                  ],
-                ),
-                ListTile(
-                  enabled: !widget.accountsController.addAccountLoading,
-                  onTap: () => _triggerCreateNewAccount(context),
-                  leading: widget.accountsController.addAccountLoading? SizedBox(
-                    width: Theme.of(context).listTileTheme.minLeadingWidth,
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      
-                    ),
-                  ):const Icon(Icons.add),
-                  title: const Text('Add new account'),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return ImportAccountScreen(
-                            passwordController: widget.passwordController,
-                            accountsController: widget.accountsController);
-                      },
-                    ));
-                  },
-                  leading: const Icon(Icons.file_download_outlined),
-                  title: const Text('Import account'),
-                ),
-              ],
-            );
-          }
-        ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Add account',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      )
+                    ],
+                  ),
+                  ListTile(
+                    enabled: !widget.accountsController.addAccountLoading,
+                    onTap: () => _triggerCreateNewAccount(context),
+                    leading: widget.accountsController.addAccountLoading
+                        ? SizedBox(
+                            width:
+                                Theme.of(context).listTileTheme.minLeadingWidth,
+                            child: CircularProgressIndicator(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          )
+                        : const Icon(Icons.add),
+                    title: const Text('Add new account'),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return ImportAccountScreen(
+                              passwordController: widget.passwordController,
+                              accountsController: widget.accountsController);
+                        },
+                      ));
+                    },
+                    leading: const Icon(Icons.file_download_outlined),
+                    title: const Text('Import account'),
+                  ),
+                ],
+              );
+            }),
       ),
     );
   }
@@ -426,8 +456,7 @@ class _WalletScreenState extends State<WalletScreen> {
               backgroundColor: Theme.of(context).colorScheme.error,
               content: Text(
                 'Something went wrong While adding a new account',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onError),
+                style: TextStyle(color: Theme.of(context).colorScheme.onError),
               )));
       },
     );
@@ -436,7 +465,9 @@ class _WalletScreenState extends State<WalletScreen> {
   void _onNetworkChooseSideEffect(BuildContext context) {
     Navigator.pop(context);
     ScaffoldMessenger.of(context)
-    ..clearSnackBars()
-    ..showSnackBar(SnackBar(content: Text('Switched to ${widget.currentNetworkController.currentConnectedNetwork?.name ?? ''}')));
+      ..clearSnackBars()
+      ..showSnackBar(SnackBar(
+          content: Text(
+              'Switched to ${widget.currentNetworkController.currentConnectedNetwork?.name ?? ''}')));
   }
 }
