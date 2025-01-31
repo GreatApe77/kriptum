@@ -150,9 +150,8 @@ class _WalletScreenState extends State<WalletScreen> {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
-                blurRadius: 15,
-                offset: const Offset(0, 1),
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+                blurRadius: 6,
                 spreadRadius: 4,
               ),
             ],
