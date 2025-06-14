@@ -1,2 +1,0 @@
-class ContactNotFoundException extends Error {
-}
