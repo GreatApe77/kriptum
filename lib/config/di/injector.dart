@@ -1,10 +1,15 @@
 import 'package:get_it/get_it.dart';
 import 'package:kriptum/domain/accounts_repository.dart';
 import 'package:kriptum/infra/fake_accounts_repository.dart';
+import 'package:kriptum/infra/persistence/database/database.dart';
+import 'package:kriptum/infra/persistence/database/sqflite/sqflite_database.dart';
 
 final injector = GetIt.instance;
 Future<void> initInjector() async {
-  injector..registerLazySingleton<AccountsRepository>(
+  injector.registerLazySingleton<AccountsRepository>(
     () => FakeAccountsRepository(),
+  );
+  injector.registerLazySingleton<Database>(
+    () => SqfliteDatabase(),
   );
 }
