@@ -14,10 +14,12 @@ class FakeAccountsRepository implements AccountsRepository {
   @override
   Stream<Account> currentAccountStream() {
     return Stream.value(sampleAccounts.first);
+   
   }
 
   @override
   Future<List<Account>> getAccounts() {
     return Future.value(sampleAccounts);
+    //return Future.value([]);
   }
 }
