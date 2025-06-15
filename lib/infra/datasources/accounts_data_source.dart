@@ -6,4 +6,6 @@ abstract interface class AccountsDataSource {
   Future<int> insertAccount(Account account);
 
   Future<Account?> getAccountById(int id);
+
+  Future<void> insertAccounts(List<Account> accounts);
 }

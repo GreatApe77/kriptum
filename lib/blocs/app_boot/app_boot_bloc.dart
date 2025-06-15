@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:kriptum/domain/accounts_repository.dart';
+import 'package:kriptum/domain/repositories/accounts_repository.dart';
 
 part 'app_boot_event.dart';
 part 'app_boot_state.dart';

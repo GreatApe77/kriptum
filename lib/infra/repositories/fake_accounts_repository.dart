@@ -1,4 +1,4 @@
-import 'package:kriptum/domain/accounts_repository.dart';
+import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/models/account.dart';
 
 class FakeAccountsRepository implements AccountsRepository {
@@ -14,12 +14,17 @@ class FakeAccountsRepository implements AccountsRepository {
   @override
   Stream<Account> currentAccountStream() {
     return Stream.value(sampleAccounts.first);
-   
   }
 
   @override
   Future<List<Account>> getAccounts() {
     return Future.value(sampleAccounts);
     //return Future.value([]);
+  }
+
+  @override
+  Future<void> saveAccounts(List<Account> accounts) {
+    // TODO: implement saveAccounts
+    throw UnimplementedError();
   }
 }

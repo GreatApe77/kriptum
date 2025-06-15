@@ -1,4 +1,4 @@
-import 'package:kriptum/data/datasources/accounts_data_source.dart';
+import 'package:kriptum/infra/datasources/accounts_data_source.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/tables/accounts_table.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
@@ -36,5 +36,13 @@ class AccountsDataSourceImpl implements AccountsDataSource {
       AccountsTable.table,
       accountMap,
     );
+  }
+
+  @override
+  Future<void> insertAccounts(List<Account> accounts) async {
+    for (final accounts in accounts) {
+      final accountMap = accounts.toMap();
+      await _sqlDatabase.insert(AccountsTable.table, accountMap);
+    }
   }
 }
