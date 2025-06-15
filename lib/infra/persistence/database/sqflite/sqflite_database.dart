@@ -1,9 +1,9 @@
-import 'package:kriptum/infra/persistence/database/database.dart';
+import 'package:kriptum/infra/persistence/database/sql_database.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/run_migrations.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-class SqfliteDatabase implements Database {
+class SqfliteDatabase implements SqlDatabase {
   static const _dbVersion = 2;
   final _dbFileName = 'kriptum.db';
   sqflite.Database? _database;
@@ -36,25 +36,103 @@ class SqfliteDatabase implements Database {
   }
 
   @override
-  Future<int> delete(String table, String where, List<Object?> whereArgs) {
-    // TODO: implement query
-    throw UnimplementedError();
+  Future<int> delete(
+    String table,
+    String where,
+    List<Object?> whereArgs,
+  ) async {
+    final db = await _getDatabase();
+    return await db.delete(
+      table,
+      where: where,
+      whereArgs: whereArgs,
+    );
   }
 
   @override
-  Future<int> insert(String table, Map<String, dynamic> values) {
-    // TODO: implement insert
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Map<String, dynamic>>> query(String table) {
-    // TODO: implement query
-    throw UnimplementedError();
+  Future<int> insert(String table, Map<String, dynamic> values) async {
+    final db = await _getDatabase();
+    return await db.insert(
+      table,
+      values,
+      conflictAlgorithm: sqflite.ConflictAlgorithm.replace,
+    );
   }
 
   @override
   Future<void> initialize() async {
     await _getDatabase();
+  }
+
+  @override
+  Future<void> execute(String sql, [List<Object?>? arguments]) {
+    // TODO: implement execute
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> getVersion() async {
+    final db = await _getDatabase();
+    return await db.getVersion();
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> rawQuery(String sql,
+      [List<Object?>? arguments]) {
+    // TODO: implement rawQuery
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<T> transaction<T>(Future<T> Function() action) {
+    // TODO: implement transaction
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> update(String table, Map<String, dynamic> values,
+      {String? where, List<Object?>? whereArgs}) async {
+    final db = await _getDatabase();
+    return await db.update(
+      table,
+      values,
+      where: where,
+      whereArgs: whereArgs,
+      conflictAlgorithm: sqflite.ConflictAlgorithm.replace,
+    );
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> query(String table,
+      {bool? distinct,
+      List<String>? columns,
+      String? where,
+      List<Object?>? whereArgs,
+      String? groupBy,
+      String? having,
+      String? orderBy,
+      int? limit,
+      int? offset}) async {
+    final db = await _getDatabase();
+    return await db.query(
+      table,
+      distinct: distinct ?? false,
+      columns: columns,
+      where: where,
+      whereArgs: whereArgs,
+      groupBy: groupBy,
+      having: having,
+      orderBy: orderBy,
+      limit: limit,
+      offset: offset,
+    );
+  }
+
+  @override
+  Future<void> dispose() async {
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
   }
 }
