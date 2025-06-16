@@ -1,16 +1,13 @@
-import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
 
 class GenerateAccountsPreviewUsecase {
   final AccountGeneratorService _accountGenerator;
-  final AccountsRepository _accountsRepository;
 
   GenerateAccountsPreviewUsecase({
     required AccountGeneratorService accountGenerator,
-    required AccountsRepository accountsRepository,
-  })  : _accountGenerator = accountGenerator,
-        _accountsRepository = accountsRepository;
+  })  : _accountGenerator = accountGenerator;
+        
 
   Future<List<Account>> execute(
     GenerateAccountsPreviewUsecaseParams params,

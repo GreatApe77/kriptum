@@ -42,7 +42,6 @@ Future<void> initInjector() async {
   injector.registerLazySingleton<GenerateAccountsPreviewUsecase>(
     () => GenerateAccountsPreviewUsecase(
       accountGenerator: injector.get(),
-      accountsRepository: injector.get(),
     ),
   );
   injector.registerLazySingleton<ConfirmAndSaveGeneratedAccountsUsecase>(
