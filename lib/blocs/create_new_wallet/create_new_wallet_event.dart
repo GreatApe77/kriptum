@@ -17,3 +17,5 @@ class ConfirmPasswordChangedEvent extends CreateNewWalletEvent {
 class AdvanceToStep2Event extends CreateNewWalletEvent {}
 
 class AdvanceToStep3Event extends CreateNewWalletEvent {}
+
+class ConfirmBackupEvent extends CreateNewWalletEvent {}

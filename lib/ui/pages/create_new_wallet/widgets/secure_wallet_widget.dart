@@ -64,7 +64,7 @@ class SecureWalletStep2Screen extends StatelessWidget {
                     children: [
                       FilledButton(
                           onPressed: () {
-                            context.read()<CreateNewWalletBloc>().add(
+                            context.read<CreateNewWalletBloc>().add(
                                   AdvanceToStep3Event(),
                                 );
                           },

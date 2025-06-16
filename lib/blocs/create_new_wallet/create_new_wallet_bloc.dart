@@ -65,7 +65,7 @@ class CreateNewWalletBloc
           password: state.password,
           mnemonic: mnemonic,
         ));
-        
+
         emit(state.copyWith(
           accounts: accounts,
           mnemonic: mnemonic,
@@ -88,6 +88,29 @@ class CreateNewWalletBloc
           step: 3,
         ),
       );
+    });
+    on<ConfirmBackupEvent>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(
+            status: CreateNewWalletStatus.loading,
+          ),
+        );
+        await _confirmAndSaveGeneratedAccountsUsecase.execute(state.accounts);
+        emit(
+          state.copyWith(
+            status: CreateNewWalletStatus.success,
+            errorMessage: '',
+          ),
+        );
+      } catch (e) {
+        emit(
+          state.copyWith(
+            status: CreateNewWalletStatus.failure,
+            errorMessage: 'Failed to save accounts: $e',
+          ),
+        );
+      }
     });
   }
 }

@@ -4,6 +4,7 @@ import 'package:kriptum/blocs/create_new_wallet/create_new_wallet_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/ui/pages/create_new_wallet/widgets/create_password_widget.dart';
 import 'package:kriptum/ui/pages/create_new_wallet/widgets/secure_wallet_widget.dart';
+import 'package:kriptum/ui/pages/create_new_wallet/widgets/write_on_paper_widget.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/main_title_app_bar_widget.dart';
 
@@ -55,8 +56,14 @@ class CreateNewWalletView extends StatelessWidget {
                 ),
                 child: const SecureWalletStep2Screen(),
               );
-            //case 3:
-            //  return const ConfirmAndSaveAccountsWidget();
+            case 3:
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Spacings.horizontalPadding,
+                ),
+                child: const WriteOnPaperStep3Screen(),
+              );
+
             default:
               return const Center(child: Text('Unknown step'));
           }
