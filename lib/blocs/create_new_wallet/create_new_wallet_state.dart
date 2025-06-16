@@ -8,6 +8,7 @@ class CreateNewWalletState {
   final String mnemonic;
   final String password;
   final String confirmPassword;
+  final List<Account> accounts;
 
   CreateNewWalletState({
     required this.step,
@@ -16,6 +17,7 @@ class CreateNewWalletState {
     required this.mnemonic,
     required this.password,
     required this.confirmPassword,
+    required this.accounts,
   });
   factory CreateNewWalletState.initial() {
     return CreateNewWalletState(
@@ -25,6 +27,7 @@ class CreateNewWalletState {
       mnemonic: '',
       password: '',
       confirmPassword: '',
+      accounts: [],
     );
   }
 
@@ -35,6 +38,7 @@ class CreateNewWalletState {
     String? mnemonic,
     String? password,
     String? confirmPassword,
+    List<Account>? accounts,
   }) {
     return CreateNewWalletState(
       step: step ?? this.step,
@@ -43,6 +47,7 @@ class CreateNewWalletState {
       mnemonic: mnemonic ?? this.mnemonic,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
+      accounts: accounts ?? this.accounts,
     );
   }
 }

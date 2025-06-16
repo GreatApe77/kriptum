@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
+import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
 import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usecase.dart';
 import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
@@ -25,15 +28,59 @@ class CreateNewWalletBloc
         super(
           CreateNewWalletState.initial(),
         ) {
-    on<CreateNewWalletEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-    on<AdvanceToStep2Event>((event, emit) {
+    on<PasswordChangedEvent>((event, emit) {
       emit(
         state.copyWith(
-          step: 2,
+          password: event.password,
         ),
       );
+    });
+    on<ConfirmPasswordChangedEvent>((event, emit) {
+      emit(
+        state.copyWith(
+          confirmPassword: event.confirmPassword,
+        ),
+      );
+    });
+    on<AdvanceToStep2Event>((event, emit) async {
+      if (state.password.isEmpty ||
+          state.confirmPassword.isEmpty ||
+          state.password != state.confirmPassword) {
+        emit(
+          state.copyWith(
+            errorMessage: 'Passwords do not match or are empty.',
+            status: CreateNewWalletStatus.failure,
+          ),
+        );
+        return;
+      }
+
+      try {
+        emit(state.copyWith(
+          status: CreateNewWalletStatus.loading,
+        ));
+        final mnemonic = _accountGeneratorService.generateMnemonic();
+        final accounts = await _generateAccountsPreviewUsecase
+            .execute(GenerateAccountsPreviewUsecaseParams(
+          password: state.password,
+          mnemonic: mnemonic,
+        ));
+        
+        emit(state.copyWith(
+          accounts: accounts,
+          mnemonic: mnemonic,
+          step: 2,
+          status: CreateNewWalletStatus.success,
+          errorMessage: '',
+        ));
+      } catch (e) {
+        emit(
+          state.copyWith(
+            errorMessage: 'Failed to generate accounts: $e',
+            status: CreateNewWalletStatus.failure,
+          ),
+        );
+      }
     });
     on<AdvanceToStep3Event>((event, emit) {
       emit(
