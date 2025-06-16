@@ -12,7 +12,7 @@ class GenerateAccountsPreviewUsecase {
   })  : _accountGenerator = accountGenerator,
         _accountsRepository = accountsRepository;
 
-  Future<void> execute(
+  Future<List<Account>> execute(
     GenerateAccountsPreviewUsecaseParams params,
   ) async {
     final accounts = await _accountGenerator.generateAccounts(
@@ -22,7 +22,8 @@ class GenerateAccountsPreviewUsecase {
         amount: 20,
       ),
     );
-    await _accountsRepository.saveAccounts(accounts);
+    return accounts;
+    //await _accountsRepository.saveAccounts(accounts);
   }
 }
 
