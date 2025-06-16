@@ -30,7 +30,16 @@ class CreateNewWalletView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainTitleAppBarWidget(),
-      body: BlocBuilder<CreateNewWalletBloc, CreateNewWalletState>(
+      body: BlocConsumer<CreateNewWalletBloc, CreateNewWalletState>(
+        listener: (context, state) {
+          if (state.status == CreateNewWalletStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage ?? 'An error occurred'),
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           switch (state.step) {
             case 1:
