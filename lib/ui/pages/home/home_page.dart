@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
+import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -37,7 +38,9 @@ class HomeView extends StatelessWidget {
             }
             return AccountViewerBtn(
               account: state.account!,
-              onPressed: () {},
+              onPressed: () {
+                _showAccountsModal(context);
+              },
             );
           },
         ),
@@ -48,6 +51,18 @@ class HomeView extends StatelessWidget {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
+    );
+  }
+
+  void _showAccountsModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) {
+        return const AccountsModal();
+      },
     );
   }
 }
