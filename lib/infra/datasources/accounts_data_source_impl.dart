@@ -45,4 +45,9 @@ class AccountsDataSourceImpl implements AccountsDataSource {
       await _sqlDatabase.insert(AccountsTable.table, accountMap);
     }
   }
+
+  @override
+  Future<void> deleteAllAccounts() async {
+    await _sqlDatabase.deleteAll(AccountsTable.table);
+  }
 }

@@ -8,4 +8,5 @@ abstract interface class AccountsDataSource {
   Future<Account?> getAccountById(int id);
 
   Future<void> insertAccounts(List<Account> accounts);
+  Future<void> deleteAllAccounts();
 }

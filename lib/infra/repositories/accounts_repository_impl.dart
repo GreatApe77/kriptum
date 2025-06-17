@@ -43,7 +43,14 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
   }
 
   @override
-  Future<void> dispose()async {
+  Future<void> dispose() async {
     _currentAccountStream.close();
+  }
+
+  @override
+  Future<void> deleteAllAccounts() async {
+    await _userPreferences.setSelectedAccountId(0);
+    await _accountsDataSource.deleteAllAccounts();
+    
   }
 }

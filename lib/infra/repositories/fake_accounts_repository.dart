@@ -27,4 +27,10 @@ class FakeAccountsRepository implements AccountsRepository {
     // TODO: implement saveAccounts
     throw UnimplementedError();
   }
+  
+  @override
+  Future<void> deleteAllAccounts() {
+    // TODO: implement deleteAllAccounts
+    throw UnimplementedError();
+  }
 }

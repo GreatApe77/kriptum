@@ -135,4 +135,10 @@ class SqfliteDatabase implements SqlDatabase {
       _database = null;
     }
   }
+
+  @override
+  Future<void> deleteAll(String table) async {
+    final db = await _getDatabase();
+    await db.delete(table);
+  }
 }
