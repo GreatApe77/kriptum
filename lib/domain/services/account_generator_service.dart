@@ -1,5 +1,10 @@
 import 'package:kriptum/domain/models/account.dart';
 
+abstract interface class AccountGeneratorService {
+  String generateMnemonic();
+  Future<List<Account>> generateAccounts(AccountsFromMnemonicParams params);
+}
+
 class AccountsFromMnemonicParams {
   final String mnemonic;
   final String encryptionPassword;
@@ -10,9 +15,4 @@ class AccountsFromMnemonicParams {
     required this.encryptionPassword,
     this.amount = 20,
   });
-}
-
-abstract interface class AccountGeneratorService {
-  String generateMnemonic();
-  Future<List<Account>> generateAccounts(AccountsFromMnemonicParams params);
 }

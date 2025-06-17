@@ -1,1 +1,5 @@
-abstract interface class NetworksRepository {}
+import 'package:kriptum/domain/models/network.dart';
+
+abstract interface class NetworksRepository {
+  Future<Network> getCurrentNetwork();
+}
