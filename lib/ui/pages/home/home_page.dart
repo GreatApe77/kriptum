@@ -6,6 +6,7 @@ import 'package:kriptum/shared/utils/copy_to_clipboard.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
+import 'package:kriptum/ui/pages/home/widgets/main_balance_viewer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -65,12 +66,7 @@ class HomeView extends StatelessWidget {
           },
         ),
       ),
-      body: Center(
-        child: Text(
-          'Home Page',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      ),
+      body: Center(child: MainBalanceViewer()),
     );
   }
 
