@@ -33,12 +33,16 @@ class CurrentAccountBloc
         }
       },
     );
-    on<CurrentAccountChanged>((event, emit) {
-      emit(
-        CurrentAccountState(
-          account: event.account,
-        ),
-      );
+    on<CurrentAccountChanged>((event, emit) async {
+      try {
+        await _accountsRepository.changeCurrentAccount(event.account);
+      } catch (e) {
+        emit(
+          CurrentAccountState(
+            account: null,
+          ),
+        );
+      }
     });
   }
 

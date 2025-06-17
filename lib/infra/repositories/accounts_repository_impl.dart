@@ -57,4 +57,11 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
     _currentAccount = await _accountsDataSource.getAccountById(currentAccountId);
     return _currentAccount;
   }
+  
+  @override
+  Future<void> changeCurrentAccount(Account account)async {
+    _currentAccount = account;
+    _currentAccountStream.add(account);
+    return await  _userPreferences.setSelectedAccountId(account.accountIndex);
+  }
 }

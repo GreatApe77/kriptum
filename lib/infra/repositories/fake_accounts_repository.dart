@@ -39,4 +39,10 @@ class FakeAccountsRepository implements AccountsRepository {
     // TODO: implement getCurrentAccount
     throw UnimplementedError();
   }
+  
+  @override
+  Future<void> changeCurrentAccount(Account account) {
+    // TODO: implement changeCurrentAccount
+    throw UnimplementedError();
+  }
 }
