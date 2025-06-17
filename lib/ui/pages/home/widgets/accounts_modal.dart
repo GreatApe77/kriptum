@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/account_list/account_list_bloc.dart';
-import 'package:kriptum/blocs/current_account/current_account_bloc.dart';
+import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/ui/widgets/account_tile_widget.dart';
 
@@ -17,11 +17,9 @@ class AccountsModal extends StatelessWidget {
             injector.get(),
           )..add(AccountListRequested()),
         ),
-        BlocProvider<CurrentAccountBloc>(
-          create: (context) => CurrentAccountBloc(injector.get())
-            ..add(
-              CurrentAccountRequested(),
-            ),
+        BlocProvider<CurrentAccountCubit>(
+          create: (context) =>
+              CurrentAccountCubit(injector.get())..requestCurrentAccount(),
         ),
       ],
       child: _AccountsModalView(),
@@ -42,7 +40,8 @@ class _AccountsModalView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AccountListBloc, AccountListState>(
       builder: (context, listState) {
-        return BlocBuilder<CurrentAccountBloc, CurrentAccountState>(
+        return BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
+          
           builder: (context, currentAccountState) {
             return SafeArea(
               child: Column(
@@ -63,11 +62,12 @@ class _AccountsModalView extends StatelessWidget {
                               currentAccountState.account?.accountIndex ==
                                   listState.accounts[index].accountIndex,
                           onSelected: () {
-                            context.read<CurrentAccountBloc>().add(
-                                  CurrentAccountChanged(
-                                    account: listState.accounts[index],
-                                  ),
+                            context
+                                .read<CurrentAccountCubit>()
+                                .changeCurrentAccount(
+                                  listState.accounts[index],
                                 );
+                            Navigator.of(context).pop();
                           },
                           onOptionsMenuSelected: () {},
                         );

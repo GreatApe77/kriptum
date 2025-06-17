@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kriptum/blocs/current_account/current_account_bloc.dart';
+import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
@@ -12,9 +12,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<CurrentAccountBloc>(
-          create: (context) => CurrentAccountBloc(injector.get())
-            ..add(CurrentAccountRequested()),
+        BlocProvider<CurrentAccountCubit>(
+          create: (context) =>
+              CurrentAccountCubit(injector.get())..requestCurrentAccount(),
         )
       ],
       child: const HomeView(),
@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: BlocBuilder<CurrentAccountBloc, CurrentAccountState>(
+        title: BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
           builder: (context, state) {
             if (state.account == null) {
               return const CircularProgressIndicator();

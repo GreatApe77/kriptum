@@ -35,8 +35,19 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
   Future<void> _initializeCurrentAccountStream() async {
     final accountId = await _userPreferences.getSelectedAccountId();
     final account = await _accountsDataSource.getAccountById(accountId);
+
     if (account != null) {
+      _currentAccount = account;
       _currentAccountStream.add(account);
+      return;
+    }
+
+    final accounts = await _accountsDataSource.getAllAccounts();
+    if (accounts.isNotEmpty) {
+      final first = accounts.first;
+      _currentAccount = first;
+      _currentAccountStream.add(first);
+      await _userPreferences.setSelectedAccountId(first.accountIndex);
     }
   }
 
@@ -53,15 +64,21 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
 
   @override
   Future<Account?> getCurrentAccount() async {
+    if (_currentAccount != null) {
+      return _currentAccount;
+    }
     final currentAccountId = await _userPreferences.getSelectedAccountId();
-    _currentAccount = await _accountsDataSource.getAccountById(currentAccountId);
+    _currentAccount =
+        await _accountsDataSource.getAccountById(currentAccountId);
     return _currentAccount;
   }
-  
+
   @override
-  Future<void> changeCurrentAccount(Account account)async {
-    _currentAccount = account;
-    _currentAccountStream.add(account);
-    return await  _userPreferences.setSelectedAccountId(account.accountIndex);
+  Future<void> changeCurrentAccount(Account account) async {
+    if (_currentAccount?.accountIndex != account.accountIndex) {
+      _currentAccount = account;
+      _currentAccountStream.add(account);
+      await _userPreferences.setSelectedAccountId(account.accountIndex);
+    }
   }
 }
