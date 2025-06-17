@@ -33,4 +33,10 @@ class FakeAccountsRepository implements AccountsRepository {
     // TODO: implement deleteAllAccounts
     throw UnimplementedError();
   }
+  
+  @override
+  Future<Account?> getCurrentAccount() {
+    // TODO: implement getCurrentAccount
+    throw UnimplementedError();
+  }
 }

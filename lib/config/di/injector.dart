@@ -1,9 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
+import 'package:kriptum/domain/services/account_decryption_with_password_service.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
 import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usecase.dart';
 import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
 import 'package:kriptum/domain/usecases/reset_wallet_usecase.dart';
+import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
 import 'package:kriptum/infra/datasources/accounts_data_source.dart';
 import 'package:kriptum/infra/datasources/accounts_data_source_impl.dart';
 import 'package:kriptum/infra/persistence/user_preferences/shared_preferences/user_preferences_impl.dart';
@@ -12,6 +14,7 @@ import 'package:kriptum/infra/repositories/accounts_repository_impl.dart';
 import 'package:kriptum/infra/repositories/fake_accounts_repository.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/sqflite_database.dart';
+import 'package:kriptum/infra/services/account_decryption_with_password_service_impl.dart';
 import 'package:kriptum/infra/services/account_generator_service_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,6 +56,15 @@ Future<void> initInjector() async {
   injector.registerLazySingleton<ResetWalletUsecase>(
     () => ResetWalletUsecase(
       accountsRepository: injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<AccountDecryptionWithPasswordService>(
+    () => AccountDecryptionWithPasswordServiceImpl(),
+  );
+  injector.registerLazySingleton<UnlockWalletUsecase>(
+    () => UnlockWalletUsecase(
+      accountsRepository: injector.get(),
+      accountDecryptionWithPasswordService: injector.get(),
     ),
   );
 }

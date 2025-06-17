@@ -10,6 +10,7 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
   final AccountsDataSource _accountsDataSource;
   final UserPreferences _userPreferences;
   final _currentAccountStream = StreamController<Account>.broadcast();
+  Account? _currentAccount;
   AccountsRepositoryImpl({
     required AccountsDataSource accountsDataSource,
     required UserPreferences userPreferences,
@@ -19,10 +20,7 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
   }
 
   @override
-  Stream<Account> currentAccountStream() {
-    // TODO: implement currentAccountStream
-    throw UnimplementedError();
-  }
+  Stream<Account> currentAccountStream() => _currentAccountStream.stream;
 
   @override
   Future<List<Account>> getAccounts() async {
@@ -51,6 +49,12 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
   Future<void> deleteAllAccounts() async {
     await _userPreferences.setSelectedAccountId(0);
     await _accountsDataSource.deleteAllAccounts();
-    
+  }
+
+  @override
+  Future<Account?> getCurrentAccount() async {
+    final currentAccountId = await _userPreferences.getSelectedAccountId();
+    _currentAccount = await _accountsDataSource.getAccountById(currentAccountId);
+    return _currentAccount;
   }
 }

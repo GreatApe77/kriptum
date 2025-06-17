@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/reset_wallet/reset_wallet_bloc.dart';
+import 'package:kriptum/blocs/unlock_wallet/unlock_wallet_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/ui/pages/home/home_page.dart';
 import 'package:kriptum/ui/pages/splash/splash_page.dart';
 import 'package:kriptum/ui/pages/unlock_wallet/widgets/erase_wallet_dialog.dart';
 
@@ -19,62 +21,114 @@ class UnlockWalletPage extends StatelessWidget {
             resetWalletUsecase: injector.get(),
           ),
         ),
+        BlocProvider<UnlockWalletBloc>(
+          create: (context) => UnlockWalletBloc(
+            unlockWalletUsecase: injector.get(),
+          ),
+        ),
       ],
       child: UnlockWalletView(),
     );
   }
 }
 
-class UnlockWalletView extends StatelessWidget {
-  UnlockWalletView({
+class UnlockWalletView extends StatefulWidget {
+  const UnlockWalletView({
     super.key,
   });
-  final passwordTextController = TextEditingController();
+
+  @override
+  State<UnlockWalletView> createState() => _UnlockWalletViewState();
+}
+
+class _UnlockWalletViewState extends State<UnlockWalletView> {
+  final _passwordTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    _passwordTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: Spacings.horizontalPadding,
-        ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'Welcome Back!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 32,
-                ),
-                TextFormField(
-                  obscureText: true,
-                  controller: passwordTextController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), label: Text('Password')),
-                ),
-                const SizedBox(
-                  height: 32,
-                ),
-                FilledButton(onPressed: () {}, child: const Text('UNLOCK')),
-                const SizedBox(
-                  height: 40,
-                ),
-                const Text(
-                  'Wallet won\' unlock? You can ERASE your current wallet and setup a new one',
-                  textAlign: TextAlign.center,
-                ),
-                TextButton(
-                    onPressed: () => _showEraseWalletDialog(context),
-                    child: const Text('Reset Wallet'))
-              ],
+      body: BlocConsumer<UnlockWalletBloc, UnlockWalletState>(
+        listener: (context, state) {
+          if (state is UnlockWalletSuccess) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ),
+              (route) => false,
+            );
+          } else if (state is UnlockWalletFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage)),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is UnlockWalletInProgress) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: Spacings.horizontalPadding,
             ),
-          ),
-        ),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Welcome Back!',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      controller: _passwordTextController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        label: Text('Password'),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    FilledButton(
+                        onPressed: () {
+                          context.read<UnlockWalletBloc>().add(
+                                UnlockWalletRequested(
+                                  _passwordTextController.text,
+                                ),
+                              );
+                        },
+                        child: const Text('UNLOCK')),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    const Text(
+                      'Wallet won\' unlock? You can ERASE your current wallet and setup a new one',
+                      textAlign: TextAlign.center,
+                    ),
+                    TextButton(
+                        onPressed: () => _showEraseWalletDialog(context),
+                        child: const Text('Reset Wallet'))
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
