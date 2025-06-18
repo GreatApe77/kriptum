@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/ui/pages/home/home_page.dart';
+import 'package:kriptum/ui/pages/receive/receive_page.dart';
 import 'package:kriptum/ui/pages/settings/settings_page.dart';
 
 class HomeWrapperPage extends StatefulWidget {
@@ -36,7 +37,11 @@ class _HomeWrapperPageState extends State<HomeWrapperPage> {
               InkWell(
                 onTap: () {
                   Navigator.pop(context);
-                  //GoRouter.of(context).push(AppRoutes.receive);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ReceivePage(),
+                    ),
+                  );
                 },
                 borderRadius: BorderRadius.circular(8),
                 child: const ListTile(
@@ -49,7 +54,7 @@ class _HomeWrapperPageState extends State<HomeWrapperPage> {
           ),
         ),
       );
-    return;
+      return;
     }
     setState(() {
       _selectedIndex = index;
