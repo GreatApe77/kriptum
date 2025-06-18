@@ -11,7 +11,7 @@ class UserPreferencesImpl implements UserPreferences {
   Future<int> getSelectedAccountId() {
     final accountId = _sh.getInt('selected_account_id');
     if (accountId == null) {
-      return Future.value(0); // Default value if not set
+      return Future.value(0);
     }
     return Future.value(accountId);
   }
@@ -34,5 +34,33 @@ class UserPreferencesImpl implements UserPreferences {
   @override
   Future<void> setSelectedNetworkId(int networkId) async {
     await _sh.setInt('selected_network_id', networkId);
+  }
+
+  @override
+  Future<bool> isDarkModeEnabled() async {
+    final isDarkModeEnabled = _sh.getBool('dark_mode_enabled');
+    if (isDarkModeEnabled == null) {
+      return false;
+    }
+    return isDarkModeEnabled;
+  }
+
+  @override
+  Future<bool> isNativeBalanceVisible() async {
+    final isVisible = _sh.getBool('native_balance_visible');
+    if (isVisible == null) {
+      return true;
+    }
+    return isVisible;
+  }
+
+  @override
+  Future<void> setDarkModeEnabled(bool isEnabled) async {
+    await _sh.setBool('dark_mode_enabled', isEnabled);
+  }
+
+  @override
+  Future<void> setNativeBalanceVisibility(bool isVisible)async {
+    await _sh.setBool('native_balance_visible', isVisible);
   }
 }

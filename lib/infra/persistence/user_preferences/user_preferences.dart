@@ -3,4 +3,8 @@ abstract interface class UserPreferences {
   Future<void> setSelectedAccountId(int accountId);
   Future<int> getSelectedNetworkId();
   Future<void> setSelectedNetworkId(int networkId);
+  Future<bool> isNativeBalanceVisible();
+  Future<void> setNativeBalanceVisibility(bool isVisible);
+  Future<bool> isDarkModeEnabled();
+  Future<void> setDarkModeEnabled(bool isEnabled);
 }
