@@ -1,21 +1,24 @@
 class AccountBalance {
-  final BigInt valueInWei;
-
-  AccountBalance(this.valueInWei) {
-    if (valueInWei.isNegative) {
-      throw ArgumentError('Account balance cannot be negative');
-    }
-  }
+  final BigInt _valueInWei;
+  final int _decimalPlaces;
+  AccountBalance({
+    required BigInt valueInWei,
+    int decimalPlaces = 2,
+  })  : _decimalPlaces = decimalPlaces,
+        _valueInWei = valueInWei;
 
   factory AccountBalance.fromString(String value) {
-    return AccountBalance(BigInt.parse(value));
+    return AccountBalance(
+      valueInWei: BigInt.parse(value),
+      decimalPlaces: 2,
+    );
   }
 
-  String toStorageString() => valueInWei.toString();
-
   @override
-  String toString() => 'AccountBalance(wei: $valueInWei)';
+  int get hashCode => valueInWei.hashCode;
 
+  BigInt get valueInWei => _valueInWei;
+  int get decimalPlaces => _decimalPlaces;
   @override
   bool operator ==(covariant AccountBalance other) {
     if (identical(this, other)) return true;
@@ -23,6 +26,13 @@ class AccountBalance {
     return other.valueInWei == valueInWei;
   }
 
+  String toReadableString() {
+    final double valueInEther = valueInWei / BigInt.from(1e18);
+    return valueInEther.toStringAsFixed(_decimalPlaces);
+  }
+
+  String toStorageString() => valueInWei.toString();
+
   @override
-  int get hashCode => valueInWei.hashCode;
+  String toString() => 'AccountBalance(wei: $valueInWei)';
 }
