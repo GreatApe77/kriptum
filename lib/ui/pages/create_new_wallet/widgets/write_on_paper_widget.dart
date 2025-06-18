@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/create_new_wallet/create_new_wallet_bloc.dart';
 import 'package:kriptum/ui/pages/home/home_page.dart';
+import 'package:kriptum/ui/pages/home_wrapper/home_wrapper_page.dart';
 
 import 'package:kriptum/ui/widgets/linear_check_in_progress_bar_widget.dart';
 
@@ -28,7 +29,7 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
         } else if (state.status == CreateNewWalletStatus.success) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => HomePage(),
+              builder: (context) => HomeWrapperPage(),
             ),
           );
         }
