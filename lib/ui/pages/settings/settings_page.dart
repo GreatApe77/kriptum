@@ -3,26 +3,62 @@ import 'package:kriptum/ui/pages/general_settings/general_settings_page.dart';
 import 'package:kriptum/ui/pages/settings/widgets/settings_submenu_card.dart';
 
 class SettingsPage extends StatelessWidget {
+  static final settingsPageNavigatorKey = GlobalKey<NavigatorState>();
   const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Settings'),
-        ),
-        body: Column(
-          children: [
-            SettingsSubmenuCard(
-              title: 'General',
-              description: 'General settings like theming...',
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const GeneralSettingsPage(),
-                ),
+    return Navigator(
+      key: settingsPageNavigatorKey,
+      onGenerateRoute: (routeSettings) {
+        return MaterialPageRoute(
+          builder: (context) => const _SettingsView(),
+        );
+      },
+    );
+    /*  return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+      ),
+      body: Column(
+        children: [
+          SettingsSubmenuCard(
+            title: 'General',
+            description: 'General settings like theming...',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const GeneralSettingsPage(),
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    ); */
+  }
+}
+
+class _SettingsView extends StatelessWidget {
+  const _SettingsView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+      ),
+      body: Column(
+        children: [
+          SettingsSubmenuCard(
+            title: 'General',
+            description: 'General settings like theming...',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const GeneralSettingsPage(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
