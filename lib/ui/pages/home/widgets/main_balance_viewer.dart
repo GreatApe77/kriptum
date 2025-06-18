@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kriptum/blocs/native_balance/bloc/native_balance_bloc.dart';
+import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
