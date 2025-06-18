@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/ui/pages/general_settings/general_settings_page.dart';
+import 'package:kriptum/ui/pages/networks/networks_page.dart';
 import 'package:kriptum/ui/pages/settings/widgets/settings_submenu_card.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -57,6 +58,31 @@ class _SettingsView extends StatelessWidget {
               ),
             ),
           ),
+          SettingsSubmenuCard(
+            title: 'Networks',
+            description: 'Add and edit custom RPC networks',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const NetworksPage(),
+              ),
+            ),
+          ),
+          SettingsSubmenuCard(
+            title: 'Contacts',
+            description: 'Add, edit, remove and manage your contacts',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const GeneralSettingsPage(),
+              ),
+            ),
+          ),
+          ListTile(
+            title: Text(
+              'Lock Wallet',
+              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+            ),
+            //onTap: () => _triggerLockWallet(context),
+          )
         ],
       ),
     );

@@ -7,5 +7,17 @@ class CurrentNetworkCubit extends Cubit<CurrentNetworkState> {
   final NetworksRepository _networksRepository;
   CurrentNetworkCubit(
     this._networksRepository,
-  ) : super(CurrentNetworkInitial());
+  ) : super(
+          CurrentNetworkLoaded(
+            network: Network(
+              id: 1,
+              name: 'Ethereum',
+              currencyDecimals: 18,
+              rpcUrl: '',
+              ticker: 'ETH',
+              blockExplorerName: 'a',
+              blockExplorerUrl: '',
+            ),
+          ),
+        );
 }
