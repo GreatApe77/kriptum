@@ -1,22 +1,33 @@
 import 'package:get_it/get_it.dart';
+import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
+import 'package:kriptum/domain/repositories/native_balance_repository.dart';
+import 'package:kriptum/domain/repositories/networks_repository.dart';
 import 'package:kriptum/domain/services/account_decryption_with_password_service.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
 import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usecase.dart';
 import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
+import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.dart';
 import 'package:kriptum/domain/usecases/reset_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
 import 'package:kriptum/infra/datasources/accounts_data_source.dart';
 import 'package:kriptum/infra/datasources/accounts_data_source_impl.dart';
+import 'package:kriptum/infra/datasources/native_balance_data_source.dart';
+import 'package:kriptum/infra/datasources/native_balance_data_source_impl.dart';
+import 'package:kriptum/infra/datasources/networks_data_source.dart';
+import 'package:kriptum/infra/datasources/networks_data_source_impl.dart';
 import 'package:kriptum/infra/persistence/user_preferences/shared_preferences/user_preferences_impl.dart';
 import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart';
 import 'package:kriptum/infra/repositories/accounts_repository_impl.dart';
 import 'package:kriptum/infra/repositories/fake_accounts_repository.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/sqflite_database.dart';
+import 'package:kriptum/infra/repositories/native_balance_repository_impl.dart';
+import 'package:kriptum/infra/repositories/networks_repository_impl.dart';
 import 'package:kriptum/infra/services/account_decryption_with_password_service_impl.dart';
 import 'package:kriptum/infra/services/account_generator_service_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 final injector = GetIt.instance;
 Future<void> initInjector() async {
@@ -67,4 +78,31 @@ Future<void> initInjector() async {
       accountDecryptionWithPasswordService: injector.get(),
     ),
   );
+  injector.registerLazySingleton<NetworksDataSource>(
+    () => NetworksDataSourceImpl(injector.get()),
+  );
+  injector.registerLazySingleton<NetworksRepository>(
+    () => NetworksRepositoryImpl(injector.get(), injector.get()),
+  );
+  injector.registerLazySingleton<http.Client>(
+    () => http.Client(),
+  );
+  injector.registerLazySingleton<NativeBalanceDataSource>(
+    () => NativeBalanceDataSourceImpl(
+      injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<NativeBalanceRepository>(
+    () => NativeBalanceRepositoryImpl(
+      injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<GetNativeBalanceOfAccountUsecase>(
+    () => GetNativeBalanceOfAccountUsecase(
+      injector.get(),
+      injector.get(),
+      injector.get(),
+    ),
+  );
+  
 }
