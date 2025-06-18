@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:kriptum/domain/models/account_balance.dart';
+import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.dart';
 import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart';
 
@@ -9,9 +12,19 @@ part 'native_balance_state.dart';
 class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
   final UserPreferences _userPreferences;
   final GetNativeBalanceOfAccountUsecase _getNativeBalanceOfAccountUsecase;
-  NativeBalanceBloc(
-      this._getNativeBalanceOfAccountUsecase, this._userPreferences)
+  final AccountsRepository _accountsRepository;
+  late final StreamSubscription _currentAccountChangeSubscription;
+  //late final StreamSubscription _currentNetworkChangeSubscription;
+  NativeBalanceBloc(this._getNativeBalanceOfAccountUsecase,
+      this._userPreferences, this._accountsRepository)
       : super(NativeBalanceState.initial()) {
+    _currentAccountChangeSubscription =
+        _accountsRepository.currentAccountStream().listen(
+      (event) {
+        add(NativeBalanceRequested());
+      },
+    );
+
     on<NativeBalanceVisibilityRequested>(
       (event, emit) async {
         final isVisible = await _userPreferences.isNativeBalanceVisible();
@@ -53,5 +66,10 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
         );
       }
     });
+  }
+  @override
+  Future<void> close() {
+    _currentAccountChangeSubscription.cancel();
+    return super.close();
   }
 }

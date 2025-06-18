@@ -12,7 +12,8 @@ class MainBalanceViewer extends StatelessWidget {
     return BlocProvider<NativeBalanceBloc>(
       create: (context) => NativeBalanceBloc(
         injector.get(),
-        injector.get()
+        injector.get(),
+        injector.get(),
       )
         ..add(
           NativeBalanceRequested(),
@@ -66,7 +67,10 @@ class _MainBalanceViewer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Text(content),
+                child: Text(
+                  content,
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
               ),
               IconButton(
                 onPressed: () {

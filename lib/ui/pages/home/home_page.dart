@@ -7,6 +7,7 @@ import 'package:kriptum/shared/utils/format_address.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 import 'package:kriptum/ui/pages/home/widgets/main_balance_viewer.dart';
+import 'package:kriptum/ui/tokens/spacings.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -66,7 +67,12 @@ class HomeView extends StatelessWidget {
           },
         ),
       ),
-      body: Center(child: MainBalanceViewer()),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: Spacings.horizontalPadding,
+        ),
+        child: MainBalanceViewer(),
+      ),
     );
   }
 
