@@ -24,9 +24,20 @@ class _NetworksView extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: Spacings.horizontalPadding,
         ),
-      child: NetworksList(),
+        child: NetworksList(
+          onNetworkChosen: (network) {
+            ScaffoldMessenger.of(context)
+              ..clearSnackBars()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Network changed to ${network.name}.',
+                  ),
+                ),
+              );
+          },
+        ),
       ),
-
     );
   }
 }

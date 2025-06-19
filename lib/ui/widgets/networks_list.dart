@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
 import 'package:kriptum/blocs/networks_list/networks_list_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/domain/models/network.dart';
 import 'package:kriptum/ui/widgets/network_list_tile.dart';
 
 class NetworksList extends StatelessWidget {
-  const NetworksList({super.key});
+  final void Function(Network network)? onNetworkChosen;
+  const NetworksList({super.key, this.onNetworkChosen});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,16 @@ class NetworksList extends StatelessWidget {
               NetworksListBloc(injector.get())..add(NetworksListRequested()),
         ),
       ],
-      child: _NetworksList(),
+      child: _NetworksList(
+        onNetworkChosen: onNetworkChosen,
+      ),
     );
   }
 }
 
 class _NetworksList extends StatefulWidget {
-  const _NetworksList();
+  final void Function(Network network)? onNetworkChosen;
+  const _NetworksList({this.onNetworkChosen});
 
   @override
   State<_NetworksList> createState() => _NetworksListState();
@@ -83,15 +88,9 @@ class _NetworksListState extends State<_NetworksList> {
               final networks = state.filteredNetworks;
               return BlocConsumer<CurrentNetworkCubit, CurrentNetworkState>(
                 listener: (context, state) {
-                  ScaffoldMessenger.of(context)
-                    ..clearSnackBars()
-                    ..showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Network changed to ${(state as CurrentNetworkLoaded).network.name}.',
-                        ),
-                      ),
-                    );
+                  if (widget.onNetworkChosen == null) return;
+                  widget.onNetworkChosen!(
+                      (state as CurrentNetworkLoaded).network);
                 },
                 listenWhen: (previous, current) {
                   if (current is CurrentNetworkLoaded) {
@@ -127,82 +126,5 @@ class _NetworksListState extends State<_NetworksList> {
         ],
       ),
     );
-/*     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TextField(
-            controller: _filterTextEditingController,
-            decoration: const InputDecoration(
-                labelText: 'Search',
-                suffixIcon: Icon(Icons.search),
-                border: OutlineInputBorder()),
-          ),
-          Expanded(
-            child: BlocBuilder<CurrentNetworkCubit, CurrentNetworkState>(
-              buildWhen: (previous, current) =>
-                  previous.runtimeType != current.runtimeType 
-                  ,
-              builder: (context, currNetworkState) {
-                if (currNetworkState is CurrentNetworkLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (currNetworkState is CurrentNetworkError) {
-                  return Center(
-                    child: Text(currNetworkState.message),
-                  );
-                }
-                if (currNetworkState is CurrentNetworkLoaded) {
-                  final currentNetwork = currNetworkState.network;
-                  return BlocBuilder<NetworksListBloc, NetworksListState>(
-                    builder: (context, networksListState) {
-                      final networks = networksListState.networks;
-                      return ListView.builder(
-                        itemCount: networks.length,
-                        itemBuilder: (context, index) {
-                          final network = networks[index];
-                          return NetworkListTile(
-                            selected: currentNetwork.id == network.id,
-                            network: network,
-                            onNetworkTap: (network) {
-                              context
-                                  .read<CurrentNetworkCubit>()
-                                  .changeCurrentNetwork(network);
-                            },
-                          );
-                        },
-                      );
-                    },
-                  );
-                }
-                return SizedBox.shrink();
-              },
-            ),
-          ),
-/*               child: ListenableBuilder(
-                  listenable: networksController,
-                  builder: (context, child) {
-                    if (filterController.text.isNotEmpty) {
-                      return ListView.builder(
-                        itemCount: networksController.filteredList.length,
-                        itemBuilder: (context, index) => NetworkListTile(
-                            onNetworkTap: () => _onNetworkTap(index, context),
-                            network: networksController.filteredList[index]),
-                      );
-                    }
-                    return ListView.builder(
-                      itemCount: networksController.networks.length,
-                      itemBuilder: (context, index) => NetworkListTile(
-                          selected: currentNetworkController
-                                  .currentConnectedNetwork?.id ==
-                              networksController.networks[index].id,
-                          onNetworkTap: () => _onNetworkTap(index, context),
-                          network: networksController.networks[index]),
-                    );
-                  })), */
-          FilledButton(onPressed: () {}, child: const Text('Add Network'))
-        ],
-      ),
-    ); */
   }
 }
