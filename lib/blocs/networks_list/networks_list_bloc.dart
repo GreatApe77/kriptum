@@ -1,11 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:kriptum/domain/models/network.dart';
+import 'package:kriptum/domain/repositories/networks_repository.dart';
 
 part 'networks_list_event.dart';
 part 'networks_list_state.dart';
 
 class NetworksListBloc extends Bloc<NetworksListEvent, NetworksListState> {
-  NetworksListBloc() : super(NetworksListState.initial()) {
+  final NetworksRepository _networksRepository;
+  NetworksListBloc(
+    this._networksRepository,
+  ) : super(NetworksListState.initial()) {
     on<NetworksListFiltered>((event, emit) {
       final filter = event.filter.toLowerCase();
       final filteredNetworks = state.networks
@@ -19,11 +23,12 @@ class NetworksListBloc extends Bloc<NetworksListEvent, NetworksListState> {
         ),
       );
     });
-    on<NetworksListRequested>((event, emit) {
+    on<NetworksListRequested>((event, emit) async {
+      print('Ta caindo aqui');
       try {
         emit(state.copyWith(status: NetworksListStatus.loading));
-
-        final mockNetworks = [
+        final networks = await _networksRepository.getAllNetworks();
+        /*        final mockNetworks = [
           Network(
             id: 1,
             name: 'Ethereum',
@@ -42,13 +47,13 @@ class NetworksListBloc extends Bloc<NetworksListEvent, NetworksListState> {
             blockExplorerName: 'a',
             blockExplorerUrl: '',
           ),
-        ];
+        ]; */
 
         emit(
           state.copyWith(
             status: NetworksListStatus.loaded,
-            networks: mockNetworks,
-            filteredNetworks: mockNetworks,
+            networks: networks,
+            filteredNetworks: networks,
           ),
         );
       } catch (e) {

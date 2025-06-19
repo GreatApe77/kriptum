@@ -35,9 +35,13 @@ class NetworksRepositoryImpl implements NetworksRepository {
     _currentNetwork = network;
     _currentNetworkController.add(_currentNetwork!);
     await _userPreferences.setSelectedNetworkId(network.id!);
-    
   }
 
   @override
   Stream<Network> watchCurrentNetwork() => _currentNetworkController.stream;
+
+  @override
+  Future<List<Network>> getAllNetworks() async {
+    return await _networksDataSource.getAllNetworks();
+  }
 }
