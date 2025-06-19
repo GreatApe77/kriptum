@@ -14,6 +14,7 @@ class MainBalanceViewer extends StatelessWidget {
         injector.get(),
         injector.get(),
         injector.get(),
+        injector.get()
       )
         ..add(
           NativeBalanceRequested(),

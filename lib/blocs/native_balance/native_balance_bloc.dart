@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:kriptum/domain/models/account_balance.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
+import 'package:kriptum/domain/repositories/networks_repository.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.dart';
 import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart';
 
@@ -13,13 +14,24 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
   final UserPreferences _userPreferences;
   final GetNativeBalanceOfAccountUsecase _getNativeBalanceOfAccountUsecase;
   final AccountsRepository _accountsRepository;
+  final NetworksRepository _networksRepository;
   late final StreamSubscription _currentAccountChangeSubscription;
+  late final StreamSubscription _currentNetworkChangeSubscription;
   //late final StreamSubscription _currentNetworkChangeSubscription;
-  NativeBalanceBloc(this._getNativeBalanceOfAccountUsecase,
-      this._userPreferences, this._accountsRepository)
-      : super(NativeBalanceState.initial()) {
+  NativeBalanceBloc(
+    this._getNativeBalanceOfAccountUsecase,
+    this._userPreferences,
+    this._accountsRepository,
+    this._networksRepository,
+  ) : super(NativeBalanceState.initial()) {
     _currentAccountChangeSubscription =
         _accountsRepository.currentAccountStream().listen(
+      (event) {
+        add(NativeBalanceRequested());
+      },
+    );
+    _currentNetworkChangeSubscription =
+        _networksRepository.watchCurrentNetwork().listen(
       (event) {
         add(NativeBalanceRequested());
       },
@@ -68,8 +80,9 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
     });
   }
   @override
-  Future<void> close() {
-    _currentAccountChangeSubscription.cancel();
+  Future<void> close() async{
+    await _currentAccountChangeSubscription.cancel();
+    await _currentNetworkChangeSubscription.cancel();
     return super.close();
   }
 }

@@ -75,54 +75,60 @@ class _NetworksListState extends State<_NetworksList> {
               border: OutlineInputBorder(),
             ),
           ),
-          Expanded(child: BlocBuilder<NetworksListBloc, NetworksListState>(
-            builder: (context, state) {
-              if (state.status == NetworksListStatus.loading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state.status == NetworksListStatus.error) {
-                return Center(
-                  child: Text(state.errorMessage ?? 'Unknown error'),
-                );
-              }
-              final networks = state.filteredNetworks;
-              return BlocConsumer<CurrentNetworkCubit, CurrentNetworkState>(
-                listener: (context, state) {
-                  if (widget.onNetworkChosen == null) return;
-                  widget.onNetworkChosen!(
-                      (state as CurrentNetworkLoaded).network);
-                },
-                listenWhen: (previous, current) {
-                  if (current is CurrentNetworkLoaded) {
-                    return current.isChangingNetwork;
-                  }
-                  return false;
-                },
-                builder: (context, currNetworksState) {
-                  bool loaded = currNetworksState is CurrentNetworkLoaded;
-                  if (!loaded) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  final currentNetwork = currNetworksState.network;
-                  return ListView.builder(
-                    itemCount: networks.length,
-                    itemBuilder: (context, index) {
-                      final network = networks[index];
-                      return NetworkListTile(
-                        selected: currentNetwork.id == network.id,
-                        network: network,
-                        onNetworkTap: (network) {
-                          context
-                              .read<CurrentNetworkCubit>()
-                              .changeCurrentNetwork(network);
-                        },
-                      );
-                    },
+          Expanded(
+            child: BlocBuilder<NetworksListBloc, NetworksListState>(
+              builder: (context, state) {
+                if (state.status == NetworksListStatus.loading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state.status == NetworksListStatus.error) {
+                  return Center(
+                    child: Text(state.errorMessage ?? 'Unknown error'),
                   );
-                },
-              );
-            },
-          ))
+                }
+                final networks = state.filteredNetworks;
+                return BlocConsumer<CurrentNetworkCubit, CurrentNetworkState>(
+                  listener: (context, state) {
+                    if (widget.onNetworkChosen == null) return;
+                    widget.onNetworkChosen!(
+                        (state as CurrentNetworkLoaded).network);
+                  },
+                  listenWhen: (previous, current) {
+                    if (current is CurrentNetworkLoaded) {
+                      return current.isChangingNetwork;
+                    }
+                    return false;
+                  },
+                  builder: (context, currNetworksState) {
+                    bool loaded = currNetworksState is CurrentNetworkLoaded;
+                    if (!loaded) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    final currentNetwork = currNetworksState.network;
+                    return ListView.builder(
+                      itemCount: networks.length,
+                      itemBuilder: (context, index) {
+                        final network = networks[index];
+                        return NetworkListTile(
+                          selected: currentNetwork.id == network.id,
+                          network: network,
+                          onNetworkTap: (network) {
+                            context
+                                .read<CurrentNetworkCubit>()
+                                .changeCurrentNetwork(network);
+                          },
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          FilledButton(
+            onPressed: () {},
+            child: const Text('Add Network'),
+          )
         ],
       ),
     );
