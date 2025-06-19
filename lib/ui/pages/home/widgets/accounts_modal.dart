@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/account_list/account_list_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/widgets/account_tile_widget.dart';
 
 class AccountsModal extends StatelessWidget {
@@ -41,7 +42,6 @@ class _AccountsModalView extends StatelessWidget {
     return BlocBuilder<AccountListBloc, AccountListState>(
       builder: (context, listState) {
         return BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
-          
           builder: (context, currentAccountState) {
             return SafeArea(
               child: Column(
@@ -69,7 +69,10 @@ class _AccountsModalView extends StatelessWidget {
                                 );
                             Navigator.of(context).pop();
                           },
-                          onOptionsMenuSelected: () {},
+                          onOptionsMenuSelected: () => _showAccountOptionsModal(
+                            context: context,
+                            account: listState.accounts[index],
+                          ),
                         );
                       },
                     ),
@@ -80,6 +83,31 @@ class _AccountsModalView extends StatelessWidget {
           },
         );
       },
+    );
+  }
+
+  void _showAccountOptionsModal({
+    required BuildContext context,
+    required Account account,
+  }) {
+    showModalBottomSheet(
+      showDragHandle: true,
+      useSafeArea: true,
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text(
+                'Edit account name',
+              ),
+              onTap: () {},
+            )
+          ],
+        ),
+      ),
     );
   }
 }
