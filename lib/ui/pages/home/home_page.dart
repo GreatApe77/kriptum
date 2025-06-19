@@ -8,6 +8,7 @@ import 'package:kriptum/shared/utils/format_address.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 import 'package:kriptum/ui/pages/home/widgets/main_balance_viewer.dart';
+import 'package:kriptum/ui/pages/scan_qr_code/scan_qr_code_page.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/networks_list.dart';
 
@@ -81,7 +82,16 @@ class HomeView extends StatelessWidget {
                 );
               },
               icon: Icon(Icons.copy)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.qr_code)),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ScanQrCodePage(),
+                ),
+              );
+            },
+            icon: Icon(Icons.qr_code),
+          ),
         ],
         title: BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
           builder: (context, state) {
