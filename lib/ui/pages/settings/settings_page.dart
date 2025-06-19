@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/ui/app.dart';
 import 'package:kriptum/ui/pages/general_settings/general_settings_page.dart';
 import 'package:kriptum/ui/pages/networks/networks_page.dart';
 import 'package:kriptum/ui/pages/settings/widgets/settings_submenu_card.dart';
+import 'package:kriptum/ui/pages/splash/splash_page.dart';
 
 class SettingsPage extends StatelessWidget {
   static final settingsPageNavigatorKey = GlobalKey<NavigatorState>();
@@ -81,10 +83,19 @@ class _SettingsView extends StatelessWidget {
               'Lock Wallet',
               style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
             ),
-            //onTap: () => _triggerLockWallet(context),
+            onTap: () => _triggerLockWallet(context),
           )
         ],
       ),
+    );
+  }
+
+  void _triggerLockWallet(BuildContext context) {
+    App.navigator.currentState?.pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const SplashPage(),
+      ),
+      (route) => false,
     );
   }
 }
