@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/shared/utils/copy_to_clipboard.dart';
+import 'package:kriptum/ui/pages/scan_qr_code/scan_qr_code_page.dart';
+import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ReceivePage extends StatelessWidget {
@@ -35,7 +37,7 @@ class _ReceiveView extends StatelessWidget {
           body: SafeArea(
             child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: Spacings.horizontalPadding, vertical: 20),
                 child: Column(
                   children: [
                     Row(
@@ -66,7 +68,16 @@ class _ReceiveView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         SegmentedButton(
-                            onSelectionChanged: (p0) {},
+                            onSelectionChanged: (p0) {
+                              if (p0.isEmpty) return;
+                              if (p0.first == 1) {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => ScanQrCodePage(),
+                                  ),
+                                );
+                              }
+                            },
                             segments: const [
                               ButtonSegment<int>(
                                   value: 1, label: Text('Scan QR code')),
