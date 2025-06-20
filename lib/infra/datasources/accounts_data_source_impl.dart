@@ -50,4 +50,16 @@ class AccountsDataSourceImpl implements AccountsDataSource {
   Future<void> deleteAllAccounts() async {
     await _sqlDatabase.deleteAll(AccountsTable.table);
   }
+
+  @override
+  Future<void> updateAccount(Account account) async {
+    await _sqlDatabase.update(
+      AccountsTable.table,
+      account.toMap(),
+      where: '${AccountsTable.accountIndexColumn} = ?',
+      whereArgs: [
+        account.accountIndex,
+      ],
+    );
+  }
 }

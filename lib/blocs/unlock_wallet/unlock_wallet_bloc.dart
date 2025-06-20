@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
-import 'package:meta/meta.dart';
 
 part 'unlock_wallet_event.dart';
 part 'unlock_wallet_state.dart';

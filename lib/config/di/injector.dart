@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/native_balance_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
@@ -19,7 +18,6 @@ import 'package:kriptum/infra/datasources/networks_data_source_impl.dart';
 import 'package:kriptum/infra/persistence/user_preferences/shared_preferences/user_preferences_impl.dart';
 import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart';
 import 'package:kriptum/infra/repositories/accounts_repository_impl.dart';
-import 'package:kriptum/infra/repositories/fake_accounts_repository.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/sqflite_database.dart';
 import 'package:kriptum/infra/repositories/native_balance_repository_impl.dart';

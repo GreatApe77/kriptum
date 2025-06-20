@@ -9,4 +9,5 @@ abstract interface class AccountsDataSource {
 
   Future<void> insertAccounts(List<Account> accounts);
   Future<void> deleteAllAccounts();
+  Future<void> updateAccount(Account account);
 }

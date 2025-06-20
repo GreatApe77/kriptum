@@ -4,6 +4,7 @@ import 'package:kriptum/blocs/account_list/account_list_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/account.dart';
+import 'package:kriptum/ui/pages/edit_account/edit_account_page.dart';
 import 'package:kriptum/ui/widgets/account_tile_widget.dart';
 
 class AccountsModal extends StatelessWidget {
@@ -90,6 +91,7 @@ class _AccountsModalView extends StatelessWidget {
     required BuildContext context,
     required Account account,
   }) {
+    final bloc = context.read<AccountListBloc>();
     showModalBottomSheet(
       showDragHandle: true,
       useSafeArea: true,
@@ -103,7 +105,23 @@ class _AccountsModalView extends StatelessWidget {
               title: Text(
                 'Edit account name',
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EditAccountPage(
+                      accountToBeEdited: account,
+                      onAccountEditionCompleted: (editedAccount) {
+                        bloc.add(
+                          AccountsListUpdated(
+                            updatedAccount: editedAccount,
+                          ),
+                        );
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                );
+              },
             )
           ],
         ),

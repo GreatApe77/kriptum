@@ -45,4 +45,16 @@ class FakeAccountsRepository implements AccountsRepository {
     // TODO: implement changeCurrentAccount
     throw UnimplementedError();
   }
+  
+  @override
+  Future<void> updateAccount(Account account) {
+    // TODO: implement updateAccount
+    throw UnimplementedError();
+  }
+  
+  @override
+  Stream<List<Account>> watchAccounts() {
+    // TODO: implement watchAccounts
+    throw UnimplementedError();
+  }
 }

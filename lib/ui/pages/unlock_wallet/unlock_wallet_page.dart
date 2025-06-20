@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/reset_wallet/reset_wallet_bloc.dart';
 import 'package:kriptum/blocs/unlock_wallet/unlock_wallet_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
-import 'package:kriptum/ui/pages/home/home_page.dart';
 import 'package:kriptum/ui/pages/home_wrapper/home_wrapper_page.dart';
 import 'package:kriptum/ui/pages/splash/splash_page.dart';
 import 'package:kriptum/ui/pages/unlock_wallet/widgets/erase_wallet_dialog.dart';

@@ -22,7 +22,7 @@ class ReceivePage extends StatelessWidget {
 }
 
 class _ReceiveView extends StatelessWidget {
-  const _ReceiveView({super.key});
+  const _ReceiveView();
 
   @override
   Widget build(BuildContext context) {

@@ -123,7 +123,7 @@ class SecureWalletStep2Screen extends StatelessWidget {
             'Protect your wallet',
             textAlign: TextAlign.center,
           ),
-          content: const Text(
+          content: Text(
             'Don\'t risk losing your funds. Protect your wallet by saving your Secret Recovery Phrase in a place you trust.\nIt\'s the only way to recover your wallet if you get locked out of the app or get a new device.',
             textAlign: TextAlign.center,
           ),
