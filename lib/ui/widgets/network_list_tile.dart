@@ -18,7 +18,8 @@ class NetworkListTile extends StatelessWidget {
     return ListTile(
       selected: selected,
       leading: const Icon(Icons.public),
-      title: InkWell(onTap: () => onNetworkTap(network), child: Text(network.name)),
+      onTap: () => onNetworkTap(network),
+      title: Text(network.name),
       trailing: IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
     );
   }
