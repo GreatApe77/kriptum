@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/ui/pages/create_new_wallet/create_new_wallet_page.dart';
+import 'package:kriptum/ui/pages/import_wallet/import_wallet_page.dart';
 
 import 'package:kriptum/ui/widgets/main_title_app_bar_widget.dart';
 
@@ -58,5 +59,11 @@ class SetupPage extends StatelessWidget {
     );
   }
 
-  void _navigateToImportWalletPage(BuildContext context) {}
+  void _navigateToImportWalletPage(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ImportWalletPage(),
+      ),
+    );
+  }
 }
