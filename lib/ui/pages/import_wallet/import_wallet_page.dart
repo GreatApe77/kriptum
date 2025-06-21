@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:kriptum/domain/models/mnemonic.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/main_title_app_bar_widget.dart';
 
@@ -44,6 +45,12 @@ class _ImportWalletView extends StatelessWidget {
                 ),
                 TextFormField(
                   controller: mnemonicTextController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    final mnemonic = Mnemonic.create(value ?? '');
+                    if (mnemonic.isFailure) return mnemonic.failure;
+                    return null;
+                  },
                   decoration: const InputDecoration(
                       hintText: 'Enter your Secret Recovery Phrase',
                       label: Text('Secret Recovery Phrase'),
