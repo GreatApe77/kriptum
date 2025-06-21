@@ -17,12 +17,22 @@ class ImportWalletPage extends StatelessWidget {
   }
 }
 
-class _ImportWalletView extends StatelessWidget {
+class _ImportWalletView extends StatefulWidget {
   _ImportWalletView();
+
+  @override
+  State<_ImportWalletView> createState() => _ImportWalletViewState();
+}
+
+class _ImportWalletViewState extends State<_ImportWalletView> {
   final GlobalKey<FormState> formKey = GlobalKey();
+
   final mnemonicTextController = TextEditingController();
+
   final passwordTextController = TextEditingController();
+
   final confirmPasswordTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,34 +129,4 @@ class _ImportWalletView extends StatelessWidget {
       ),
     );
   }
-
-  /*  void _triggerImportWallet(BuildContext context) async {
-    if (!formKey.currentState!.validate()) return;
-    if (passwordTextController.text != confirmPasswordTextController.text) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(buildErrorSnackBar(context, 'Passwords don\'t match'));
-      return;
-    }
-    await importWalletController.importWalletWithMultipleAccounts(
-      settingsController: settingsController,
-      mnemonic: mnemonicTextController.text,
-      password: passwordTextController.text,
-      onError: () {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Theme.of(context).colorScheme.error,
-            content: const Text('Something went wrong!')));
-      },
-      onSuccess: () async {
-        await settingsController.setContainsWallet(true);
-        await settingsController.changeCurrentAccountIndex(0);
-        await settingsController.setIsLockedWallet(false);
-        passwordController.setPassord(passwordTextController.text);
-        if (!context.mounted) return;
-        await GoRouter.of(context).pushReplacement(AppRoutes.home);
-      },
-    );
-  } */
 }
