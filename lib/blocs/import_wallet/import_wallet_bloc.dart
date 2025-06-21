@@ -16,6 +16,7 @@ class ImportWalletBloc extends Bloc<ImportWalletEvent, ImportWalletState> {
             encryptionPassword: event.password,
           );
           await _importWalletUsecase.execute(params);
+          emit(ImportWalletSuccess());
         } catch (e) {
           emit(
             ImportWalletFailed(reason: 'Failed to import Wallet'),
