@@ -16,7 +16,11 @@ class ContactsRepositoryImpl implements ContactsRepository, Disposable {
 
   @override
   Future<void> deleteContact(int contactId) async {
-    
+    await _contactsDataSource.deleteContact(contactId);
+    _contacts.removeWhere(
+      (contact) => contact.id == contactId,
+    );
+    _contactsStream.add(_contacts);
   }
 
   @override
