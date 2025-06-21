@@ -74,6 +74,9 @@ class _UnlockWalletViewState extends State<UnlockWalletView> {
               child: CircularProgressIndicator(),
             );
           }
+          if(state is UnlockWalletSuccess){
+            return SizedBox.shrink();
+          }
           return Padding(
             padding: EdgeInsets.symmetric(
               horizontal: Spacings.horizontalPadding,
