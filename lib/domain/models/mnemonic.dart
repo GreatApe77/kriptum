@@ -1,23 +1,24 @@
-import 'package:kriptum/shared/utils/result.dart';
 
 class Mnemonic {
   final String phrase;
 
-  Mnemonic._private(this.phrase);
+  Mnemonic(this.phrase) {
+    final errorReason = _validate();
+    if (errorReason != null) {
+      throw ArgumentError(errorReason);
+    }
+  }
 
-  static Result<Mnemonic, String> create(String phrase) {
+  String? _validate() {
     if (phrase.isEmpty) {
-      return Result.failure('Mnemonic phrase cannot be empty');
+      return 'Mnemonic phrase cannot be empty';
     }
     if (phrase.split(' ').length != 12) {
-      return Result.failure('Mnemonic phrase must contain 12 words');
+      return 'Mnemonic phrase must contain 12 words';
     }
     if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(phrase)) {
-      return Result.failure(
-          'Mnemonic phrase can only contain letters and spaces');
+      return 'Mnemonic phrase can only contain letters and spaces';
     }
-    return Result.success(
-      Mnemonic._private(phrase),
-    );
+    return null;
   }
 }

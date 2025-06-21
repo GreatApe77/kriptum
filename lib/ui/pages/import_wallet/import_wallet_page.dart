@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:kriptum/domain/models/mnemonic.dart';
+import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/domain/factories/mnemonic_factory.dart';
+import 'package:kriptum/domain/factories/password_factory.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/main_title_app_bar_widget.dart';
 
@@ -47,8 +49,9 @@ class _ImportWalletView extends StatelessWidget {
                   controller: mnemonicTextController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
-                    final mnemonic = Mnemonic.create(value ?? '');
-                    if (mnemonic.isFailure) return mnemonic.failure;
+                    final result =
+                        injector.get<MnemonicFactory>().create(value ?? '');
+                    if (result.isFailure) return result.failure;
                     return null;
                   },
                   decoration: const InputDecoration(
@@ -62,10 +65,18 @@ class _ImportWalletView extends StatelessWidget {
                 TextFormField(
                   obscureText: true,
                   controller: passwordTextController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (password) {
+                    final result =
+                        injector.get<PasswordFactory>().create(password ?? '');
+                    if (result.isFailure) return result.failure;
+                    return null;
+                  },
                   decoration: const InputDecoration(
-                      hintText: 'New Password',
-                      label: Text('New Password'),
-                      border: OutlineInputBorder()),
+                    hintText: 'New Password',
+                    label: Text('New Password'),
+                    border: OutlineInputBorder(),
+                  ),
                 ),
                 const SizedBox(
                   height: 24,
@@ -76,6 +87,17 @@ class _ImportWalletView extends StatelessWidget {
                   //validator: (confirmPassword) =>
                   //  PasswordValidatorController.validLength(
                   //      confirmPassword),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (confirmPassword) {
+                    if (confirmPassword != passwordTextController.text) {
+                      return 'Passwords don\'t match';
+                    }
+                    final result = injector
+                        .get<PasswordFactory>()
+                        .create(confirmPassword ?? '');
+                    if (result.isFailure) return result.failure;
+                    return null;
+                  },
                   decoration: const InputDecoration(
                       hintText: 'Confirm Password',
                       helperText: 'Must be at least 8 characters',

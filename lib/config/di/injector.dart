@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:kriptum/domain/factories/mnemonic_factory.dart';
+import 'package:kriptum/domain/factories/password_factory.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/native_balance_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
@@ -15,6 +17,8 @@ import 'package:kriptum/infra/datasources/native_balance_data_source.dart';
 import 'package:kriptum/infra/datasources/native_balance_data_source_impl.dart';
 import 'package:kriptum/infra/datasources/networks_data_source.dart';
 import 'package:kriptum/infra/datasources/networks_data_source_impl.dart';
+import 'package:kriptum/infra/factories/mnemonic_factory_impl.dart';
+import 'package:kriptum/infra/factories/password_factory_impl.dart';
 import 'package:kriptum/infra/persistence/user_preferences/shared_preferences/user_preferences_impl.dart';
 import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart';
 import 'package:kriptum/infra/repositories/accounts_repository_impl.dart';
@@ -102,5 +106,10 @@ Future<void> initInjector() async {
       injector.get(),
     ),
   );
-  
+  injector.registerLazySingleton<MnemonicFactory>(
+    () => MnemonicFactoryImpl(),
+  );
+  injector.registerLazySingleton<PasswordFactory>(
+    () => PasswordFactoryImpl(),
+  );
 }
