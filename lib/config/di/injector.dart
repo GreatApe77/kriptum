@@ -9,6 +9,7 @@ import 'package:kriptum/domain/services/account_generator_service.dart';
 import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usecase.dart';
 import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.dart';
+import 'package:kriptum/domain/usecases/import_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/reset_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
 import 'package:kriptum/infra/datasources/accounts_data_source.dart';
@@ -111,5 +112,12 @@ Future<void> initInjector() async {
   );
   injector.registerLazySingleton<PasswordFactory>(
     () => PasswordFactoryImpl(),
+  );
+  injector.registerLazySingleton<ImportWalletUsecase>(
+    () => ImportWalletUsecase(
+      injector.get(),
+      injector.get(),
+      injector.get(),
+    ),
   );
 }
