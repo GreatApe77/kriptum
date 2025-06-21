@@ -11,7 +11,7 @@ class PasswordFactoryImpl implements PasswordFactory {
     } on ArgumentError catch (e) {
       return Result.failure(e.message);
     } catch (e) {
-      return Result.failure('An unexpected error occurred: ${e.toString()}');
+      return Result.failure(e.toString());
     }
   }
 }
