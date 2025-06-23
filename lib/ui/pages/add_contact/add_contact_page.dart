@@ -32,8 +32,7 @@ class _AddContactPageState extends State<AddContactPage> {
   Widget build(BuildContext context) {
     final labelStyle = Theme.of(context).textTheme.titleMedium;
     return BlocListener<ContactsBloc, ContactsState>(
-      listenWhen: (previous, current) =>
-          previous.contacts.length != current.contacts.length,
+      listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status == ContactsStatus.error) {
           _onError(context, state.errorMessage);
@@ -112,7 +111,6 @@ class _AddContactPageState extends State<AddContactPage> {
                 address: _addressTextController.text),
           ),
         );
-
   }
 
   void _onSuccess(BuildContext context) {

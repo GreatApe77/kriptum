@@ -35,10 +35,9 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       final contacts = await _contactsRepository.getAllContacts();
       emit(
         state.copyWith(
-          contacts: contacts,
-          filteredContacts: contacts,
-          status: ContactsStatus.loaded
-        ),
+            contacts: contacts,
+            filteredContacts: contacts,
+            status: ContactsStatus.loaded),
       );
     } catch (e) {
       emit(
@@ -57,6 +56,9 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
         state.copyWith(status: ContactsStatus.loading),
       );
       await _contactsRepository.saveContact(event.contact);
+      emit(
+        state.copyWith(status: ContactsStatus.inserted),
+      );
     } catch (e) {
       emit(
         state.copyWith(

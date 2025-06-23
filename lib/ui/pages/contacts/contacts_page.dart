@@ -46,8 +46,7 @@ class _ContactsView extends StatelessWidget {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    if (state.status == ContactsStatus.loaded &&
-                        state.filteredContacts.isEmpty) {
+                    if (state.filteredContacts.isEmpty) {
                       return Center(
                         child: Text('No Contacts'),
                       );
