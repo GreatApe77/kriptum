@@ -117,14 +117,9 @@ class _ContactsView extends StatelessWidget {
   }
 
   void _navigateToAddContactPage(BuildContext context) {
-    final contactsBloc = context.read<ContactsBloc>();
-
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => BlocProvider.value(
-          value: contactsBloc,
-          child: AddContactPage(),
-        ),
+        builder: (context) => const AddContactPage(),
       ),
     );
   }

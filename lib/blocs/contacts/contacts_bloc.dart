@@ -21,7 +21,7 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     );
     on<_ContactsRefreshed>(_handleRefresh);
     on<ContactsRequested>(_handleRequest);
-    on<ContactInsertionRequested>(_handleInsert);
+
     on<ContactDeletionRequested>(_handleDelete);
     on<ContactUpdateRequested>(_handleUpdate);
   }
@@ -49,26 +49,6 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     }
   }
 
-  Future<void> _handleInsert(
-      ContactInsertionRequested event, Emitter<ContactsState> emit) async {
-    try {
-      emit(
-        state.copyWith(status: ContactsStatus.loading),
-      );
-      await _contactsRepository.saveContact(event.contact);
-      emit(
-        state.copyWith(status: ContactsStatus.inserted),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          status: ContactsStatus.error,
-          errorMessage: 'Error while inserting contact',
-        ),
-      );
-    }
-  }
-
   FutureOr<void> _handleDelete(
       ContactDeletionRequested event, Emitter<ContactsState> emit) {}
 
@@ -77,9 +57,12 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
 
   FutureOr<void> _handleRefresh(
       _ContactsRefreshed event, Emitter<ContactsState> emit) {
-    state.copyWith(
-      contacts: event.refreshedContacts,
-      status: ContactsStatus.loaded,
+    emit(
+      state.copyWith(
+        contacts: event.refreshedContacts,
+        filteredContacts: event.refreshedContacts,
+        status: ContactsStatus.loaded,
+      ),
     );
   }
 

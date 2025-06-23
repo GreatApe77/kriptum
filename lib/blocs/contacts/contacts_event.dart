@@ -10,11 +10,6 @@ final class ContactDeletionRequested extends ContactsEvent {
   ContactDeletionRequested({required this.contactId});
 }
 
-final class ContactInsertionRequested extends ContactsEvent {
-  final Contact contact;
-
-  ContactInsertionRequested({required this.contact});
-}
 
 final class ContactUpdateRequested extends ContactsEvent {
   final Contact contact;

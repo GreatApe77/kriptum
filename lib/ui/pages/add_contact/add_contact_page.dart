@@ -1,19 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kriptum/blocs/add_contact/add_contact_bloc.dart';
 import 'package:kriptum/blocs/contacts/contacts_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/factories/ethereum_address_factory.dart';
 import 'package:kriptum/domain/models/contact.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 
-class AddContactPage extends StatefulWidget {
+class AddContactPage extends StatelessWidget {
   const AddContactPage({super.key});
 
   @override
-  State<AddContactPage> createState() => _AddContactPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider<AddContactBloc>(
+      create: (context) => AddContactBloc(
+        injector.get(),
+      ),
+      child: const _AddContactView(),
+    );
+  }
 }
 
-class _AddContactPageState extends State<AddContactPage> {
+class _AddContactView extends StatefulWidget {
+  const _AddContactView();
+
+  @override
+  State<_AddContactView> createState() => _AddContactViewState();
+}
+
+class _AddContactViewState extends State<_AddContactView> {
   final _nameTextController = TextEditingController();
 
   final _addressTextController = TextEditingController();
@@ -31,14 +46,15 @@ class _AddContactPageState extends State<AddContactPage> {
   @override
   Widget build(BuildContext context) {
     final labelStyle = Theme.of(context).textTheme.titleMedium;
-    return BlocListener<ContactsBloc, ContactsState>(
-      listenWhen: (previous, current) => previous.status != current.status,
+    return BlocListener<AddContactBloc, AddContactState>(
       listener: (context, state) {
-        if (state.status == ContactsStatus.error) {
-          _onError(context, state.errorMessage);
+        if (state is AddContactError) {
+          _onError(context, state.message);
           return;
         }
-        _onSuccess(context);
+        if (state is AddContactSuccess) {
+          _onSuccess(context);
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -104,11 +120,12 @@ class _AddContactPageState extends State<AddContactPage> {
 
   void _triggerAddContact(BuildContext context) async {
     if (!_formKey.currentState!.validate()) return;
-    context.read<ContactsBloc>().add(
-          ContactInsertionRequested(
+    context.read<AddContactBloc>().add(
+          AddContactRequested(
             contact: Contact(
-                name: _nameTextController.text,
-                address: _addressTextController.text),
+              name: _nameTextController.text,
+              address: _addressTextController.text,
+            ),
           ),
         );
   }
