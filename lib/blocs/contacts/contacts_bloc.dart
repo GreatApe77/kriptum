@@ -37,6 +37,7 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
         state.copyWith(
           contacts: contacts,
           filteredContacts: contacts,
+          status: ContactsStatus.loaded
         ),
       );
     } catch (e) {
@@ -74,7 +75,10 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
 
   FutureOr<void> _handleRefresh(
       _ContactsRefreshed event, Emitter<ContactsState> emit) {
-    state.copyWith(contacts: event.refreshedContacts);
+    state.copyWith(
+      contacts: event.refreshedContacts,
+      status: ContactsStatus.loaded,
+    );
   }
 
   @override

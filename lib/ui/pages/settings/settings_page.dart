@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/ui/app.dart';
+import 'package:kriptum/ui/pages/contacts/contacts_page.dart';
 import 'package:kriptum/ui/pages/general_settings/general_settings_page.dart';
 import 'package:kriptum/ui/pages/networks/networks_page.dart';
 import 'package:kriptum/ui/pages/settings/widgets/settings_submenu_card.dart';
@@ -74,7 +75,7 @@ class _SettingsView extends StatelessWidget {
             description: 'Add, edit, remove and manage your contacts',
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const GeneralSettingsPage(),
+                builder: (context) => const ContactsPage(),
               ),
             ),
           ),
