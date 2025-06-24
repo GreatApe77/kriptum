@@ -173,12 +173,10 @@ class _ImportWalletViewState extends State<_ImportWalletView> {
 
   void _navigateToHome(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
-      
       MaterialPageRoute(
-
         builder: (_) => HomeWrapperPage(),
-
-      ),(route) => false,
+      ),
+      (route) => false,
     );
   }
 }

@@ -3,8 +3,6 @@ import 'package:kriptum/infra/persistence/database/sqflite/tables/accounts_table
 import 'package:kriptum/infra/persistence/database/sqflite/tables/networks_table.dart';
 import 'package:sqflite/sqflite.dart';
 
-
-
 Future<void> runMigration1(Database db) async {
   await db.execute('''
     CREATE TABLE IF NOT EXISTS ${AccountsTable.table}(

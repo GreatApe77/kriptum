@@ -6,8 +6,7 @@ class GenerateAccountsPreviewUsecase {
 
   GenerateAccountsPreviewUsecase({
     required AccountGeneratorService accountGenerator,
-  })  : _accountGenerator = accountGenerator;
-        
+  }) : _accountGenerator = accountGenerator;
 
   Future<List<Account>> execute(
     GenerateAccountsPreviewUsecaseParams params,

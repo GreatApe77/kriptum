@@ -22,7 +22,7 @@ class NetworksListState {
     required this.errorMessage,
     required this.filter,
   });
-   factory NetworksListState.initial() {
+  factory NetworksListState.initial() {
     return NetworksListState(
       status: NetworksListStatus.initial,
       networks: [],
@@ -30,7 +30,7 @@ class NetworksListState {
       errorMessage: null,
       filter: '',
     );
-  } 
+  }
 
   NetworksListState copyWith({
     NetworksListStatus? status,
@@ -47,5 +47,4 @@ class NetworksListState {
       filter: filter ?? this.filter,
     );
   }
-
 }

@@ -36,8 +36,8 @@ class _ReceiveView extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: Spacings.horizontalPadding, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Spacings.horizontalPadding, vertical: 20),
                 child: Column(
                   children: [
                     Row(

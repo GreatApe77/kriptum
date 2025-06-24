@@ -10,9 +10,12 @@ void main() {
   late GenerateAccountsPreviewUsecase sut;
   late MockAccountGeneratorService mockAccountGeneratorService;
 
-  setUpAll(() {
-    registerFallbackValue(AccountsFromMnemonicParams(mnemonic: 'mnemonic', encryptionPassword: 'encryptionPassword'));
-  },);
+  setUpAll(
+    () {
+      registerFallbackValue(AccountsFromMnemonicParams(
+          mnemonic: 'mnemonic', encryptionPassword: 'encryptionPassword'));
+    },
+  );
   setUp(() {
     mockAccountGeneratorService = MockAccountGeneratorService();
     sut = GenerateAccountsPreviewUsecase(
@@ -47,6 +50,5 @@ void main() {
 
     // Assert
     expect(accounts.length, 20);
-   
   });
 }

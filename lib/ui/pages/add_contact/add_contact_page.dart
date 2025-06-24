@@ -89,21 +89,7 @@ class _AddContactViewState extends State<_AddContactView> {
                     height: 24,
                   ),
                   Text('Address', style: labelStyle),
-                  TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      final result = injector
-                          .get<EthereumAddressFactory>()
-                          .create(value ?? '');
-                      if (result.isFailure) {
-                        return result.failure;
-                      }
-                      return null;
-                    },
-                    controller: _addressTextController,
-                    decoration:
-                        const InputDecoration(hintText: 'Public address (0x)'),
-                  ),
+                  EthereumAddressTextField(controller: _addressTextController),
                   const SizedBox(
                     height: 24,
                   ),

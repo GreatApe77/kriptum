@@ -33,14 +33,14 @@ class SplashView extends StatelessWidget {
             // Do nothing, just wait for the next state
             break;
           case AppBootStatus.noWallet:
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => SetupPage(),)
-            );
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => SetupPage(),
+            ));
             break;
           case AppBootStatus.lockedWallet:
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => UnlockWalletPage(),)
-            );
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => UnlockWalletPage(),
+            ));
             break;
         }
       },

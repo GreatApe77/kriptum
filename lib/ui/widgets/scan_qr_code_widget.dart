@@ -7,11 +7,10 @@ class ScanQrCodeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MobileScanner(
-      
       onDetect: (result) {
         final address = result.barcodes.first.rawValue;
-        print('Scanned address: $address');
-        //Navigator.of(context).pop<String>(address);
+        //print('Scanned address: $address');
+        return Navigator.of(context).pop<String>(address);
       },
     );
   }

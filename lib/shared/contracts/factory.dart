@@ -6,10 +6,10 @@ import 'package:kriptum/shared/utils/result.dart';
 abstract interface class Factory<I, V, F> {
   ///
   /// V -> The type of the value that the factory will create.
-  /// 
+  ///
   /// I -> The type of the input that the factory will use to create the value.
-  /// 
-  /// F -> The type of the failure that the factory might return. 
+  ///
+  /// F -> The type of the failure that the factory might return.
   ///
   Result<V, F> create(I input);
 }

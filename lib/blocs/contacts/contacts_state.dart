@@ -1,13 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'contacts_bloc.dart';
 
-enum ContactsStatus {
-  initial,
-  loading,
-  loaded,
-  error,
-  inserted
-}
+enum ContactsStatus { initial, loading, loaded, error, inserted }
 
 class ContactsState {
   final List<Contact> contacts;

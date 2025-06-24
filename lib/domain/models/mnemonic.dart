@@ -1,4 +1,3 @@
-
 class Mnemonic {
   final String phrase;
 

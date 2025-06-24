@@ -60,7 +60,7 @@ class UserPreferencesImpl implements UserPreferences {
   }
 
   @override
-  Future<void> setNativeBalanceVisibility(bool isVisible)async {
+  Future<void> setNativeBalanceVisibility(bool isVisible) async {
     await _sh.setBool('native_balance_visible', isVisible);
   }
 }

@@ -27,31 +27,31 @@ class FakeAccountsRepository implements AccountsRepository {
     // TODO: implement saveAccounts
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> deleteAllAccounts() {
     // TODO: implement deleteAllAccounts
     throw UnimplementedError();
   }
-  
+
   @override
   Future<Account?> getCurrentAccount() {
     // TODO: implement getCurrentAccount
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> changeCurrentAccount(Account account) {
     // TODO: implement changeCurrentAccount
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> updateAccount(Account account) {
     // TODO: implement updateAccount
     throw UnimplementedError();
   }
-  
+
   @override
   Stream<List<Account>> watchAccounts() {
     // TODO: implement watchAccounts

@@ -1,7 +1,7 @@
 import 'package:kriptum/shared/contracts/disposable.dart';
 import 'package:kriptum/shared/contracts/initializable.dart';
 
-abstract class SqlDatabase implements Initializable,Disposable {
+abstract class SqlDatabase implements Initializable, Disposable {
   Future<int> insert(String table, Map<String, dynamic> values);
 
   Future<List<Map<String, dynamic>>> query(
@@ -38,6 +38,4 @@ abstract class SqlDatabase implements Initializable,Disposable {
   Future<T> transaction<T>(Future<T> Function() action);
 
   Future<int> getVersion();
-
-  
 }

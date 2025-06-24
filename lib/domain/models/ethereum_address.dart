@@ -1,6 +1,6 @@
 class EthereumAddress {
   final String value;
-  
+
   EthereumAddress(this.value) {
     final reason = _validateWithReason(value);
     if (reason != null) {

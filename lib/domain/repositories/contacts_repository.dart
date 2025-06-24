@@ -6,5 +6,4 @@ abstract interface class ContactsRepository {
   Stream<List<Contact>> watchContacts();
   Future<void> updateContact(Contact contact);
   Future<void> deleteContact(int contactId);
-
 }

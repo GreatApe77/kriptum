@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';

@@ -11,6 +11,7 @@ final class AccountsListUpdated extends AccountListEvent {
     required this.updatedAccount,
   });
 }
+
 final class _AccountsListRefreshed extends AccountListEvent {
   final List<Account> accounts;
 

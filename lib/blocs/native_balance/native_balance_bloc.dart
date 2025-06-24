@@ -80,7 +80,7 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
     });
   }
   @override
-  Future<void> close() async{
+  Future<void> close() async {
     await _currentAccountChangeSubscription.cancel();
     await _currentNetworkChangeSubscription.cancel();
     return super.close();
