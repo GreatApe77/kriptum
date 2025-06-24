@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/account_list/account_list_bloc.dart';
+import 'package:kriptum/blocs/add_hd_wallet_account/add_hd_wallet_account_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/account.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/edit_account/edit_account_page.dart';
+import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/account_tile_widget.dart';
 
 class AccountsModal extends StatelessWidget {
@@ -23,15 +26,12 @@ class AccountsModal extends StatelessWidget {
           create: (context) =>
               CurrentAccountCubit(injector.get())..requestCurrentAccount(),
         ),
+        BlocProvider<AddHdWalletAccountBloc>(
+          create: (context) => AddHdWalletAccountBloc(injector.get()),
+        ),
       ],
       child: _AccountsModalView(),
     );
-    /* return BlocProvider<AccountListBloc>(
-      create: (context) => AccountListBloc(
-        injector.get(),
-      )..add(AccountListRequested()),
-      child: _AccountsModalView(),
-    ); */
   }
 }
 
@@ -46,6 +46,7 @@ class _AccountsModalView extends StatelessWidget {
           builder: (context, currentAccountState) {
             return SafeArea(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     'Accounts',
@@ -77,13 +78,105 @@ class _AccountsModalView extends StatelessWidget {
                         );
                       },
                     ),
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Spacings.horizontalPadding),
+                    child: OutlinedButton(
+                      onPressed: () {
+                        _showCreateOrImportAccountBottomSheet(context);
+                      },
+                      child: const Text('Add or Import Account'),
+                    ),
+                  ),
                 ],
               ),
             );
           },
         );
       },
+    );
+  }
+
+  void _showCreateOrImportAccountBottomSheet(BuildContext context) {
+    final bloc = context.read<AddHdWalletAccountBloc>();
+    showModalBottomSheet(
+      showDragHandle: true,
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Add account',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                )
+              ],
+            ),
+            BlocConsumer<AddHdWalletAccountBloc, AddHdWalletAccountState>(
+              bloc: bloc,
+              listener: (context, state) {
+                if (state is AddHdWalletAccountSuccess) {
+                  Navigator.of(context).pop();
+                }
+                if (state is AddHdWalletAccountError) {
+                  showSnackBar(
+                    message: state.message,
+                    context: context,
+                    snackBarType: SnackBarType.error,
+                  );
+                }
+              },
+              builder: (context, state) {
+                return ListTile(
+                  leading: const Icon(Icons.add),
+                  enabled: state is! AddHdWalletAccountLoading,
+                  // enabled: !widget.accountsController.addAccountLoading,
+                   onTap: () => bloc.add(AddHdWalletAccountRequested()),
+                  ////leading: widget.accountsController.addAccountLoading
+                  /*  ? SizedBox(
+                                        width:
+                                            Theme.of(context).listTileTheme.minLeadingWidth,
+                                        child: CircularProgressIndicator(
+                                          color: Theme.of(context).colorScheme.onSurface,
+                                        ),
+                                      )
+                                    : const Icon(Icons.add), */
+                  title: const Text('Add new account'),
+                );
+              },
+            ),
+            ListTile(
+              onTap: () {
+                //Navigator.of(context).push(MaterialPageRoute(
+                //  builder: (context) {
+                //return ImportAccountScreen(
+                //    passwordController: widget.passwordController,
+                //    accountsController: widget.accountsController);
+                //  },
+                //));
+              },
+              leading: const Icon(Icons.file_download_outlined),
+              title: const Text('Import account'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

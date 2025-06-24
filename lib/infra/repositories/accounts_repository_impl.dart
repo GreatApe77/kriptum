@@ -105,10 +105,10 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
       await _userPreferences.setSelectedAccountId(first.accountIndex);
     }
   }
-  
+
   @override
-  Future<int> getCurrentIndex() {
-    // TODO: implement getCurrentIndex
-    throw UnimplementedError();
+  Future<int> getCurrentIndex() async {
+    final accounts = await _accountsDataSource.getAllNonImportedAccounts();
+    return accounts.length;
   }
 }

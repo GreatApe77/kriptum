@@ -14,12 +14,13 @@ class AddHdWalletAccountUsecase {
   final PasswordFactory _passwordFactory;
   final MnemonicRepository _mnemonicRepository;
   AddHdWalletAccountUsecase(
-      this._accountsRepository,
-      this._encryptionService,
-      this._accountGeneratorService,
-      this._passwordRepository,
-      this._passwordFactory,
-      this._mnemonicRepository);
+    this._accountsRepository,
+    this._encryptionService,
+    this._accountGeneratorService,
+    this._passwordRepository,
+    this._passwordFactory,
+    this._mnemonicRepository,
+  );
   Future<void> execute() async {
     final storedInMemoryPassword = _passwordRepository.getPassword();
     final passwordValidationResult =

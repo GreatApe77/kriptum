@@ -1,12 +1,15 @@
 import 'package:kriptum/domain/models/account.dart';
+import 'package:kriptum/domain/repositories/password_repository.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
 
 class GenerateAccountsPreviewUsecase {
   final AccountGeneratorService _accountGenerator;
-
-  GenerateAccountsPreviewUsecase({
-    required AccountGeneratorService accountGenerator,
-  }) : _accountGenerator = accountGenerator;
+  final PasswordRepository _passwordRepository;
+  GenerateAccountsPreviewUsecase(
+      {required AccountGeneratorService accountGenerator,
+      required PasswordRepository passwordRepository})
+      : _accountGenerator = accountGenerator,
+        _passwordRepository = passwordRepository;
 
   Future<List<Account>> execute(
     GenerateAccountsPreviewUsecaseParams params,
@@ -18,6 +21,7 @@ class GenerateAccountsPreviewUsecase {
         amount: 3,
       ),
     );
+    _passwordRepository.setPassword(params.password);
     return accounts;
     //await _accountsRepository.saveAccounts(accounts);
   }

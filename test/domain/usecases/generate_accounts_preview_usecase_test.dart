@@ -20,6 +20,7 @@ void main() {
     mockAccountGeneratorService = MockAccountGeneratorService();
     sut = GenerateAccountsPreviewUsecase(
       accountGenerator: mockAccountGeneratorService,
+      
     );
   });
   test('Should generate 20 accounts', () async {

@@ -4,11 +4,15 @@ import 'package:kriptum/domain/factories/mnemonic_factory.dart';
 import 'package:kriptum/domain/factories/password_factory.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/contacts_repository.dart';
+import 'package:kriptum/domain/repositories/mnemonic_repository.dart';
 import 'package:kriptum/domain/repositories/native_balance_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
+import 'package:kriptum/domain/repositories/password_repository.dart';
 import 'package:kriptum/domain/services/account_decryption_with_password_service.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
+import 'package:kriptum/domain/services/encryption_service.dart';
 import 'package:kriptum/domain/usecases/add_contact_usecase.dart';
+import 'package:kriptum/domain/usecases/add_hd_wallet_account_usecase.dart';
 import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usecase.dart';
 import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.dart';
@@ -32,10 +36,13 @@ import 'package:kriptum/infra/repositories/accounts_repository_impl.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/sqflite_database.dart';
 import 'package:kriptum/infra/repositories/contacts_repository_impl.dart';
+import 'package:kriptum/infra/repositories/mnemonic_repository_impl.dart';
 import 'package:kriptum/infra/repositories/native_balance_repository_impl.dart';
 import 'package:kriptum/infra/repositories/networks_repository_impl.dart';
+import 'package:kriptum/infra/repositories/password_repository_impl.dart';
 import 'package:kriptum/infra/services/account_decryption_with_password_service_impl.dart';
 import 'package:kriptum/infra/services/account_generator_service_impl.dart';
+import 'package:kriptum/infra/services/encryption_service_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -53,6 +60,9 @@ Future<void> initInjector() async {
       sharedPreferences: sharedPreferences,
     ),
   );
+  injector.registerLazySingleton<PasswordRepository>(
+    () => PasswordRepositoryImpl(),
+  );
   injector.registerLazySingleton<AccountsDataSource>(
     () => AccountsDataSourceImpl(
       sqlDatabase: injector.get(),
@@ -66,8 +76,7 @@ Future<void> initInjector() async {
   );
   injector.registerLazySingleton<GenerateAccountsPreviewUsecase>(
     () => GenerateAccountsPreviewUsecase(
-      accountGenerator: injector.get(),
-    ),
+        accountGenerator: injector.get(), passwordRepository: injector.get()),
   );
   injector.registerLazySingleton<ConfirmAndSaveGeneratedAccountsUsecase>(
     () => ConfirmAndSaveGeneratedAccountsUsecase(
@@ -86,6 +95,7 @@ Future<void> initInjector() async {
     () => UnlockWalletUsecase(
       accountsRepository: injector.get(),
       accountDecryptionWithPasswordService: injector.get(),
+      passwordRepository: injector.get(),
     ),
   );
   injector.registerLazySingleton<NetworksDataSource>(
@@ -136,10 +146,30 @@ Future<void> initInjector() async {
       injector.get(),
       injector.get(),
       injector.get(),
+      injector.get()
     ),
   );
   injector.registerLazySingleton<AddContactUsecase>(
     () => AddContactUsecase(
+      injector.get(),
+      injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<EncryptionService>(
+    () => EncryptionServiceImpl(),
+  );
+
+  injector.registerLazySingleton<MnemonicRepository>(
+    () => MnemonicRepositoryImpl(
+      injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<AddHdWalletAccountUsecase>(
+    () => AddHdWalletAccountUsecase(
+      injector.get(),
+      injector.get(),
+      injector.get(),
+      injector.get(),
       injector.get(),
       injector.get(),
     ),

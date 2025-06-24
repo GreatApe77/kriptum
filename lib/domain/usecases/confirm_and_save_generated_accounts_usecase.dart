@@ -1,5 +1,6 @@
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
+import 'package:kriptum/domain/repositories/password_repository.dart';
 
 class ConfirmAndSaveGeneratedAccountsUsecase {
   final AccountsRepository _accountsRepository;

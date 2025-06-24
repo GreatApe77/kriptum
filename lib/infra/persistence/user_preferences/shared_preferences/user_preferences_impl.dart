@@ -63,4 +63,16 @@ class UserPreferencesImpl implements UserPreferences {
   Future<void> setNativeBalanceVisibility(bool isVisible) async {
     await _sh.setBool('native_balance_visible', isVisible);
   }
+
+  @override
+  Future<String> getEncryptedMnemonic() async {
+    final encryptedMnemonyc = _sh.getString('encrypted_mnemonic');
+    if (encryptedMnemonyc == null) return '';
+    return encryptedMnemonyc;
+  }
+
+  @override
+  Future<void> setEncryptedMnemonic(String encryptedMnemonic) async {
+    await _sh.setString('encrypted_mnemonic', encryptedMnemonic);
+  }
 }

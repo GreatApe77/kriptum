@@ -4,6 +4,7 @@ import 'package:kriptum/infra/persistence/database/sqflite/tables/accounts_table
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 import 'package:kriptum/shared/utils/db_bool_int_mappers.dart';
 import 'package:kriptum/shared/utils/db_bool_int_mappers.dart' as db_utils;
+
 class AccountsDataSourceImpl implements AccountsDataSource {
   final SqlDatabase _sqlDatabase;
 
@@ -69,5 +70,19 @@ class AccountsDataSourceImpl implements AccountsDataSource {
         account.accountIndex,
       ],
     );
+  }
+
+  @override
+  Future<List<Account>> getAllNonImportedAccounts() async {
+    final result = await _sqlDatabase.rawQuery('''
+        SELECT * FROM ${AccountsTable.table} WHERE ${AccountsTable.isImportedColumn} = 0;
+      ''');
+    return result
+        .map(
+          (row) => Account.fromMap(
+            db_utils.mapIntToBoolean(row),
+          ),
+        )
+        .toList();
   }
 }

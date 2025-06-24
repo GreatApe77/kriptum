@@ -7,4 +7,6 @@ abstract interface class UserPreferences {
   Future<void> setNativeBalanceVisibility(bool isVisible);
   Future<bool> isDarkModeEnabled();
   Future<void> setDarkModeEnabled(bool isEnabled);
+  Future<void> setEncryptedMnemonic(String encryptedMnemonic);
+  Future<String> getEncryptedMnemonic();
 }
