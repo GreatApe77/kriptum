@@ -2,6 +2,7 @@ import 'package:kriptum/domain/models/account.dart';
 
 abstract interface class AccountsRepository {
   Future<List<Account>> getAccounts();
+  Future<int> getCurrentIndex();
   Stream<List<Account>> watchAccounts();
   Stream<Account> currentAccountStream();
   Future<Account?> getCurrentAccount();

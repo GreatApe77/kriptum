@@ -57,4 +57,10 @@ class FakeAccountsRepository implements AccountsRepository {
     // TODO: implement watchAccounts
     throw UnimplementedError();
   }
+  
+  @override
+  Future<int> getCurrentIndex() {
+    // TODO: implement getCurrentIndex
+    throw UnimplementedError();
+  }
 }
