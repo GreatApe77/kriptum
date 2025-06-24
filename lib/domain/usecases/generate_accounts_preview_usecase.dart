@@ -15,7 +15,7 @@ class GenerateAccountsPreviewUsecase {
       AccountsFromMnemonicParams(
         mnemonic: params.mnemonic,
         encryptionPassword: params.password,
-        amount: 20,
+        amount: 3,
       ),
     );
     return accounts;
