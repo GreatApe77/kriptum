@@ -2,12 +2,14 @@
 import 'dart:convert';
 
 class Account {
+  int? id;
   int accountIndex;
   String address;
   String encryptedJsonWallet;
   bool isImported;
   String? alias;
   Account({
+    this.id,
     required this.accountIndex,
     required this.address,
     required this.encryptedJsonWallet,
@@ -16,6 +18,7 @@ class Account {
   });
 
   Account copyWith({
+    int? id,
     int? accountIndex,
     String? address,
     String? encryptedJsonWallet,
@@ -23,6 +26,7 @@ class Account {
     String? alias,
   }) {
     return Account(
+      id: id ?? this.id,
       accountIndex: accountIndex ?? this.accountIndex,
       address: address ?? this.address,
       encryptedJsonWallet: encryptedJsonWallet ?? this.encryptedJsonWallet,
@@ -33,6 +37,7 @@ class Account {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'accountIndex': accountIndex,
       'address': address,
       'encryptedJsonWallet': encryptedJsonWallet,
@@ -42,17 +47,12 @@ class Account {
   }
 
   factory Account.fromMap(Map<String, dynamic> map) {
-    bool isImported;
-    if (map['isImported'] is num) {
-      isImported = map['isImported'] == 0 ? false : true;
-    } else {
-      isImported = map['isImported'];
-    }
     return Account(
+      id: map['id'] != null ? map['id'] as int : null,
       accountIndex: map['accountIndex'] as int,
       address: map['address'] as String,
       encryptedJsonWallet: map['encryptedJsonWallet'] as String,
-      isImported: isImported,
+      isImported: map['isImported'] as bool,
       alias: map['alias'] != null ? map['alias'] as String : null,
     );
   }
@@ -64,26 +64,29 @@ class Account {
 
   @override
   String toString() {
-    return 'Account(accountIndex: $accountIndex, address: $address, encryptedJsonWallet: $encryptedJsonWallet, isImported: $isImported, alias: $alias)';
+    return 'Account(id: $id, accountIndex: $accountIndex, address: $address, encryptedJsonWallet: $encryptedJsonWallet, isImported: $isImported, alias: $alias)';
   }
 
   @override
   bool operator ==(covariant Account other) {
     if (identical(this, other)) return true;
-
-    return other.accountIndex == accountIndex &&
-        other.address == address &&
-        other.encryptedJsonWallet == encryptedJsonWallet &&
-        other.isImported == isImported &&
-        other.alias == alias;
+  
+    return 
+      other.id == id &&
+      other.accountIndex == accountIndex &&
+      other.address == address &&
+      other.encryptedJsonWallet == encryptedJsonWallet &&
+      other.isImported == isImported &&
+      other.alias == alias;
   }
 
   @override
   int get hashCode {
-    return accountIndex.hashCode ^
-        address.hashCode ^
-        encryptedJsonWallet.hashCode ^
-        isImported.hashCode ^
-        alias.hashCode;
+    return id.hashCode ^
+      accountIndex.hashCode ^
+      address.hashCode ^
+      encryptedJsonWallet.hashCode ^
+      isImported.hashCode ^
+      alias.hashCode;
   }
 }

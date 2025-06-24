@@ -2,7 +2,8 @@ import 'package:kriptum/infra/datasources/accounts_data_source.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/tables/accounts_table.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
-
+import 'package:kriptum/shared/utils/db_bool_int_mappers.dart';
+import 'package:kriptum/shared/utils/db_bool_int_mappers.dart' as db_utils;
 class AccountsDataSourceImpl implements AccountsDataSource {
   final SqlDatabase _sqlDatabase;
 
@@ -20,18 +21,25 @@ class AccountsDataSourceImpl implements AccountsDataSource {
       return null;
     }
     final accountData = account.first;
-    return Account.fromMap(accountData);
+    return Account.fromMap(db_utils.mapIntToBoolean(accountData));
   }
 
   @override
   Future<List<Account>> getAllAccounts() async {
     final accountsData = await _sqlDatabase.query(AccountsTable.table);
-    return accountsData.map((account) => Account.fromMap(account)).toList();
+    /* return accountsData.map((account) => {
+      
+      return Account.fromMap(account);).toList(); */
+    return accountsData.map(
+      (accountMap) {
+        return Account.fromMap(db_utils.mapIntToBoolean(accountMap));
+      },
+    ).toList();
   }
 
   @override
   Future<int> insertAccount(Account account) async {
-    final accountMap = account.toMap();
+    final accountMap = db_utils.mapBooleanToInt(account.toMap());
     return await _sqlDatabase.insert(
       AccountsTable.table,
       accountMap,
