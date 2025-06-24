@@ -94,7 +94,10 @@ class CreateNewWalletBloc
             status: CreateNewWalletStatus.loading,
           ),
         );
-        await _confirmAndSaveGeneratedAccountsUsecase.execute(state.accounts);
+        await _confirmAndSaveGeneratedAccountsUsecase.execute(
+          state.accounts,
+          state.mnemonic,
+        );
         emit(
           state.copyWith(
             status: CreateNewWalletStatus.success,
