@@ -78,9 +78,9 @@ class SqfliteDatabase implements SqlDatabase {
 
   @override
   Future<List<Map<String, dynamic>>> rawQuery(String sql,
-      [List<Object?>? arguments]) {
-    // TODO: implement rawQuery
-    throw UnimplementedError();
+      [List<Object?>? arguments]) async {
+    final db = await _getDatabase();
+    return await db.rawQuery(sql, arguments);
   }
 
   @override
