@@ -18,7 +18,7 @@ class GenerateAccountsPreviewUsecase {
       AccountsFromMnemonicParams(
         mnemonic: params.mnemonic,
         encryptionPassword: params.password,
-        amount: 3,
+        amount: 1,
       ),
     );
     _passwordRepository.setPassword(params.password);
