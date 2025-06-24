@@ -42,7 +42,13 @@ Future<void> registerUsecases() async {
   );
   injector.registerLazySingleton<ImportWalletUsecase>(
     () => ImportWalletUsecase(
-        injector.get(), injector.get(), injector.get(), injector.get()),
+      injector.get(),
+      injector.get(),
+      injector.get(),
+      injector.get(),
+      injector.get(),
+      injector.get(),
+    ),
   );
   injector.registerLazySingleton<AddContactUsecase>(
     () => AddContactUsecase(
