@@ -9,7 +9,7 @@ import 'package:kriptum/shared/contracts/disposable.dart';
 class AccountsRepositoryImpl implements AccountsRepository, Disposable {
   final AccountsDataSource _accountsDataSource;
   final UserPreferences _userPreferences;
-  final _currentAccountStream = StreamController<Account>.broadcast();
+  final _currentAccountStream = StreamController<Account?>.broadcast();
   final _allAccountsStream = StreamController<List<Account>>.broadcast();
   Account? _currentAccount;
   List<Account> _accounts = [];
@@ -22,8 +22,13 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
   }
 
   @override
-  Future<void> changeCurrentAccount(Account account) async {
-    if (_currentAccount?.accountIndex != account.accountIndex) {
+  Future<void> changeCurrentAccount(Account? account) async {
+    if (account == null) {
+      _currentAccount = null;
+      _currentAccountStream.add(null);
+      return;
+    }
+    if (_currentAccount?.accountIndex != account?.accountIndex) {
       _currentAccount = account;
       _currentAccountStream.add(account);
       await _userPreferences.setSelectedAccountId(account.accountIndex);
@@ -31,7 +36,7 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
   }
 
   @override
-  Stream<Account> currentAccountStream() => _currentAccountStream.stream;
+  Stream<Account?> currentAccountStream() => _currentAccountStream.stream;
 
   @override
   Future<void> deleteAllAccounts() async {

@@ -5,6 +5,7 @@ import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/shared/utils/copy_to_clipboard.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 import 'package:kriptum/ui/pages/home/widgets/main_balance_viewer.dart';
@@ -140,13 +141,17 @@ class HomeView extends StatelessWidget {
         ),
         child: NetworksList(
           onNetworkChosen: (network) {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(
-                SnackBar(
-                  content: Text('Network changed to ${network.name}'),
-                ),
-              );
+            //ScaffoldMessenger.of(context)
+            //  ..clearSnackBars()
+            //  ..showSnackBar(
+            //    SnackBar(
+            //      content: Text('Network changed to ${network.name}'),
+            //    ),
+            //  );
+            showSnackBar(
+              message: 'Network changed to ${network.name}',
+              context: context,
+            );
             Navigator.of(context).pop();
           },
         ),

@@ -5,6 +5,7 @@ import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usec
 import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.dart';
 import 'package:kriptum/domain/usecases/import_wallet_usecase.dart';
+import 'package:kriptum/domain/usecases/lock_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/reset_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
 
@@ -62,6 +63,12 @@ Future<void> registerUsecases() async {
       injector.get(),
       injector.get(),
       injector.get(),
+      injector.get(),
+      injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<LockWalletUsecase>(
+    () => LockWalletUsecase(
       injector.get(),
       injector.get(),
     ),

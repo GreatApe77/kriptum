@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/networks_list.dart';
 
@@ -26,15 +27,10 @@ class _NetworksView extends StatelessWidget {
         ),
         child: NetworksList(
           onNetworkChosen: (network) {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'Network changed to ${network.name}.',
-                  ),
-                ),
-              );
+            showSnackBar(
+              message: 'Network changed to ${network.name}.',
+              context: context,
+            );
           },
         ),
       ),

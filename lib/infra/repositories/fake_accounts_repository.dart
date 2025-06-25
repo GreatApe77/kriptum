@@ -41,7 +41,7 @@ class FakeAccountsRepository implements AccountsRepository {
   }
 
   @override
-  Future<void> changeCurrentAccount(Account account) {
+  Future<void> changeCurrentAccount(Account? account)async {
     // TODO: implement changeCurrentAccount
     throw UnimplementedError();
   }

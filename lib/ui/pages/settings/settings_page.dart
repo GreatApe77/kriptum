@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kriptum/blocs/lock_wallet/lock_wallet_bloc.dart';
+import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/app.dart';
 import 'package:kriptum/ui/pages/contacts/contacts_page.dart';
 import 'package:kriptum/ui/pages/general_settings/general_settings_page.dart';
@@ -20,24 +24,6 @@ class SettingsPage extends StatelessWidget {
         );
       },
     );
-    /*  return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
-      body: Column(
-        children: [
-          SettingsSubmenuCard(
-            title: 'General',
-            description: 'General settings like theming...',
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const GeneralSettingsPage(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ); */
   }
 }
 
@@ -79,24 +65,42 @@ class _SettingsView extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
-            title: Text(
-              'Lock Wallet',
-              style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+          BlocProvider<LockWalletBloc>(
+            create: (context) => LockWalletBloc(injector.get()),
+            child: BlocConsumer<LockWalletBloc, LockWalletState>(
+              listener: (context, state) {
+                if (state is LockWalletError) {
+                  showSnackBar(
+                    message: state.errorMessage,
+                    context: context,
+                    snackBarType: SnackBarType.error,
+                  );
+                }
+                if (state is LockWalletSuccess) {
+                  App.navigator.currentState?.pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const SplashPage(),
+                    ),
+                    (route) => false,
+                  );
+                }
+              },
+              builder: (context, state) {
+                //print(context.read<LockWalletBloc>().state);
+                return ListTile(
+                  title: Text(
+                    'Lock Wallet',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.tertiary),
+                  ),
+                  onTap: () =>
+                      context.read<LockWalletBloc>().add(LockWalletRequested()),
+                );
+              },
             ),
-            onTap: () => _triggerLockWallet(context),
           )
         ],
       ),
-    );
-  }
-
-  void _triggerLockWallet(BuildContext context) {
-    App.navigator.currentState?.pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const SplashPage(),
-      ),
-      (route) => false,
     );
   }
 }
