@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/ui/pages/home/home_page.dart';
 import 'package:kriptum/ui/pages/receive/receive_page.dart';
+import 'package:kriptum/ui/pages/send_native/send_native_wrapper_page.dart';
 import 'package:kriptum/ui/pages/settings/settings_page.dart';
 
 class HomeWrapperPage extends StatefulWidget {
@@ -26,7 +27,11 @@ class _HomeWrapperPageState extends State<HomeWrapperPage> {
                 borderRadius: BorderRadius.circular(8),
                 onTap: () {
                   Navigator.pop(context);
-                  //GoRouter.of(context).push(AppRoutes.send);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>  SendNativeWrapperPage(),
+                    ),
+                  );
                 },
                 child: const ListTile(
                   leading: Icon(Icons.arrow_outward_rounded),
@@ -39,7 +44,7 @@ class _HomeWrapperPageState extends State<HomeWrapperPage> {
                   Navigator.pop(context);
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ReceivePage(),
+                      builder: (context) => const ReceivePage(),
                     ),
                   );
                 },
