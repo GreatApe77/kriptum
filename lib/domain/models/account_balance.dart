@@ -1,11 +1,10 @@
 class AccountBalance {
   final BigInt _valueInWei;
-  final int _decimalPlaces;
+
   AccountBalance({
     required BigInt valueInWei,
     int decimalPlaces = 2,
-  })  : _decimalPlaces = decimalPlaces,
-        _valueInWei = valueInWei;
+  }) : _valueInWei = valueInWei;
 
   factory AccountBalance.fromString(String value) {
     return AccountBalance(
@@ -18,7 +17,7 @@ class AccountBalance {
   int get hashCode => valueInWei.hashCode;
 
   BigInt get valueInWei => _valueInWei;
-  int get decimalPlaces => _decimalPlaces;
+  
   @override
   bool operator ==(covariant AccountBalance other) {
     if (identical(this, other)) return true;
@@ -26,9 +25,9 @@ class AccountBalance {
     return other.valueInWei == valueInWei;
   }
 
-  String toReadableString() {
+  String toReadableString([int decimalPlaces=2]) {
     final double valueInEther = valueInWei / BigInt.from(1e18);
-    return valueInEther.toStringAsFixed(_decimalPlaces);
+    return valueInEther.toStringAsFixed(decimalPlaces);
   }
 
   String toStorageString() => valueInWei.toString();

@@ -63,10 +63,12 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
         await Future.delayed(const Duration(seconds: 1));
         final accountBalance =
             await _getNativeBalanceOfAccountUsecase.execute();
+        final network = await _networksRepository.getCurrentNetwork();
         emit(
           state.copyWith(
             accountBalance: accountBalance,
             status: NativeBalanceStatus.loaded,
+            ticker: network.ticker
           ),
         );
       } catch (e) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/ui/tokens/placeholders.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MainBalanceViewer extends StatelessWidget {
@@ -55,7 +56,7 @@ class _MainBalanceViewer extends StatelessWidget {
         }
         bool isVisible = state.isVisible;
         if (!isVisible) {
-          content = '••••••••';
+          content = Placeholders.hiddenBalancePlaceholder;
         }
         return Skeletonizer(
           enabled: state.status == NativeBalanceStatus.loading,
