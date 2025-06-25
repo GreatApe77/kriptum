@@ -5,4 +5,5 @@ abstract interface class ContactsDataSource {
   Future<List<Contact>> getAllContacts();
   Future<void> updateContact(Contact contact);
   Future<void> deleteContact(int contactId);
+  Future<void> deleteAllContacts();
 }

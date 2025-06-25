@@ -50,4 +50,11 @@ class ContactsRepositoryImpl implements ContactsRepository, Disposable {
   Future<void> dispose() async {
     _contactsStream.close();
   }
+
+  @override
+  Future<void> deleteAllContacts() async {
+    await _contactsDataSource.deleteAllContacts();
+    _contacts = [];
+    _contactsStream.add(_contacts);
+  }
 }

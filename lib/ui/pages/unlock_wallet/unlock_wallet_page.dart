@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/reset_wallet/reset_wallet_bloc.dart';
 import 'package:kriptum/blocs/unlock_wallet/unlock_wallet_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/home_wrapper/home_wrapper_page.dart';
 import 'package:kriptum/ui/pages/splash/splash_page.dart';
 import 'package:kriptum/ui/pages/unlock_wallet/widgets/erase_wallet_dialog.dart';
@@ -152,8 +153,10 @@ class _UnlockWalletViewState extends State<UnlockWalletView> {
                 (route) => false,
               );
             } else if (state is ResetWalletFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.error)),
+              showSnackBar(
+                message: state.error,
+                context: context,
+                snackBarType: SnackBarType.error,
               );
             }
           },

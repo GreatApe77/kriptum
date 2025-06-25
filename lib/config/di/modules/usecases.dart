@@ -25,6 +25,8 @@ Future<void> registerUsecases() async {
   injector.registerLazySingleton<ResetWalletUsecase>(
     () => ResetWalletUsecase(
       accountsRepository: injector.get(),
+      contactsRepository: injector.get(),
+      mnemonicRepository: injector.get(),
     ),
   );
   injector.registerLazySingleton<UnlockWalletUsecase>(

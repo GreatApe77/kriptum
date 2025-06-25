@@ -45,4 +45,9 @@ class ContactsDataSourceImpl implements ContactsDataSource {
       whereArgs: [contact.id],
     );
   }
+
+  @override
+  Future<void> deleteAllContacts() async {
+    await _sqlDatabase.deleteAll(ContactsTable.table);
+  }
 }
