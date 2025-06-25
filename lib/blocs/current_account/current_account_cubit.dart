@@ -8,7 +8,7 @@ part 'current_account_state.dart';
 
 class CurrentAccountCubit extends Cubit<CurrentAccountState> {
   final AccountsRepository _accountsRepository;
-  late final StreamSubscription<Account> _accountSubscription;
+  late final StreamSubscription<Account?> _accountSubscription;
 
   CurrentAccountCubit(this._accountsRepository)
       : super(CurrentAccountState.initial()) {
