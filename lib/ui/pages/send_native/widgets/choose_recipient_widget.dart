@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/blocs/account_list/account_list_bloc.dart';
+import 'package:kriptum/blocs/contacts/contacts_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
 import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
 import 'package:kriptum/ui/tokens/placeholders.dart';
@@ -42,7 +44,13 @@ class ChooseRecipientWidget extends StatelessWidget {
         BlocProvider<AccountListBloc>(
           create: (context) =>
               AccountListBloc(injector.get())..add(AccountListRequested()),
-        )
+        ),
+        BlocProvider<ContactsBloc>(
+          create: (context) => ContactsBloc(injector.get())
+            ..add(
+              ContactsRequested(),
+            ),
+        ),
       ],
       child: const _ChooseRecipientWidget(),
     );
@@ -109,14 +117,10 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                       Flexible(
                         child: ListTile(
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: BorderSide(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface)),
-
-                          //  width: 0.1,
-                          //    color: Theme.of(context).colorScheme.onSurface),
-
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(
+                                color: Theme.of(context).colorScheme.onSurface),
+                          ),
                           onTap: () {
                             showModalBottomSheet(
                               context: context,
@@ -181,6 +185,9 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                       )
                     ],
                   ),
+                  const SizedBox(
+                    height: 18,
+                  ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -192,21 +199,9 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                         child: Form(
                           child: EthereumAddressTextField(
                             controller: _toAddressController,
+                            inputDecoration:
+                                InputDecoration(border: OutlineInputBorder()),
                           ),
-                          //key: formKey,
-                          /*  child: TextFormField(
-                            // validator: (value) =>
-                            //     EthAddressValidatorController.validateEthAddress(
-                            //         value ?? ''),
-                            //controller: ethAddressFieldController,
-                            onChanged: (value) {
-                              // widget.toAddressController.setToAddress(value);
-                            },
-                            decoration: const InputDecoration(
-                              label: Text('Ethereum Address'),
-                              border: OutlineInputBorder(),
-                            ),
-                          ), */
                         ),
                       )
                     ],
@@ -216,26 +211,12 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
               const SizedBox(
                 height: 18,
               ),
-              // const Text(
-              //   'Your Accounts',
-              //   style: TextStyle(fontSize: 22),
-              // ),
-              const SizedBox(
-                height: 18,
-              ),
-              // Expanded(
-              //     child: ListView.builder(
-              //   itemCount: accountsController.accounts.length,
-              //   itemBuilder: (context, index) => AccountTile(
-              //       onOptionsMenuSelected: () {},
-              //       onSelected: () =>
-              //           _onAccountTapped(accountsController.accounts[index]),
-              //       account: accountsController.accounts[index]),
-              // )),
-
               Expanded(
-                child: BlocBuilder<AccountListBloc, AccountListState>(
-                  builder: (context, accountsState) {
+                child: Builder(
+                  builder: (context) {
+                    final accountsState =
+                        context.watch<AccountListBloc>().state;
+                    final contactsState = context.watch<ContactsBloc>().state;
                     return ListView(
                       children: [
                         Text(
@@ -244,8 +225,29 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                         ),
                         ...accountsState.accounts.map(
                           (e) => AccountTileWidget(
-                            onSelected: () {},
+                            onSelected: () {
+                              _toAddressController.text = e.address;
+                            },
                             account: e,
+                            onOptionsMenuSelected: () {},
+                          ),
+                        ),
+                        Text(
+                          'Contacts',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        ...contactsState.contacts.map(
+                          (contact) => AccountTileWidget(
+                            onSelected: () {
+                              _toAddressController.text = contact.address;
+                            },
+                            //GAMBIARRA
+                            account: Account(
+                              accountIndex: 0,
+                              address: contact.address,
+                              encryptedJsonWallet: '',
+                              alias: contact.name,
+                            ),
                             onOptionsMenuSelected: () {},
                           ),
                         )
@@ -253,49 +255,14 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                     );
                   },
                 ),
-/*                 child: ListenableBuilder(
-                  listenable: widget.contactsController,
-                  builder: (context, child) {
-                    return ListView(
-                      children: [
-                        const Text(
-                          'Your Accounts',
-                          style: TextStyle(fontSize: 22),
-                        ),
-                        ...widget.accountsController.accounts.map(
-                          (account) => AccountTile(
-                              onOptionsMenuSelected: () {},
-                              onSelected: () => _onAccountTapped(account),
-                              account: account),
-                        ),
-                        widget.contactsController.contacts.isEmpty
-                            ? const SizedBox.shrink()
-                            : const Text(
-                                'Contacts',
-                                style: TextStyle(fontSize: 22),
-                              ),
-                        ...widget.contactsController.contacts.map(
-                          (contact) => ListTile(
-                            title: Text(contact.name),
-                            subtitle: Text(formatAddress(contact.address)),
-                            leading: Jazzicon.getIconWidget(
-                                Jazzicon.getJazziconData(40,
-                                    address: contact.address)),
-                            onTap: () => _onContactTapped(contact),
-                          ),
-                        )
-                      ],
-                    );
-                  },
-                ), */
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   FilledButton(
-                      onPressed: () {},
-                      //onPressed: () => _onNextStep(context),
-                      child: const Text('Next')),
+                    onPressed: () {},
+                    child: const Text('Next'),
+                  ),
                 ],
               )
             ],
