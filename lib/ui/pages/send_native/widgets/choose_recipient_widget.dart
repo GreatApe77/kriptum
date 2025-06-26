@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/blocs/account_list/account_list_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:kriptum/blocs/contacts/contacts_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
 import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
+import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
@@ -66,6 +68,39 @@ class _ChooseRecipientWidget extends StatefulWidget {
 
 class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
   final _toAddressController = TextEditingController();
+
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) {
+        final bloc = context.read<SendTransactionBloc>();
+        _toAddressController.text = bloc.state.toAddress ?? '';
+        _toAddressController.addListener(
+          () {
+            bloc.add(ToAddressChanged(toAddress: _toAddressController.text));
+          },
+        );
+      },
+    );
+    /* SchedulerBinding.instance.addPostFrameCallback(
+      (_) {
+        final bloc = context.read<SendTransactionBloc>();
+        bloc.add(ToAddressChanged(toAddress: _toAddressController.text));
+      },
+    );
+    _toAddressController.addListener(
+      () {
+        SchedulerBinding.instance.addPostFrameCallback(
+          (_) {
+            context
+                .read<SendTransactionBloc>()
+                .add(ToAddressChanged(toAddress: _toAddressController.text));
+          },
+        );
+      },
+    ); */
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -132,7 +167,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                               },
                             );
                           },
-                          leading: BlocBuilder<CurrentAccountCubit,
+                          leading: BlocConsumer<CurrentAccountCubit,
                               CurrentAccountState>(
                             builder: (context, state) {
                               if (state.account == null) {
@@ -144,6 +179,13 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                                   address: state.account?.address,
                                 ),
                               );
+                            },
+                            listener: (BuildContext context,
+                                CurrentAccountState state) {
+                              context.read<SendTransactionBloc>().add(
+                                    ToAddressChanged(
+                                        toAddress: _toAddressController.text),
+                                  );
                             },
                           ),
                           title: BlocBuilder<CurrentAccountCubit,
@@ -197,10 +239,19 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                       ),
                       Flexible(
                         child: Form(
-                          child: EthereumAddressTextField(
-                            controller: _toAddressController,
-                            inputDecoration:
-                                InputDecoration(border: OutlineInputBorder()),
+                          child: BlocBuilder<SendTransactionBloc,
+                              SendTransactionState>(
+                            builder: (context, state) {
+                              return EthereumAddressTextField(
+                                controller: _toAddressController,
+                                inputDecoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    errorText:
+                                        state.toAddressEqualsCurrentAccount
+                                            ? 'Can\'t send to yourself'
+                                            : null),
+                              );
+                            },
                           ),
                         ),
                       )
@@ -259,9 +310,23 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  FilledButton(
-                    onPressed: () {},
-                    child: const Text('Next'),
+                  BlocBuilder<SendTransactionBloc, SendTransactionState>(
+                    buildWhen: (previous, current) =>
+                        previous.toAddressEqualsCurrentAccount !=
+                        current.toAddressEqualsCurrentAccount,
+                    builder: (context, state) {
+                      final isBtnVisible = !state.toAddressEqualsCurrentAccount;
+                      return FilledButton(
+                        onPressed: isBtnVisible
+                            ? () => context.read<SendTransactionBloc>().add(
+                                  AdvanceToAmountSelection(
+                                    toAddress: _toAddressController.text,
+                                  ),
+                                )
+                            : null,
+                        child: const Text('Next'),
+                      );
+                    },
                   ),
                 ],
               )
