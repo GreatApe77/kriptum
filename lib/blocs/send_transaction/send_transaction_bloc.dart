@@ -19,6 +19,22 @@ class SendTransactionBloc
         ),
       );
     });
+    on<ReturnToAmountSelection>((event, emit) {
+      emit(
+        state.copyWith(
+          sendTransactionStepStatus: SendTransactionStepStatus.selectAmount,
+        ),
+      );
+    });
+    on<ReturnToRecipientSelection>(
+      (event, emit) {
+        emit(
+          state.copyWith(
+            sendTransactionStepStatus: SendTransactionStepStatus.chooseRecpient,
+          ),
+        );
+      },
+    );
     on<AdvanceToAmountSelection>(
       (event, emit) {
         emit(

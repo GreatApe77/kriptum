@@ -19,3 +19,7 @@ final class AdvanceToConfirmation extends SendTransactionEvent {
 
   AdvanceToConfirmation({required this.amount});
 }
+
+final class ReturnToRecipientSelection extends SendTransactionEvent {}
+
+final class ReturnToAmountSelection extends SendTransactionEvent {}
