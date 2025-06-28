@@ -4,6 +4,7 @@ import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/choose_amount_widget.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/choose_recipient_widget.dart';
+import 'package:kriptum/ui/pages/send_native/widgets/confirm_transaction_widget.dart';
 
 class SendNativeWrapperPage extends StatelessWidget {
   const SendNativeWrapperPage({super.key});
@@ -36,13 +37,18 @@ class _SendNativeWrapperPage extends StatelessWidget {
           case SendTransactionStepStatus.chooseRecpient:
             return BlocProvider<SendTransactionBloc>.value(
               value: bloc,
-              child: ChooseRecipientWidget(),
+              child: const ChooseRecipientWidget(),
             );
 
           case SendTransactionStepStatus.selectAmount:
             return BlocProvider<SendTransactionBloc>.value(
               value: bloc,
-              child: ChooseAmountWidget(),
+              child: const ChooseAmountWidget(),
+            );
+          case SendTransactionStepStatus.toBeConfirmed:
+            return BlocProvider<SendTransactionBloc>.value(
+              value: bloc,
+              child: const ConfirmTransactionWidget(),
             );
           default:
             return SizedBox.shrink();
