@@ -23,3 +23,5 @@ final class AdvanceToConfirmation extends SendTransactionEvent {
 final class ReturnToRecipientSelection extends SendTransactionEvent {}
 
 final class ReturnToAmountSelection extends SendTransactionEvent {}
+
+final class SendTransactionRequest extends SendTransactionEvent {}

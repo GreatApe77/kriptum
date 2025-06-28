@@ -5,6 +5,10 @@ enum SendTransactionStepStatus {
   chooseRecpient,
   selectAmount,
   toBeConfirmed,
+}
+
+enum SendTransactionStatus {
+  confirmationIdle,
   confirmationLoading,
   confirmationSuccess,
   confirmationError
@@ -12,6 +16,7 @@ enum SendTransactionStepStatus {
 
 class SendTransactionState {
   final SendTransactionStepStatus sendTransactionStepStatus;
+  final SendTransactionStatus status;
   final String? toAddress;
   final BigInt? amount;
   final String? txHash;
@@ -27,6 +32,7 @@ class SendTransactionState {
     required this.followOnBlockExplorerUrl,
     required this.errorMessage,
     required this.toAddressEqualsCurrentAccount,
+    required this.status,
   });
 
   factory SendTransactionState.initial() {
@@ -38,6 +44,7 @@ class SendTransactionState {
       followOnBlockExplorerUrl: null,
       errorMessage: '',
       toAddressEqualsCurrentAccount: false,
+      status: SendTransactionStatus.confirmationIdle,
     );
   }
   SendTransactionState copyWith({
@@ -48,6 +55,7 @@ class SendTransactionState {
     String? followOnBlockExplorerUrl,
     String? errorMessage,
     bool? toAddressEqualsCurrentAccount,
+    SendTransactionStatus? status,
   }) {
     return SendTransactionState(
       sendTransactionStepStatus:
@@ -60,6 +68,7 @@ class SendTransactionState {
       errorMessage: errorMessage ?? this.errorMessage,
       toAddressEqualsCurrentAccount:
           toAddressEqualsCurrentAccount ?? this.toAddressEqualsCurrentAccount,
+      status: status ?? this.status,
     );
   }
 }
