@@ -10,6 +10,7 @@ import 'package:kriptum/domain/models/account_balance.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
+import 'package:kriptum/ui/pages/send_native/widgets/transaction_info_dialog.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 
 class ConfirmTransactionWidget extends StatelessWidget {
@@ -216,8 +217,48 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                   BlocConsumer<SendTransactionBloc, SendTransactionState>(
                     listenWhen: (previous, current) => previous.status != current.status,
                     listener: (context, state) {
+                      final accountCubit = context.read<CurrentAccountCubit>();
+                      final networkCubit = context.read<CurrentNetworkCubit>();
+                      final sendTransactionBloc = context.read<SendTransactionBloc>();
                       if (state.status == SendTransactionStatus.confirmationSuccess) {
-                        showSnackBar(message: state.txHash ?? '', context: context);
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return MultiBlocProvider(
+                              providers: [
+                                BlocProvider<CurrentAccountCubit>(
+                                  create: (context) => accountCubit,
+                                ),
+                                BlocProvider<CurrentNetworkCubit>(
+                                  create: (context) => networkCubit,
+                                ),
+                                BlocProvider<SendTransactionBloc>(
+                                  create: (context) => sendTransactionBloc,
+                                ),
+                              ],
+                              child: Builder(builder: (context) {
+                                final networkCubit = context.watch<CurrentNetworkCubit>();
+                                final currentAccountCubit = context.watch<CurrentAccountCubit>();
+                                final sendTransactionBloc = context.watch<SendTransactionBloc>();
+                                final networkState = networkCubit.state;
+                                if (networkState is! CurrentNetworkLoaded ||
+                                    currentAccountCubit.state.account == null) {
+                                  return SizedBox.fromSize();
+                                }
+                                final network = networkState.network;
+                                return TransactionInfoDialog(
+                                  network: network,
+                                  from: currentAccountCubit.state.account!,
+                                  toAddress: sendTransactionBloc.state.toAddress!,
+                                  transactionHash: sendTransactionBloc.state.txHash!,
+                                  amount: sendTransactionBloc.state.amount!,
+                                  dateTime: DateTime.now(),
+                                  followOnBlockExplorerUrl: sendTransactionBloc.state.followOnBlockExplorerUrl,
+                                );
+                              }),
+                            );
+                          },
+                        );
                       }
                       if (state.status == SendTransactionStatus.confirmationError) {
                         showSnackBar(
