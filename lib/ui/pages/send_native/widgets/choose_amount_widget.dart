@@ -6,6 +6,7 @@ import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/account_balance.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 
@@ -54,7 +55,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
         final sendTransactionBloc = context.read<SendTransactionBloc>();
         _amountTextEditingController.text = AccountBalance(
                 valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0))
-            .toReadableString(18);
+            .toReadableString(2);
       },
     );
     super.initState();
@@ -94,6 +95,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
             onPressed: () {},
             child: TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
                 // GoRouter.of(context).pushReplacement(AppRoutes.home);
               },
               child: const Text('Cancel'),
@@ -171,9 +173,22 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  FilledButton(
-                      onPressed: () => _onNextStep(context),
-                      child: const Text('Next')),
+                  BlocListener<SendTransactionBloc, SendTransactionState>(
+                    listenWhen: (previous, current) =>
+                        previous.errorMessage != current.errorMessage,
+                    listener: (context, state) {
+                      if (state.errorMessage.isNotEmpty) {
+                        showSnackBar(
+                          message: state.errorMessage,
+                          context: context,
+                          snackBarType: SnackBarType.error,
+                        );
+                      }
+                    },
+                    child: FilledButton(
+                        onPressed: () => _onNextStep(context),
+                        child: const Text('Next')),
+                  ),
                 ],
               ),
             )
@@ -186,8 +201,6 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
   void _useMax(BuildContext context) {
     final balanceBloc = context.read<NativeBalanceBloc>();
     final balance = balanceBloc.state.accountBalance;
-    print('CLCIK');
-    print(balance?.toStorageString());
     if (balance != null) {
       _amountTextEditingController.text = balance.toReadableString();
     }
@@ -198,6 +211,12 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
   }
 
   void _onNextStep(BuildContext context) {
+    context.read<SendTransactionBloc>().add(
+          AdvanceToConfirmation(
+            amount: _amountTextEditingController.text,
+          ),
+        );
+
     /* if (!BalanceValidatorController.validateBalance(
         amountTextEditingController.text, accountBalanceController.balance)) {
       ScaffoldMessenger.of(context)

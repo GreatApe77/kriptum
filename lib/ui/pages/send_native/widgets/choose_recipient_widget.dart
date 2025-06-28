@@ -10,6 +10,7 @@ import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/account.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
 import 'package:kriptum/ui/tokens/placeholders.dart';
@@ -68,7 +69,7 @@ class _ChooseRecipientWidget extends StatefulWidget {
 
 class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
   final _toAddressController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback(
@@ -239,6 +240,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                       ),
                       Flexible(
                         child: Form(
+                          key: _formKey,
                           child: BlocBuilder<SendTransactionBloc,
                               SendTransactionState>(
                             builder: (context, state) {
@@ -318,11 +320,21 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                       final isBtnVisible = !state.toAddressEqualsCurrentAccount;
                       return FilledButton(
                         onPressed: isBtnVisible
-                            ? () => context.read<SendTransactionBloc>().add(
-                                  AdvanceToAmountSelection(
-                                    toAddress: _toAddressController.text,
-                                  ),
-                                )
+                            ? () {
+                                if (!_formKey.currentState!.validate()) {
+                                  showSnackBar(
+                                    message: 'Must send to a address',
+                                    context: context,
+                                    snackBarType: SnackBarType.error,
+                                  );
+                                  return;
+                                }
+                                context.read<SendTransactionBloc>().add(
+                                      AdvanceToAmountSelection(
+                                        toAddress: _toAddressController.text,
+                                      ),
+                                    );
+                              }
                             : null,
                         child: const Text('Next'),
                       );

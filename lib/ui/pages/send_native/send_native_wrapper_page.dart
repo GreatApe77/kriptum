@@ -13,6 +13,7 @@ class SendNativeWrapperPage extends StatelessWidget {
     return BlocProvider<SendTransactionBloc>(
       create: (context) => SendTransactionBloc(
         injector.get(),
+        injector.get(),
       ),
       child: _SendNativeWrapperPage(),
     );
