@@ -7,6 +7,7 @@ import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.da
 import 'package:kriptum/domain/usecases/import_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/lock_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/reset_wallet_usecase.dart';
+import 'package:kriptum/domain/usecases/send_transaction_usecase.dart';
 import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
 
 Future<void> registerUsecases() async {
@@ -71,6 +72,14 @@ Future<void> registerUsecases() async {
   );
   injector.registerLazySingleton<LockWalletUsecase>(
     () => LockWalletUsecase(
+      injector.get(),
+      injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<SendTransactionUsecase>(
+    () => SendTransactionUsecase(
+      injector.get(),
+      injector.get(),
       injector.get(),
       injector.get(),
     ),
