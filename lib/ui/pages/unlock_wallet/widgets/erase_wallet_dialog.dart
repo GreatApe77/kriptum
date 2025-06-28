@@ -43,9 +43,7 @@ class EraseWalletDialog extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          ElevatedButton(
-              onPressed: isLoading ? null : () => onContinue(),
-              child: const Text('I understand, continue')),
+          ElevatedButton(onPressed: isLoading ? null : () => onContinue(), child: const Text('I understand, continue')),
           const SizedBox(
             height: 12,
           ),

@@ -27,9 +27,7 @@ class _SendNativeWrapperPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SendTransactionBloc, SendTransactionState>(
-      buildWhen: (previous, current) =>
-          previous.sendTransactionStepStatus !=
-          current.sendTransactionStepStatus,
+      buildWhen: (previous, current) => previous.sendTransactionStepStatus != current.sendTransactionStepStatus,
       builder: (context, state) {
         final status = state.sendTransactionStepStatus;
         final bloc = context.read<SendTransactionBloc>();

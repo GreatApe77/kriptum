@@ -8,8 +8,7 @@ import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart
 class NetworksRepositoryImpl implements NetworksRepository {
   final UserPreferences _userPreferences;
   final NetworksDataSource _networksDataSource;
-  final StreamController<Network> _currentNetworkController =
-      StreamController<Network>.broadcast();
+  final StreamController<Network> _currentNetworkController = StreamController<Network>.broadcast();
   Network? _currentNetwork;
   NetworksRepositoryImpl(
     this._userPreferences,
@@ -21,8 +20,7 @@ class NetworksRepositoryImpl implements NetworksRepository {
       return _currentNetwork!;
     }
     final networkId = await _userPreferences.getSelectedNetworkId();
-    final retrievedNetwork =
-        await _networksDataSource.getNetworkById(networkId);
+    final retrievedNetwork = await _networksDataSource.getNetworkById(networkId);
     if (retrievedNetwork == null) {
       throw Exception('Network with id $networkId not found');
     }

@@ -57,10 +57,8 @@ class ScanQrCodePage extends StatelessWidget {
                         }
                       },
                       segments: const [
-                        ButtonSegment<int>(
-                            value: 1, label: Text('Scan QR code')),
-                        ButtonSegment<int>(
-                            value: 2, label: Text('Your QR code'))
+                        ButtonSegment<int>(value: 1, label: Text('Scan QR code')),
+                        ButtonSegment<int>(value: 2, label: Text('Your QR code'))
                       ],
                       selected: const {
                         1

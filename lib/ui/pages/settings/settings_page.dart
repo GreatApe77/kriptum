@@ -90,11 +90,9 @@ class _SettingsView extends StatelessWidget {
                 return ListTile(
                   title: Text(
                     'Lock Wallet',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.tertiary),
+                    style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                   ),
-                  onTap: () =>
-                      context.read<LockWalletBloc>().add(LockWalletRequested()),
+                  onTap: () => context.read<LockWalletBloc>().add(LockWalletRequested()),
                 );
               },
             ),

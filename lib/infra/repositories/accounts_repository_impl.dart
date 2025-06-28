@@ -62,8 +62,7 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
       return _currentAccount;
     }
     final currentAccountId = await _userPreferences.getSelectedAccountId();
-    _currentAccount =
-        await _accountsDataSource.getAccountById(currentAccountId);
+    _currentAccount = await _accountsDataSource.getAccountById(currentAccountId);
     return _currentAccount;
   }
 
@@ -81,8 +80,7 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
       _currentAccount = account;
       _currentAccountStream.add(account);
     }
-    final index =
-        _accounts.indexWhere((a) => a.accountIndex == account.accountIndex);
+    final index = _accounts.indexWhere((a) => a.accountIndex == account.accountIndex);
     if (index != -1) {
       _accounts[index] = account;
       _allAccountsStream.add(_accounts);

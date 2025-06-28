@@ -12,9 +12,7 @@ class NetworksListBloc extends Bloc<NetworksListEvent, NetworksListState> {
   ) : super(NetworksListState.initial()) {
     on<NetworksListFiltered>((event, emit) {
       final filter = event.filter.toLowerCase();
-      final filteredNetworks = state.networks
-          .where((network) => network.name.toLowerCase().contains(filter))
-          .toList();
+      final filteredNetworks = state.networks.where((network) => network.name.toLowerCase().contains(filter)).toList();
 
       emit(
         state.copyWith(

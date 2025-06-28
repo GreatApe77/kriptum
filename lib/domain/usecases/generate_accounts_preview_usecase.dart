@@ -6,8 +6,7 @@ class GenerateAccountsPreviewUsecase {
   final AccountGeneratorService _accountGenerator;
   final PasswordRepository _passwordRepository;
   GenerateAccountsPreviewUsecase(
-      {required AccountGeneratorService accountGenerator,
-      required PasswordRepository passwordRepository})
+      {required AccountGeneratorService accountGenerator, required PasswordRepository passwordRepository})
       : _accountGenerator = accountGenerator,
         _passwordRepository = passwordRepository;
 

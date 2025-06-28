@@ -91,8 +91,7 @@ class _UnlockWalletViewState extends State<UnlockWalletView> {
                     const Text(
                       'Welcome Back!',
                       textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 32,
@@ -124,9 +123,7 @@ class _UnlockWalletViewState extends State<UnlockWalletView> {
                       'Wallet won\' unlock? You can ERASE your current wallet and setup a new one',
                       textAlign: TextAlign.center,
                     ),
-                    TextButton(
-                        onPressed: () => _showEraseWalletDialog(context),
-                        child: const Text('Reset Wallet'))
+                    TextButton(onPressed: () => _showEraseWalletDialog(context), child: const Text('Reset Wallet'))
                   ],
                 ),
               ),

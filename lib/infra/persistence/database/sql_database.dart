@@ -30,8 +30,7 @@ abstract class SqlDatabase implements Initializable, Disposable {
     List<Object?> whereArgs,
   );
   Future<void> deleteAll(String table);
-  Future<List<Map<String, dynamic>>> rawQuery(String sql,
-      [List<Object?>? arguments]);
+  Future<List<Map<String, dynamic>>> rawQuery(String sql, [List<Object?>? arguments]);
 
   Future<void> execute(String sql, [List<Object?>? arguments]);
 

@@ -27,8 +27,7 @@ class ChooseRecipientWidget extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentAccountCubit>(
-          create: (context) =>
-              CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
         ),
         BlocProvider<NativeBalanceBloc>(
           create: (context) => NativeBalanceBloc(
@@ -41,12 +40,10 @@ class ChooseRecipientWidget extends StatelessWidget {
             ..add(NativeBalanceVisibilityRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) =>
-              CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
+          create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
         ),
         BlocProvider<AccountListBloc>(
-          create: (context) =>
-              AccountListBloc(injector.get())..add(AccountListRequested()),
+          create: (context) => AccountListBloc(injector.get())..add(AccountListRequested()),
         ),
         BlocProvider<ContactsBloc>(
           create: (context) => ContactsBloc(injector.get())
@@ -154,8 +151,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                         child: ListTile(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
-                            side: BorderSide(
-                                color: Theme.of(context).colorScheme.onSurface),
+                            side: BorderSide(color: Theme.of(context).colorScheme.onSurface),
                           ),
                           onTap: () {
                             showModalBottomSheet(
@@ -168,8 +164,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                               },
                             );
                           },
-                          leading: BlocConsumer<CurrentAccountCubit,
-                              CurrentAccountState>(
+                          leading: BlocConsumer<CurrentAccountCubit, CurrentAccountState>(
                             builder: (context, state) {
                               if (state.account == null) {
                                 return SizedBox.shrink();
@@ -181,16 +176,13 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                                 ),
                               );
                             },
-                            listener: (BuildContext context,
-                                CurrentAccountState state) {
+                            listener: (BuildContext context, CurrentAccountState state) {
                               context.read<SendTransactionBloc>().add(
-                                    ToAddressChanged(
-                                        toAddress: _toAddressController.text),
+                                    ToAddressChanged(toAddress: _toAddressController.text),
                                   );
                             },
                           ),
-                          title: BlocBuilder<CurrentAccountCubit,
-                              CurrentAccountState>(
+                          title: BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
                             builder: (context, state) {
                               if (state.account == null) {
                                 return SizedBox.shrink();
@@ -198,8 +190,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                               return Text(state.account?.alias ?? '');
                             },
                           ),
-                          subtitle: BlocBuilder<NativeBalanceBloc,
-                              NativeBalanceState>(
+                          subtitle: BlocBuilder<NativeBalanceBloc, NativeBalanceState>(
                             builder: (context, state) {
                               String content = '';
                               switch (state.status) {
@@ -207,8 +198,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                                   content = '........';
                                   break;
                                 case NativeBalanceStatus.loaded:
-                                  content =
-                                      '${state.accountBalance?.toReadableString(5)} ${state.ticker}';
+                                  content = '${state.accountBalance?.toReadableString(5)} ${state.ticker}';
                                   break;
                                 case NativeBalanceStatus.error:
                                   content = 'error';
@@ -218,8 +208,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                                 content = Placeholders.hiddenBalancePlaceholder;
                               }
                               return Skeletonizer(
-                                enabled:
-                                    state.status == NativeBalanceStatus.loading,
+                                enabled: state.status == NativeBalanceStatus.loading,
                                 child: Text(content),
                               );
                             },
@@ -241,17 +230,13 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                       Flexible(
                         child: Form(
                           key: _formKey,
-                          child: BlocBuilder<SendTransactionBloc,
-                              SendTransactionState>(
+                          child: BlocBuilder<SendTransactionBloc, SendTransactionState>(
                             builder: (context, state) {
                               return EthereumAddressTextField(
                                 controller: _toAddressController,
                                 inputDecoration: InputDecoration(
                                     border: OutlineInputBorder(),
-                                    errorText:
-                                        state.toAddressEqualsCurrentAccount
-                                            ? 'Can\'t send to yourself'
-                                            : null),
+                                    errorText: state.toAddressEqualsCurrentAccount ? 'Can\'t send to yourself' : null),
                               );
                             },
                           ),
@@ -267,8 +252,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
               Expanded(
                 child: Builder(
                   builder: (context) {
-                    final accountsState =
-                        context.watch<AccountListBloc>().state;
+                    final accountsState = context.watch<AccountListBloc>().state;
                     final contactsState = context.watch<ContactsBloc>().state;
                     return ListView(
                       children: [
@@ -314,8 +298,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                 children: [
                   BlocBuilder<SendTransactionBloc, SendTransactionState>(
                     buildWhen: (previous, current) =>
-                        previous.toAddressEqualsCurrentAccount !=
-                        current.toAddressEqualsCurrentAccount,
+                        previous.toAddressEqualsCurrentAccount != current.toAddressEqualsCurrentAccount,
                     builder: (context, state) {
                       final isBtnVisible = !state.toAddressEqualsCurrentAccount;
                       return FilledButton(

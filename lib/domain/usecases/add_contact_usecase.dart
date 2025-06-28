@@ -9,8 +9,7 @@ class AddContactUsecase {
   AddContactUsecase(this._contactsRepository, this._accountsRepository);
 
   Future<void> execute(AddContactUsecaseParams params) async {
-    final currentConnectedAccount =
-        await _accountsRepository.getCurrentAccount();
+    final currentConnectedAccount = await _accountsRepository.getCurrentAccount();
     if (currentConnectedAccount == null) {
       throw DomainException('Invalid current account state');
     }

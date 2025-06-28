@@ -5,8 +5,7 @@ import 'package:kriptum/domain/usecases/add_hd_wallet_account_usecase.dart';
 part 'add_hd_wallet_account_event.dart';
 part 'add_hd_wallet_account_state.dart';
 
-class AddHdWalletAccountBloc
-    extends Bloc<AddHdWalletAccountEvent, AddHdWalletAccountState> {
+class AddHdWalletAccountBloc extends Bloc<AddHdWalletAccountEvent, AddHdWalletAccountState> {
   final AddHdWalletAccountUsecase _usecase;
   AddHdWalletAccountBloc(this._usecase) : super(AddHdWalletAccountInitial()) {
     on<AddHdWalletAccountRequested>(

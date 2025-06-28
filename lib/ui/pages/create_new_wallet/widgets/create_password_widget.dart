@@ -53,9 +53,7 @@ class CreatePasswordWidget extends StatelessWidget {
                         );
                   },
                   obscureText: true,
-                  decoration: const InputDecoration(
-                      label: Text('New Password'),
-                      border: OutlineInputBorder()),
+                  decoration: const InputDecoration(label: Text('New Password'), border: OutlineInputBorder()),
                 ),
                 const SizedBox(
                   height: 24,

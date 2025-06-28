@@ -15,8 +15,7 @@ class AddContactBloc extends Bloc<AddContactEvent, AddContactState> {
     on<AddContactRequested>(_handleAddContact);
   }
 
-  Future<void> _handleAddContact(
-      AddContactRequested event, Emitter<AddContactState> emit) async {
+  Future<void> _handleAddContact(AddContactRequested event, Emitter<AddContactState> emit) async {
     try {
       emit(AddContactLoading());
       final params = AddContactUsecaseParams(

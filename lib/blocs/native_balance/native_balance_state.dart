@@ -15,24 +15,16 @@ class NativeBalanceState {
   final NativeBalanceStatus status;
   final String ticker;
 
-  NativeBalanceState({
-    required this.isVisible,
-    required this.accountBalance,
-    required this.errorMessage,
-    required this.status,
-    required this.ticker
-  });
+  NativeBalanceState(
+      {required this.isVisible,
+      required this.accountBalance,
+      required this.errorMessage,
+      required this.status,
+      required this.ticker});
   factory NativeBalanceState.initial() {
     return NativeBalanceState(
-      isVisible: false,
-      accountBalance: null,
-      errorMessage: null,
-      status: NativeBalanceStatus.initial,
-      ticker: ''
-    );
+        isVisible: false, accountBalance: null, errorMessage: null, status: NativeBalanceStatus.initial, ticker: '');
   }
-
-  
 
   NativeBalanceState copyWith({
     bool? isVisible,

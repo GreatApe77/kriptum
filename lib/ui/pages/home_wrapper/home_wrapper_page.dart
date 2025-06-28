@@ -29,7 +29,7 @@ class _HomeWrapperPageState extends State<HomeWrapperPage> {
                   Navigator.pop(context);
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>  SendNativeWrapperPage(),
+                      builder: (context) => SendNativeWrapperPage(),
                     ),
                   );
                 },

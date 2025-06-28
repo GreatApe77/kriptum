@@ -12,8 +12,7 @@ import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
 
 Future<void> registerUsecases() async {
   injector.registerLazySingleton<GenerateAccountsPreviewUsecase>(
-    () => GenerateAccountsPreviewUsecase(
-        accountGenerator: injector.get(), passwordRepository: injector.get()),
+    () => GenerateAccountsPreviewUsecase(accountGenerator: injector.get(), passwordRepository: injector.get()),
   );
   injector.registerLazySingleton<ConfirmAndSaveGeneratedAccountsUsecase>(
     () => ConfirmAndSaveGeneratedAccountsUsecase(

@@ -4,8 +4,5 @@ abstract interface class EncryptionService {
     required String password,
   });
 
-  String decrypt({
-    required String encryptedData,
-    required String password
-  });
+  String decrypt({required String encryptedData, required String password});
 }

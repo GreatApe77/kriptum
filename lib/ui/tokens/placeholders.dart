@@ -1,3 +1,3 @@
 abstract class Placeholders {
-  static const hiddenBalancePlaceholder='••••••••';
+  static const hiddenBalancePlaceholder = '••••••••';
 }

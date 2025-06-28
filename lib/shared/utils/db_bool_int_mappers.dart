@@ -4,8 +4,7 @@ Map<String, dynamic> mapIntToBoolean(Map<String, dynamic> entry) {
   final updatedMap = Map<String, dynamic>.from(entry);
 
   final intValue = entry[AccountsTable.isImportedColumn];
-  updatedMap[AccountsTable.isImportedColumn] =
-      intValue != null && intValue == 1;
+  updatedMap[AccountsTable.isImportedColumn] = intValue != null && intValue == 1;
 
   return updatedMap;
 }

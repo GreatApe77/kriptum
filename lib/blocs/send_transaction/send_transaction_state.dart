@@ -7,12 +7,7 @@ enum SendTransactionStepStatus {
   toBeConfirmed,
 }
 
-enum SendTransactionStatus {
-  confirmationIdle,
-  confirmationLoading,
-  confirmationSuccess,
-  confirmationError
-}
+enum SendTransactionStatus { confirmationIdle, confirmationLoading, confirmationSuccess, confirmationError }
 
 class SendTransactionState {
   final SendTransactionStepStatus sendTransactionStepStatus;
@@ -58,16 +53,13 @@ class SendTransactionState {
     SendTransactionStatus? status,
   }) {
     return SendTransactionState(
-      sendTransactionStepStatus:
-          sendTransactionStepStatus ?? this.sendTransactionStepStatus,
+      sendTransactionStepStatus: sendTransactionStepStatus ?? this.sendTransactionStepStatus,
       toAddress: toAddress ?? this.toAddress,
       amount: amount ?? this.amount,
       txHash: txHash ?? this.txHash,
-      followOnBlockExplorerUrl:
-          followOnBlockExplorerUrl ?? this.followOnBlockExplorerUrl,
+      followOnBlockExplorerUrl: followOnBlockExplorerUrl ?? this.followOnBlockExplorerUrl,
       errorMessage: errorMessage ?? this.errorMessage,
-      toAddressEqualsCurrentAccount:
-          toAddressEqualsCurrentAccount ?? this.toAddressEqualsCurrentAccount,
+      toAddressEqualsCurrentAccount: toAddressEqualsCurrentAccount ?? this.toAddressEqualsCurrentAccount,
       status: status ?? this.status,
     );
   }

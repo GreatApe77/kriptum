@@ -10,8 +10,7 @@ class CurrentAccountCubit extends Cubit<CurrentAccountState> {
   final AccountsRepository _accountsRepository;
   late final StreamSubscription<Account?> _accountSubscription;
 
-  CurrentAccountCubit(this._accountsRepository)
-      : super(CurrentAccountState.initial()) {
+  CurrentAccountCubit(this._accountsRepository) : super(CurrentAccountState.initial()) {
     _accountSubscription = _accountsRepository.currentAccountStream().listen(
       (account) {
         emit(CurrentAccountState(account: account));

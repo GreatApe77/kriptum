@@ -11,10 +11,9 @@ class CurrentNetworkCubit extends Cubit<CurrentNetworkState> {
   CurrentNetworkCubit(
     this._networksRepository,
   ) : super(CurrentNetworkInitial()) {
-    _currentNetworkSubscription =
-        _networksRepository.watchCurrentNetwork().listen(
-              (event) => _handleNetworkChange(event),
-            );
+    _currentNetworkSubscription = _networksRepository.watchCurrentNetwork().listen(
+          (event) => _handleNetworkChange(event),
+        );
   }
   Future<void> changeCurrentNetwork(Network network) async {
     try {

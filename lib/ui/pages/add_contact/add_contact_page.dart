@@ -93,9 +93,7 @@ class _AddContactViewState extends State<_AddContactView> {
                   const SizedBox(
                     height: 24,
                   ),
-                  FilledButton(
-                      onPressed: () => _triggerAddContact(context),
-                      child: const Text('Add Contact'))
+                  FilledButton(onPressed: () => _triggerAddContact(context), child: const Text('Add Contact'))
                 ],
               ),
             ),

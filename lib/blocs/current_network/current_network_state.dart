@@ -16,6 +16,5 @@ final class CurrentNetworkLoaded extends CurrentNetworkState {
   final Network network;
   final bool isChangingNetwork;
 
-  CurrentNetworkLoaded(
-      {required this.network, required this.isChangingNetwork});
+  CurrentNetworkLoaded({required this.network, required this.isChangingNetwork});
 }

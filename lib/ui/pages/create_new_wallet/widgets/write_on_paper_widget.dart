@@ -22,8 +22,7 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
             ..showSnackBar(
-              SnackBar(
-                  content: Text(state.errorMessage ?? 'An error occurred')),
+              SnackBar(content: Text(state.errorMessage ?? 'An error occurred')),
             );
         } else if (state.status == CreateNewWalletStatus.success) {
           Navigator.of(context).pushReplacement(
@@ -56,8 +55,7 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
             margin: const EdgeInsets.all(8),
             child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: BlocBuilder<CreateNewWalletBloc, CreateNewWalletState>(
-                    builder: (context, state) {
+                child: BlocBuilder<CreateNewWalletBloc, CreateNewWalletState>(builder: (context, state) {
                   final mnemonicAsList = state.mnemonic.split(' ');
 
                   final firstColumn = mnemonicAsList.take(6).toList();
@@ -71,9 +69,7 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
                             .asMap()
                             .entries
                             .map(
-                              (entry) => Chip(
-                                  label:
-                                      Text('${entry.key + 1}. ${entry.value}')),
+                              (entry) => Chip(label: Text('${entry.key + 1}. ${entry.value}')),
                             )
                             .toList(),
                       ),
@@ -84,9 +80,7 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
                             .asMap()
                             .entries
                             .map(
-                              (entry) => Chip(
-                                  label:
-                                      Text('${entry.key + 7}. ${entry.value}')),
+                              (entry) => Chip(label: Text('${entry.key + 7}. ${entry.value}')),
                             )
                             .toList(),
                       ),
@@ -99,13 +93,9 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
             buildWhen: (previous, current) => current.status != previous.status,
             builder: (context, state) {
               return FilledButton(
-                onPressed: state.status == CreateNewWalletStatus.loading
-                    ? null
-                    : () => _triggerSaveAccount(context),
+                onPressed: state.status == CreateNewWalletStatus.loading ? null : () => _triggerSaveAccount(context),
                 child: Text(
-                  state.status == CreateNewWalletStatus.loading
-                      ? 'Saving...'
-                      : 'I backed up my keys',
+                  state.status == CreateNewWalletStatus.loading ? 'Saving...' : 'I backed up my keys',
                 ),
               );
             },

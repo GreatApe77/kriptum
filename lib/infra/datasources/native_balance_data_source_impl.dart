@@ -13,8 +13,7 @@ class NativeBalanceDataSourceImpl implements NativeBalanceDataSource {
     required Network network,
   }) async {
     final web3Client = Web3Client(network.rpcUrl, _httpClient);
-    final balance =
-        await web3Client.getBalance(EthereumAddress.fromHex(accountAddress));
+    final balance = await web3Client.getBalance(EthereumAddress.fromHex(accountAddress));
     return AccountBalance(
       valueInWei: balance.getInWei,
     );

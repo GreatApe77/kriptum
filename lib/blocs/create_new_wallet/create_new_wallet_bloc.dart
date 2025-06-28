@@ -7,21 +7,17 @@ import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
 part 'create_new_wallet_event.dart';
 part 'create_new_wallet_state.dart';
 
-class CreateNewWalletBloc
-    extends Bloc<CreateNewWalletEvent, CreateNewWalletState> {
+class CreateNewWalletBloc extends Bloc<CreateNewWalletEvent, CreateNewWalletState> {
   final GenerateAccountsPreviewUsecase _generateAccountsPreviewUsecase;
-  final ConfirmAndSaveGeneratedAccountsUsecase
-      _confirmAndSaveGeneratedAccountsUsecase;
+  final ConfirmAndSaveGeneratedAccountsUsecase _confirmAndSaveGeneratedAccountsUsecase;
   final AccountGeneratorService _accountGeneratorService;
 
   CreateNewWalletBloc({
     required GenerateAccountsPreviewUsecase generateAccountsPreviewUsecase,
-    required ConfirmAndSaveGeneratedAccountsUsecase
-        confirmAndSaveGeneratedAccountsUsecase,
+    required ConfirmAndSaveGeneratedAccountsUsecase confirmAndSaveGeneratedAccountsUsecase,
     required AccountGeneratorService accountGeneratorService,
   })  : _generateAccountsPreviewUsecase = generateAccountsPreviewUsecase,
-        _confirmAndSaveGeneratedAccountsUsecase =
-            confirmAndSaveGeneratedAccountsUsecase,
+        _confirmAndSaveGeneratedAccountsUsecase = confirmAndSaveGeneratedAccountsUsecase,
         _accountGeneratorService = accountGeneratorService,
         super(
           CreateNewWalletState.initial(),
@@ -41,9 +37,7 @@ class CreateNewWalletBloc
       );
     });
     on<AdvanceToStep2Event>((event, emit) async {
-      if (state.password.isEmpty ||
-          state.confirmPassword.isEmpty ||
-          state.password != state.confirmPassword) {
+      if (state.password.isEmpty || state.confirmPassword.isEmpty || state.password != state.confirmPassword) {
         emit(
           state.copyWith(
             errorMessage: 'Passwords do not match or are empty.',
@@ -58,8 +52,7 @@ class CreateNewWalletBloc
           status: CreateNewWalletStatus.loading,
         ));
         final mnemonic = _accountGeneratorService.generateMnemonic();
-        final accounts = await _generateAccountsPreviewUsecase
-            .execute(GenerateAccountsPreviewUsecaseParams(
+        final accounts = await _generateAccountsPreviewUsecase.execute(GenerateAccountsPreviewUsecaseParams(
           password: state.password,
           mnemonic: mnemonic,
         ));

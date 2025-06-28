@@ -23,13 +23,11 @@ class AddHdWalletAccountUsecase {
   );
   Future<void> execute() async {
     final storedInMemoryPassword = _passwordRepository.getPassword();
-    final passwordValidationResult =
-        _passwordFactory.create(storedInMemoryPassword);
+    final passwordValidationResult = _passwordFactory.create(storedInMemoryPassword);
     if (passwordValidationResult.isFailure) {
       throw DomainException(passwordValidationResult.failure!);
     }
-    final encryptedMnemonic =
-        await _mnemonicRepository.retrieveEncryptedMnemonic();
+    final encryptedMnemonic = await _mnemonicRepository.retrieveEncryptedMnemonic();
     final mnemonic = _encryptionService.decrypt(
       encryptedData: encryptedMnemonic,
       password: passwordValidationResult.value!.value,
@@ -40,8 +38,7 @@ class AddHdWalletAccountUsecase {
       encryptionPassword: passwordValidationResult.value!.value,
       hdIndex: currentIndex,
     );
-    final generatedAccount =
-        await _accountGeneratorService.generateSingleAccount(params);
+    final generatedAccount = await _accountGeneratorService.generateSingleAccount(params);
     await _accountsRepository.saveAccounts([generatedAccount]);
   }
 }

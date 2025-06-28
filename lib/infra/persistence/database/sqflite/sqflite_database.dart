@@ -77,8 +77,7 @@ class SqfliteDatabase implements SqlDatabase {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> rawQuery(String sql,
-      [List<Object?>? arguments]) async {
+  Future<List<Map<String, dynamic>>> rawQuery(String sql, [List<Object?>? arguments]) async {
     final db = await _getDatabase();
     return await db.rawQuery(sql, arguments);
   }
@@ -90,8 +89,7 @@ class SqfliteDatabase implements SqlDatabase {
   }
 
   @override
-  Future<int> update(String table, Map<String, dynamic> values,
-      {String? where, List<Object?>? whereArgs}) async {
+  Future<int> update(String table, Map<String, dynamic> values, {String? where, List<Object?>? whereArgs}) async {
     final db = await _getDatabase();
     return await db.update(
       table,

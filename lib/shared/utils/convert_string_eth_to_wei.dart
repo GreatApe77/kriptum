@@ -1,8 +1,8 @@
 BigInt convertStringEthToWei(String ethAmount) {
-  if(ethAmount.contains(',')){
+  if (ethAmount.contains(',')) {
     ethAmount = ethAmount.replaceAll(',', '.');
   }
-  if(ethAmount.startsWith('.')){
+  if (ethAmount.startsWith('.')) {
     throw ArgumentError('Cannot start with .');
   }
   BigInt weiPerEth = BigInt.from(10).pow(18); // 1 ETH = 10^18 wei

@@ -11,8 +11,7 @@ class MainBalanceViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NativeBalanceBloc>(
-      create: (context) => NativeBalanceBloc(
-          injector.get(), injector.get(), injector.get(), injector.get())
+      create: (context) => NativeBalanceBloc(injector.get(), injector.get(), injector.get(), injector.get())
         ..add(
           NativeBalanceRequested(),
         )

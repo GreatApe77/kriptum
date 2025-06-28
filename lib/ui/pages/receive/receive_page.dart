@@ -36,8 +36,7 @@ class _ReceiveView extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Spacings.horizontalPadding, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: Spacings.horizontalPadding, vertical: 20),
                 child: Column(
                   children: [
                     Row(
@@ -79,10 +78,8 @@ class _ReceiveView extends StatelessWidget {
                               }
                             },
                             segments: const [
-                              ButtonSegment<int>(
-                                  value: 1, label: Text('Scan QR code')),
-                              ButtonSegment<int>(
-                                  value: 2, label: Text('Your QR code'))
+                              ButtonSegment<int>(value: 1, label: Text('Scan QR code')),
+                              ButtonSegment<int>(value: 2, label: Text('Your QR code'))
                             ],
                             selected: const {
                               2
@@ -126,13 +123,11 @@ class _ReceiveView extends StatelessWidget {
                               copyToClipboard(
                                 content: state.account!.address,
                                 onCopied: (content) {
-                                  ScaffoldMessenger.of(context)
-                                      .clearSnackBars();
+                                  ScaffoldMessenger.of(context).clearSnackBars();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       behavior: SnackBarBehavior.floating,
-                                      content:
-                                          Text('Address copied to clipboard'),
+                                      content: Text('Address copied to clipboard'),
                                     ),
                                   );
                                 },

@@ -79,8 +79,7 @@ class _ImportWalletViewState extends State<_ImportWalletView> {
                   children: [
                     const Text(
                       'Import from Secret Recovery Phrase',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(
@@ -90,8 +89,7 @@ class _ImportWalletViewState extends State<_ImportWalletView> {
                       controller: _mnemonicTextController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
-                        final result =
-                            injector.get<MnemonicFactory>().create(value ?? '');
+                        final result = injector.get<MnemonicFactory>().create(value ?? '');
                         if (result.isFailure) return result.failure;
                         return null;
                       },
@@ -108,9 +106,7 @@ class _ImportWalletViewState extends State<_ImportWalletView> {
                       controller: _passwordTextController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (password) {
-                        final result = injector
-                            .get<PasswordFactory>()
-                            .create(password ?? '');
+                        final result = injector.get<PasswordFactory>().create(password ?? '');
                         if (result.isFailure) return result.failure;
                         return null;
                       },
@@ -131,9 +127,7 @@ class _ImportWalletViewState extends State<_ImportWalletView> {
                         if (confirmPassword != _passwordTextController.text) {
                           return 'Passwords don\'t match';
                         }
-                        final result = injector
-                            .get<PasswordFactory>()
-                            .create(confirmPassword ?? '');
+                        final result = injector.get<PasswordFactory>().create(confirmPassword ?? '');
                         if (result.isFailure) return result.failure;
                         return null;
                       },

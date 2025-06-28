@@ -15,12 +15,10 @@ class NetworksList extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) =>
-              CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
+          create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
         ),
         BlocProvider<NetworksListBloc>(
-          create: (context) =>
-              NetworksListBloc(injector.get())..add(NetworksListRequested()),
+          create: (context) => NetworksListBloc(injector.get())..add(NetworksListRequested()),
         ),
       ],
       child: _NetworksList(
@@ -39,8 +37,7 @@ class _NetworksList extends StatefulWidget {
 }
 
 class _NetworksListState extends State<_NetworksList> {
-  final TextEditingController _filterTextEditingController =
-      TextEditingController();
+  final TextEditingController _filterTextEditingController = TextEditingController();
   @override
   void initState() {
     _filterTextEditingController.addListener(_filterTextListener);
@@ -90,8 +87,7 @@ class _NetworksListState extends State<_NetworksList> {
                 return BlocConsumer<CurrentNetworkCubit, CurrentNetworkState>(
                   listener: (context, state) {
                     if (widget.onNetworkChosen == null) return;
-                    widget.onNetworkChosen!(
-                        (state as CurrentNetworkLoaded).network);
+                    widget.onNetworkChosen!((state as CurrentNetworkLoaded).network);
                   },
                   listenWhen: (previous, current) {
                     if (current is CurrentNetworkLoaded) {
@@ -113,9 +109,7 @@ class _NetworksListState extends State<_NetworksList> {
                           selected: currentNetwork.id == network.id,
                           network: network,
                           onNetworkTap: (network) {
-                            context
-                                .read<CurrentNetworkCubit>()
-                                .changeCurrentNetwork(network);
+                            context.read<CurrentNetworkCubit>().changeCurrentNetwork(network);
                           },
                         );
                       },

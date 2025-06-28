@@ -21,8 +21,7 @@ class ConfirmAndSaveGeneratedAccountsUsecase {
 
   Future<void> execute(List<Account> accounts, String mnemonic) async {
     final password = _passwordRepository.getPassword();
-    final encryptedMnemonic =
-        _encryptionService.encrypt(data: mnemonic, password: password);
+    final encryptedMnemonic = _encryptionService.encrypt(data: mnemonic, password: password);
     await _accountsRepository.saveAccounts(accounts);
     await _mnemonicRepository.storeEncryptedMnemonic(encryptedMnemonic);
   }

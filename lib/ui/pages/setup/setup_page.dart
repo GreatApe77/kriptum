@@ -40,8 +40,7 @@ class SetupPage extends StatelessWidget {
               height: 8,
             ),
             FilledButton(
-                onPressed: () => _navigateToCreateNewWalletPage(context),
-                child: const Text('Create a new wallet')),
+                onPressed: () => _navigateToCreateNewWalletPage(context), child: const Text('Create a new wallet')),
             const SizedBox(
               height: 42,
             ),

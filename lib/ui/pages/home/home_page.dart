@@ -21,8 +21,7 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentAccountCubit>(
-          create: (context) =>
-              CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
         ),
         BlocProvider<CurrentNetworkCubit>(
           create: (context) => CurrentNetworkCubit(
@@ -71,11 +70,7 @@ class HomeView extends StatelessWidget {
           IconButton(
               onPressed: () {
                 copyToClipboard(
-                  content: context
-                      .read<CurrentAccountCubit>()
-                      .state
-                      .account!
-                      .address,
+                  content: context.read<CurrentAccountCubit>().state.account!.address,
                   onCopied: (text) => _onCopyToClipBoard(
                     text,
                     context,
@@ -167,8 +162,7 @@ class HomeView extends StatelessWidget {
         return Builder(
           builder: (context) {
             return FutureBuilder(
-                future: Future.delayed(const Duration(seconds: 1))
-                    .then((value) => true),
+                future: Future.delayed(const Duration(seconds: 1)).then((value) => true),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Navigator.of(context).pop();

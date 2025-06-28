@@ -7,8 +7,7 @@ import 'package:kriptum/shared/contracts/disposable.dart';
 
 class ContactsRepositoryImpl implements ContactsRepository, Disposable {
   List<Contact> _contacts = [];
-  final StreamController<List<Contact>> _contactsStream =
-      StreamController.broadcast();
+  final StreamController<List<Contact>> _contactsStream = StreamController.broadcast();
 
   final ContactsDataSource _contactsDataSource;
 

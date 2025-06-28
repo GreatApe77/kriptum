@@ -36,8 +36,7 @@ class SecureWalletStep2Screen extends StatelessWidget {
           onTap: () => _showSecretRecoveryPhraseDialog(context),
           child: Text(
             'Secret Recovery Phrase',
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.primary, fontSize: 16),
+            style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 16),
           ),
         ),
         const SizedBox(

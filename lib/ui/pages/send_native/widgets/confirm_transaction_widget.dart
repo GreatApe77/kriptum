@@ -27,12 +27,10 @@ class ConfirmTransactionWidget extends StatelessWidget {
           )..add(NativeBalanceRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) =>
-              CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
+          create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
         ),
         BlocProvider<CurrentAccountCubit>(
-          create: (context) =>
-              CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
         ),
       ],
       child: _ConfirmTransactionWidget(),
@@ -95,29 +93,24 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                     //   color: Theme.of(context).hintColor
                     // ),
                     shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                            width: 1, color: Theme.of(context).hintColor),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
+                        side: BorderSide(width: 1, color: Theme.of(context).hintColor),
+                        borderRadius: const BorderRadius.all(Radius.circular(10))),
                     trailing: Builder(builder: (context) {
                       final balanceBloc = context.watch<NativeBalanceBloc>();
-                      final networksCubit =
-                          context.watch<CurrentNetworkCubit>();
+                      final networksCubit = context.watch<CurrentNetworkCubit>();
                       final balance = balanceBloc.state.accountBalance;
                       final networkState = networksCubit.state;
                       String ticker = '';
                       if (networkState is CurrentNetworkLoaded) {
                         ticker = networkState.network.ticker;
                       }
-                      if (ticker.isEmpty || balance == null)
-                        return SizedBox.shrink();
+                      if (ticker.isEmpty || balance == null) return SizedBox.shrink();
                       return Text(
                           //'${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}',
                           '${balance.toReadableString()} $ticker',
                           style: Theme.of(context).textTheme.bodyLarge);
                     }),
-                    leading:
-                        BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
+                    leading: BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
                       builder: (context, state) {
                         if (state.account == null) return SizedBox.shrink();
                         return Jazzicon.getIconWidget(
@@ -129,8 +122,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                         );
                       },
                     ),
-                    title:
-                        BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
+                    title: BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
                       builder: (context, state) {
                         if (state.account == null) return SizedBox.shrink();
                         return Text(
@@ -138,8 +130,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                         );
                       },
                     ),
-                    subtitle:
-                        BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
+                    subtitle: BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
                       builder: (context, state) {
                         if (state.account == null) return SizedBox.shrink();
                         return Text(
@@ -155,8 +146,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                     'To',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  BlocSelector<SendTransactionBloc, SendTransactionState,
-                      String?>(
+                  BlocSelector<SendTransactionBloc, SendTransactionState, String?>(
                     selector: (state) {
                       return state.toAddress;
                     },
@@ -170,10 +160,8 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                         //   color: Theme.of(context).hintColor
                         // ),
                         shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                width: 1, color: Theme.of(context).hintColor),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
+                            side: BorderSide(width: 1, color: Theme.of(context).hintColor),
+                            borderRadius: const BorderRadius.all(Radius.circular(10))),
                         leading: Jazzicon.getIconWidget(
                           size: 30,
                           Jazzicon.getJazziconData(
@@ -201,10 +189,8 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                     height: 24,
                   ),
                   Builder(builder: (context) {
-                    final amount = context.select<SendTransactionBloc, BigInt?>(
-                        (bloc) => bloc.state.amount);
-                    final currentNetworkCubit =
-                        context.watch<CurrentNetworkCubit>();
+                    final amount = context.select<SendTransactionBloc, BigInt?>((bloc) => bloc.state.amount);
+                    final currentNetworkCubit = context.watch<CurrentNetworkCubit>();
                     String ticker = '';
                     final networkState = currentNetworkCubit.state;
                     if (networkState is CurrentNetworkLoaded) {

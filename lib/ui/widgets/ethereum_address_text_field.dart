@@ -19,8 +19,7 @@ class EthereumAddressTextField extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       validator: (value) {
-        final result =
-            injector.get<EthereumAddressFactory>().create(value ?? '');
+        final result = injector.get<EthereumAddressFactory>().create(value ?? '');
         if (result.isFailure) {
           return result.failure;
         }

@@ -59,8 +59,7 @@ class Account {
 
   String toJson() => json.encode(toMap());
 
-  factory Account.fromJson(String source) =>
-      Account.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Account.fromJson(String source) => Account.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -70,23 +69,22 @@ class Account {
   @override
   bool operator ==(covariant Account other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.accountIndex == accountIndex &&
-      other.address == address &&
-      other.encryptedJsonWallet == encryptedJsonWallet &&
-      other.isImported == isImported &&
-      other.alias == alias;
+
+    return other.id == id &&
+        other.accountIndex == accountIndex &&
+        other.address == address &&
+        other.encryptedJsonWallet == encryptedJsonWallet &&
+        other.isImported == isImported &&
+        other.alias == alias;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      accountIndex.hashCode ^
-      address.hashCode ^
-      encryptedJsonWallet.hashCode ^
-      isImported.hashCode ^
-      alias.hashCode;
+        accountIndex.hashCode ^
+        address.hashCode ^
+        encryptedJsonWallet.hashCode ^
+        isImported.hashCode ^
+        alias.hashCode;
   }
 }

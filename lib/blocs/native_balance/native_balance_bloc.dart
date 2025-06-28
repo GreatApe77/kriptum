@@ -24,14 +24,12 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
     this._accountsRepository,
     this._networksRepository,
   ) : super(NativeBalanceState.initial()) {
-    _currentAccountChangeSubscription =
-        _accountsRepository.currentAccountStream().listen(
+    _currentAccountChangeSubscription = _accountsRepository.currentAccountStream().listen(
       (event) {
         add(NativeBalanceRequested());
       },
     );
-    _currentNetworkChangeSubscription =
-        _networksRepository.watchCurrentNetwork().listen(
+    _currentNetworkChangeSubscription = _networksRepository.watchCurrentNetwork().listen(
       (event) {
         add(NativeBalanceRequested());
       },
@@ -61,15 +59,10 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
       emit(state.copyWith(status: NativeBalanceStatus.loading));
       try {
         await Future.delayed(const Duration(seconds: 1));
-        final accountBalance =
-            await _getNativeBalanceOfAccountUsecase.execute();
+        final accountBalance = await _getNativeBalanceOfAccountUsecase.execute();
         final network = await _networksRepository.getCurrentNetwork();
         emit(
-          state.copyWith(
-            accountBalance: accountBalance,
-            status: NativeBalanceStatus.loaded,
-            ticker: network.ticker
-          ),
+          state.copyWith(accountBalance: accountBalance, status: NativeBalanceStatus.loaded, ticker: network.ticker),
         );
       } catch (e) {
         emit(

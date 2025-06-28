@@ -23,8 +23,7 @@ class AccountsModal extends StatelessWidget {
           )..add(AccountListRequested()),
         ),
         BlocProvider<CurrentAccountCubit>(
-          create: (context) =>
-              CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
         ),
         BlocProvider<AddHdWalletAccountBloc>(
           create: (context) => AddHdWalletAccountBloc(injector.get()),
@@ -61,12 +60,9 @@ class _AccountsModalView extends StatelessWidget {
                           account: listState.accounts[index],
                           includeMenu: true,
                           isSelected:
-                              currentAccountState.account?.accountIndex ==
-                                  listState.accounts[index].accountIndex,
+                              currentAccountState.account?.accountIndex == listState.accounts[index].accountIndex,
                           onSelected: () {
-                            context
-                                .read<CurrentAccountCubit>()
-                                .changeCurrentAccount(
+                            context.read<CurrentAccountCubit>().changeCurrentAccount(
                                   listState.accounts[index],
                                 );
                             Navigator.of(context).pop();
@@ -80,8 +76,7 @@ class _AccountsModalView extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: Spacings.horizontalPadding),
+                    padding: const EdgeInsets.symmetric(horizontal: Spacings.horizontalPadding),
                     child: OutlinedButton(
                       onPressed: () {
                         _showCreateOrImportAccountBottomSheet(context);
@@ -147,7 +142,7 @@ class _AccountsModalView extends StatelessWidget {
                   leading: const Icon(Icons.add),
                   enabled: state is! AddHdWalletAccountLoading,
                   // enabled: !widget.accountsController.addAccountLoading,
-                   onTap: () => bloc.add(AddHdWalletAccountRequested()),
+                  onTap: () => bloc.add(AddHdWalletAccountRequested()),
                   ////leading: widget.accountsController.addAccountLoading
                   /*  ? SizedBox(
                                         width:

@@ -25,14 +25,12 @@ class AccountGeneratorServiceImpl implements AccountGeneratorService {
   Future<Account> generateSingleAccount(
     SingleAccountFromMnemonicParams params,
   ) async {
-    final account =
-        await compute(_heavyComputingSingleAccountGeneration, params);
+    final account = await compute(_heavyComputingSingleAccountGeneration, params);
     return account;
   }
 }
 
-Future<Account> _heavyComputingSingleAccountGeneration(
-    SingleAccountFromMnemonicParams params) {
+Future<Account> _heavyComputingSingleAccountGeneration(SingleAccountFromMnemonicParams params) {
   final seed = bip39.mnemonicToSeed(params.mnemonic);
   final hdWallet = HDWallet.fromSeed(seed: seed);
   final key = hdWallet.deriveKey(
@@ -44,9 +42,7 @@ Future<Account> _heavyComputingSingleAccountGeneration(
   );
   final ethPrivateKey = EthPrivateKey.fromHex(HEX.encode(key.privKeyBytes!));
   final address = ethPrivateKey.address.hex;
-  final String encryptedAccount = Wallet.createNew(
-          ethPrivateKey, params.encryptionPassword, Random.secure())
-      .toJson();
+  final String encryptedAccount = Wallet.createNew(ethPrivateKey, params.encryptionPassword, Random.secure()).toJson();
   Account account = Account(
     alias: 'Account ${params.hdIndex + 1}',
     address: address,

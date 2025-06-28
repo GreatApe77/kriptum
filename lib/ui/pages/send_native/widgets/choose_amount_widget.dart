@@ -28,8 +28,7 @@ class ChooseAmountWidget extends StatelessWidget {
             ..add(NativeBalanceVisibilityRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) =>
-              CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
+          create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
         ),
       ],
       child: const _ChooseAmountWidget(),
@@ -45,17 +44,15 @@ class _ChooseAmountWidget extends StatefulWidget {
 }
 
 class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
-  final TextEditingController _amountTextEditingController =
-      TextEditingController();
+  final TextEditingController _amountTextEditingController = TextEditingController();
 
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback(
       (_) {
         final sendTransactionBloc = context.read<SendTransactionBloc>();
-        _amountTextEditingController.text = AccountBalance(
-                valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0))
-            .toReadableString(2);
+        _amountTextEditingController.text =
+            AccountBalance(valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0)).toReadableString(2);
       },
     );
     super.initState();
@@ -85,9 +82,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
         centerTitle: true,
         leading: TextButton(
             onPressed: () {
-              context
-                  .read<SendTransactionBloc>()
-                  .add(ReturnToRecipientSelection());
+              context.read<SendTransactionBloc>().add(ReturnToRecipientSelection());
             },
             child: const Text('Back')),
         actions: [
@@ -114,12 +109,10 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
                       iconAlignment: IconAlignment.end,
                       onPressed: () {},
                       icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                      label:
-                          BlocBuilder<CurrentNetworkCubit, CurrentNetworkState>(
+                      label: BlocBuilder<CurrentNetworkCubit, CurrentNetworkState>(
                         builder: (context, state) {
                           if (state is CurrentNetworkLoaded) {
-                            return Text(
-                                '${state.network.name} ${state.network.ticker}');
+                            return Text('${state.network.name} ${state.network.ticker}');
                           }
                           return SizedBox.shrink();
                         },
@@ -129,9 +122,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
                     ),
                 Align(
                     alignment: Alignment.centerRight,
-                    child: TextButton(
-                        onPressed: () => _useMax(context),
-                        child: const Text('USE MAX')))
+                    child: TextButton(onPressed: () => _useMax(context), child: const Text('USE MAX')))
               ],
             ),
             const SizedBox(
@@ -145,8 +136,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
               keyboardType: const TextInputType.numberWithOptions(),
               style: const TextStyle(fontSize: 40),
               textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                  hintText: '0', border: InputBorder.none),
+              decoration: const InputDecoration(hintText: '0', border: InputBorder.none),
             ),
             const SizedBox(
               height: 24,
@@ -157,12 +147,9 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
 
               String ticker = '';
               if (currentNetworkCubit.state is CurrentNetworkLoaded) {
-                ticker = (currentNetworkCubit.state as CurrentNetworkLoaded)
-                    .network
-                    .ticker;
+                ticker = (currentNetworkCubit.state as CurrentNetworkLoaded).network.ticker;
               }
-              return Text(
-                  'Balance: ${balanceBloc.state.accountBalance?.toReadableString()} $ticker');
+              return Text('Balance: ${balanceBloc.state.accountBalance?.toReadableString()} $ticker');
             }),
             // 'Balance: ${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}'),
             Expanded(child: Container()),
@@ -174,8 +161,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   BlocListener<SendTransactionBloc, SendTransactionState>(
-                    listenWhen: (previous, current) =>
-                        previous.errorMessage != current.errorMessage,
+                    listenWhen: (previous, current) => previous.errorMessage != current.errorMessage,
                     listener: (context, state) {
                       if (state.errorMessage.isNotEmpty) {
                         showSnackBar(
@@ -185,9 +171,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
                         );
                       }
                     },
-                    child: FilledButton(
-                        onPressed: () => _onNextStep(context),
-                        child: const Text('Next')),
+                    child: FilledButton(onPressed: () => _onNextStep(context), child: const Text('Next')),
                   ),
                 ],
               ),

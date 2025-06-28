@@ -6,11 +6,7 @@ class SettingsSubmenuCard extends StatelessWidget {
 
   final Function() onPressed;
 
-  const SettingsSubmenuCard(
-      {super.key,
-      required this.title,
-      required this.description,
-      required this.onPressed});
+  const SettingsSubmenuCard({super.key, required this.title, required this.description, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
