@@ -8,6 +8,7 @@ import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/account_balance.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 
@@ -212,9 +213,29 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FilledButton(
-                    onPressed: () {},
-                    child: Text('Send'),
+                  BlocConsumer<SendTransactionBloc, SendTransactionState>(
+                    listenWhen: (previous, current) => previous.status != current.status,
+                    listener: (context, state) {
+                      if (state.status == SendTransactionStatus.confirmationSuccess) {
+                        showSnackBar(message: state.txHash ?? '', context: context);
+                      }
+                      if (state.status == SendTransactionStatus.confirmationError) {
+                        showSnackBar(
+                          message: state.errorMessage,
+                          context: context,
+                          snackBarType: SnackBarType.error,
+                        );
+                      }
+                    },
+                    buildWhen: (previous, current) => previous.status != current.status,
+                    builder: (context, state) {
+                      return FilledButton(
+                        onPressed: state.status == SendTransactionStatus.confirmationLoading
+                            ? null
+                            : () => _triggerSendTransaction(context),
+                        child: Text('Send'),
+                      );
+                    },
                   )
                   //onPressed: sendTransactionController.isLoading
                   //    ? null
@@ -232,6 +253,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
   }
 
   void _triggerSendTransaction(BuildContext context) async {
+    context.read<SendTransactionBloc>().add(SendTransactionRequest());
     /*  await sendTransactionController.sendTransaction(
       connectedAccount: currentAccountController.connectedAccount!,
       connectedNetwork: currentNetworkController.currentConnectedNetwork!,
