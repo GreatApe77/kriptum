@@ -12,15 +12,13 @@ void main() {
 
   setUpAll(
     () {
-      registerFallbackValue(AccountsFromMnemonicParams(
-          mnemonic: 'mnemonic', encryptionPassword: 'encryptionPassword'));
+      registerFallbackValue(AccountsFromMnemonicParams(mnemonic: 'mnemonic', encryptionPassword: 'encryptionPassword'));
     },
   );
   setUp(() {
     mockAccountGeneratorService = MockAccountGeneratorService();
     sut = GenerateAccountsPreviewUsecase(
       accountGenerator: mockAccountGeneratorService,
-      
     );
   });
   test('Should generate 20 accounts', () async {

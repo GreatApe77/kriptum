@@ -9,8 +9,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_accounts_repository.dart';
 
-class MockAccountGeneratorService extends Mock
-    implements AccountGeneratorService {}
+class MockAccountGeneratorService extends Mock implements AccountGeneratorService {}
 
 class MockMnemonicFactory extends Mock implements MnemonicFactory {}
 
@@ -67,8 +66,7 @@ void main() {
         ),
       ).thenReturn(
         Result.success(
-          Mnemonic(
-              'test test test test test test test test test test test junk'),
+          Mnemonic('test test test test test test test test test test test junk'),
         ),
       );
       final mockReturnList = List<Account>.generate(
