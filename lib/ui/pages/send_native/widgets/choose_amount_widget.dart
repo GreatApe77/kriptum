@@ -8,7 +8,9 @@ import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/account_balance.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
+import 'package:kriptum/ui/tokens/placeholders.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ChooseAmountWidget extends StatelessWidget {
   const ChooseAmountWidget({super.key});
@@ -149,6 +151,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
               if (currentNetworkCubit.state is CurrentNetworkLoaded) {
                 ticker = (currentNetworkCubit.state as CurrentNetworkLoaded).network.ticker;
               }
+              if(ticker.isEmpty || balanceBloc.state.accountBalance ==null) return Skeletonizer(child: Text(Placeholders.hiddenBalancePlaceholder));
               return Text('Balance: ${balanceBloc.state.accountBalance?.toReadableString()} $ticker');
             }),
             // 'Balance: ${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}'),

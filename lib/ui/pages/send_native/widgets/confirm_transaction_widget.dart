@@ -216,47 +216,50 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                 children: [
                   BlocConsumer<SendTransactionBloc, SendTransactionState>(
                     listenWhen: (previous, current) => previous.status != current.status,
-                    listener: (context, state) {
+                    listener: (context, state) async {
                       final accountCubit = context.read<CurrentAccountCubit>();
                       final networkCubit = context.read<CurrentNetworkCubit>();
                       final sendTransactionBloc = context.read<SendTransactionBloc>();
                       if (state.status == SendTransactionStatus.confirmationSuccess) {
+                        final networkState = networkCubit.state;
+                        final sendTransactionState = sendTransactionBloc.state;
+                        final accountState = accountCubit.state;
+                        Navigator.of(context).pop();
                         showDialog(
                           context: context,
                           builder: (context) {
-                            return MultiBlocProvider(
-                              providers: [
-                                BlocProvider<CurrentAccountCubit>(
-                                  create: (context) => accountCubit,
-                                ),
-                                BlocProvider<CurrentNetworkCubit>(
-                                  create: (context) => networkCubit,
-                                ),
-                                BlocProvider<SendTransactionBloc>(
-                                  create: (context) => sendTransactionBloc,
-                                ),
-                              ],
-                              child: Builder(builder: (context) {
-                                final networkCubit = context.watch<CurrentNetworkCubit>();
-                                final currentAccountCubit = context.watch<CurrentAccountCubit>();
-                                final sendTransactionBloc = context.watch<SendTransactionBloc>();
-                                final networkState = networkCubit.state;
-                                if (networkState is! CurrentNetworkLoaded ||
-                                    currentAccountCubit.state.account == null) {
-                                  return SizedBox.fromSize();
-                                }
-                                final network = networkState.network;
-                                return TransactionInfoDialog(
-                                  network: network,
-                                  from: currentAccountCubit.state.account!,
-                                  toAddress: sendTransactionBloc.state.toAddress!,
-                                  transactionHash: sendTransactionBloc.state.txHash!,
-                                  amount: sendTransactionBloc.state.amount!,
-                                  dateTime: DateTime.now(),
-                                  followOnBlockExplorerUrl: sendTransactionBloc.state.followOnBlockExplorerUrl,
-                                );
-                              }),
+                            return TransactionInfoDialog(
+                              network: (networkState as CurrentNetworkLoaded).network,
+                              from: accountState.account!,
+                              toAddress: sendTransactionState.toAddress!,
+                              transactionHash: sendTransactionState.txHash!,
+                              amount: sendTransactionState.amount!,
+                              dateTime: DateTime.now(),
+                              onPop: () {},
                             );
+                            /*  return Builder(builder: (context) {
+                              final networkCubit = context.watch<CurrentNetworkCubit>();
+                              final currentAccountCubit = context.watch<CurrentAccountCubit>();
+                              final sendTransactionBloc = context.watch<SendTransactionBloc>();
+                              final networkState = networkCubit.state;
+                              if (networkState is! CurrentNetworkLoaded ||
+                                  currentAccountCubit.state.account == null) {
+                                return SizedBox.fromSize();
+                              }
+                              final network = networkState.network;
+                              return TransactionInfoDialog(
+                                onPop: () {
+                                  print('pop');
+                                },
+                                network: network,
+                                from: currentAccountCubit.state.account!,
+                                toAddress: sendTransactionBloc.state.toAddress!,
+                                transactionHash: sendTransactionBloc.state.txHash!,
+                                amount: sendTransactionBloc.state.amount!,
+                                dateTime: DateTime.now(),
+                                followOnBlockExplorerUrl: sendTransactionBloc.state.followOnBlockExplorerUrl,
+                              );
+                            }); */
                           },
                         );
                       }
@@ -278,12 +281,6 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                       );
                     },
                   )
-                  //onPressed: sendTransactionController.isLoading
-                  //    ? null
-                  //    : () => _triggerSendTransaction(context),
-                  //child: Text(sendTransactionController.isLoading
-                  //    ? 'Submitting Transaction'
-                  //   : 'Send'))
                 ],
               )
             ],
@@ -295,45 +292,5 @@ class _ConfirmTransactionWidget extends StatelessWidget {
 
   void _triggerSendTransaction(BuildContext context) async {
     context.read<SendTransactionBloc>().add(SendTransactionRequest());
-    /*  await sendTransactionController.sendTransaction(
-      connectedAccount: currentAccountController.connectedAccount!,
-      connectedNetwork: currentNetworkController.currentConnectedNetwork!,
-      password: locator.get<PasswordController>().password,
-      to: toAddressController.toAddress,
-      amountInWei: sendAmountController.amount,
-      onSuccess: (transactionHash) async {
-        // Use context before navigation
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          //..showSnackBar(buildWaitngTransactionSnackBar(context))
-          ..showSnackBar(buildSubmittedTransactionSnackBar(
-            context,
-            (dialogContext) {
-              showDialog(
-                context: navigatorKey.currentContext!,
-                builder: (context) => TransactionInfoDialog(
-                  dateTime: DateTime.now(),
-                  network: currentNetworkController.currentConnectedNetwork!,
-                  from: currentAccountController.connectedAccount!,
-                  toAddress: toAddressController.toAddress,
-                  transactionHash: transactionHash,
-                  amount: sendAmountController.amount,
-                ),
-              );
-            },
-          ));
-        // Navigate after showing SnackBars
-        GoRouter.of(context).pushReplacement(AppRoutes.home);
-      },
-      onFail: () {
-        ScaffoldMessenger.of(context)
-          ..clearSnackBars()
-          ..showSnackBar(SnackBar(
-            backgroundColor: Theme.of(context).colorScheme.error,
-            content: const Text('Something went wrong'),
-          ));
-      },
-    );
-  } */
   }
 }
