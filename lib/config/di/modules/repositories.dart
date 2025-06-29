@@ -28,6 +28,7 @@ Future<void> registerRepositories() async {
   injector.registerLazySingleton<NativeBalanceRepository>(
     () => NativeBalanceRepositoryImpl(
       injector.get(),
+      injector.get()
     ),
   );
   injector.registerLazySingleton<ContactsRepository>(

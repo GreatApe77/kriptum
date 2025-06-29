@@ -1,4 +1,6 @@
 import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/infra/caching/cache.dart';
+import 'package:kriptum/infra/caching/memory/memory_cache.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/sqflite_database.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 import 'package:kriptum/infra/persistence/user_preferences/shared_preferences/user_preferences_impl.dart';
@@ -16,5 +18,8 @@ Future<void> registerDrivers() async {
   );
   injector.registerLazySingleton<http.Client>(
     () => http.Client(),
+  );
+  injector.registerLazySingleton<Cache>(
+    () => MemoryCache(),
   );
 }
