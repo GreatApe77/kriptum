@@ -5,5 +5,6 @@ abstract interface class NativeBalanceRepository {
   Future<AccountBalance> getNativeBalanceOfAccount({
     required String accountAddress,
     required Network network,
+    bool invalidateCache
   });
 }

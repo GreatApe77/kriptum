@@ -13,15 +13,20 @@ class NativeBalanceRepositoryImpl implements NativeBalanceRepository {
   Future<AccountBalance> getNativeBalanceOfAccount({
     required String accountAddress,
     required Network network,
+    bool invalidateCache = false,
   }) async {
-    final cachedBalance = _cache.get<AccountBalance>(_buildCacheKey(network.id.toString(), accountAddress));
+    final cacheKey = _buildCacheKey(network.id.toString(), accountAddress);
+    if (invalidateCache) {
+      _cache.remove(cacheKey);
+    }
+    final cachedBalance = _cache.get<AccountBalance>(cacheKey);
     if (cachedBalance != null) return cachedBalance;
 
     final balance = await _nativeBalanceDataSource.getNativeBalanceOfAccount(
       accountAddress: accountAddress,
       network: network,
     );
-    _cache.store(_buildCacheKey(network.id.toString(), accountAddress), balance);
+    _cache.store(cacheKey, balance);
     return balance;
   }
 
