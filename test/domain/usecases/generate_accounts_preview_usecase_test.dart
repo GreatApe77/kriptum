@@ -5,11 +5,12 @@ import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_account_generator_service.dart';
+import '../../mocks/mock_password_repository.dart';
 
 void main() {
   late GenerateAccountsPreviewUsecase sut;
   late MockAccountGeneratorService mockAccountGeneratorService;
-
+  late MockPasswordRepository mockPasswordRepository;
   setUpAll(
     () {
       registerFallbackValue(AccountsFromMnemonicParams(mnemonic: 'mnemonic', encryptionPassword: 'encryptionPassword'));
@@ -17,8 +18,10 @@ void main() {
   );
   setUp(() {
     mockAccountGeneratorService = MockAccountGeneratorService();
+    mockPasswordRepository = MockPasswordRepository();
     sut = GenerateAccountsPreviewUsecase(
       accountGenerator: mockAccountGeneratorService,
+      passwordRepository: mockPasswordRepository,
     );
   });
   test('Should generate 20 accounts', () async {

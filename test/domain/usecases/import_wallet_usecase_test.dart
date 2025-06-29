@@ -3,11 +3,15 @@ import 'package:kriptum/domain/factories/mnemonic_factory.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/mnemonic.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
+import 'package:kriptum/domain/services/encryption_service.dart';
 import 'package:kriptum/domain/usecases/import_wallet_usecase.dart';
 import 'package:kriptum/shared/utils/result.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_accounts_repository.dart';
+import '../../mocks/mock_encryption_service.dart';
+import '../../mocks/mock_mnemonic_repository.dart';
+import '../../mocks/mock_password_repository.dart';
 
 class MockAccountGeneratorService extends Mock implements AccountGeneratorService {}
 
@@ -18,6 +22,9 @@ void main() {
   late MockAccountGeneratorService mockAccountGeneratorService;
   late MockAccountsRepository mockAccountsRepository;
   late MockMnemonicFactory mockMnemonicFactory;
+  late MockEncryptionService mockEncryptionService;
+  late MockPasswordRepository mockPasswordRepository;
+  late MockMnemonicRepository mockMnemonicRepository;
   final sampleAccount = Account(
     accountIndex: 0,
     address: '',
@@ -33,10 +40,17 @@ void main() {
       mockAccountGeneratorService = MockAccountGeneratorService();
       mockMnemonicFactory = MockMnemonicFactory();
       mockAccountsRepository = MockAccountsRepository();
+      mockMnemonicRepository = MockMnemonicRepository();
+      mockPasswordRepository = MockPasswordRepository();
+      mockEncryptionService = MockEncryptionService();
+
       sut = ImportWalletUsecase(
         mockAccountGeneratorService,
         mockAccountsRepository,
         mockMnemonicFactory,
+        mockPasswordRepository,
+        mockEncryptionService,
+        mockMnemonicRepository,
       );
     },
   );
@@ -68,6 +82,11 @@ void main() {
         Result.success(
           Mnemonic('test test test test test test test test test test test junk'),
         ),
+      );
+      when(
+        () => mockEncryptionService.encrypt(data: any(), password: any()),
+      ).thenAnswer(
+        (_) => '',
       );
       final mockReturnList = List<Account>.generate(
         20,
