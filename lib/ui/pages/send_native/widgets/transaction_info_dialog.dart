@@ -191,6 +191,7 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
   }
 
   _triggerViewTxOnBlockExplorer(BuildContext context) async {
+    print('URL: ${widget.followOnBlockExplorerUrl}');
     await UrlLauncherUtils.launchInBrowser(widget.followOnBlockExplorerUrl ?? '');
   }
 }

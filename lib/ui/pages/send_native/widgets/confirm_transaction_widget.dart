@@ -235,6 +235,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                               transactionHash: sendTransactionState.txHash!,
                               amount: sendTransactionState.amount!,
                               dateTime: state.confirmationTime!,
+                              followOnBlockExplorerUrl: sendTransactionState.followOnBlockExplorerUrl,
                               onPop: () {},
                             );
                           },
