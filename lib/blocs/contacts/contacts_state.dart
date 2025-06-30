@@ -6,18 +6,20 @@ enum ContactsStatus { initial, loading, loaded, error, inserted }
 class ContactsState {
   final List<Contact> contacts;
   final List<Contact> filteredContacts;
+  final Map<String, List<Contact>> groupedByFirstLetter;
   final ContactsStatus status;
   final String errorMessage;
 
-  ContactsState({
-    required this.contacts,
-    required this.filteredContacts,
-    required this.status,
-    required this.errorMessage,
-  });
+  ContactsState(
+      {required this.contacts,
+      required this.filteredContacts,
+      required this.status,
+      required this.errorMessage,
+      required this.groupedByFirstLetter});
 
   factory ContactsState.initial() {
     return ContactsState(
+      groupedByFirstLetter: {},
       contacts: [],
       filteredContacts: [],
       status: ContactsStatus.initial,
@@ -30,8 +32,10 @@ class ContactsState {
     List<Contact>? filteredContacts,
     ContactsStatus? status,
     String? errorMessage,
+    Map<String, List<Contact>>? groupedByFirstLetter,
   }) {
     return ContactsState(
+      groupedByFirstLetter: groupedByFirstLetter ?? this.groupedByFirstLetter,
       contacts: contacts ?? this.contacts,
       filteredContacts: filteredContacts ?? this.filteredContacts,
       status: status ?? this.status,

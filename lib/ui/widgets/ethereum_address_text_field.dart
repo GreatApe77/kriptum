@@ -5,17 +5,19 @@ import 'package:kriptum/ui/pages/scan_qr_code/scan_qr_code_page.dart';
 
 class EthereumAddressTextField extends StatelessWidget {
   final TextEditingController controller;
-
+  final bool readOnly;
   final InputDecoration inputDecoration;
   const EthereumAddressTextField({
     super.key,
     required this.controller,
+    this.readOnly = false,
     this.inputDecoration = const InputDecoration(),
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       validator: (value) {
@@ -27,7 +29,7 @@ class EthereumAddressTextField extends StatelessWidget {
       },
       decoration: inputDecoration.copyWith(
         hintText: 'Public address (0x)',
-        suffixIcon: IconButton(
+        suffixIcon: readOnly?null: IconButton(
           onPressed: () async {
             final address = await Navigator.of(context).push<String>(
               MaterialPageRoute(
