@@ -237,24 +237,4 @@ class _EditContactPageState extends State<_EditContactPage> {
       ),
     );
   }
-
-  void _onSuccessEditAccount(BuildContext context) {
-    Navigator.of(context).pop();
-    //TODO
-  }
-
-  void _onFailEditContact(BuildContext context) {
-    //TODO
-  }
-
-  void _onSuccessDeleteContact(BuildContext context) {
-    // Pop the modal bottom sheet first, then the edit Page.
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
-    //TODO
-  }
-
-  void _onFailDeleteContact(BuildContext context) {
-    //TODO
-  }
 }
