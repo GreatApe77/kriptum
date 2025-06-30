@@ -134,6 +134,7 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
           status: SendTransactionStatus.confirmationSuccess,
           txHash: output.transactionHash,
           followOnBlockExplorerUrl: output.transactionUrlInBlockExplorer,
+          confirmationTime: DateTime.now()
         ),
       );
     } on DomainException catch (e) {

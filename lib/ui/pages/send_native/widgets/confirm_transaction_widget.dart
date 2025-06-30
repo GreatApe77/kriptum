@@ -234,32 +234,9 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                               toAddress: sendTransactionState.toAddress!,
                               transactionHash: sendTransactionState.txHash!,
                               amount: sendTransactionState.amount!,
-                              dateTime: DateTime.now(),
+                              dateTime: state.confirmationTime!,
                               onPop: () {},
                             );
-                            /*  return Builder(builder: (context) {
-                              final networkCubit = context.watch<CurrentNetworkCubit>();
-                              final currentAccountCubit = context.watch<CurrentAccountCubit>();
-                              final sendTransactionBloc = context.watch<SendTransactionBloc>();
-                              final networkState = networkCubit.state;
-                              if (networkState is! CurrentNetworkLoaded ||
-                                  currentAccountCubit.state.account == null) {
-                                return SizedBox.fromSize();
-                              }
-                              final network = networkState.network;
-                              return TransactionInfoDialog(
-                                onPop: () {
-                                  print('pop');
-                                },
-                                network: network,
-                                from: currentAccountCubit.state.account!,
-                                toAddress: sendTransactionBloc.state.toAddress!,
-                                transactionHash: sendTransactionBloc.state.txHash!,
-                                amount: sendTransactionBloc.state.amount!,
-                                dateTime: DateTime.now(),
-                                followOnBlockExplorerUrl: sendTransactionBloc.state.followOnBlockExplorerUrl,
-                              );
-                            }); */
                           },
                         );
                       }
@@ -273,10 +250,14 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                     },
                     buildWhen: (previous, current) => previous.status != current.status,
                     builder: (context, state) {
+                      final loading = state.status == SendTransactionStatus.confirmationLoading;
+                      if (loading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
                       return FilledButton(
-                        onPressed: state.status == SendTransactionStatus.confirmationLoading
-                            ? null
-                            : () => _triggerSendTransaction(context),
+                        onPressed: () => _triggerSendTransaction(context),
                         child: Text('Send'),
                       );
                     },

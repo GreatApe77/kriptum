@@ -15,6 +15,7 @@ class SendTransactionState {
   final SendTransactionStepStatus sendTransactionStepStatus;
   final SendTransactionStatus status;
   final AmountValidationStatus amountValidationStatus;
+  final DateTime? confirmationTime;
   final String? toAddress;
   final BigInt? amount;
   final String? txHash;
@@ -32,10 +33,12 @@ class SendTransactionState {
     required this.toAddressEqualsCurrentAccount,
     required this.status,
     required this.amountValidationStatus,
+    required this.confirmationTime,
   });
 
   factory SendTransactionState.initial() {
     return SendTransactionState(
+      confirmationTime: null,
       amountValidationStatus: AmountValidationStatus.validationIdle,
       sendTransactionStepStatus: SendTransactionStepStatus.chooseRecpient,
       toAddress: null,
@@ -57,8 +60,10 @@ class SendTransactionState {
     bool? toAddressEqualsCurrentAccount,
     SendTransactionStatus? status,
     AmountValidationStatus? amountValidationStatus,
+    DateTime? confirmationTime,
   }) {
     return SendTransactionState(
+      confirmationTime: confirmationTime ?? this.confirmationTime,
       sendTransactionStepStatus: sendTransactionStepStatus ?? this.sendTransactionStepStatus,
       toAddress: toAddress ?? this.toAddress,
       amount: amount ?? this.amount,
