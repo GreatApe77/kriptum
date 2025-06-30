@@ -151,7 +151,8 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
               if (currentNetworkCubit.state is CurrentNetworkLoaded) {
                 ticker = (currentNetworkCubit.state as CurrentNetworkLoaded).network.ticker;
               }
-              if(ticker.isEmpty || balanceBloc.state.accountBalance ==null) return Skeletonizer(child: Text(Placeholders.hiddenBalancePlaceholder));
+              if (ticker.isEmpty || balanceBloc.state.accountBalance == null)
+                return Skeletonizer(child: Text(Placeholders.hiddenBalancePlaceholder));
               return Text('Balance: ${balanceBloc.state.accountBalance?.toReadableString()} $ticker');
             }),
             // 'Balance: ${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}'),
@@ -174,7 +175,15 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
                         );
                       }
                     },
-                    child: FilledButton(onPressed: () => _onNextStep(context), child: const Text('Next')),
+                    child: BlocSelector<SendTransactionBloc, SendTransactionState, AmountValidationStatus>(
+                      selector: (state) {
+                        return state.amountValidationStatus;
+                      },
+                      builder: (context, state) {
+                        if (state == AmountValidationStatus.validationLoading) return Center(child: CircularProgressIndicator());
+                        return FilledButton(onPressed: () => _onNextStep(context), child: const Text('Next'));
+                      },
+                    ),
                   ),
                 ],
               ),

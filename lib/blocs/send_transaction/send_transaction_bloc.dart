@@ -79,14 +79,24 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
     Emitter<SendTransactionState> emit,
   ) async {
     try {
-      emit(state.copyWith(errorMessage: ''));
+      emit(
+        state.copyWith(
+          errorMessage: '',
+          amountValidationStatus: AmountValidationStatus.validationLoading,
+        ),
+      );
 
       final bigintAmount = convertStringEthToWei(event.amount);
       final amount = EtherAmount(valueInWei: bigintAmount);
       final currentBalance = await _getNativeBalanceOfAccountUsecase.execute();
 
       if (amount.valueInWei > currentBalance.valueInWei) {
-        emit(state.copyWith(errorMessage: 'Not enough balance'));
+        emit(
+          state.copyWith(
+            errorMessage: 'Not enough balance',
+            amountValidationStatus: AmountValidationStatus.validationError,
+          ),
+        );
         return;
       }
 
@@ -94,10 +104,16 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
         state.copyWith(
           amount: bigintAmount,
           sendTransactionStepStatus: SendTransactionStepStatus.toBeConfirmed,
+          amountValidationStatus: AmountValidationStatus.validationSuccess,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(errorMessage: 'Unknown error'));
+      emit(
+        state.copyWith(
+          errorMessage: 'Unknown error',
+          amountValidationStatus: AmountValidationStatus.validationError,
+        ),
+      );
     }
   }
 

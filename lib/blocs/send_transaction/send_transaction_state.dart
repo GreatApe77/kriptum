@@ -9,9 +9,12 @@ enum SendTransactionStepStatus {
 
 enum SendTransactionStatus { confirmationIdle, confirmationLoading, confirmationSuccess, confirmationError }
 
+enum AmountValidationStatus { validationIdle, validationLoading, validationSuccess, validationError }
+
 class SendTransactionState {
   final SendTransactionStepStatus sendTransactionStepStatus;
   final SendTransactionStatus status;
+  final AmountValidationStatus amountValidationStatus;
   final String? toAddress;
   final BigInt? amount;
   final String? txHash;
@@ -28,10 +31,12 @@ class SendTransactionState {
     required this.errorMessage,
     required this.toAddressEqualsCurrentAccount,
     required this.status,
+    required this.amountValidationStatus,
   });
 
   factory SendTransactionState.initial() {
     return SendTransactionState(
+      amountValidationStatus: AmountValidationStatus.validationIdle,
       sendTransactionStepStatus: SendTransactionStepStatus.chooseRecpient,
       toAddress: null,
       amount: null,
@@ -51,6 +56,7 @@ class SendTransactionState {
     String? errorMessage,
     bool? toAddressEqualsCurrentAccount,
     SendTransactionStatus? status,
+    AmountValidationStatus? amountValidationStatus,
   }) {
     return SendTransactionState(
       sendTransactionStepStatus: sendTransactionStepStatus ?? this.sendTransactionStepStatus,
@@ -61,6 +67,7 @@ class SendTransactionState {
       errorMessage: errorMessage ?? this.errorMessage,
       toAddressEqualsCurrentAccount: toAddressEqualsCurrentAccount ?? this.toAddressEqualsCurrentAccount,
       status: status ?? this.status,
+      amountValidationStatus: amountValidationStatus ?? this.amountValidationStatus,
     );
   }
 }
