@@ -84,7 +84,10 @@ void main() {
         ),
       );
       when(
-        () => mockEncryptionService.encrypt(data: any(), password: any()),
+        () => mockEncryptionService.encrypt(
+          data: any(named: 'data'),
+          password: any(named: 'password'),
+        ),
       ).thenAnswer(
         (_) => '',
       );
@@ -100,6 +103,11 @@ void main() {
       when(
         () => mockAccountsRepository.saveAccounts(any()),
       ).thenAnswer((invocation) async {});
+      when(
+        () => mockMnemonicRepository.storeEncryptedMnemonic(any()),
+      ).thenAnswer(
+        (_) async=> {},
+      );
       final params = ImportWalletUsecaseParams(
         mnemonic: '',
         encryptionPassword: '',
