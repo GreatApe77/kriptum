@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:kriptum/domain/models/account_balance.dart';
+import 'package:kriptum/domain/models/ether_amount.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.dart';

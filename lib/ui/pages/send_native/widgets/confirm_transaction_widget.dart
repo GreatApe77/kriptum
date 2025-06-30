@@ -6,7 +6,7 @@ import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
 import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
-import 'package:kriptum/domain/models/account_balance.dart';
+import 'package:kriptum/domain/models/ether_amount.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
@@ -203,7 +203,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                     }
 
                     return Text(
-                      '${AccountBalance(valueInWei: amount).toReadableString()} \n $ticker',
+                      '${EtherAmount(valueInWei: amount).toReadableString()} \n $ticker',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.displayMedium,
                     );

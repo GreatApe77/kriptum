@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:kriptum/domain/exceptions/domain_exception.dart';
-import 'package:kriptum/domain/models/account_balance.dart';
+import 'package:kriptum/domain/models/ether_amount.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_account_usecase.dart';
 import 'package:kriptum/domain/usecases/send_transaction_usecase.dart';
@@ -82,7 +82,7 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
       emit(state.copyWith(errorMessage: ''));
 
       final bigintAmount = convertStringEthToWei(event.amount);
-      final amount = AccountBalance(valueInWei: bigintAmount);
+      final amount = EtherAmount(valueInWei: bigintAmount);
       final currentBalance = await _getNativeBalanceOfAccountUsecase.execute();
 
       if (amount.valueInWei > currentBalance.valueInWei) {

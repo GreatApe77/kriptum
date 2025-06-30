@@ -1,13 +1,13 @@
-class AccountBalance {
+class EtherAmount {
   final BigInt _valueInWei;
 
-  AccountBalance({
+  EtherAmount({
     required BigInt valueInWei,
     int decimalPlaces = 2,
   }) : _valueInWei = valueInWei;
 
-  factory AccountBalance.fromString(String value) {
-    return AccountBalance(
+  factory EtherAmount.fromString(String value) {
+    return EtherAmount(
       valueInWei: BigInt.parse(value),
       decimalPlaces: 2,
     );
@@ -19,7 +19,7 @@ class AccountBalance {
   BigInt get valueInWei => _valueInWei;
 
   @override
-  bool operator ==(covariant AccountBalance other) {
+  bool operator ==(covariant EtherAmount other) {
     if (identical(this, other)) return true;
 
     return other.valueInWei == valueInWei;
@@ -33,5 +33,5 @@ class AccountBalance {
   String toStorageString() => valueInWei.toString();
 
   @override
-  String toString() => 'AccountBalance(wei: $valueInWei)';
+  String toString() => 'EtherAmount(wei: $valueInWei)';
 }

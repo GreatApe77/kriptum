@@ -5,7 +5,7 @@ import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
 import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
-import 'package:kriptum/domain/models/account_balance.dart';
+import 'package:kriptum/domain/models/ether_amount.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
 import 'package:kriptum/ui/tokens/placeholders.dart';
@@ -54,7 +54,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
       (_) {
         final sendTransactionBloc = context.read<SendTransactionBloc>();
         _amountTextEditingController.text =
-            AccountBalance(valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0)).toReadableString(2);
+            EtherAmount(valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0)).toReadableString(2);
       },
     );
     super.initState();

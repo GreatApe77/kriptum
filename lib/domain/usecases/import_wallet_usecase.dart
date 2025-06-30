@@ -12,8 +12,14 @@ class ImportWalletUsecase {
   final PasswordRepository _passwordRepository;
   final EncryptionService _encryptionService;
   final MnemonicRepository _mnemonicRepository;
-  ImportWalletUsecase(this._accountGeneratorService, this._accountsRepository, this._mnemonicFactory,
-      this._passwordRepository, this._encryptionService, this._mnemonicRepository);
+  ImportWalletUsecase(
+    this._accountGeneratorService,
+    this._accountsRepository,
+    this._mnemonicFactory,
+    this._passwordRepository,
+    this._encryptionService,
+    this._mnemonicRepository,
+  );
   Future<void> execute(ImportWalletUsecaseParams params) async {
     final mnemonicResult = _mnemonicFactory.create(params.mnemonic);
     if (mnemonicResult.isFailure) {
