@@ -41,7 +41,7 @@ class ContactsDataSourceImpl implements ContactsDataSource {
     await _sqlDatabase.update(
       ContactsTable.table,
       contact.toMap(),
-      where: '${ContactsTable.idColumn} = ${contact.id}',
+      where: '${ContactsTable.idColumn} = ?',
       whereArgs: [contact.id],
     );
   }

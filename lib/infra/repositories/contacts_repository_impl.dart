@@ -37,9 +37,13 @@ class ContactsRepositoryImpl implements ContactsRepository, Disposable {
   }
 
   @override
-  Future<void> updateContact(Contact contact) {
-    // TODO: implement updateContact
-    throw UnimplementedError();
+  Future<void> updateContact(Contact contact) async {
+    await _contactsDataSource.updateContact(contact);
+    final contactPosition = _contacts.indexWhere(
+      (element) => element.id == contact.id,
+    );
+    _contacts[contactPosition] = contact;
+    _contactsStream.add(_contacts);
   }
 
   @override

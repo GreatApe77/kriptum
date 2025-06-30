@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kriptum/blocs/contacts/contacts_bloc.dart';
+import 'package:kriptum/config/di/injector.dart';
 
 import 'package:kriptum/domain/models/contact.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/ethereum_address_text_field.dart';
 
-class EditContactPage extends StatefulWidget {
+class EditContactPage extends StatelessWidget {
+  final Contact contact;
+  const EditContactPage({super.key, required this.contact});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ContactsBloc>(
+      create: (context) => ContactsBloc(injector.get()),
+      child: _EditContactPage(contact: contact),
+    );
+  }
+}
+
+class _EditContactPage extends StatefulWidget {
   final Contact contact;
 
-  const EditContactPage({
-    super.key,
+  const _EditContactPage({
     required this.contact,
   });
 
   @override
-  State<EditContactPage> createState() => _EditContactPageState();
+  State<_EditContactPage> createState() => _EditContactPageState();
 }
 
-class _EditContactPageState extends State<EditContactPage> {
+class _EditContactPageState extends State<_EditContactPage> {
   // A GlobalKey to uniquely identify the Form widget and allow validation.
   final _formKey = GlobalKey<FormState>();
 
@@ -96,9 +112,28 @@ class _EditContactPageState extends State<EditContactPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    FilledButton(
-                      onPressed: () => _triggerEditContact(context),
-                      child: const Text('Edit contact'),
+                    BlocConsumer<ContactsBloc, ContactsState>(
+                      listenWhen: (previous, current) => previous.updateStatus != current.updateStatus,
+                      listener: (context, state) {
+                        if (state.updateStatus == ContactUpdateStatus.success) {
+                          Navigator.of(context).pop();
+                        }
+                        if (state.updateStatus == ContactUpdateStatus.error) {
+                          showSnackBar(
+                            message: state.errorMessage,
+                            context: context,
+                            snackBarType: SnackBarType.error,
+                          );
+                        }
+                      },
+                      buildWhen: (previous, current) => previous.updateStatus != current.updateStatus,
+                      builder: (context, state) {
+                        final loading = state.updateStatus == ContactUpdateStatus.loading;
+                        return FilledButton(
+                          onPressed: loading ? null : () => _triggerEditContact(context),
+                          child: const Text('Edit contact'),
+                        );
+                      },
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
@@ -132,17 +167,16 @@ class _EditContactPageState extends State<EditContactPage> {
   Future<void> _triggerEditContact(BuildContext context) async {
     // Validate the form before proceeding.
     if (!_formKey.currentState!.validate()) return;
-
-    /* await widget.contactsController.updateContact(
-      contactId: widget.contact.id!,
-      editedContactData: _contactToBeEdited,
-      onSuccess: () => _onSuccessEditAccount(context),
-      onFail: () => _onFailEditContact(context),
-    ); */
+    context.read<ContactsBloc>().add(
+          ContactUpdateRequested(
+            updatedContact: _contactToBeEdited,
+          ),
+        );
   }
 
   void _showDeleteContactModal(BuildContext context) {
     final buttonTextSize = Theme.of(context).textTheme.bodyLarge?.fontSize;
+    final bloc = context.read<ContactsBloc>();
     showModalBottomSheet(
       showDragHandle: true,
       context: context,
@@ -162,14 +196,32 @@ class _EditContactPageState extends State<EditContactPage> {
                 style: TextStyle(fontSize: buttonTextSize),
               ),
             ),
-            TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.error,
-              ),
-              onPressed: () => _triggerDeleteContact(context),
-              child: Text(
-                'Delete',
-                style: TextStyle(fontSize: buttonTextSize),
+            BlocConsumer<ContactsBloc, ContactsState>(
+              bloc: bloc,
+              listenWhen: (previous, current) => previous.deletionStatus != current.deletionStatus,
+              listener: (context, state) {
+                if (state.deletionStatus == ContactDeletionStatus.error) {
+                  showSnackBar(
+                    message: state.errorMessage,
+                    context: context,
+                    snackBarType: SnackBarType.error,
+                  );
+                }
+                if (state.deletionStatus == ContactDeletionStatus.success) {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                }
+              },
+              builder: (context, state) => TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Theme.of(context).colorScheme.error,
+                ),
+                onPressed:
+                    state.deletionStatus == ContactDeletionStatus.loading ? null : () => _triggerDeleteContact(bloc),
+                child: Text(
+                  'Delete',
+                  style: TextStyle(fontSize: buttonTextSize),
+                ),
               ),
             ),
           ],
@@ -178,12 +230,12 @@ class _EditContactPageState extends State<EditContactPage> {
     );
   }
 
-  void _triggerDeleteContact(BuildContext context) async {
-    //await widget.contactsController.deleteContact(
-    //  contact: widget.contact,
-    //  onSuccess: () => _onSuccessDeleteContact(context),
-    //  onFail: () => _onFailDeleteContact(context),
-    //);
+  void _triggerDeleteContact(ContactsBloc contactsBloc) async {
+    contactsBloc.add(
+      ContactDeletionRequested(
+        contactId: _contactToBeEdited.id!,
+      ),
+    );
   }
 
   void _onSuccessEditAccount(BuildContext context) {

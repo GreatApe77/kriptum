@@ -11,9 +11,9 @@ final class ContactDeletionRequested extends ContactsEvent {
 }
 
 final class ContactUpdateRequested extends ContactsEvent {
-  final Contact contact;
+  final Contact updatedContact;
 
-  ContactUpdateRequested({required this.contact});
+  ContactUpdateRequested({required this.updatedContact});
 }
 
 final class ContactsFilteredRequested extends ContactsEvent {

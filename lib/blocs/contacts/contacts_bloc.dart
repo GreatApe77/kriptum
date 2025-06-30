@@ -52,9 +52,43 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     }
   }
 
-  FutureOr<void> _handleDelete(ContactDeletionRequested event, Emitter<ContactsState> emit) {}
+  Future<void> _handleDelete(ContactDeletionRequested event, Emitter<ContactsState> emit) async {
+    try {
+      emit(
+        state.copyWith(deletionStatus: ContactDeletionStatus.loading),
+      );
+      await _contactsRepository.deleteContact(event.contactId);
+      emit(
+        state.copyWith(deletionStatus: ContactDeletionStatus.success),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          deletionStatus: ContactDeletionStatus.error,
+          errorMessage: 'Error while deleting contact',
+        ),
+      );
+    }
+  }
 
-  FutureOr<void> _handleUpdate(ContactUpdateRequested event, Emitter<ContactsState> emit) {}
+  Future<void> _handleUpdate(ContactUpdateRequested event, Emitter<ContactsState> emit) async {
+    try {
+      emit(
+        state.copyWith(updateStatus: ContactUpdateStatus.loading),
+      );
+      await _contactsRepository.updateContact(event.updatedContact);
+      emit(
+        state.copyWith(updateStatus: ContactUpdateStatus.success),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          updateStatus: ContactUpdateStatus.error,
+          errorMessage: 'Error while updating contact',
+        ),
+      );
+    }
+  }
 
   FutureOr<void> _handleRefresh(_ContactsRefreshed event, Emitter<ContactsState> emit) {
     final groupedByFirstLetter = _groupAndSortContacts(event.refreshedContacts);
