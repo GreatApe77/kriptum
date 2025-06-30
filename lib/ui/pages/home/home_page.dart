@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
@@ -158,35 +160,31 @@ class HomeView extends StatelessWidget {
     showDialog(
       barrierColor: Colors.transparent,
       context: context,
-      builder: (context) {
-        return Builder(
-          builder: (context) {
-            return FutureBuilder(
-                future: Future.delayed(const Duration(seconds: 1)).then((value) => true),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    Navigator.of(context).pop();
-                  }
-                  return AlertDialog(
-                    title: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.check_circle_rounded,
-                          size: 80,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          'Public address ${formatAddress(text)} copied to clipboard',
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-                  );
-                });
-          },
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        Timer(const Duration(milliseconds: 850), () {
+          if (dialogContext.mounted) {
+            Navigator.of(dialogContext).pop();
+          }
+        });
+
+        return AlertDialog(
+          title: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.check_circle_rounded,
+                size: 80,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Text(
+                'Public address ${formatAddress(text)} copied to clipboard',
+                textAlign: TextAlign.center,
+              )
+            ],
+          ),
         );
       },
     );
