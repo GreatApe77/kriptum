@@ -3,7 +3,6 @@ import 'package:kriptum/domain/factories/mnemonic_factory.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/mnemonic.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
-import 'package:kriptum/domain/services/encryption_service.dart';
 import 'package:kriptum/domain/usecases/import_wallet_usecase.dart';
 import 'package:kriptum/shared/utils/result.dart';
 import 'package:mocktail/mocktail.dart';
@@ -106,7 +105,7 @@ void main() {
       when(
         () => mockMnemonicRepository.storeEncryptedMnemonic(any()),
       ).thenAnswer(
-        (_) async=> {},
+        (_) async => {},
       );
       final params = ImportWalletUsecaseParams(
         mnemonic: '',

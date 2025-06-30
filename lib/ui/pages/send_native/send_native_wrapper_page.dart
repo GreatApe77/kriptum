@@ -49,8 +49,6 @@ class _SendNativeWrapperPage extends StatelessWidget {
               value: bloc,
               child: const ConfirmTransactionWidget(),
             );
-          default:
-            return SizedBox.shrink();
         }
       },
     );

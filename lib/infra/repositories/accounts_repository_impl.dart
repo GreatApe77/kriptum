@@ -28,7 +28,7 @@ class AccountsRepositoryImpl implements AccountsRepository, Disposable {
       _currentAccountStream.add(null);
       return;
     }
-    if (_currentAccount?.accountIndex != account?.accountIndex) {
+    if (_currentAccount?.accountIndex != account.accountIndex) {
       _currentAccount = account;
       _currentAccountStream.add(account);
       await _userPreferences.setSelectedAccountId(account.accountIndex);

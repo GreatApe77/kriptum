@@ -1,12 +1,10 @@
-
 import 'package:kriptum/infra/caching/cache.dart';
 
 class MemoryCache implements Cache {
   final Map<String, dynamic> _cacheHashMap = {};
 
   @override
-  void store<V>(String key, V value,
-      {Duration duration = const Duration(seconds: 5)}) {
+  void store<V>(String key, V value, {Duration duration = const Duration(seconds: 5)}) {
     _cacheHashMap[key] = value;
     Future.delayed(
       duration,

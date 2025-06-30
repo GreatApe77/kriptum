@@ -22,7 +22,6 @@ class NetworksListBloc extends Bloc<NetworksListEvent, NetworksListState> {
       );
     });
     on<NetworksListRequested>((event, emit) async {
-      print('Ta caindo aqui');
       try {
         emit(state.copyWith(status: NetworksListStatus.loading));
         final networks = await _networksRepository.getAllNetworks();

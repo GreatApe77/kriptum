@@ -46,10 +46,7 @@ class HomeView extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: true,
         leadingWidth: 100,
-        leading: BlocConsumer<CurrentNetworkCubit, CurrentNetworkState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
+        leading: BlocBuilder<CurrentNetworkCubit, CurrentNetworkState>(
           builder: (context, state) {
             if (state is CurrentNetworkLoading) {
               return const Center(

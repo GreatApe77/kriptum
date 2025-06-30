@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/models/contact.dart';
-import 'package:kriptum/domain/repositories/contacts_repository.dart';
 import 'package:kriptum/domain/usecases/add_contact_usecase.dart';
 
 part 'add_contact_event.dart';

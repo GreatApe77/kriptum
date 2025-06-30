@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/add_contact/add_contact_bloc.dart';
-import 'package:kriptum/blocs/contacts/contacts_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
-import 'package:kriptum/domain/factories/ethereum_address_factory.dart';
 import 'package:kriptum/domain/models/contact.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/ethereum_address_text_field.dart';

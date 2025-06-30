@@ -2,7 +2,6 @@ import 'package:kriptum/infra/datasources/accounts_data_source.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/tables/accounts_table.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
-import 'package:kriptum/shared/utils/db_bool_int_mappers.dart';
 import 'package:kriptum/shared/utils/db_bool_int_mappers.dart' as db_utils;
 
 class AccountsDataSourceImpl implements AccountsDataSource {

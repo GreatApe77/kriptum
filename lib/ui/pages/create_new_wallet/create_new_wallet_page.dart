@@ -36,7 +36,7 @@ class CreateNewWalletView extends StatelessWidget {
           if (state.status == CreateNewWalletStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.errorMessage ?? 'An error occurred'),
+                content: Text(state.errorMessage),
               ),
             );
           }

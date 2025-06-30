@@ -22,7 +22,7 @@ class WriteOnPaperStep3Screen extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
             ..showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? 'An error occurred')),
+              SnackBar(content: Text(state.errorMessage)),
             );
         } else if (state.status == CreateNewWalletStatus.success) {
           Navigator.of(context).pushReplacement(

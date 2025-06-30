@@ -15,14 +15,12 @@ class AddHdWalletAccountBloc extends Bloc<AddHdWalletAccountEvent, AddHdWalletAc
           await _usecase.execute();
           emit(AddHdWalletAccountSuccess());
         } on DomainException catch (e) {
-          print(e.getReason());
           emit(
             AddHdWalletAccountError(
               message: e.getReason(),
             ),
           );
         } catch (e) {
-          print(e);
           emit(
             AddHdWalletAccountError(message: 'Could not add Wallet'),
           );

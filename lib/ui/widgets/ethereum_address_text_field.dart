@@ -29,19 +29,21 @@ class EthereumAddressTextField extends StatelessWidget {
       },
       decoration: inputDecoration.copyWith(
         hintText: 'Public address (0x)',
-        suffixIcon: readOnly?null: IconButton(
-          onPressed: () async {
-            final address = await Navigator.of(context).push<String>(
-              MaterialPageRoute(
-                builder: (context) => const ScanQrCodePage(),
+        suffixIcon: readOnly
+            ? null
+            : IconButton(
+                onPressed: () async {
+                  final address = await Navigator.of(context).push<String>(
+                    MaterialPageRoute(
+                      builder: (context) => const ScanQrCodePage(),
+                    ),
+                  );
+                  if (address != null) {
+                    controller.text = address;
+                  }
+                },
+                icon: Icon(Icons.qr_code),
               ),
-            );
-            if (address != null) {
-              controller.text = address;
-            }
-          },
-          icon: Icon(Icons.qr_code),
-        ),
       ),
     );
   }

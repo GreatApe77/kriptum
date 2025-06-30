@@ -131,11 +131,10 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
       final output = await _sendTransactionUsecase.execute(params);
       emit(
         state.copyWith(
-          status: SendTransactionStatus.confirmationSuccess,
-          txHash: output.transactionHash,
-          followOnBlockExplorerUrl: output.transactionUrlInBlockExplorer,
-          confirmationTime: DateTime.now()
-        ),
+            status: SendTransactionStatus.confirmationSuccess,
+            txHash: output.transactionHash,
+            followOnBlockExplorerUrl: output.transactionUrlInBlockExplorer,
+            confirmationTime: DateTime.now()),
       );
     } on DomainException catch (e) {
       emit(

@@ -53,7 +53,7 @@ class _ContactsView extends StatelessWidget {
                         child: Text('No Contacts'),
                       );
                     }
-                    
+
                     final grouped = state.groupedByFirstLetter;
                     final sortedKeys = grouped.keys.toList()..sort();
 

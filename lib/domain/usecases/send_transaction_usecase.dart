@@ -34,8 +34,8 @@ class SendTransactionUsecase {
     if (currentNetwork.blockExplorerUrl != null) {
       //====TEMPORARY SOLUTION====
       String txPath = 'tx';
-      if(currentNetwork.id==4002){
-        txPath='transactions';
+      if (currentNetwork.id == 4002) {
+        txPath = 'transactions';
       }
       //==========================
       transactionUrl = '${currentNetwork.blockExplorerUrl}/$txPath/$txHash';
