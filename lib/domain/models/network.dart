@@ -56,12 +56,8 @@ class Network {
       id: map['id'] != null ? map['id'] as int : null,
       rpcUrl: map['rpcUrl'] as String,
       name: map['name'] as String,
-      blockExplorerName: map['blockExplorerName'] != null
-          ? map['blockExplorerName'] as String
-          : null,
-      blockExplorerUrl: map['blockExplorerUrl'] != null
-          ? map['blockExplorerUrl'] as String
-          : null,
+      blockExplorerName: map['blockExplorerName'] != null ? map['blockExplorerName'] as String : null,
+      blockExplorerUrl: map['blockExplorerUrl'] != null ? map['blockExplorerUrl'] as String : null,
       ticker: map['ticker'] as String,
       currencyDecimals: map['currencyDecimals'] as int,
     );
@@ -69,8 +65,7 @@ class Network {
 
   String toJson() => json.encode(toMap());
 
-  factory Network.fromJson(String source) =>
-      Network.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Network.fromJson(String source) => Network.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

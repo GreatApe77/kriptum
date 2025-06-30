@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class Contact {
@@ -41,8 +40,7 @@ class Contact {
 
   String toJson() => json.encode(toMap());
 
-  factory Contact.fromJson(String source) =>
-      Contact.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Contact.fromJson(String source) => Contact.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Contact(id: $id, name: $name, address: $address)';

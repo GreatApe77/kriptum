@@ -1,3 +1,0 @@
-class DuplicatedContactException extends Error{
-
-}
