@@ -19,8 +19,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
   final NetworksRepository _networksRepository;
   BalancesBloc(
     this._getBalancesOfAccountsUsecase,
-    this._currentNetworkChangeSubscription,
-    this._accountsSubscription,
     this._accountsRepository,
     this._networksRepository,
   ) : super(BalancesInitial()) {

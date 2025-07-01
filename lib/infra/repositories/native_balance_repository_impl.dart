@@ -26,7 +26,7 @@ class NativeBalanceRepositoryImpl implements NativeBalanceRepository {
       accountAddress: accountAddress,
       network: network,
     );
-    _cache.store(cacheKey, balance);
+    _cache.store(cacheKey, balance,duration: const Duration(seconds: 45),);
     return balance;
   }
 
