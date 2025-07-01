@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
-import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
+import 'package:kriptum/blocs/current_native_balance/current_native_balance_bloc.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/ether_amount.dart';
@@ -20,13 +20,13 @@ class ConfirmTransactionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NativeBalanceBloc>(
-          create: (context) => NativeBalanceBloc(
+        BlocProvider<CurrentNativeBalanceBloc>(
+          create: (context) => CurrentNativeBalanceBloc(
             injector.get(),
             injector.get(),
             injector.get(),
             injector.get(),
-          )..add(NativeBalanceRequested()),
+          )..add(CurrentNativeBalanceRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
           create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
@@ -98,7 +98,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                         side: BorderSide(width: 1, color: Theme.of(context).hintColor),
                         borderRadius: const BorderRadius.all(Radius.circular(10))),
                     trailing: Builder(builder: (context) {
-                      final balanceBloc = context.watch<NativeBalanceBloc>();
+                      final balanceBloc = context.watch<CurrentNativeBalanceBloc>();
                       final networksCubit = context.watch<CurrentNetworkCubit>();
                       final balance = balanceBloc.state.accountBalance;
                       final networkState = networksCubit.state;

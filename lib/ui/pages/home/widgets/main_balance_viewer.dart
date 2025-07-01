@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
-import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
+import 'package:kriptum/blocs/current_native_balance/current_native_balance_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/ui/tokens/placeholders.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -13,13 +13,13 @@ class MainBalanceViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NativeBalanceBloc>(
-          create: (context) => NativeBalanceBloc(injector.get(), injector.get(), injector.get(), injector.get())
+        BlocProvider<CurrentNativeBalanceBloc>(
+          create: (context) => CurrentNativeBalanceBloc(injector.get(), injector.get(), injector.get(), injector.get())
             ..add(
-              NativeBalanceRequested(),
+              CurrentNativeBalanceRequested(),
             )
             ..add(
-              NativeBalanceVisibilityRequested(),
+              CurrentNativeBalanceRequested(),
             ),
         ),
         BlocProvider<CurrentNetworkCubit>(
@@ -40,20 +40,20 @@ class _MainBalanceViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       final currentNetworkCubit = context.watch<CurrentNetworkCubit>();
-      final nativeBalanceBloc = context.watch<NativeBalanceBloc>();
+      final nativeBalanceBloc = context.watch<CurrentNativeBalanceBloc>();
       final currentNetworkState = currentNetworkCubit.state;
       final nativeBalanceState = nativeBalanceBloc.state;
       if (currentNetworkState is! CurrentNetworkLoaded) return SizedBox.shrink();
       String content = '';
       switch (nativeBalanceState.status) {
-        case NativeBalanceStatus.error:
+        case CurrentNativeBalanceStatus.error:
           content = nativeBalanceState.errorMessage ?? 'An error occurred';
           break;
-        case NativeBalanceStatus.initial:
-        case NativeBalanceStatus.loading:
+        case CurrentNativeBalanceStatus.initial:
+        case CurrentNativeBalanceStatus.loading:
           content = 'Loading...';
           break;
-        case NativeBalanceStatus.loaded:
+        case CurrentNativeBalanceStatus.loaded:
           content = nativeBalanceState.accountBalance!.toReadableString();
           break;
       }
@@ -63,7 +63,7 @@ class _MainBalanceViewer extends StatelessWidget {
         content = Placeholders.hiddenBalancePlaceholder;
       }
       return Skeletonizer(
-        enabled: nativeBalanceState.status == NativeBalanceStatus.loading,
+        enabled: nativeBalanceState.status == CurrentNativeBalanceStatus.loading,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,8 +76,8 @@ class _MainBalanceViewer extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                context.read<NativeBalanceBloc>().add(
-                      ToggleNativeBalanceVisibility(isVisible: !isVisible),
+                context.read<CurrentNativeBalanceBloc>().add(
+                      ToggleCurrentNativeBalanceVisibility(isVisible: !isVisible),
                     );
               },
               icon: Icon(

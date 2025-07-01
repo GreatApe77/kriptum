@@ -6,7 +6,7 @@ import 'package:kriptum/blocs/account_list/account_list_bloc.dart';
 import 'package:kriptum/blocs/contacts/contacts_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
-import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
+import 'package:kriptum/blocs/current_native_balance/current_native_balance_bloc.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/account.dart';
@@ -29,15 +29,15 @@ class ChooseRecipientWidget extends StatelessWidget {
         BlocProvider<CurrentAccountCubit>(
           create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
         ),
-        BlocProvider<NativeBalanceBloc>(
-          create: (context) => NativeBalanceBloc(
+        BlocProvider<CurrentNativeBalanceBloc>(
+          create: (context) => CurrentNativeBalanceBloc(
             injector.get(),
             injector.get(),
             injector.get(),
             injector.get(),
           )
-            ..add(NativeBalanceRequested())
-            ..add(NativeBalanceVisibilityRequested()),
+            ..add(CurrentNativeBalanceRequested())
+            ..add(CurrentNativeBalanceVisibilityRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
           create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
@@ -190,17 +190,17 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                               return Text(state.account?.alias ?? '');
                             },
                           ),
-                          subtitle: BlocBuilder<NativeBalanceBloc, NativeBalanceState>(
+                          subtitle: BlocBuilder<CurrentNativeBalanceBloc, CurrentNativeBalanceState>(
                             builder: (context, state) {
                               String content = '';
                               switch (state.status) {
-                                case NativeBalanceStatus.loading:
+                                case CurrentNativeBalanceStatus.loading:
                                   content = '........';
                                   break;
-                                case NativeBalanceStatus.loaded:
+                                case CurrentNativeBalanceStatus.loaded:
                                   content = '${state.accountBalance?.toReadableString(5)} ${state.ticker}';
                                   break;
-                                case NativeBalanceStatus.error:
+                                case CurrentNativeBalanceStatus.error:
                                   content = 'error';
                                 default:
                               }
@@ -208,7 +208,7 @@ class _ChooseRecipientWidgetState extends State<_ChooseRecipientWidget> {
                                 content = Placeholders.hiddenBalancePlaceholder;
                               }
                               return Skeletonizer(
-                                enabled: state.status == NativeBalanceStatus.loading,
+                                enabled: state.status == CurrentNativeBalanceStatus.loading,
                                 child: Text(content),
                               );
                             },
