@@ -23,7 +23,11 @@ class CurrentNativeBalanceState {
       required this.ticker});
   factory CurrentNativeBalanceState.initial() {
     return CurrentNativeBalanceState(
-        isVisible: false, accountBalance: null, errorMessage: null, status: CurrentNativeBalanceStatus.initial, ticker: '');
+        isVisible: false,
+        accountBalance: null,
+        errorMessage: null,
+        status: CurrentNativeBalanceStatus.initial,
+        ticker: '');
   }
 
   CurrentNativeBalanceState copyWith({

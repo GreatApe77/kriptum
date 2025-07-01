@@ -77,8 +77,8 @@ class _AccountsModalView extends StatelessWidget {
             if (currentNetworkState is CurrentNetworkLoaded) {
               ticker = currentNetworkState.network.ticker;
             }
-            Map<String,EtherAmount> balanceOf = {};
-            if(balancesState is BalancesLoaded){
+            Map<String, EtherAmount> balanceOf = {};
+            if (balancesState is BalancesLoaded) {
               balanceOf = balancesState.balanceOf;
             }
 
@@ -107,61 +107,18 @@ class _AccountsModalView extends StatelessWidget {
               ),
             );
           }),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Spacings.horizontalPadding),
+            child: OutlinedButton(
+              onPressed: () {
+                _showCreateOrImportAccountBottomSheet(context);
+              },
+              child: const Text('Add or Import Account'),
+            ),
+          ),
         ],
       ),
     );
-    /* return BlocBuilder<AccountListBloc, AccountListState>(
-      builder: (context, listState) {
-        return BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
-          builder: (context, currentAccountState) {
-            return SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Accounts',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: listState.accounts.length,
-                      itemBuilder: (context, index) {
-                        return AccountTileWidget(
-                          account: listState.accounts[index],
-                          includeMenu: true,
-                          isSelected:
-                              currentAccountState.account?.accountIndex == listState.accounts[index].accountIndex,
-                          onSelected: () {
-                            context.read<CurrentAccountCubit>().changeCurrentAccount(
-                                  listState.accounts[index],
-                                );
-                            Navigator.of(context).pop();
-                          },
-                          onOptionsMenuSelected: () => _showAccountOptionsModal(
-                            context: context,
-                            account: listState.accounts[index],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: Spacings.horizontalPadding),
-                    child: OutlinedButton(
-                      onPressed: () {
-                        _showCreateOrImportAccountBottomSheet(context);
-                      },
-                      child: const Text('Add or Import Account'),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    ); */
   }
 
   void _showCreateOrImportAccountBottomSheet(BuildContext context) {

@@ -13,11 +13,11 @@ class GetBalancesOfAccountsUsecase {
     this._networksRepository,
   );
 
-  Future<Map<String,EtherAmount>> execute() async {
+  Future<Map<String, EtherAmount>> execute() async {
     final accounts = await _accountsRepository.getAccounts();
     final currentNetwork = await _networksRepository.getCurrentNetwork();
-    final Map<String,EtherAmount> balanceOf = {};
-     final List<Future<EtherAmount>> requests = [];
+    final Map<String, EtherAmount> balanceOf = {};
+    final List<Future<EtherAmount>> requests = [];
     for (final account in accounts) {
       requests.add(
         _nativeBalanceRepository.getNativeBalanceOfAccount(
@@ -27,7 +27,7 @@ class GetBalancesOfAccountsUsecase {
       );
     }
     final result = await Future.wait(requests);
-    
+
     for (int i = 0; i < accounts.length; i++) {
       //accountWithBalance.add(AccountWithBalance(account: accounts[i], balance: result[i]));
       balanceOf[accounts[i].address] = result[i];
@@ -36,4 +36,3 @@ class GetBalancesOfAccountsUsecase {
     return balanceOf;
   }
 }
-

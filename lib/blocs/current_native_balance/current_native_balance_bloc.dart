@@ -62,7 +62,8 @@ class CurrentNativeBalanceBloc extends Bloc<CurrentNativeBalanceEvent, CurrentNa
         final accountBalance = await _getNativeBalanceOfAccountUsecase.execute();
         final network = await _networksRepository.getCurrentNetwork();
         emit(
-          state.copyWith(accountBalance: accountBalance, status: CurrentNativeBalanceStatus.loaded, ticker: network.ticker),
+          state.copyWith(
+              accountBalance: accountBalance, status: CurrentNativeBalanceStatus.loaded, ticker: network.ticker),
         );
       } catch (e) {
         emit(
