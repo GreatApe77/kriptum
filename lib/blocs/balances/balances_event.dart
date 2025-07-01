@@ -1,4 +1,7 @@
 part of 'balances_bloc.dart';
 
-@immutable
+
 sealed class BalancesEvent {}
+
+final class BalancesRequested extends BalancesEvent{}
+

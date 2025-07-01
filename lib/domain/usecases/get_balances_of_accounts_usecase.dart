@@ -1,14 +1,13 @@
-import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/ether_amount.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/native_balance_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
 
-class GetAccountsWithBalancesUsecase {
+class GetBalancesOfAccountsUsecase {
   final AccountsRepository _accountsRepository;
   final NativeBalanceRepository _nativeBalanceRepository;
   final NetworksRepository _networksRepository;
-  GetAccountsWithBalancesUsecase(
+  GetBalancesOfAccountsUsecase(
     this._accountsRepository,
     this._nativeBalanceRepository,
     this._networksRepository,
