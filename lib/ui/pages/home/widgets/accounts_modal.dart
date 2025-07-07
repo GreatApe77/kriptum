@@ -92,7 +92,7 @@ class _AccountsModalView extends StatelessWidget {
                     includeMenu: true,
                     balance: balanceOf[accountsList[index].address],
                     ticker: ticker,
-                    isSelected: currentAccount.accountIndex == accountsList[index].accountIndex,
+                    isSelected: currentAccount.address == accountsList[index].address,
                     onSelected: () {
                       context.read<CurrentAccountCubit>().changeCurrentAccount(
                             accountsList[index],

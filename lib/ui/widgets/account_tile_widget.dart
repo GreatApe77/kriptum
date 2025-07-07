@@ -12,15 +12,16 @@ class AccountTileWidget extends StatelessWidget {
   final Account account;
   final EtherAmount? balance;
   final String ticker;
-  const AccountTileWidget(
-      {super.key,
-      required this.onSelected,
-      this.isSelected = false,
-      required this.account,
-      required this.onOptionsMenuSelected,
-      this.includeMenu = false,
-      this.balance,
-      this.ticker = ''});
+  const AccountTileWidget({
+    super.key,
+    required this.onSelected,
+    this.isSelected = false,
+    required this.account,
+    required this.onOptionsMenuSelected,
+    this.includeMenu = false,
+    this.balance,
+    this.ticker = '',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +46,26 @@ class AccountTileWidget extends StatelessWidget {
       title: balance == null
           ? Text(
               title,
+              overflow: TextOverflow.fade,
+              softWrap: false,
             )
           : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(title), Text('${balance?.toEther(fractionDigitAmount: 5)} $ticker')],
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                  ),
+                ),
+                const SizedBox(width: 8), // spacing between title and balance
+                Text(
+                  '${balance?.toEther(fractionDigitAmount: 5)} $ticker',
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
             ),
       subtitle: account.isImported
           ? Row(
