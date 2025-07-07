@@ -10,6 +10,7 @@ import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/ether_amount.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/edit_account/edit_account_page.dart';
+import 'package:kriptum/ui/pages/import_account_from_private_key/import_account_from_private_key_page.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/account_tile_widget.dart';
 
@@ -186,13 +187,11 @@ class _AccountsModalView extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                //Navigator.of(context).push(MaterialPageRoute(
-                //  builder: (context) {
-                //return ImportAccountScreen(
-                //    passwordController: widget.passwordController,
-                //    accountsController: widget.accountsController);
-                //  },
-                //));
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return const ImportAccountFromPrivateKeyPage();
+                  },
+                ));
               },
               leading: const Icon(Icons.file_download_outlined),
               title: const Text('Import account'),

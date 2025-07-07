@@ -4,6 +4,11 @@ abstract interface class AccountGeneratorService {
   String generateMnemonic();
   Future<List<Account>> generateAccounts(AccountsFromMnemonicParams params);
   Future<Account> generateSingleAccount(SingleAccountFromMnemonicParams params);
+  Future<Account> generateAccountFromPrivateKey({
+    required String encryptionPassword,
+    required String privateKey
+
+  });
 }
 
 class AccountsFromMnemonicParams {

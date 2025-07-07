@@ -5,6 +5,7 @@ import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usec
 import 'package:kriptum/domain/usecases/generate_accounts_preview_usecase.dart';
 import 'package:kriptum/domain/usecases/get_balances_of_accounts_usecase.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_connected_account_usecase.dart';
+import 'package:kriptum/domain/usecases/import_account_from_private_key_usecase.dart';
 import 'package:kriptum/domain/usecases/import_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/lock_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/reset_wallet_usecase.dart';
@@ -86,6 +87,13 @@ Future<void> registerUsecases() async {
   );
   injector.registerLazySingleton<GetBalancesOfAccountsUsecase>(
     () => GetBalancesOfAccountsUsecase(
+      injector.get(),
+      injector.get(),
+      injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<ImportAccountFromPrivateKeyUsecase>(
+    () => ImportAccountFromPrivateKeyUsecase(
       injector.get(),
       injector.get(),
       injector.get(),

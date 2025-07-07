@@ -28,6 +28,26 @@ class AccountGeneratorServiceImpl implements AccountGeneratorService {
     final account = await compute(_heavyComputingSingleAccountGeneration, params);
     return account;
   }
+
+  @override
+  Future<Account> generateAccountFromPrivateKey(
+      {required String encryptionPassword, required String privateKey}) async {
+    final ethPrivateKey = EthPrivateKey.fromHex(privateKey);
+    final accountAddress = ethPrivateKey.address;
+    final encryptedJsonAccount = Wallet.createNew(ethPrivateKey, encryptionPassword, Random.secure()).toJson();
+    final now = DateTime.now().toLocal();
+    final accountAlias = 'Imported at ${now.year}-${now.month}-${now.day}';
+
+    final Account account = Account(
+      isImported: true,
+      accountIndex: 99,
+      address: accountAddress.hex,
+      alias: accountAlias,
+      encryptedJsonWallet: encryptedJsonAccount,
+    
+    );
+    return account;
+  }
 }
 
 Future<Account> _heavyComputingSingleAccountGeneration(SingleAccountFromMnemonicParams params) {
