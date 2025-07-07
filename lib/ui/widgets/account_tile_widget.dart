@@ -58,7 +58,7 @@ class AccountTileWidget extends StatelessWidget {
                     softWrap: false,
                   ),
                 ),
-                const SizedBox(width: 8), // spacing between title and balance
+                const SizedBox(width: 8),
                 Text(
                   '${balance?.toEther(fractionDigitAmount: 5)} $ticker',
                   overflow: TextOverflow.ellipsis,
@@ -85,7 +85,6 @@ class AccountTileWidget extends StatelessWidget {
                 account.address,
               ),
             ),
-      //subtitle: Text('${formatAddress(account.address)} ${account.isImported?'SIM':'NAO'}'),
     );
   }
 }
