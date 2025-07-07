@@ -1,15 +1,20 @@
+import 'dart:math';
+
 class EtherAmount {
   final BigInt _valueInWei;
-
+  final int _decimals;
   EtherAmount({
     required BigInt valueInWei,
-    int decimalPlaces = 2,
-  }) : _valueInWei = valueInWei;
+    int decimals = 18,
+  }) : _valueInWei = valueInWei,_decimals = decimals;
 
-  factory EtherAmount.fromString(String value) {
+  factory EtherAmount.fromString({
+    required String value,
+    int decimals = 18,
+  }) {
     return EtherAmount(
       valueInWei: BigInt.parse(value),
-      decimalPlaces: 2,
+      decimals: decimals
     );
   }
 
@@ -24,11 +29,11 @@ class EtherAmount {
 
     return other.valueInWei == valueInWei;
   }
-
-  String toReadableString([int decimalPlaces = 2]) {
-    final double valueInEther = valueInWei / BigInt.from(1e18);
-    return valueInEther.toStringAsFixed(decimalPlaces);
+  String toEther({int fractionDigitAmount = 2}){
+    final double valueInEther = valueInWei / BigInt.from(pow(10, _decimals));
+    return valueInEther.toStringAsFixed(fractionDigitAmount);
   }
+  
 
   String toStorageString() => valueInWei.toString();
 

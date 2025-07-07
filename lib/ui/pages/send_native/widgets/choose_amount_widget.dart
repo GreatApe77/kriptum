@@ -54,7 +54,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
       (_) {
         final sendTransactionBloc = context.read<SendTransactionBloc>();
         _amountTextEditingController.text =
-            EtherAmount(valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0)).toReadableString(2);
+            EtherAmount(valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0)).toEther();
       },
     );
     super.initState();
@@ -154,7 +154,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
               if (ticker.isEmpty || balanceBloc.state.accountBalance == null) {
                 return Skeletonizer(child: Text(Placeholders.hiddenBalancePlaceholder));
               }
-              return Text('Balance: ${balanceBloc.state.accountBalance?.toReadableString()} $ticker');
+              return Text('Balance: ${balanceBloc.state.accountBalance?.toEther()} $ticker');
             }),
             // 'Balance: ${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}'),
             Expanded(child: Container()),
@@ -201,7 +201,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
     final balanceBloc = context.read<CurrentNativeBalanceBloc>();
     final balance = balanceBloc.state.accountBalance;
     if (balance != null) {
-      _amountTextEditingController.text = balance.toReadableString();
+      _amountTextEditingController.text = balance.toEther();
     }
     // amountTextEditingController.text =
     //     formatEther(accountBalanceController.balance);

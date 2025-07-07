@@ -48,7 +48,7 @@ class AccountTileWidget extends StatelessWidget {
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(title), Text('${balance?.toReadableString(5)} $ticker')],
+              children: [Text(title), Text('${balance?.toEther(fractionDigitAmount: 5)} $ticker')],
             ),
       subtitle: account.isImported
           ? Row(

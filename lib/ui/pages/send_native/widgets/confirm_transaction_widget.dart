@@ -109,7 +109,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                       if (ticker.isEmpty || balance == null) return SizedBox.shrink();
                       return Text(
                           //'${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}',
-                          '${balance.toReadableString()} $ticker',
+                          '${balance.toEther()} $ticker',
                           style: Theme.of(context).textTheme.bodyLarge);
                     }),
                     leading: BlocBuilder<CurrentAccountCubit, CurrentAccountState>(
@@ -203,7 +203,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                     }
 
                     return Text(
-                      '${EtherAmount(valueInWei: amount).toReadableString()} \n $ticker',
+                      '${EtherAmount(valueInWei: amount).toEther()} \n $ticker',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.displayMedium,
                     );
