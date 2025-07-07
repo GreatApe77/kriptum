@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kriptum/config/di/injector.dart';
-import 'package:kriptum/domain/factories/ethereum_address_factory.dart';
+import 'package:kriptum/domain/factories/ethereum_address/ethereum_address.dart';
 import 'package:kriptum/ui/pages/scan_qr_code/scan_qr_code_page.dart';
 
 class EthereumAddressTextField extends StatelessWidget {

@@ -181,8 +181,9 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
                         return state.amountValidationStatus;
                       },
                       builder: (context, state) {
-                        if (state == AmountValidationStatus.validationLoading)
+                        if (state == AmountValidationStatus.validationLoading) {
                           return Center(child: CircularProgressIndicator());
+                        }
                         return FilledButton(onPressed: () => _onNextStep(context), child: const Text('Next'));
                       },
                     ),
