@@ -52,6 +52,9 @@ class __ImportAccountFromPrivateKeyPageState extends State<_ImportAccountFromPri
                 }
               },
               builder: (context, state) {
+                if(state is ImportAccountSuccess){
+                  return SizedBox.shrink();
+                }
                 if (state is ImportAccountLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
