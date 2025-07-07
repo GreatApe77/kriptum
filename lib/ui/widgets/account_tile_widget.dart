@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jazzicon/jazzicon.dart';
 import 'package:kriptum/domain/models/account.dart';
+import 'package:kriptum/domain/models/ether_amount.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
 
 class AccountTileWidget extends StatelessWidget {
@@ -9,6 +10,8 @@ class AccountTileWidget extends StatelessWidget {
   final bool includeMenu;
   final bool isSelected;
   final Account account;
+  final EtherAmount? balance;
+  final String ticker;
   const AccountTileWidget({
     super.key,
     required this.onSelected,
@@ -16,10 +19,13 @@ class AccountTileWidget extends StatelessWidget {
     required this.account,
     required this.onOptionsMenuSelected,
     this.includeMenu = false,
+    this.balance,
+    this.ticker = '',
   });
 
   @override
   Widget build(BuildContext context) {
+    final title = account.alias ?? 'Account ${account.accountIndex + 1}';
     return ListTile(
       onTap: onSelected,
       selected: isSelected,
@@ -37,9 +43,30 @@ class AccountTileWidget extends StatelessWidget {
               ),
             )
           : null,
-      title: Text(
-        account.alias ?? 'Account ${account.accountIndex + 1}',
-      ),
+      title: balance == null
+          ? Text(
+              title,
+              overflow: TextOverflow.fade,
+              softWrap: false,
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  '${balance?.toEther(fractionDigitAmount: 5)} $ticker',
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
       subtitle: account.isImported
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,7 +85,6 @@ class AccountTileWidget extends StatelessWidget {
                 account.address,
               ),
             ),
-      //subtitle: Text('${formatAddress(account.address)} ${account.isImported?'SIM':'NAO'}'),
     );
   }
 }

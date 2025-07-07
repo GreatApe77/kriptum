@@ -1,39 +1,43 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'native_balance_bloc.dart';
+part of 'current_native_balance_bloc.dart';
 
-enum NativeBalanceStatus {
+enum CurrentNativeBalanceStatus {
   initial,
   loading,
   loaded,
   error,
 }
 
-class NativeBalanceState {
+class CurrentNativeBalanceState {
   final bool isVisible;
   final EtherAmount? accountBalance;
   final String? errorMessage;
-  final NativeBalanceStatus status;
+  final CurrentNativeBalanceStatus status;
   final String ticker;
 
-  NativeBalanceState(
+  CurrentNativeBalanceState(
       {required this.isVisible,
       required this.accountBalance,
       required this.errorMessage,
       required this.status,
       required this.ticker});
-  factory NativeBalanceState.initial() {
-    return NativeBalanceState(
-        isVisible: false, accountBalance: null, errorMessage: null, status: NativeBalanceStatus.initial, ticker: '');
+  factory CurrentNativeBalanceState.initial() {
+    return CurrentNativeBalanceState(
+        isVisible: false,
+        accountBalance: null,
+        errorMessage: null,
+        status: CurrentNativeBalanceStatus.initial,
+        ticker: '');
   }
 
-  NativeBalanceState copyWith({
+  CurrentNativeBalanceState copyWith({
     bool? isVisible,
     EtherAmount? accountBalance,
     String? errorMessage,
-    NativeBalanceStatus? status,
+    CurrentNativeBalanceStatus? status,
     String? ticker,
   }) {
-    return NativeBalanceState(
+    return CurrentNativeBalanceState(
       isVisible: isVisible ?? this.isVisible,
       accountBalance: accountBalance ?? this.accountBalance,
       errorMessage: errorMessage ?? this.errorMessage,

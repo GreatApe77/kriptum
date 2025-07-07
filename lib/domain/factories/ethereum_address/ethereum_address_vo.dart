@@ -1,7 +1,12 @@
-class EthereumAddress {
+part of 'ethereum_address.dart';
+class EthereumAddressVO {
   final String value;
-
-  EthereumAddress(this.value) {
+  const EthereumAddressVO._(this.value);
+  
+  factory EthereumAddressVO._fromValidated(String value){
+    return EthereumAddressVO._(value);
+  }
+  /*EthereumAddress(this.value) {
     final reason = _validateWithReason(value);
     if (reason != null) {
       throw ArgumentError(reason);
@@ -16,5 +21,5 @@ class EthereumAddress {
       return 'Invalid Ethereum address format';
     }
     return null;
-  }
+  }*/
 }

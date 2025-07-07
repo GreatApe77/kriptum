@@ -152,7 +152,7 @@ class _TransactionInfoDialogState extends State<TransactionInfoDialog> {
                     contentPadding: EdgeInsets.zero,
                     title: const Text('Amount'),
                     trailing: Text(
-                      '${EtherAmount(valueInWei: widget.amount).toReadableString()} ${widget.network.ticker}',
+                      '${EtherAmount(valueInWei: widget.amount).toEther()} ${widget.network.ticker}',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

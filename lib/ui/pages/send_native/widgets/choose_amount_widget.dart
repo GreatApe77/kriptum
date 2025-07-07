@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
-import 'package:kriptum/blocs/native_balance/native_balance_bloc.dart';
+import 'package:kriptum/blocs/current_native_balance/current_native_balance_bloc.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/ether_amount.dart';
@@ -19,15 +19,15 @@ class ChooseAmountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NativeBalanceBloc>(
-          create: (context) => NativeBalanceBloc(
+        BlocProvider<CurrentNativeBalanceBloc>(
+          create: (context) => CurrentNativeBalanceBloc(
             injector.get(),
             injector.get(),
             injector.get(),
             injector.get(),
           )
-            ..add(NativeBalanceRequested())
-            ..add(NativeBalanceVisibilityRequested()),
+            ..add(CurrentNativeBalanceRequested())
+            ..add(CurrentNativeBalanceVisibilityRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
           create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
@@ -54,7 +54,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
       (_) {
         final sendTransactionBloc = context.read<SendTransactionBloc>();
         _amountTextEditingController.text =
-            EtherAmount(valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0)).toReadableString(2);
+            EtherAmount(valueInWei: sendTransactionBloc.state.amount ?? BigInt.from(0)).toEther();
       },
     );
     super.initState();
@@ -145,7 +145,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
             ),
             Builder(builder: (context) {
               final currentNetworkCubit = context.watch<CurrentNetworkCubit>();
-              final balanceBloc = context.watch<NativeBalanceBloc>();
+              final balanceBloc = context.watch<CurrentNativeBalanceBloc>();
 
               String ticker = '';
               if (currentNetworkCubit.state is CurrentNetworkLoaded) {
@@ -154,7 +154,7 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
               if (ticker.isEmpty || balanceBloc.state.accountBalance == null) {
                 return Skeletonizer(child: Text(Placeholders.hiddenBalancePlaceholder));
               }
-              return Text('Balance: ${balanceBloc.state.accountBalance?.toReadableString()} $ticker');
+              return Text('Balance: ${balanceBloc.state.accountBalance?.toEther()} $ticker');
             }),
             // 'Balance: ${formatEther(accountBalanceController.balance)} ${currentNetworkController.currentConnectedNetwork?.ticker}'),
             Expanded(child: Container()),
@@ -181,8 +181,9 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
                         return state.amountValidationStatus;
                       },
                       builder: (context, state) {
-                        if (state == AmountValidationStatus.validationLoading)
+                        if (state == AmountValidationStatus.validationLoading) {
                           return Center(child: CircularProgressIndicator());
+                        }
                         return FilledButton(onPressed: () => _onNextStep(context), child: const Text('Next'));
                       },
                     ),
@@ -197,10 +198,10 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
   }
 
   void _useMax(BuildContext context) {
-    final balanceBloc = context.read<NativeBalanceBloc>();
+    final balanceBloc = context.read<CurrentNativeBalanceBloc>();
     final balance = balanceBloc.state.accountBalance;
     if (balance != null) {
-      _amountTextEditingController.text = balance.toReadableString();
+      _amountTextEditingController.text = balance.toEther();
     }
     // amountTextEditingController.text =
     //     formatEther(accountBalanceController.balance);

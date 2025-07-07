@@ -7,10 +7,10 @@ import 'package:kriptum/domain/repositories/networks_repository.dart';
 import 'package:kriptum/domain/usecases/get_native_balance_of_connected_account_usecase.dart';
 import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart';
 
-part 'native_balance_event.dart';
-part 'native_balance_state.dart';
+part 'current_native_balance_event.dart';
+part 'current_native_balance_state.dart';
 
-class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
+class CurrentNativeBalanceBloc extends Bloc<CurrentNativeBalanceEvent, CurrentNativeBalanceState> {
   final UserPreferences _userPreferences;
   final GetNativeBalanceOfConnectedAccountUsecase _getNativeBalanceOfAccountUsecase;
   final AccountsRepository _accountsRepository;
@@ -18,24 +18,24 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
   late final StreamSubscription _currentAccountChangeSubscription;
   late final StreamSubscription _currentNetworkChangeSubscription;
   //late final StreamSubscription _currentNetworkChangeSubscription;
-  NativeBalanceBloc(
+  CurrentNativeBalanceBloc(
     this._getNativeBalanceOfAccountUsecase,
     this._userPreferences,
     this._accountsRepository,
     this._networksRepository,
-  ) : super(NativeBalanceState.initial()) {
+  ) : super(CurrentNativeBalanceState.initial()) {
     _currentAccountChangeSubscription = _accountsRepository.currentAccountStream().listen(
       (event) {
-        add(NativeBalanceRequested());
+        add(CurrentNativeBalanceRequested());
       },
     );
     _currentNetworkChangeSubscription = _networksRepository.watchCurrentNetwork().listen(
       (event) {
-        add(NativeBalanceRequested());
+        add(CurrentNativeBalanceRequested());
       },
     );
 
-    on<NativeBalanceVisibilityRequested>(
+    on<CurrentNativeBalanceVisibilityRequested>(
       (event, emit) async {
         final isVisible = await _userPreferences.isNativeBalanceVisible();
         emit(
@@ -45,7 +45,7 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
         );
       },
     );
-    on<ToggleNativeBalanceVisibility>(
+    on<ToggleCurrentNativeBalanceVisibility>(
       (event, emit) async {
         emit(
           state.copyWith(
@@ -55,20 +55,21 @@ class NativeBalanceBloc extends Bloc<NativeBalanceEvent, NativeBalanceState> {
         await _userPreferences.setNativeBalanceVisibility(event.isVisible);
       },
     );
-    on<NativeBalanceRequested>((event, emit) async {
-      emit(state.copyWith(status: NativeBalanceStatus.loading));
+    on<CurrentNativeBalanceRequested>((event, emit) async {
+      emit(state.copyWith(status: CurrentNativeBalanceStatus.loading));
       try {
         //await Future.delayed(const Duration(seconds: 1));
         final accountBalance = await _getNativeBalanceOfAccountUsecase.execute();
         final network = await _networksRepository.getCurrentNetwork();
         emit(
-          state.copyWith(accountBalance: accountBalance, status: NativeBalanceStatus.loaded, ticker: network.ticker),
+          state.copyWith(
+              accountBalance: accountBalance, status: CurrentNativeBalanceStatus.loaded, ticker: network.ticker),
         );
       } catch (e) {
         emit(
           state.copyWith(
             errorMessage: 'Failed to load native balance',
-            status: NativeBalanceStatus.error,
+            status: CurrentNativeBalanceStatus.error,
           ),
         );
       }
