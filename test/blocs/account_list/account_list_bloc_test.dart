@@ -72,7 +72,8 @@ void main() {
     });
 
     group('AccountsListUpdated', () {
-      final updatedAccount = Account(accountIndex: 0, address: '0x1', encryptedJsonWallet: 'wallet1_updated', alias: 'Updated');
+      final updatedAccount =
+          Account(accountIndex: 0, address: '0x1', encryptedJsonWallet: 'wallet1_updated', alias: 'Updated');
 
       blocTest<AccountListBloc, AccountListState>(
         'calls updateAccount and expects no new state directly',
