@@ -57,5 +57,3 @@ class ImportErc20TokenInput {
     required this.contractAddress,
   });
 }
-
-//class ImportErc20TokenOutput {}
