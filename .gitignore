@@ -49,3 +49,6 @@ key.properties
 
 # FVM Version Cache
 .fvm/
+
+#Experimental scripts
+/lab/
