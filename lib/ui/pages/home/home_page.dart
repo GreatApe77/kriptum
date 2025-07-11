@@ -11,6 +11,7 @@ import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 import 'package:kriptum/ui/pages/home/widgets/main_balance_viewer.dart';
+import 'package:kriptum/ui/pages/home/widgets/native_token_list_tile.dart';
 import 'package:kriptum/ui/pages/scan_qr_code/scan_qr_code_page.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/networks_list.dart';
@@ -36,8 +37,27 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +126,59 @@ class HomeView extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: Spacings.horizontalPadding,
         ),
-        child: MainBalanceViewer(),
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            MainBalanceViewer(),
+            TabBar(
+              controller: _tabController,
+              tabs: [
+                Tab(
+                  text: 'Tokens',
+                ),
+                Tab(
+                  text: 'NFTs',
+                )
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  ListView(
+                    children: [
+                      NativeTokenListTile()
+                    ],
+                  ),
+                  Center(
+                    child: Text('Coming soon...'),
+                  )
+                ],
+              ),
+            )
+            // TabBar(controller: _tabController, tabs: [
+            //   Tab(
+            //     text: 'Tokens',
+            //   ),
+            //   Tab(
+            //     text: 'NFTs',
+            //   ),
+            // ]),
+            // Expanded(
+            //   child: PageView(
+            //     scrollDirection: Axis.horizontal,
+            //     children: [
+            //       Center(
+            //         child: Text('oi'),
+            //       ),
+            //       Center(
+            //         child: Text('99'),
+            //       )
+            //     ],
+            //   ),
+            // )
+          ],
+        ),
       ),
     );
   }
