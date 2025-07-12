@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_native_balance/current_native_balance_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/ui/tokens/placeholders.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class NativeTokenListTile extends StatelessWidget {
   const NativeTokenListTile({super.key});
@@ -10,7 +11,14 @@ class NativeTokenListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CurrentNativeBalanceBloc>(
-      create: (context) => CurrentNativeBalanceBloc(injector.get(), injector.get(), injector.get(), injector.get(),)..add(CurrentNativeBalanceRequested())..add(CurrentNativeBalanceVisibilityRequested()),
+      create: (context) => CurrentNativeBalanceBloc(
+        injector.get(),
+        injector.get(),
+        injector.get(),
+        injector.get(),
+      )
+        ..add(CurrentNativeBalanceRequested())
+        ..add(CurrentNativeBalanceVisibilityRequested()),
       child: const _NativeTokenListTile(),
     );
   }
@@ -21,18 +29,21 @@ class _NativeTokenListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CurrentNativeBalanceBloc,CurrentNativeBalanceState>(
+    return BlocBuilder<CurrentNativeBalanceBloc, CurrentNativeBalanceState>(
       builder: (context, state) {
-      final isVisible = state.isVisible;
-      
-      return ListTile(
-        title: Text(state.ticker),
-        trailing: 
-        isVisible?
-        Text('${state.accountBalance?.toEther()} ${state.ticker}'):
-        Text(Placeholders.hiddenBalancePlaceholder)
-        ,
-      );
+        final isVisible = state.isVisible;
+        Widget content;
+        if (!isVisible) {
+          content = Text(Placeholders.hiddenBalancePlaceholder);
+        } else if (isVisible && state.accountBalance != null) {
+          content = Text('${state.accountBalance?.toEther()} ${state.ticker}');
+        }else{
+          content = Skeletonizer(child: Text(Placeholders.hiddenBalancePlaceholder));
+        }
+        return ListTile(
+          title: Text(state.ticker),
+           trailing:content
+        );
       },
     );
   }
