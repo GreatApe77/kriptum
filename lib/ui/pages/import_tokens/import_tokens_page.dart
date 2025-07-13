@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/import_token/import_token_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/factories/ethereum_address/ethereum_address.dart';
+import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/ethereum_address_text_field.dart';
 
@@ -79,6 +80,16 @@ class _ImportTokensPageState extends State<_ImportTokensPage> {
           _tokenSymbolTextFieldController.text = state.tokenSymbol;
           _tokenDecimalsTextFieldController.text = state.tokenDecimals.toString();
         }
+        if (state.importTokenStatus == ImportTokenStatus.success) {
+          Navigator.of(context).pop();
+        }
+        if (state.importTokenStatus == ImportTokenStatus.failure) {
+          showSnackBar(
+            message: state.errorMessage,
+            context: context,
+            snackBarType: SnackBarType.error,
+          );
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -137,9 +148,33 @@ class _ImportTokensPageState extends State<_ImportTokensPage> {
                         ),
                         keyboardType: TextInputType.number,
                       ),
-                      FilledButton(
-                        onPressed: () {},
-                        child: Text('Import token'),
+                      SizedBox(height: 10,),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          BlocBuilder<ImportTokenBloc, ImportTokenState>(
+                            builder: (context, state) {
+                              return FilledButton(
+                                onPressed: state.importTokenStatus == ImportTokenStatus.loading ||
+                                        state.importTokenStatus == ImportTokenStatus.success
+                                    ? null
+                                    : () => context.read<ImportTokenBloc>().add(
+                                          ImportTokenSubmitted()
+                                        ),
+                                child: state.importTokenStatus == ImportTokenStatus.loading
+                                    ? Text('Importing token...')
+                                    : Text(
+                                        'Import token',
+                                      ),
+                              );
+                              /* return FilledButton(
+                                onPressed: () {},
+                                child: Text('Import token'),
+                              ); */
+                            },
+                          ),
+                        ],
                       )
                     ],
                   );

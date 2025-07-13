@@ -124,6 +124,7 @@ Future<void> registerPresenters() async {
   injector.registerFactory<ImportTokenBloc>(
     () => ImportTokenBloc(
       injector.get(),
+      injector.get(),
     ),
   );
 }
