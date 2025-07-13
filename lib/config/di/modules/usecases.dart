@@ -9,6 +9,7 @@ import 'package:kriptum/domain/usecases/import_account_from_private_key_usecase.
 import 'package:kriptum/domain/usecases/import_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/lock_wallet_usecase.dart';
 import 'package:kriptum/domain/usecases/reset_wallet_usecase.dart';
+import 'package:kriptum/domain/usecases/search_erc20_token_metadata_usecase.dart';
 import 'package:kriptum/domain/usecases/send_transaction_usecase.dart';
 import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
 
@@ -94,6 +95,13 @@ Future<void> registerUsecases() async {
   );
   injector.registerLazySingleton<ImportAccountFromPrivateKeyUsecase>(
     () => ImportAccountFromPrivateKeyUsecase(
+      injector.get(),
+      injector.get(),
+      injector.get(),
+    ),
+  );
+  injector.registerLazySingleton<SearchErc20TokenMetadataUsecase>(
+    () => SearchErc20TokenMetadataUsecase(
       injector.get(),
       injector.get(),
       injector.get(),

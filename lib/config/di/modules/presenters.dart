@@ -9,6 +9,7 @@ import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/blocs/current_native_balance/current_native_balance_bloc.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
 import 'package:kriptum/blocs/import_account/import_account_bloc.dart';
+import 'package:kriptum/blocs/import_token/import_token_bloc.dart';
 import 'package:kriptum/blocs/import_wallet/import_wallet_bloc.dart';
 import 'package:kriptum/blocs/lock_wallet/lock_wallet_bloc.dart';
 import 'package:kriptum/blocs/networks_list/networks_list_bloc.dart';
@@ -117,6 +118,11 @@ Future<void> registerPresenters() async {
 
   injector.registerFactory<CurrentNetworkCubit>(
     () => CurrentNetworkCubit(
+      injector.get(),
+    ),
+  );
+  injector.registerFactory<ImportTokenBloc>(
+    () => ImportTokenBloc(
       injector.get(),
     ),
   );
