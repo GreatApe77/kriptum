@@ -38,7 +38,10 @@ class GetErc20BalancesUsecase {
     }
     final results = await Future.wait(requests);
     final Map<String, EtherAmount> balancesMap = {};
-    
+    for (int i = 0; i < importedTokens.length; i++) {
+      balancesMap[importedTokens[i].address] = results[i];
+    }
+    return GetErc20BalancesOutput(balanceOf: balancesMap);
   }
 }
 
