@@ -47,7 +47,7 @@ void main() {
     mockNetworksRepository = MockNetworksRepository();
     accountStreamController = StreamController<Account?>.broadcast();
     networkStreamController = StreamController<Network>.broadcast();
-    visibilityStreamController =StreamController<bool>.broadcast();
+    visibilityStreamController = StreamController<bool>.broadcast();
 
     when(() => mockAccountsRepository.currentAccountStream()).thenAnswer((_) => accountStreamController.stream);
     when(() => mockNetworksRepository.watchCurrentNetwork()).thenAnswer((_) => networkStreamController.stream);

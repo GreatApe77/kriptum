@@ -23,9 +23,7 @@ class UnlockWalletPage extends StatelessWidget {
           ),
         ),
         BlocProvider<UnlockWalletBloc>(
-          create: (context) => UnlockWalletBloc(
-            unlockWalletUsecase: injector.get(),
-          ),
+          create: (context) => injector.get(),
         ),
       ],
       child: UnlockWalletView(),

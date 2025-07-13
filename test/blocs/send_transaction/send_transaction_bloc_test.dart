@@ -63,7 +63,8 @@ void main() {
         },
         act: (bloc) => bloc.add(ToAddressChanged(toAddress: testAccount.address)),
         expect: () => [
-          isA<SendTransactionState>().having((s) => s.toAddressEqualsCurrentAccount, 'toAddressEqualsCurrentAccount', true),
+          isA<SendTransactionState>()
+              .having((s) => s.toAddressEqualsCurrentAccount, 'toAddressEqualsCurrentAccount', true),
         ],
       );
 
@@ -75,7 +76,8 @@ void main() {
         },
         act: (bloc) => bloc.add(ToAddressChanged(toAddress: '0xDifferentAddress')),
         expect: () => [
-          isA<SendTransactionState>().having((s) => s.toAddressEqualsCurrentAccount, 'toAddressEqualsCurrentAccount', false),
+          isA<SendTransactionState>()
+              .having((s) => s.toAddressEqualsCurrentAccount, 'toAddressEqualsCurrentAccount', false),
         ],
       );
     });
@@ -97,7 +99,8 @@ void main() {
         build: () => sendTransactionBloc,
         act: (bloc) => bloc.add(ReturnToRecipientSelection()),
         expect: () => [
-          isA<SendTransactionState>().having((s) => s.sendTransactionStepStatus, 'stepStatus', SendTransactionStepStatus.chooseRecpient),
+          isA<SendTransactionState>()
+              .having((s) => s.sendTransactionStepStatus, 'stepStatus', SendTransactionStepStatus.chooseRecpient),
         ],
       );
 
@@ -106,7 +109,8 @@ void main() {
         build: () => sendTransactionBloc,
         act: (bloc) => bloc.add(ReturnToAmountSelection()),
         expect: () => [
-          isA<SendTransactionState>().having((s) => s.sendTransactionStepStatus, 'stepStatus', SendTransactionStepStatus.selectAmount),
+          isA<SendTransactionState>()
+              .having((s) => s.sendTransactionStepStatus, 'stepStatus', SendTransactionStepStatus.selectAmount),
         ],
       );
     });
@@ -123,7 +127,8 @@ void main() {
         },
         act: (bloc) => bloc.add(AdvanceToConfirmation(amount: amountToSend)),
         expect: () => [
-          isA<SendTransactionState>().having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationLoading),
+          isA<SendTransactionState>()
+              .having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationLoading),
           predicate<SendTransactionState>((state) {
             return state.amountValidationStatus == AmountValidationStatus.validationSuccess &&
                 state.sendTransactionStepStatus == SendTransactionStepStatus.toBeConfirmed &&
@@ -141,7 +146,8 @@ void main() {
         },
         act: (bloc) => bloc.add(AdvanceToConfirmation(amount: '0.5')), // 0.5 ETH
         expect: () => [
-          isA<SendTransactionState>().having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationLoading),
+          isA<SendTransactionState>()
+              .having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationLoading),
           isA<SendTransactionState>()
               .having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationError)
               .having((s) => s.errorMessage, 'errorMessage', 'Not enough balance'),
@@ -156,7 +162,8 @@ void main() {
         },
         act: (bloc) => bloc.add(AdvanceToConfirmation(amount: amountToSend)),
         expect: () => [
-          isA<SendTransactionState>().having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationLoading),
+          isA<SendTransactionState>()
+              .having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationLoading),
           isA<SendTransactionState>()
               .having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationError)
               .having((s) => s.errorMessage, 'errorMessage', 'Unknown error'),
@@ -165,7 +172,8 @@ void main() {
     });
 
     group('SendTransactionRequest', () {
-      final transactionOutput = TransactionOutput(transactionHash: '0xTxHash', transactionUrlInBlockExplorer: 'http://explorer.com/0xTxHash');
+      final transactionOutput =
+          TransactionOutput(transactionHash: '0xTxHash', transactionUrlInBlockExplorer: 'http://explorer.com/0xTxHash');
 
       blocTest<SendTransactionBloc, SendTransactionState>(
         'emits [loading, success] on successful transaction',
@@ -180,7 +188,8 @@ void main() {
           isA<SendTransactionState>()
               .having((s) => s.status, 'status', SendTransactionStatus.confirmationSuccess)
               .having((s) => s.txHash, 'txHash', transactionOutput.transactionHash)
-              .having((s) => s.followOnBlockExplorerUrl, 'explorerUrl', transactionOutput.transactionUrlInBlockExplorer),
+              .having(
+                  (s) => s.followOnBlockExplorerUrl, 'explorerUrl', transactionOutput.transactionUrlInBlockExplorer),
         ],
       );
 

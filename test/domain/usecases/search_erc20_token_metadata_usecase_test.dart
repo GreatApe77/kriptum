@@ -63,9 +63,12 @@ void main() {
       expect(result.symbol, 'TST');
       expect(result.decimals, 18);
 
-      verify(() => mockErc20TokenService.getName(address: testInput.contractAddress, rpcUrl: testNetwork.rpcUrl)).called(1);
-      verify(() => mockErc20TokenService.getSymbol(address: testInput.contractAddress, rpcUrl: testNetwork.rpcUrl)).called(1);
-      verify(() => mockErc20TokenService.getDecimals(address: testInput.contractAddress, rpcUrl: testNetwork.rpcUrl)).called(1);
+      verify(() => mockErc20TokenService.getName(address: testInput.contractAddress, rpcUrl: testNetwork.rpcUrl))
+          .called(1);
+      verify(() => mockErc20TokenService.getSymbol(address: testInput.contractAddress, rpcUrl: testNetwork.rpcUrl))
+          .called(1);
+      verify(() => mockErc20TokenService.getDecimals(address: testInput.contractAddress, rpcUrl: testNetwork.rpcUrl))
+          .called(1);
     });
 
     test('should throw DomainException if address validation fails', () {

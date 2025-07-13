@@ -47,12 +47,12 @@ class __ImportAccountFromPrivateKeyPageState extends State<_ImportAccountFromPri
                 if (state is ImportAccountFailed) {
                   showSnackBar(message: state.errorMessage, context: context, snackBarType: SnackBarType.error);
                 }
-                if(state is ImportAccountSuccess){
+                if (state is ImportAccountSuccess) {
                   Navigator.of(context).pop();
                 }
               },
               builder: (context, state) {
-                if(state is ImportAccountSuccess){
+                if (state is ImportAccountSuccess) {
                   return SizedBox.shrink();
                 }
                 if (state is ImportAccountLoading) {

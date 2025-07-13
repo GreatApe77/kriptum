@@ -13,7 +13,7 @@ class TokenSymbol {
     return Result.success(TokenSymbol._(trimmed));
   }
 
-  String upperCased(){
+  String upperCased() {
     return value.toUpperCase();
   }
 }

@@ -70,23 +70,17 @@ class Erc20Token {
   @override
   bool operator ==(covariant Erc20Token other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.address == address &&
-      other.name == name &&
-      other.symbol == symbol &&
-      other.decimals == decimals &&
-      other.networkId == networkId;
+
+    return other.id == id &&
+        other.address == address &&
+        other.name == name &&
+        other.symbol == symbol &&
+        other.decimals == decimals &&
+        other.networkId == networkId;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-      address.hashCode ^
-      name.hashCode ^
-      symbol.hashCode ^
-      decimals.hashCode ^
-      networkId.hashCode;
+    return id.hashCode ^ address.hashCode ^ name.hashCode ^ symbol.hashCode ^ decimals.hashCode ^ networkId.hashCode;
   }
 }

@@ -62,7 +62,7 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
 
   @override
   Future<int?> getDecimals({required String address, required String rpcUrl}) async {
-    final result =  await _callFunction<BigInt>(
+    final result = await _callFunction<BigInt>(
       address: address,
       rpcUrl: rpcUrl,
       functionName: 'decimals',

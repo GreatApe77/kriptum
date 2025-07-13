@@ -146,9 +146,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 controller: _tabController,
                 children: [
                   ListView(
-                    children: [
-                      NativeTokenListTile()
-                    ],
+                    children: [NativeTokenListTile()],
                   ),
                   Center(
                     child: Text('Coming soon...'),

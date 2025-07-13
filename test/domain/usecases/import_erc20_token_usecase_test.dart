@@ -113,7 +113,8 @@ void main() {
 
       expect(
         () => sut.execute(invalidInput),
-        throwsA(isA<DomainException>().having((e) => e.getReason(), 'reason', 'Token name must be lower or equal to 20 chars')),
+        throwsA(isA<DomainException>()
+            .having((e) => e.getReason(), 'reason', 'Token name must be lower or equal to 20 chars')),
       );
       verifyNever(() => mockErc20tokenRepository.save(any()));
     });
@@ -131,7 +132,8 @@ void main() {
 
       expect(
         () => sut.execute(invalidInput),
-        throwsA(isA<DomainException>().having((e) => e.getReason(), 'reason', 'Symbol must be lower or equal to 10 chars')),
+        throwsA(
+            isA<DomainException>().having((e) => e.getReason(), 'reason', 'Symbol must be lower or equal to 10 chars')),
       );
       verifyNever(() => mockErc20tokenRepository.save(any()));
     });
