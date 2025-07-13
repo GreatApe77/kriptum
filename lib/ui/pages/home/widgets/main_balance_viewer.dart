@@ -14,18 +14,16 @@ class MainBalanceViewer extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentNativeBalanceBloc>(
-          create: (context) =>
-              injector.get<CurrentNativeBalanceBloc>()
-                ..add(
-                  CurrentNativeBalanceRequested(),
-                )
-                ..add(
-                  CurrentNativeBalanceRequested(),
-                ),
+          create: (context) => injector.get<CurrentNativeBalanceBloc>()
+            ..add(
+              CurrentNativeBalanceRequested(),
+            )
+            ..add(
+              CurrentNativeBalanceRequested(),
+            ),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) =>
-              injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
+          create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
         )
       ],
       child: const _MainBalanceViewer(),

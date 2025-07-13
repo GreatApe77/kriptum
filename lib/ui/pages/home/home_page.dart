@@ -12,9 +12,11 @@ import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 import 'package:kriptum/ui/pages/home/widgets/main_balance_viewer.dart';
 import 'package:kriptum/ui/pages/home/widgets/native_token_list_tile.dart';
+import 'package:kriptum/ui/pages/import_tokens/import_tokens_page.dart';
 import 'package:kriptum/ui/pages/scan_qr_code/scan_qr_code_page.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/networks_list.dart';
+import 'dart:math' as math;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -144,7 +146,32 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 controller: _tabController,
                 children: [
                   ListView(
-                    children: [NativeTokenListTile()],
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Transform.rotate(
+                                angle: math.pi / 2,
+                                child: Icon(
+                                  Icons.compare_arrows,
+                                )),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ImportTokensPage(),
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.add),
+                          ),
+                        ],
+                      ),
+                      NativeTokenListTile(),
+                    ],
                   ),
                   Center(
                     child: Text('Coming soon...'),
