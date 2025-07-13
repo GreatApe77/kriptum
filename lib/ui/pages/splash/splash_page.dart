@@ -11,9 +11,8 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppBootBloc>(
-      create: (context) => AppBootBloc(
-        accountsRepository: injector.get(),
-      )..add(
+      create: (context) => injector.get<AppBootBloc>()
+        ..add(
           AppBootStarted(),
         ),
       child: const SplashView(),

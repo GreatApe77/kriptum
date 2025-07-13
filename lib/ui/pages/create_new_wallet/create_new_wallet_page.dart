@@ -14,11 +14,7 @@ class CreateNewWalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CreateNewWalletBloc>(
-      create: (context) => CreateNewWalletBloc(
-        generateAccountsPreviewUsecase: injector.get(),
-        confirmAndSaveGeneratedAccountsUsecase: injector.get(),
-        accountGeneratorService: injector.get(),
-      ),
+      create: (context) => injector.get<CreateNewWalletBloc>(),
       child: const CreateNewWalletView(),
     );
   }

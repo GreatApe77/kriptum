@@ -17,7 +17,7 @@ class ImportWalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ImportWalletBloc>(
-      create: (context) => ImportWalletBloc(injector.get()),
+      create: (context) => injector.get<ImportWalletBloc>(),
       child: _ImportWalletView(),
     );
   }

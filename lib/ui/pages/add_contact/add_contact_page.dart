@@ -12,9 +12,7 @@ class AddContactPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AddContactBloc>(
-      create: (context) => AddContactBloc(
-        injector.get(),
-      ),
+      create: (context) => injector.get<AddContactBloc>(),
       child: const _AddContactView(),
     );
   }

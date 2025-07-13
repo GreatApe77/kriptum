@@ -24,12 +24,10 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentAccountCubit>(
-          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => injector.get<CurrentAccountCubit>()..requestCurrentAccount(),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) => CurrentNetworkCubit(
-            injector.get(),
-          )..requestCurrentNetwork(),
+          create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
         )
       ],
       child: const HomeView(),

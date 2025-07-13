@@ -21,18 +21,13 @@ class ConfirmTransactionWidget extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentNativeBalanceBloc>(
-          create: (context) => CurrentNativeBalanceBloc(
-            injector.get(),
-            injector.get(),
-            injector.get(),
-            injector.get(),
-          )..add(CurrentNativeBalanceRequested()),
+          create: (context) => injector.get<CurrentNativeBalanceBloc>()..add(CurrentNativeBalanceRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
+          create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
         ),
         BlocProvider<CurrentAccountCubit>(
-          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => injector.get<CurrentAccountCubit>()..requestCurrentAccount(),
         ),
       ],
       child: _ConfirmTransactionWidget(),

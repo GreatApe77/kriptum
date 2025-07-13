@@ -11,12 +11,7 @@ class NativeTokenListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CurrentNativeBalanceBloc>(
-      create: (context) => CurrentNativeBalanceBloc(
-        injector.get(),
-        injector.get(),
-        injector.get(),
-        injector.get(),
-      )
+      create: (context) => injector.get<CurrentNativeBalanceBloc>()
         ..add(CurrentNativeBalanceRequested())
         ..add(CurrentNativeBalanceVisibilityRequested()),
       child: const _NativeTokenListTile(),

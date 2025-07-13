@@ -11,7 +11,7 @@ class ImportAccountFromPrivateKeyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ImportAccountBloc>(
-      create: (context) => ImportAccountBloc(injector.get()),
+      create: (context) => injector.get<ImportAccountBloc>(),
       child: const _ImportAccountFromPrivateKeyPage(),
     );
   }
