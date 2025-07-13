@@ -22,7 +22,6 @@ class ImportTokenBloc extends Bloc<ImportTokenEvent, ImportTokenState> {
     Emitter<ImportTokenState> emit,
   ) async {
     try {
-      print(event.contractAddress);
       emit(
         state.copyWith(
           fetchTokenInfoStatus: FetchTokenInfoStatus.loading,
@@ -34,7 +33,6 @@ class ImportTokenBloc extends Bloc<ImportTokenEvent, ImportTokenState> {
           contractAddress: event.contractAddress,
         ),
       );
-      print(result.name);
       emit(
         state.copyWith(
           tokenName: result.name,
