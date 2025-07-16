@@ -41,7 +41,7 @@ Future<void> registerRepositories() async {
   );
   injector.registerLazySingleton<Erc20TokenRepository>(
     () => Erc20TokenRepositoryImpl(
-      
+      injector.get()
     ),
   );
 }

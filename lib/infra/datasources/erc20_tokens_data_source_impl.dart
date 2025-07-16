@@ -3,10 +3,10 @@ import 'package:kriptum/infra/datasources/erc20_tokens_data_source.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/tables/erc20_tokens_table.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 
-class Erc20TokenDataSourceImpl implements Erc20TokensDataSource {
+class Erc20TokensDataSourceImpl implements Erc20TokensDataSource {
   final SqlDatabase _database;
 
-  Erc20TokenDataSourceImpl(this._database);
+  Erc20TokensDataSourceImpl(this._database);
 
   @override
   Future<void> delete(int tokenId) async {
