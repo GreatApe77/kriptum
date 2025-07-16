@@ -8,7 +8,7 @@ import 'package:mocktail/mocktail.dart';
 class MockSqlDatabase extends Mock implements SqlDatabase {}
 
 void main() {
-  late Erc20TokenDataSourceImpl sut;
+  late Erc20TokensDataSourceImpl sut;
   late MockSqlDatabase mockDatabase;
 
   final testToken = Erc20Token(
@@ -22,7 +22,7 @@ void main() {
 
   setUp(() {
     mockDatabase = MockSqlDatabase();
-    sut = Erc20TokenDataSourceImpl(mockDatabase);
+    sut = Erc20TokensDataSourceImpl(mockDatabase);
   });
 
   group('Erc20TokenDataSourceImpl', () {
