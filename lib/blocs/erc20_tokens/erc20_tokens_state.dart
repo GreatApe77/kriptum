@@ -7,7 +7,6 @@ enum Erc20TokensStatus {
   error,
 }
 
-
 class Erc20TokensState {
   final Erc20TokensStatus status;
   final List<Erc20TokenWithBalance> tokens;

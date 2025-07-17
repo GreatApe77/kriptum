@@ -8,13 +8,12 @@ class EthereumAddressTextField extends StatelessWidget {
   final bool readOnly;
   final InputDecoration inputDecoration;
   final String hintText;
-  const EthereumAddressTextField({
-    super.key,
-    required this.controller,
-    this.readOnly = false,
-    this.inputDecoration = const InputDecoration(),
-    this.hintText = 'Public address (0x)'
-  });
+  const EthereumAddressTextField(
+      {super.key,
+      required this.controller,
+      this.readOnly = false,
+      this.inputDecoration = const InputDecoration(),
+      this.hintText = 'Public address (0x)'});
 
   @override
   Widget build(BuildContext context) {

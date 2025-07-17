@@ -61,11 +61,7 @@ class Erc20TokensBloc extends Bloc<Erc20TokensEvent, Erc20TokensState> {
         ),
       );
     } on DomainException catch (e) {
-      emit(state.copyWith(
-        status: Erc20TokensStatus.error,
-        errorMessage: e.getReason(),
-        tokens: []
-      ));
+      emit(state.copyWith(status: Erc20TokensStatus.error, errorMessage: e.getReason(), tokens: []));
     } catch (e) {
       emit(state.copyWith(
         status: Erc20TokensStatus.error,

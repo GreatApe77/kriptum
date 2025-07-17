@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -148,7 +146,9 @@ class _ImportTokensPageState extends State<_ImportTokensPage> {
                         ),
                         keyboardType: TextInputType.number,
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -159,9 +159,7 @@ class _ImportTokensPageState extends State<_ImportTokensPage> {
                                 onPressed: state.importTokenStatus == ImportTokenStatus.loading ||
                                         state.importTokenStatus == ImportTokenStatus.success
                                     ? null
-                                    : () => context.read<ImportTokenBloc>().add(
-                                          ImportTokenSubmitted()
-                                        ),
+                                    : () => context.read<ImportTokenBloc>().add(ImportTokenSubmitted()),
                                 child: state.importTokenStatus == ImportTokenStatus.loading
                                     ? Text('Importing token...')
                                     : Text(

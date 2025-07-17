@@ -7,5 +7,4 @@ abstract interface class Erc20TokenRepository {
   Future<Erc20Token?> findByAddress(String contractAddress);
   Future<List<Erc20Token>> getAllImportedTokensOfNetwork(int networkId);
   Stream<List<Erc20Token>> watchTokensOfCurrentNetwork();
-
 }
