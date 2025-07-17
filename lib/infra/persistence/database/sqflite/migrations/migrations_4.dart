@@ -6,7 +6,7 @@ Future<void> runMigration4(Database db) async {
   await db.execute('''
     CREATE TABLE IF NOT EXISTS ${Erc20TokensTable.table} (
       ${Erc20TokensTable.columnId} INTEGER PRIMARY KEY AUTOINCREMENT,
-      ${Erc20TokensTable.columnContractAddress} VARCHAR(42) UNIQUE NOT NULL,
+      ${Erc20TokensTable.columnAddress} VARCHAR(42) UNIQUE NOT NULL,
       ${Erc20TokensTable.columnName} VARCHAR(20),
       ${Erc20TokensTable.columnSymbol} VARCHAR(10),
       ${Erc20TokensTable.columnDecimals} INTEGER,

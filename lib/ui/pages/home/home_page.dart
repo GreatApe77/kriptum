@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
+import 'package:kriptum/blocs/erc20_tokens/erc20_tokens_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/shared/utils/copy_to_clipboard.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
@@ -30,6 +31,12 @@ class HomePage extends StatelessWidget {
         ),
         BlocProvider<CurrentNetworkCubit>(
           create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
+        ),
+        BlocProvider<Erc20TokensBloc>(
+          create: (context) => injector.get<Erc20TokensBloc>()
+            ..add(
+              Erc20TokensLoadRequested(),
+            ),
         )
       ],
       child: const HomeView(),
@@ -145,33 +152,44 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  ListView(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                  BlocBuilder<Erc20TokensBloc, Erc20TokensState>(
+                    builder: (context, state) {
+                      final tokens = state.tokens;
+                      return ListView(
                         children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Transform.rotate(
-                                angle: math.pi / 2,
-                                child: Icon(
-                                  Icons.compare_arrows,
-                                )),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Transform.rotate(
+                                    angle: math.pi / 2,
+                                    child: Icon(
+                                      Icons.compare_arrows,
+                                    )),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => ImportTokensPage(),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.add),
+                              ),
+                            ],
                           ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ImportTokensPage(),
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.add),
-                          ),
+                          NativeTokenListTile(),
+                          ...tokens.map(
+                            (e) => ListTile(
+                              title: Text(e.token.name?? ''),
+                              subtitle: Text(e.token.symbol),
+                              trailing: Text('${e.balance.toEther()} ${e.token.symbol}'),
+                            ))
                         ],
-                      ),
-                      NativeTokenListTile(),
-                    ],
+                      );
+                    },
                   ),
                   Center(
                     child: Text('Coming soon...'),

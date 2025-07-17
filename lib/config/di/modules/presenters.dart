@@ -8,6 +8,7 @@ import 'package:kriptum/blocs/create_new_wallet/create_new_wallet_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/blocs/current_native_balance/current_native_balance_bloc.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
+import 'package:kriptum/blocs/erc20_tokens/erc20_tokens_bloc.dart';
 import 'package:kriptum/blocs/import_account/import_account_bloc.dart';
 import 'package:kriptum/blocs/import_token/import_token_bloc.dart';
 import 'package:kriptum/blocs/import_wallet/import_wallet_bloc.dart';
@@ -123,6 +124,13 @@ Future<void> registerPresenters() async {
   );
   injector.registerFactory<ImportTokenBloc>(
     () => ImportTokenBloc(
+      injector.get(),
+      injector.get(),
+    ),
+  );
+  injector.registerFactory<Erc20TokensBloc>(
+    () => Erc20TokensBloc(
+      injector.get(),
       injector.get(),
       injector.get(),
     ),

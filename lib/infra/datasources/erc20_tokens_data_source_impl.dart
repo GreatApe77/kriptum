@@ -22,7 +22,7 @@ class Erc20TokensDataSourceImpl implements Erc20TokensDataSource {
   Future<Erc20Token?> findByAddress(String contractAddress) async {
     final result = await _database.query(
       Erc20TokensTable.table,
-      where: '${Erc20TokensTable.columnContractAddress} = ?',
+      where: '${Erc20TokensTable.columnAddress} = ?',
       whereArgs: [contractAddress],
     );
     if (result.isEmpty) return null;
