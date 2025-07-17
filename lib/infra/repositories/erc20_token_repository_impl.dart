@@ -1,6 +1,6 @@
 import 'package:kriptum/domain/models/erc20_token.dart';
 import 'package:kriptum/domain/repositories/erc20_token_repository.dart';
-import 'package:kriptum/infra/datasources/erc20_tokens_data_source.dart';
+import 'package:kriptum/infra/datasources/data_sources.dart';
 
 class Erc20TokenRepositoryImpl implements Erc20TokenRepository {
   final Erc20TokensDataSource _dataSource;

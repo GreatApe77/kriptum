@@ -1,5 +1,5 @@
 import 'package:kriptum/domain/models/erc20_token.dart';
-import 'package:kriptum/infra/datasources/erc20_tokens_data_source.dart';
+import 'package:kriptum/infra/datasources/data_sources.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/tables/erc20_tokens_table.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 

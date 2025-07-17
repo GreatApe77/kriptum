@@ -1,5 +1,5 @@
 import 'package:kriptum/domain/models/contact.dart';
-import 'package:kriptum/infra/datasources/contacts_data_source.dart';
+import 'package:kriptum/infra/datasources/data_sources.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/tables/contacts_table.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 

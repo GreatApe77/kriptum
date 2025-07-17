@@ -1,5 +1,5 @@
 import 'package:kriptum/domain/models/network.dart';
-import 'package:kriptum/infra/datasources/networks_data_source.dart';
+import 'package:kriptum/infra/datasources/data_sources.dart';
 import 'package:kriptum/infra/persistence/database/sqflite/tables/networks_table.dart';
 import 'package:kriptum/infra/persistence/database/sql_database.dart';
 

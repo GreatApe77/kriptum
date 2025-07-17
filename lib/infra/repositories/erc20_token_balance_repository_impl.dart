@@ -1,7 +1,7 @@
 import 'package:kriptum/domain/models/ether_amount.dart';
 import 'package:kriptum/domain/models/network.dart';
 import 'package:kriptum/domain/repositories/erc20_token_balance_repository.dart';
-import 'package:kriptum/infra/datasources/erc20_token_balance_data_source.dart';
+import 'package:kriptum/infra/datasources/data_sources.dart';
 
 class Erc20TokenBalanceRepositoryImpl implements Erc20TokenBalanceRepository {
   final Erc20TokenBalanceDataSource _erc20tokenBalanceDataSource;
