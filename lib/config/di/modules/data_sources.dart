@@ -1,16 +1,6 @@
 import 'package:kriptum/config/di/injector.dart';
-import 'package:kriptum/infra/datasources/accounts_data_source.dart';
-import 'package:kriptum/infra/datasources/accounts_data_source_impl.dart';
-import 'package:kriptum/infra/datasources/contacts_data_source.dart';
-import 'package:kriptum/infra/datasources/contacts_data_source_impl.dart';
-import 'package:kriptum/infra/datasources/erc20_token_balance_data_source.dart';
-import 'package:kriptum/infra/datasources/erc20_token_balance_data_source_impl.dart';
-import 'package:kriptum/infra/datasources/erc20_tokens_data_source.dart';
-import 'package:kriptum/infra/datasources/native_balance_data_source.dart';
-import 'package:kriptum/infra/datasources/native_balance_data_source_impl.dart';
-import 'package:kriptum/infra/datasources/networks_data_source.dart';
-import 'package:kriptum/infra/datasources/networks_data_source_impl.dart';
-import 'package:kriptum/infra/datasources/erc20_tokens_data_source_impl.dart';
+import 'package:kriptum/infra/datasources/data_sources.dart';
+
 Future<void> registerDataSources() async {
   injector.registerLazySingleton<AccountsDataSource>(
     () => AccountsDataSourceImpl(
