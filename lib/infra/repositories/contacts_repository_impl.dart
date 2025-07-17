@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:kriptum/domain/models/contact.dart';
 import 'package:kriptum/domain/repositories/contacts_repository.dart';
-import 'package:kriptum/infra/datasources/contacts_data_source.dart';
+import 'package:kriptum/infra/datasources/data_sources.dart';
 import 'package:kriptum/shared/contracts/disposable.dart';
 
 class ContactsRepositoryImpl implements ContactsRepository, Disposable {

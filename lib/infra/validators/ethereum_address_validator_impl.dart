@@ -11,5 +11,4 @@ class EthereumAddressValidatorImpl implements EthereumAddressValidator {
       return 'Invalid ethereum address';
     }
   }
-  
 }

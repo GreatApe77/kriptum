@@ -6,16 +6,14 @@ class EtherAmount {
   EtherAmount({
     required BigInt valueInWei,
     int decimals = 18,
-  }) : _valueInWei = valueInWei,_decimals = decimals;
+  })  : _valueInWei = valueInWei,
+        _decimals = decimals;
 
   factory EtherAmount.fromString({
     required String value,
     int decimals = 18,
   }) {
-    return EtherAmount(
-      valueInWei: BigInt.parse(value),
-      decimals: decimals
-    );
+    return EtherAmount(valueInWei: BigInt.parse(value), decimals: decimals);
   }
 
   @override
@@ -29,11 +27,11 @@ class EtherAmount {
 
     return other.valueInWei == valueInWei;
   }
-  String toEther({int fractionDigitAmount = 2}){
+
+  String toEther({int fractionDigitAmount = 2}) {
     final double valueInEther = valueInWei / BigInt.from(pow(10, _decimals));
     return valueInEther.toStringAsFixed(fractionDigitAmount);
   }
-  
 
   String toStorageString() => valueInWei.toString();
 

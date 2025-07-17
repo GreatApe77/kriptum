@@ -66,7 +66,7 @@ class _SettingsView extends StatelessWidget {
             ),
           ),
           BlocProvider<LockWalletBloc>(
-            create: (context) => LockWalletBloc(injector.get()),
+            create: (context) => injector.get<LockWalletBloc>(),
             child: BlocConsumer<LockWalletBloc, LockWalletState>(
               listener: (context, state) {
                 if (state is LockWalletError) {

@@ -18,14 +18,10 @@ class UnlockWalletPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ResetWalletBloc>(
-          create: (context) => ResetWalletBloc(
-            resetWalletUsecase: injector.get(),
-          ),
+          create: (context) => injector.get<ResetWalletBloc>(),
         ),
         BlocProvider<UnlockWalletBloc>(
-          create: (context) => UnlockWalletBloc(
-            unlockWalletUsecase: injector.get(),
-          ),
+          create: (context) => injector.get<UnlockWalletBloc>(),
         ),
       ],
       child: UnlockWalletView(),

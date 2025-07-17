@@ -13,9 +13,7 @@ class ReceivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CurrentAccountCubit>(
-      create: (context) => CurrentAccountCubit(
-        injector.get(),
-      )..requestCurrentAccount(),
+      create: (context) => injector.get<CurrentAccountCubit>()..requestCurrentAccount(),
       child: _ReceiveView(),
     );
   }

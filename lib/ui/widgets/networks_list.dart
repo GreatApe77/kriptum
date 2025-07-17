@@ -15,10 +15,10 @@ class NetworksList extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
+          create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
         ),
         BlocProvider<NetworksListBloc>(
-          create: (context) => NetworksListBloc(injector.get())..add(NetworksListRequested()),
+          create: (context) => injector.get<NetworksListBloc>()..add(NetworksListRequested()),
         ),
       ],
       child: _NetworksList(

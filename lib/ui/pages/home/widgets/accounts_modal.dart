@@ -22,27 +22,19 @@ class AccountsModal extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AccountListBloc>(
-          create: (context) => AccountListBloc(
-            injector.get(),
-          )..add(AccountListRequested()),
+          create: (context) => injector.get<AccountListBloc>()..add(AccountListRequested()),
         ),
         BlocProvider<CurrentAccountCubit>(
-          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => injector.get<CurrentAccountCubit>()..requestCurrentAccount(),
         ),
         BlocProvider<AddHdWalletAccountBloc>(
-          create: (context) => AddHdWalletAccountBloc(injector.get()),
+          create: (context) => injector.get<AddHdWalletAccountBloc>(),
         ),
         BlocProvider<BalancesBloc>(
-          create: (context) => BalancesBloc(
-            injector.get(),
-            injector.get(),
-            injector.get(),
-          )..add(BalancesRequested()),
+          create: (context) => injector.get<BalancesBloc>()..add(BalancesRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) => CurrentNetworkCubit(
-            injector.get(),
-          )..requestCurrentNetwork(),
+          create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
         ),
       ],
       child: _AccountsModalView(),

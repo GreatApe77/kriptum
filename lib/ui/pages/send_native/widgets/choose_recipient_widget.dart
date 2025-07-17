@@ -27,26 +27,21 @@ class ChooseRecipientWidget extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentAccountCubit>(
-          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => injector.get<CurrentAccountCubit>()..requestCurrentAccount(),
         ),
         BlocProvider<CurrentNativeBalanceBloc>(
-          create: (context) => CurrentNativeBalanceBloc(
-            injector.get(),
-            injector.get(),
-            injector.get(),
-            injector.get(),
-          )
+          create: (context) => injector.get<CurrentNativeBalanceBloc>()
             ..add(CurrentNativeBalanceRequested())
             ..add(CurrentNativeBalanceVisibilityRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
+          create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
         ),
         BlocProvider<AccountListBloc>(
-          create: (context) => AccountListBloc(injector.get())..add(AccountListRequested()),
+          create: (context) => injector.get<AccountListBloc>()..add(AccountListRequested()),
         ),
         BlocProvider<ContactsBloc>(
-          create: (context) => ContactsBloc(injector.get())
+          create: (context) => injector.get<ContactsBloc>()
             ..add(
               ContactsRequested(),
             ),

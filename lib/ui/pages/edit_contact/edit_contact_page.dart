@@ -15,7 +15,7 @@ class EditContactPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ContactsBloc>(
-      create: (context) => ContactsBloc(injector.get()),
+      create: (context) => injector.get<ContactsBloc>(),
       child: _EditContactPage(contact: contact),
     );
   }
