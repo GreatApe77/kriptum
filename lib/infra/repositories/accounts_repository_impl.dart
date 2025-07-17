@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
-import 'package:kriptum/infra/datasources/accounts_data_source.dart';
+import 'package:kriptum/infra/datasources/data_sources.dart';
 import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart';
 import 'package:kriptum/shared/contracts/disposable.dart';
 

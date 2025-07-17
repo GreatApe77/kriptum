@@ -20,17 +20,12 @@ class ChooseAmountWidget extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentNativeBalanceBloc>(
-          create: (context) => CurrentNativeBalanceBloc(
-            injector.get(),
-            injector.get(),
-            injector.get(),
-            injector.get(),
-          )
+          create: (context) => injector.get<CurrentNativeBalanceBloc>()
             ..add(CurrentNativeBalanceRequested())
             ..add(CurrentNativeBalanceVisibilityRequested()),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) => CurrentNetworkCubit(injector.get())..requestCurrentNetwork(),
+          create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
         ),
       ],
       child: const _ChooseAmountWidget(),

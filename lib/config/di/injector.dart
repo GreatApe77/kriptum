@@ -3,6 +3,7 @@ import 'package:kriptum/config/di/modules/data_sources.dart';
 import 'package:kriptum/config/di/modules/domain_factories.dart';
 import 'package:kriptum/config/di/modules/domain_services.dart';
 import 'package:kriptum/config/di/modules/drivers.dart';
+import 'package:kriptum/config/di/modules/presenters.dart';
 import 'package:kriptum/config/di/modules/repositories.dart';
 import 'package:kriptum/config/di/modules/usecases.dart';
 
@@ -14,4 +15,5 @@ Future<void> initInjector() async {
   await registerDomainFactories();
   await registerRepositories();
   await registerUsecases();
+  await registerPresenters();
 }

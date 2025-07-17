@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:kriptum/infra/persistence/user_preferences/user_preferences.dart';
+import 'package:kriptum/shared/contracts/disposable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserPreferencesImpl implements UserPreferences {
+class UserPreferencesImpl implements UserPreferences, Disposable {
   final SharedPreferences _sh;
+  final StreamController<bool> _visibilityStreamController = StreamController.broadcast();
 
   UserPreferencesImpl({
     required SharedPreferences sharedPreferences,
@@ -61,6 +65,7 @@ class UserPreferencesImpl implements UserPreferences {
 
   @override
   Future<void> setNativeBalanceVisibility(bool isVisible) async {
+    _visibilityStreamController.add(isVisible);
     await _sh.setBool('native_balance_visible', isVisible);
   }
 
@@ -74,5 +79,13 @@ class UserPreferencesImpl implements UserPreferences {
   @override
   Future<void> setEncryptedMnemonic(String encryptedMnemonic) async {
     await _sh.setString('encrypted_mnemonic', encryptedMnemonic);
+  }
+
+  @override
+  Stream<bool> watchNativeBalanceVisibility() => _visibilityStreamController.stream;
+
+  @override
+  Future<void> dispose() async {
+    _visibilityStreamController.close();
   }
 }

@@ -12,11 +12,7 @@ class SendNativeWrapperPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SendTransactionBloc>(
-      create: (context) => SendTransactionBloc(
-        injector.get(),
-        injector.get(),
-        injector.get(),
-      ),
+      create: (context) => injector.get<SendTransactionBloc>(),
       child: _SendNativeWrapperPage(),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_account/current_account_cubit.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
+import 'package:kriptum/blocs/erc20_tokens/erc20_tokens_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/shared/utils/copy_to_clipboard.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
@@ -11,9 +12,12 @@ import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
 import 'package:kriptum/ui/pages/home/widgets/main_balance_viewer.dart';
+import 'package:kriptum/ui/pages/home/widgets/native_token_list_tile.dart';
+import 'package:kriptum/ui/pages/import_tokens/import_tokens_page.dart';
 import 'package:kriptum/ui/pages/scan_qr_code/scan_qr_code_page.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/networks_list.dart';
+import 'dart:math' as math;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -23,12 +27,16 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CurrentAccountCubit>(
-          create: (context) => CurrentAccountCubit(injector.get())..requestCurrentAccount(),
+          create: (context) => injector.get<CurrentAccountCubit>()..requestCurrentAccount(),
         ),
         BlocProvider<CurrentNetworkCubit>(
-          create: (context) => CurrentNetworkCubit(
-            injector.get(),
-          )..requestCurrentNetwork(),
+          create: (context) => injector.get<CurrentNetworkCubit>()..requestCurrentNetwork(),
+        ),
+        BlocProvider<Erc20TokensBloc>(
+          create: (context) => injector.get<Erc20TokensBloc>()
+            ..add(
+              Erc20TokensLoadRequested(),
+            ),
         )
       ],
       child: const HomeView(),
@@ -36,8 +44,27 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +133,92 @@ class HomeView extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: Spacings.horizontalPadding,
         ),
-        child: MainBalanceViewer(),
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            MainBalanceViewer(),
+            TabBar(
+              controller: _tabController,
+              tabs: [
+                Tab(
+                  text: 'Tokens',
+                ),
+                Tab(
+                  text: 'NFTs',
+                )
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  BlocBuilder<Erc20TokensBloc, Erc20TokensState>(
+                    builder: (context, state) {
+                      final tokens = state.tokens;
+                      return ListView(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Transform.rotate(
+                                    angle: math.pi / 2,
+                                    child: Icon(
+                                      Icons.compare_arrows,
+                                    )),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => ImportTokensPage(),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.add),
+                              ),
+                            ],
+                          ),
+                          NativeTokenListTile(),
+                          ...tokens.map((e) => ListTile(
+                                title: Text(e.token.name ?? ''),
+                                subtitle: Text(e.token.symbol),
+                                trailing: Text('${e.balance.toEther()} ${e.token.symbol}'),
+                              ))
+                        ],
+                      );
+                    },
+                  ),
+                  Center(
+                    child: Text('Coming soon...'),
+                  )
+                ],
+              ),
+            )
+            // TabBar(controller: _tabController, tabs: [
+            //   Tab(
+            //     text: 'Tokens',
+            //   ),
+            //   Tab(
+            //     text: 'NFTs',
+            //   ),
+            // ]),
+            // Expanded(
+            //   child: PageView(
+            //     scrollDirection: Axis.horizontal,
+            //     children: [
+            //       Center(
+            //         child: Text('oi'),
+            //       ),
+            //       Center(
+            //         child: Text('99'),
+            //       )
+            //     ],
+            //   ),
+            // )
+          ],
+        ),
       ),
     );
   }

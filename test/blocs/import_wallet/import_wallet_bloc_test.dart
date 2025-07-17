@@ -45,8 +45,7 @@ void main() {
         isA<ImportWalletSuccess>(),
       ],
       verify: (_) {
-        verify(() => mockImportWalletUsecase.execute(any(that: isA<ImportWalletUsecaseParams>())))
-            .called(1);
+        verify(() => mockImportWalletUsecase.execute(any(that: isA<ImportWalletUsecaseParams>()))).called(1);
       },
     );
 
@@ -62,8 +61,7 @@ void main() {
         isA<ImportWalletFailed>().having((e) => e.reason, 'reason', 'Failed to import Wallet'),
       ],
       verify: (_) {
-        verify(() => mockImportWalletUsecase.execute(any(that: isA<ImportWalletUsecaseParams>())))
-            .called(1);
+        verify(() => mockImportWalletUsecase.execute(any(that: isA<ImportWalletUsecaseParams>()))).called(1);
       },
     );
   });

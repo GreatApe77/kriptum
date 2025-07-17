@@ -1,9 +1,10 @@
 part of 'ethereum_address.dart';
+
 class EthereumAddressVO {
   final String value;
   const EthereumAddressVO._(this.value);
-  
-  factory EthereumAddressVO._fromValidated(String value){
+
+  factory EthereumAddressVO._fromValidated(String value) {
     return EthereumAddressVO._(value);
   }
   /*EthereumAddress(this.value) {

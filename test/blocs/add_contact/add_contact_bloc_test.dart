@@ -46,8 +46,7 @@ void main() {
         isA<AddContactSuccess>(),
       ],
       verify: (_) {
-        verify(() => mockAddContactUsecase.execute(any(that: isA<AddContactUsecaseParams>())))
-            .called(1);
+        verify(() => mockAddContactUsecase.execute(any(that: isA<AddContactUsecaseParams>()))).called(1);
       },
     );
 

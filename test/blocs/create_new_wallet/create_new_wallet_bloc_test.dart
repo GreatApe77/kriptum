@@ -131,8 +131,7 @@ void main() {
       blocTest<CreateNewWalletBloc, CreateNewWalletState>(
         'emits [loading, failure] when saving fails',
         build: () {
-          when(() => mockConfirmAndSaveGeneratedAccountsUsecase.execute(any(), any()))
-              .thenThrow(Exception('DB error'));
+          when(() => mockConfirmAndSaveGeneratedAccountsUsecase.execute(any(), any())).thenThrow(Exception('DB error'));
           return sut;
         },
         seed: () => CreateNewWalletState.initial().copyWith(accounts: testAccounts, mnemonic: testMnemonic),

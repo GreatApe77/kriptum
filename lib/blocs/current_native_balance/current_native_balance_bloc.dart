@@ -17,6 +17,7 @@ class CurrentNativeBalanceBloc extends Bloc<CurrentNativeBalanceEvent, CurrentNa
   final NetworksRepository _networksRepository;
   late final StreamSubscription _currentAccountChangeSubscription;
   late final StreamSubscription _currentNetworkChangeSubscription;
+  late final StreamSubscription _visibilitySubscription;
   //late final StreamSubscription _currentNetworkChangeSubscription;
   CurrentNativeBalanceBloc(
     this._getNativeBalanceOfAccountUsecase,
@@ -34,7 +35,18 @@ class CurrentNativeBalanceBloc extends Bloc<CurrentNativeBalanceEvent, CurrentNa
         add(CurrentNativeBalanceRequested());
       },
     );
-
+    _visibilitySubscription = _userPreferences.watchNativeBalanceVisibility().listen(
+      (event) {
+        add(_CurrentNativeBalanceVisibilityRefreshed(isVisible: event));
+      },
+    );
+    on<_CurrentNativeBalanceVisibilityRefreshed>((event, emit) {
+      emit(
+        state.copyWith(
+          isVisible: event.isVisible,
+        ),
+      );
+    });
     on<CurrentNativeBalanceVisibilityRequested>(
       (event, emit) async {
         final isVisible = await _userPreferences.isNativeBalanceVisible();
@@ -79,6 +91,7 @@ class CurrentNativeBalanceBloc extends Bloc<CurrentNativeBalanceEvent, CurrentNa
   Future<void> close() async {
     await _currentAccountChangeSubscription.cancel();
     await _currentNetworkChangeSubscription.cancel();
+    await _visibilitySubscription.cancel();
     return super.close();
   }
 }

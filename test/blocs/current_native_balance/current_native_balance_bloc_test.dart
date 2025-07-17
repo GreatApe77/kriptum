@@ -31,7 +31,7 @@ void main() {
   late MockNetworksRepository mockNetworksRepository;
   late StreamController<Account?> accountStreamController;
   late StreamController<Network> networkStreamController;
-
+  late StreamController<bool> visibilityStreamController;
   final testNetwork = Network(id: 1, name: 'Testnet', rpcUrl: '', ticker: 'TEST', currencyDecimals: 18);
   final testBalance = EtherAmount(valueInWei: BigInt.from(1000));
 
@@ -47,9 +47,11 @@ void main() {
     mockNetworksRepository = MockNetworksRepository();
     accountStreamController = StreamController<Account?>.broadcast();
     networkStreamController = StreamController<Network>.broadcast();
+    visibilityStreamController = StreamController<bool>.broadcast();
 
     when(() => mockAccountsRepository.currentAccountStream()).thenAnswer((_) => accountStreamController.stream);
     when(() => mockNetworksRepository.watchCurrentNetwork()).thenAnswer((_) => networkStreamController.stream);
+    when(() => mockUserPreferences.watchNativeBalanceVisibility()).thenAnswer((_) => visibilityStreamController.stream);
 
     sut = CurrentNativeBalanceBloc(
       mockGetNativeBalanceOfAccountUsecase,
