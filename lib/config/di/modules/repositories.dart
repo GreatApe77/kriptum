@@ -7,15 +7,7 @@ import 'package:kriptum/domain/repositories/mnemonic_repository.dart';
 import 'package:kriptum/domain/repositories/native_balance_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
 import 'package:kriptum/domain/repositories/password_repository.dart';
-import 'package:kriptum/infra/repositories/accounts_repository_impl.dart';
-import 'package:kriptum/infra/repositories/contacts_repository_impl.dart';
-import 'package:kriptum/infra/repositories/erc20_token_balance_repository_impl.dart';
-import 'package:kriptum/infra/repositories/erc20_token_repository_impl.dart';
-import 'package:kriptum/infra/repositories/mnemonic_repository_impl.dart';
-import 'package:kriptum/infra/repositories/native_balance_repository_impl.dart';
-import 'package:kriptum/infra/repositories/networks_repository_impl.dart';
-import 'package:kriptum/infra/repositories/password_repository_impl.dart';
-import 'package:kriptum/infra/services/erc20_token_service_impl.dart';
+import 'package:kriptum/infra/repositories/repositories.dart';
 
 Future<void> registerRepositories() async {
   injector.registerLazySingleton<PasswordRepository>(
