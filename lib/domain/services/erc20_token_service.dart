@@ -11,4 +11,13 @@ abstract interface class Erc20TokenService {
     required String address,
     required String rpcUrl,
   });
+
+  Future<String> transfer({
+    required String contractAddress,
+    required BigInt amount,
+    required String rpcUrl,
+    required String encryptedWallet,
+    required String decryptionPassword,
+    required String toAddress,
+  });
 }

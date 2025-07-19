@@ -29,6 +29,16 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
       "name": "decimals",
       "outputs": [{"name": "", "type": "uint8"}],
       "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {"name": "to", "type": "address"},
+        {"name": "value", "type": "uint256"}
+      ],
+      "name": "transfer",
+      "outputs": [{"name": "", "type": "bool"}],
+      "type": "function"
     }
   ]
   ''';
@@ -86,5 +96,35 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
       rpcUrl: rpcUrl,
       functionName: 'symbol',
     );
+  }
+
+  @override
+  Future<String> transfer({
+    required String contractAddress,
+    required BigInt amount,
+    required String rpcUrl,
+    required String encryptedWallet,
+    required String decryptionPassword,
+    required String toAddress,
+  }) async {
+    final web3Client = Web3Client(rpcUrl, _httpClient);
+    final wallet = Wallet.fromJson(encryptedWallet, decryptionPassword);
+    final abi = ContractAbi.fromJson(_erc20Abi, 'ERC20');
+    final contractAddressHex = EthereumAddress.fromHex(contractAddress);
+    final recipientAddress = EthereumAddress.fromHex(toAddress);
+    final contract = DeployedContract(
+      abi,
+      contractAddressHex,
+    );
+    final function = contract.function('transfer');
+    final transaction = Transaction.callContract(
+      contract: contract,
+      function: function,
+      parameters: [recipientAddress, amount],
+    );
+
+    final transactionHash = await web3Client.sendTransaction(wallet.privateKey, transaction);
+
+    return transactionHash;
   }
 }
