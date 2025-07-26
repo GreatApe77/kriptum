@@ -1,11 +1,12 @@
 import 'package:kriptum/domain/services/erc20_token_service.dart';
-import 'package:web3dart/web3dart.dart';
+//import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart' as http;
+import 'package:kriptum/infra/network/web3_client.dart';
 
 class Erc20TokenServiceImpl implements Erc20TokenService {
-  final http.Client _httpClient;
-
-  Erc20TokenServiceImpl({required http.Client httpClient}) : _httpClient = httpClient;
+  //final http.Client _httpClient;
+  final Web3Client _web3Client;
+  Erc20TokenServiceImpl({required Web3Client web3Client}) : _web3Client = web3Client;
 
   static const String _erc20Abi = '''
   [
@@ -43,59 +44,55 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
   ]
   ''';
 
-  Future<T?> _callFunction<T>({
-    required String address,
-    required String rpcUrl,
-    required String functionName,
-  }) async {
-    try {
-      final web3 = Web3Client(rpcUrl, _httpClient);
-      final contract = DeployedContract(
-        ContractAbi.fromJson(_erc20Abi, 'ERC20'),
-        EthereumAddress.fromHex(address),
-      );
-      final function = contract.function(functionName);
-      final result = await web3.call(
-        contract: contract,
-        function: function,
-        params: [],
-      );
+  @override
+  Future<int?> getDecimals({required String address, required String rpcUrl}) async {
+    final result = await _web3Client.call(
+      contractAddress: address,
+      functionName: 'decimals',
+      params: [],
+      rpcUrl: rpcUrl,
+      abiJson: _erc20Abi,
+    );
+    if (result.isNotEmpty) {
+      return (result.first as BigInt).toInt();
+    }
+    return null;
+    /* final result = await _callFunction<BigInt>(
+      address: address,
+      rpcUrl: rpcUrl,
+      functionName: 'decimals',
+    );
+    return result?.toInt(); */
+  }
 
-      if (result.isNotEmpty) {
-        return result.first as T;
-      }
-    } catch (e) {
-      print('Error calling $functionName: $e');
+  @override
+  Future<String?> getName({required String address, required String rpcUrl}) async {
+    final result = await _web3Client.call(
+      contractAddress: address,
+      functionName: 'name',
+      params: [],
+      rpcUrl: rpcUrl,
+      abiJson: _erc20Abi,
+    );
+    if (result.isNotEmpty) {
+      return result.first as String;
     }
     return null;
   }
 
   @override
-  Future<int?> getDecimals({required String address, required String rpcUrl}) async {
-    final result = await _callFunction<BigInt>(
-      address: address,
-      rpcUrl: rpcUrl,
-      functionName: 'decimals',
-    );
-    return result?.toInt();
-  }
-
-  @override
-  Future<String?> getName({required String address, required String rpcUrl}) {
-    return _callFunction<String>(
-      address: address,
-      rpcUrl: rpcUrl,
-      functionName: 'name',
-    );
-  }
-
-  @override
-  Future<String?> getSymbol({required String address, required String rpcUrl}) {
-    return _callFunction<String>(
-      address: address,
-      rpcUrl: rpcUrl,
+  Future<String?> getSymbol({required String address, required String rpcUrl}) async {
+    final result = await _web3Client.call(
+      contractAddress: address,
       functionName: 'symbol',
+      params: [],
+      rpcUrl: rpcUrl,
+      abiJson: _erc20Abi,
     );
+    if (result.isNotEmpty) {
+      return result.first as String;
+    }
+    return null;
   }
 
   @override
@@ -107,7 +104,8 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
     required String decryptionPassword,
     required String toAddress,
   }) async {
-    final web3Client = Web3Client(rpcUrl, _httpClient);
+    return '';
+    /*  final web3Client = Web3Client(rpcUrl, _httpClient);
     final wallet = Wallet.fromJson(encryptedWallet, decryptionPassword);
     final abi = ContractAbi.fromJson(_erc20Abi, 'ERC20');
     final contractAddressHex = EthereumAddress.fromHex(contractAddress);
@@ -125,6 +123,6 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
 
     final transactionHash = await web3Client.sendTransaction(wallet.privateKey, transaction);
 
-    return transactionHash;
+    return transactionHash; */
   }
 }
