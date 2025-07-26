@@ -23,7 +23,7 @@ Future<void> registerDomainServices() async {
   );
   injector.registerLazySingleton<Erc20TokenService>(
     () => Erc20TokenServiceImpl(
-      httpClient: injector.get(),
+      web3Client: injector.get(),
     ),
   );
 }
