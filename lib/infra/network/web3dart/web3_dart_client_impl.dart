@@ -62,6 +62,7 @@ class Web3DartClientImpl implements Web3Client {
     return txHash;
   }
 
+  @override
   Future<BigInt> getBalance({
     required String address,
     required String rpcUrl,

@@ -15,5 +15,9 @@ abstract interface class Web3Client {
     required String decryptionPassword,
     required String abiJson,
   });
-  
+
+  Future<BigInt> getBalance({
+    required String address,
+    required String rpcUrl,
+  });
 }
