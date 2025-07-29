@@ -1,12 +1,12 @@
 abstract interface class Web3Client {
-  Future<List<dynamic>> call({
+  Future<List<dynamic>> callContract({
     required String contractAddress,
     required String functionName,
     required List<dynamic> params,
     required String rpcUrl,
     required String abiJson,
   });
-  Future<String> sendTransaction({
+  Future<String> sendContractTransaction({
     required String contractAddress,
     required String functionName,
     required List<dynamic> params,
@@ -15,4 +15,5 @@ abstract interface class Web3Client {
     required String decryptionPassword,
     required String abiJson,
   });
+  
 }

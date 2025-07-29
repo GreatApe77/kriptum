@@ -4,18 +4,18 @@ import 'package:kriptum/infra/network/web3_client.dart';
 import 'package:web3dart/web3dart.dart' as web3;
 
 class Web3DartClientImpl implements Web3Client {
-  final http.Client httpClient;
+  final http.Client _httpClient;
 
-  Web3DartClientImpl(this.httpClient);
+  Web3DartClientImpl(this._httpClient);
   @override
-  Future<List<dynamic>> call({
+  Future<List<dynamic>> callContract({
     required String contractAddress,
     required String functionName,
     required List params,
     required String rpcUrl,
     required String abiJson,
   }) async {
-    final client = web3.Web3Client(rpcUrl, httpClient);
+    final client = web3.Web3Client(rpcUrl, _httpClient);
     final contract = web3.DeployedContract(
       web3.ContractAbi.fromJson(abiJson, 'Contract'),
       web3.EthereumAddress.fromHex(contractAddress),
@@ -30,7 +30,7 @@ class Web3DartClientImpl implements Web3Client {
   }
 
   @override
-  Future<String> sendTransaction({
+  Future<String> sendContractTransaction({
     required String contractAddress,
     required String functionName,
     required List params,
@@ -39,7 +39,7 @@ class Web3DartClientImpl implements Web3Client {
     required String decryptionPassword,
     required String abiJson,
   }) async {
-    final client = web3.Web3Client(rpcUrl, httpClient);
+    final client = web3.Web3Client(rpcUrl, _httpClient);
     final credentials = web3.Wallet.fromJson(
       encryptedWallet,
       decryptionPassword,
@@ -60,5 +60,14 @@ class Web3DartClientImpl implements Web3Client {
       fetchChainIdFromNetworkId: true,
     );
     return txHash;
+  }
+
+  Future<BigInt> getBalance({
+    required String address,
+    required String rpcUrl,
+  }) async {
+    final client = web3.Web3Client(rpcUrl, _httpClient);
+    final result = await client.getBalance(web3.EthereumAddress.fromHex(address));
+    return result.getInWei;
   }
 }

@@ -46,7 +46,7 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
 
   @override
   Future<int?> getDecimals({required String address, required String rpcUrl}) async {
-    final result = await _web3Client.call(
+    final result = await _web3Client.callContract(
       contractAddress: address,
       functionName: 'decimals',
       params: [],
@@ -67,7 +67,7 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
 
   @override
   Future<String?> getName({required String address, required String rpcUrl}) async {
-    final result = await _web3Client.call(
+    final result = await _web3Client.callContract(
       contractAddress: address,
       functionName: 'name',
       params: [],
@@ -82,7 +82,7 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
 
   @override
   Future<String?> getSymbol({required String address, required String rpcUrl}) async {
-    final result = await _web3Client.call(
+    final result = await _web3Client.callContract(
       contractAddress: address,
       functionName: 'symbol',
       params: [],
