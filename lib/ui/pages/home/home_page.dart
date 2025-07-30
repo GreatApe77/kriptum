@@ -11,6 +11,7 @@ import 'package:kriptum/shared/utils/format_address.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/pages/home/widgets/account_viewer_btn.dart';
 import 'package:kriptum/ui/pages/home/widgets/accounts_modal.dart';
+import 'package:kriptum/ui/pages/home/widgets/asset_list_tile.dart';
 import 'package:kriptum/ui/pages/home/widgets/main_balance_viewer.dart';
 import 'package:kriptum/ui/pages/home/widgets/native_token_list_tile.dart';
 import 'package:kriptum/ui/pages/import_tokens/import_tokens_page.dart';
@@ -181,11 +182,13 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                             ],
                           ),
                           NativeTokenListTile(),
-                          ...tokens.map((e) => ListTile(
-                                title: Text(e.token.name ?? ''),
-                                subtitle: Text(e.token.symbol),
-                                trailing: Text('${e.balance.toEther()} ${e.token.symbol}'),
-                              ))
+                          ...tokens.map(
+                            (e) => AssetListTile(
+                              name: e.token.name ?? '',
+                              ticker: e.token.symbol,
+                              assetBalance: e.balance.toEther(fractionDigitAmount: 4),
+                            ),
+                          )
                         ],
                       );
                     },
