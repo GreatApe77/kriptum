@@ -1,6 +1,4 @@
 import 'package:kriptum/domain/services/erc20_token_service.dart';
-//import 'package:web3dart/web3dart.dart';
-import 'package:http/http.dart' as http;
 import 'package:kriptum/infra/network/web3_client.dart';
 
 class Erc20TokenServiceImpl implements Erc20TokenService {
@@ -104,25 +102,15 @@ class Erc20TokenServiceImpl implements Erc20TokenService {
     required String decryptionPassword,
     required String toAddress,
   }) async {
-    return '';
-    /*  final web3Client = Web3Client(rpcUrl, _httpClient);
-    final wallet = Wallet.fromJson(encryptedWallet, decryptionPassword);
-    final abi = ContractAbi.fromJson(_erc20Abi, 'ERC20');
-    final contractAddressHex = EthereumAddress.fromHex(contractAddress);
-    final recipientAddress = EthereumAddress.fromHex(toAddress);
-    final contract = DeployedContract(
-      abi,
-      contractAddressHex,
+    final txHash = await _web3Client.sendContractTransaction(
+      contractAddress: contractAddress,
+      functionName: 'transfer',
+      params: [toAddress, amount],
+      rpcUrl: rpcUrl,
+      encryptedWallet: encryptedWallet,
+      decryptionPassword: decryptionPassword,
+      abiJson: _erc20Abi,
     );
-    final function = contract.function('transfer');
-    final transaction = Transaction.callContract(
-      contract: contract,
-      function: function,
-      parameters: [recipientAddress, amount],
-    );
-
-    final transactionHash = await web3Client.sendTransaction(wallet.privateKey, transaction);
-
-    return transactionHash; */
+    return txHash;
   }
 }
