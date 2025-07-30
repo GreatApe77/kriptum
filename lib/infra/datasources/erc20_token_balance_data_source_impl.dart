@@ -1,17 +1,16 @@
-import 'package:http/http.dart' as http;
 import 'package:kriptum/domain/models/ether_amount.dart';
 
 import 'package:kriptum/infra/datasources/data_sources.dart';
-import 'package:web3dart/web3dart.dart' as web3;
+import 'package:kriptum/infra/network/web3_client.dart';
 
 class Erc20TokenBalanceDataSourceImpl implements Erc20TokenBalanceDataSource {
-  final http.Client _httpClient;
+  final Web3Client _web3client;
   static const String _erc20Abi = '''
   [
     {"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}
   ]
   ''';
-  Erc20TokenBalanceDataSourceImpl(this._httpClient);
+  Erc20TokenBalanceDataSourceImpl(this._web3client);
 
   @override
   Future<EtherAmount> getErc20BalanceOfAccount({
@@ -19,21 +18,14 @@ class Erc20TokenBalanceDataSourceImpl implements Erc20TokenBalanceDataSource {
     required String contractAddress,
     required String networkRpcUrl,
   }) async {
-    final client = web3.Web3Client(networkRpcUrl, _httpClient);
-    final contract = web3.DeployedContract(
-      web3.ContractAbi.fromJson(_erc20Abi, 'ERC20'),
-      web3.EthereumAddress.fromHex(contractAddress),
+    final callResult = await _web3client.callContract(
+      contractAddress: contractAddress,
+      functionName: "balanceOf",
+      params: [accountAddress],
+      rpcUrl: networkRpcUrl,
+      abiJson: _erc20Abi,
     );
-
-    final balanceFunction = contract.function('balanceOf');
-    final address = web3.EthereumAddress.fromHex(accountAddress);
-
-    final result = await client.call(
-      contract: contract,
-      function: balanceFunction,
-      params: [address],
-    );
-    final balance = result.first as BigInt;
-    return EtherAmount(valueInWei: balance);
+    final balanceInWei = callResult.first as BigInt;
+    return EtherAmount(valueInWei: balanceInWei);
   }
 }
