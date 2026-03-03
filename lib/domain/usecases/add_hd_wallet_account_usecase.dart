@@ -23,7 +23,7 @@ class AddHdWalletAccountUsecase {
     final storedInMemoryPassword = _passwordRepository.getPassword();
     final passwordValidationResult = Password.create(storedInMemoryPassword);
     if (passwordValidationResult.isFailure) {
-      throw DomainException(passwordValidationResult.failure!);
+      throw InvalidStoredPasswordException(passwordValidationResult.failure!);
     }
     final encryptedMnemonic = await _mnemonicRepository.retrieveEncryptedMnemonic();
     final mnemonic = _encryptionService.decrypt(
@@ -39,4 +39,8 @@ class AddHdWalletAccountUsecase {
     final generatedAccount = await _accountGeneratorService.generateSingleAccount(params);
     await _accountsRepository.saveAccounts([generatedAccount]);
   }
+}
+
+class InvalidStoredPasswordException extends DomainException {
+  InvalidStoredPasswordException(super.message);
 }
