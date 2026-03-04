@@ -405,4 +405,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourAccounts => 'Your Accounts';
+
+  @override
+  String get errorInvalidCurrentAccountState => 'Invalid current account state';
+
+  @override
+  String get errorCannotAddYourself => 'Cannot add yourself';
+
+  @override
+  String get errorNoCurrentAccountFound => 'No current account found';
+
+  @override
+  String get errorWrongPassword => 'Wrong password';
+
+  @override
+  String get errorAccountIsNull => 'Account is null';
+
+  @override
+  String get errorAccountAlreadySaved => 'Account already saved';
+
+  @override
+  String get errorTokenAlreadyImported => 'Token already imported';
+
+  @override
+  String get errorInvalidAccountState => 'Invalid Account state';
+
+  @override
+  String get errorUnknown => 'Unknown error';
 }

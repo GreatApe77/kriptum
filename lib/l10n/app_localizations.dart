@@ -859,6 +859,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Accounts'**
   String get yourAccounts;
+
+  /// Error when current account state is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid current account state'**
+  String get errorInvalidCurrentAccountState;
+
+  /// Error when trying to add yourself as a contact
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot add yourself'**
+  String get errorCannotAddYourself;
+
+  /// Error when no current account is found
+  ///
+  /// In en, this message translates to:
+  /// **'No current account found'**
+  String get errorNoCurrentAccountFound;
+
+  /// Error when the password is incorrect
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password'**
+  String get errorWrongPassword;
+
+  /// Error when account is null
+  ///
+  /// In en, this message translates to:
+  /// **'Account is null'**
+  String get errorAccountIsNull;
+
+  /// Error when account already exists
+  ///
+  /// In en, this message translates to:
+  /// **'Account already saved'**
+  String get errorAccountAlreadySaved;
+
+  /// Error when ERC20 token is already imported
+  ///
+  /// In en, this message translates to:
+  /// **'Token already imported'**
+  String get errorTokenAlreadyImported;
+
+  /// Error when account state is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Account state'**
+  String get errorInvalidAccountState;
+
+  /// Generic unknown error message
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get errorUnknown;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

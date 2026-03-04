@@ -406,4 +406,31 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get yourAccounts => 'Suas Contas';
+
+  @override
+  String get errorInvalidCurrentAccountState => 'Estado da conta atual inválido';
+
+  @override
+  String get errorCannotAddYourself => 'Não é possível adicionar você mesmo';
+
+  @override
+  String get errorNoCurrentAccountFound => 'Nenhuma conta atual encontrada';
+
+  @override
+  String get errorWrongPassword => 'Senha incorreta';
+
+  @override
+  String get errorAccountIsNull => 'Conta é nula';
+
+  @override
+  String get errorAccountAlreadySaved => 'Conta já salva';
+
+  @override
+  String get errorTokenAlreadyImported => 'Token já importado';
+
+  @override
+  String get errorInvalidAccountState => 'Estado da conta inválido';
+
+  @override
+  String get errorUnknown => 'Erro desconhecido';
 }
