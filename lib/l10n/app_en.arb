@@ -526,5 +526,41 @@
     "yourAccounts": "Your Accounts",
     "@yourAccounts": {
         "description": "Your Accounts section header"
+    },
+    "errorInvalidCurrentAccountState": "Invalid current account state",
+    "@errorInvalidCurrentAccountState": {
+        "description": "Error when current account state is invalid"
+    },
+    "errorCannotAddYourself": "Cannot add yourself",
+    "@errorCannotAddYourself": {
+        "description": "Error when trying to add yourself as a contact"
+    },
+    "errorNoCurrentAccountFound": "No current account found",
+    "@errorNoCurrentAccountFound": {
+        "description": "Error when no current account is found"
+    },
+    "errorWrongPassword": "Wrong password",
+    "@errorWrongPassword": {
+        "description": "Error when the password is incorrect"
+    },
+    "errorAccountIsNull": "Account is null",
+    "@errorAccountIsNull": {
+        "description": "Error when account is null"
+    },
+    "errorAccountAlreadySaved": "Account already saved",
+    "@errorAccountAlreadySaved": {
+        "description": "Error when account already exists"
+    },
+    "errorTokenAlreadyImported": "Token already imported",
+    "@errorTokenAlreadyImported": {
+        "description": "Error when ERC20 token is already imported"
+    },
+    "errorInvalidAccountState": "Invalid Account state",
+    "@errorInvalidAccountState": {
+        "description": "Error when account state is invalid"
+    },
+    "errorUnknown": "Unknown error",
+    "@errorUnknown": {
+        "description": "Generic unknown error message"
     }
 }

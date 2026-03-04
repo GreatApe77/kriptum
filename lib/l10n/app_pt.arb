@@ -127,5 +127,14 @@
     "confirmed": "Confirmado",
     "status": "Status",
     "addNetwork": "Adicionar rede",
-    "yourAccounts": "Suas Contas"
+    "yourAccounts": "Suas Contas",
+    "errorInvalidCurrentAccountState": "Estado da conta atual inválido",
+    "errorCannotAddYourself": "Não é possível adicionar você mesmo",
+    "errorNoCurrentAccountFound": "Nenhuma conta atual encontrada",
+    "errorWrongPassword": "Senha incorreta",
+    "errorAccountIsNull": "Conta é nula",
+    "errorAccountAlreadySaved": "Conta já salva",
+    "errorTokenAlreadyImported": "Token já importado",
+    "errorInvalidAccountState": "Estado da conta inválido",
+    "errorUnknown": "Erro desconhecido"
 }
