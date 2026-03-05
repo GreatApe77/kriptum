@@ -7,9 +7,9 @@ final class AddContactInitial extends AddContactState {}
 final class AddContactLoading extends AddContactState {}
 
 final class AddContactError extends AddContactState {
-  final String message;
+  final Exception error;
 
-  AddContactError({required this.message});
+  AddContactError({required this.error});
 }
 
 final class AddContactSuccess extends AddContactState {}

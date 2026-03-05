@@ -51,28 +51,15 @@ void main() {
     );
 
     blocTest<AddContactBloc, AddContactState>(
-      'emits [AddContactLoading, AddContactError] with specific message on DomainException',
+      'emits [AddContactLoading, AddContactError] with Specified exception',
       build: () {
-        when(() => mockAddContactUsecase.execute(any())).thenThrow(DomainException('Cannot add yourself'));
+        when(() => mockAddContactUsecase.execute(any())).thenThrow(CannotAddYourselfException(''));
         return sut;
       },
       act: (bloc) => bloc.add(AddContactRequested(contact: testContact)),
       expect: () => [
         isA<AddContactLoading>(),
-        isA<AddContactError>().having((e) => e.message, 'message', 'Cannot add yourself'),
-      ],
-    );
-
-    blocTest<AddContactBloc, AddContactState>(
-      'emits [AddContactLoading, AddContactError] with generic message on other Exceptions',
-      build: () {
-        when(() => mockAddContactUsecase.execute(any())).thenThrow(Exception('Some other error'));
-        return sut;
-      },
-      act: (bloc) => bloc.add(AddContactRequested(contact: testContact)),
-      expect: () => [
-        isA<AddContactLoading>(),
-        isA<AddContactError>().having((e) => e.message, 'message', 'Unknown error'),
+        isA<AddContactError>().having((state) => state.error, 'error', isA<CannotAddYourselfException>()),
       ],
     );
   });

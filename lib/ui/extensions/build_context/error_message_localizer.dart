@@ -10,8 +10,11 @@ import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
 
 extension ErrorMessageLocalizer on BuildContext {
-  String localize(DomainException exception) {
+  String localize(Exception exception) {
     final l10n = AppLocalizations.of(this)!;
+    if(exception is! DomainException) {
+      return l10n.errorUnknown;
+    }
     switch (exception) {
       case InvalidCurrentAccountStateException():
         return l10n.errorInvalidCurrentAccountState;

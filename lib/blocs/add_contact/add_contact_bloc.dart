@@ -22,14 +22,8 @@ class AddContactBloc extends Bloc<AddContactEvent, AddContactState> {
       );
       await _addContactUsecase.execute(params);
       emit(AddContactSuccess());
-    } on DomainException catch (e) {
-      emit(
-        AddContactError(message: e.getReason()),
-      );
-    } catch (e) {
-      emit(
-        AddContactError(message: 'Unknown error'),
-      );
+    } on Exception catch (e) {
+      emit(AddContactError(error: e));
     }
   }
 }
