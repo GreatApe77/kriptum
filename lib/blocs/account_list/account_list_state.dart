@@ -2,24 +2,24 @@ part of 'account_list_bloc.dart';
 
 class AccountListState {
   final List<Account> accounts;
-  final String errorMessage;
+  final Exception? accountListError;
 
-  AccountListState({required this.accounts, required this.errorMessage});
+  AccountListState({required this.accounts, required this.accountListError});
 
   AccountListState copyWith({
     List<Account>? accounts,
-    String? errorMessage,
+    Exception? accountListError,
   }) {
     return AccountListState(
       accounts: accounts ?? this.accounts,
-      errorMessage: errorMessage ?? this.errorMessage,
+      accountListError: accountListError ?? this.accountListError,
     );
   }
 
   factory AccountListState.initial() {
     return AccountListState(
       accounts: [],
-      errorMessage: '',
+      accountListError: null,
     );
   }
 }

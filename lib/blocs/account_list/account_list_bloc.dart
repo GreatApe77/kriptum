@@ -42,10 +42,10 @@ class AccountListBloc extends Bloc<AccountListEvent, AccountListState> {
         final updatedAccount = event.updatedAccount;
         try {
           await _accountsRepository.updateAccount(updatedAccount);
-        } catch (e) {
+        }on Exception catch (e) {
           emit(
             state.copyWith(
-              errorMessage: 'Failed to update account.',
+              accountListError: e,
             ),
           );
         }

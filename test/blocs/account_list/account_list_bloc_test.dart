@@ -96,7 +96,7 @@ void main() {
         },
         act: (bloc) => bloc.add(AccountsListUpdated(updatedAccount: updatedAccount)),
         expect: () => [
-          isA<AccountListState>().having((s) => s.errorMessage, 'errorMessage', 'Failed to update account.'),
+          isA<AccountListState>().having((s) => s.accountListError, 'errorMessage', isA<Exception>()),
         ],
       );
     });
