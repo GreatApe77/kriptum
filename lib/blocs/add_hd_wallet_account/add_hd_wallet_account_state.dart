@@ -7,9 +7,9 @@ final class AddHdWalletAccountInitial extends AddHdWalletAccountState {}
 final class AddHdWalletAccountLoading extends AddHdWalletAccountState {}
 
 final class AddHdWalletAccountError extends AddHdWalletAccountState {
-  final String message;
+  final Exception error;
 
-  AddHdWalletAccountError({required this.message});
+  AddHdWalletAccountError({required this.error});
 }
 
 final class AddHdWalletAccountSuccess extends AddHdWalletAccountState {}

@@ -10,6 +10,7 @@ import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/value_objects/ethereum_amount.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/pages/edit_account/edit_account_page.dart';
 import 'package:kriptum/ui/pages/import_account_from_private_key/import_account_from_private_key_page.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
@@ -153,7 +154,7 @@ class _AccountsModalView extends StatelessWidget {
                 }
                 if (state is AddHdWalletAccountError) {
                   showSnackBar(
-                    message: state.message,
+                    message: context.localize(state.error),
                     context: context,
                     snackBarType: SnackBarType.error,
                   );

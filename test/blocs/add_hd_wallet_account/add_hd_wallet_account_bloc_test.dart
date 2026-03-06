@@ -50,7 +50,7 @@ void main() {
       act: (bloc) => bloc.add(AddHdWalletAccountRequested()),
       expect: () => [
         isA<AddHdWalletAccountLoading>(),
-        isA<AddHdWalletAccountError>().having((e) => e.message, 'message', 'Invalid password'),
+        isA<AddHdWalletAccountError>().having((e) => e.error, 'error', isA<Exception>()),
       ],
       verify: (_) {
         verify(() => mockAddHdWalletAccountUsecase.execute()).called(1);
@@ -66,7 +66,7 @@ void main() {
       act: (bloc) => bloc.add(AddHdWalletAccountRequested()),
       expect: () => [
         isA<AddHdWalletAccountLoading>(),
-        isA<AddHdWalletAccountError>().having((e) => e.message, 'message', 'Could not add Wallet'),
+        isA<AddHdWalletAccountError>().having((e) => e.error, 'error', isA<Exception>()),
       ],
       verify: (_) {
         verify(() => mockAddHdWalletAccountUsecase.execute()).called(1);
