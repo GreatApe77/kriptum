@@ -5,6 +5,7 @@ import 'package:kriptum/blocs/unlock_wallet/unlock_wallet_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/pages/home_wrapper/home_wrapper_page.dart';
 import 'package:kriptum/ui/pages/splash/splash_page.dart';
 import 'package:kriptum/ui/pages/unlock_wallet/widgets/erase_wallet_dialog.dart';
@@ -182,7 +183,7 @@ class _UnlockWalletViewState extends State<UnlockWalletView> {
               );
             } else if (state is ResetWalletFailure) {
               showSnackBar(
-                message: state.error,
+                message: context.localize(state.error),
                 context: context,
                 snackBarType: SnackBarType.error,
               );

@@ -15,8 +15,10 @@ class ResetWalletBloc extends Bloc<ResetWalletEvent, ResetWalletState> {
         emit(ResetWalletInProgress());
         await _resetWalletUsecase.execute();
         emit(ResetWalletSuccess());
+      } on Exception catch (e) {
+        emit(ResetWalletFailure(e));
       } catch (e) {
-        emit(ResetWalletFailure('Failed to reset wallet'));
+        emit(ResetWalletFailure(Exception('Failed to reset wallet')));
       }
     });
   }

@@ -9,7 +9,7 @@ final class ResetWalletInProgress extends ResetWalletState {}
 final class ResetWalletSuccess extends ResetWalletState {}
 
 final class ResetWalletFailure extends ResetWalletState {
-  final String error;
+  final Exception error;
 
   ResetWalletFailure(this.error);
 }
