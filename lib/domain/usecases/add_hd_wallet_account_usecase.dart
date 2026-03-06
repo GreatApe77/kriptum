@@ -40,7 +40,3 @@ class AddHdWalletAccountUsecase {
     await _accountsRepository.saveAccounts([generatedAccount]);
   }
 }
-
-class InvalidStoredPasswordException extends DomainException {
-  InvalidStoredPasswordException(super.message);
-}

@@ -1,5 +1,4 @@
 import 'package:kriptum/domain/exceptions/domain_exception.dart';
-import 'package:kriptum/domain/exceptions/invalid_ethereum_address_exception.dart';
 import 'package:kriptum/domain/models/erc20_token.dart';
 import 'package:kriptum/domain/repositories/erc20_token_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
@@ -56,20 +55,4 @@ class ImportErc20TokenInput {
     required this.decimals,
     required this.contractAddress,
   });
-}
-
-class InvalidTokenNameException extends DomainException {
-  InvalidTokenNameException(super.message);
-}
-
-class InvalidTokenDecimalsException extends DomainException {
-  InvalidTokenDecimalsException(super.message);
-}
-
-class InvalidTokenSymbolException extends DomainException {
-  InvalidTokenSymbolException(super.message);
-}
-
-class Erc20TokenAlreadyImportedException extends DomainException {
-  Erc20TokenAlreadyImportedException(super.message);
 }

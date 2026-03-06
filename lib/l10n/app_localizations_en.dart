@@ -432,4 +432,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorUnknown => 'Unknown error';
+
+  @override
+  String get notEnoughBalance => 'Not enough balance';
+
+  @override
+  String get passwordsDontMatchOrAreEmpty => 'Passwords don\'t match or are empty';
 }

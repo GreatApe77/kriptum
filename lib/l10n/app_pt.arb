@@ -136,5 +136,7 @@
     "errorAccountAlreadySaved": "Conta já salva",
     "errorTokenAlreadyImported": "Token já importado",
     "errorInvalidAccountState": "Estado da conta inválido",
-    "errorUnknown": "Erro desconhecido"
+    "errorUnknown": "Erro desconhecido",
+    "notEnoughBalance": "Saldo insuficiente",
+    "passwordsDontMatchOrAreEmpty": "As senhas não coincidem ou estão vazias"
 }

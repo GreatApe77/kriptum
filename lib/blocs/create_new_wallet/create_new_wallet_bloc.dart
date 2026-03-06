@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:kriptum/domain/exceptions/passwords_dont_match_or_are_empty_exception.dart';
+import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
 import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usecase.dart';

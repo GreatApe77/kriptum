@@ -1,5 +1,4 @@
 import 'package:kriptum/domain/exceptions/domain_exception.dart';
-import 'package:kriptum/domain/exceptions/invalid_current_account_state_exception.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/password_repository.dart';
 import 'package:kriptum/domain/services/account_decryption_with_password_service.dart';
@@ -31,8 +30,4 @@ class UnlockWalletUsecase {
     }
     _passwordRepository.setPassword(password);
   }
-}
-
-class WrongPasswordException extends DomainException {
-  WrongPasswordException(super.message);
 }

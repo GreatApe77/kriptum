@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kriptum/domain/exceptions/invalid_current_account_state_exception.dart';
+import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/services/account_decryption_with_password_service.dart';
 import 'package:kriptum/domain/usecases/unlock_wallet_usecase.dart';

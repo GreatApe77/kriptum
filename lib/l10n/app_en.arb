@@ -562,5 +562,13 @@
     "errorUnknown": "Unknown error",
     "@errorUnknown": {
         "description": "Generic unknown error message"
+    },
+    "notEnoughBalance": "Not enough balance",
+    "@notEnoughBalance": {
+      "description": "notEnoughBalance"
+    },
+    "passwordsDontMatchOrAreEmpty": "Passwords don't match or are empty",
+    "@passwordsDontMatchOrAreEmpty": {
+      "description": "passwordsDontMatchOrAreEmpty"
     }
 }

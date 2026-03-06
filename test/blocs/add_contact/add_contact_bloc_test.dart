@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kriptum/blocs/add_contact/add_contact_bloc.dart';
+import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/models/contact.dart';
 import 'package:kriptum/domain/usecases/add_contact_usecase.dart';
 import 'package:mocktail/mocktail.dart';

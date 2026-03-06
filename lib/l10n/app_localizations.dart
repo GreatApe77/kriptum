@@ -913,6 +913,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown error'**
   String get errorUnknown;
+
+  /// notEnoughBalance
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough balance'**
+  String get notEnoughBalance;
+
+  /// passwordsDontMatchOrAreEmpty
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords don\'t match or are empty'**
+  String get passwordsDontMatchOrAreEmpty;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

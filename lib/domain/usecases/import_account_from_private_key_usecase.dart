@@ -37,7 +37,3 @@ class ImportAccountFromPrivateKeyInput {
 
   ImportAccountFromPrivateKeyInput({required this.privateKey});
 }
-
-class AccountAlreadyExistsException extends DomainException {
-  AccountAlreadyExistsException(super.message);
-}

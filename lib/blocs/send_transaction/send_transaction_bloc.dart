@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:kriptum/domain/exceptions/not_enough_balance_exception.dart';
+import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
 import 'package:kriptum/domain/services/gas_price_service.dart';

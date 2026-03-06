@@ -1,4 +1,4 @@
-import 'package:kriptum/domain/exceptions/invalid_ethereum_address_exception.dart';
+import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
 import 'package:kriptum/domain/services/erc20_token_service.dart';
 import 'package:kriptum/domain/value_objects/ethereum_address/ethereum_address.dart';

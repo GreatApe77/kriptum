@@ -433,4 +433,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get errorUnknown => 'Erro desconhecido';
+
+  @override
+  String get notEnoughBalance => 'Saldo insuficiente';
+
+  @override
+  String get passwordsDontMatchOrAreEmpty => 'As senhas não coincidem ou estão vazias';
 }

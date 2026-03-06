@@ -2,7 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/domain/exceptions/domain_exception.dart';
-import 'package:kriptum/domain/exceptions/not_enough_balance_exception.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/network.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
