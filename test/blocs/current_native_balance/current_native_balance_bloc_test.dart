@@ -132,7 +132,7 @@ void main() {
           isA<CurrentNativeBalanceState>().having((s) => s.status, 'status', CurrentNativeBalanceStatus.loading),
           isA<CurrentNativeBalanceState>()
               .having((s) => s.status, 'status', CurrentNativeBalanceStatus.error)
-              .having((s) => s.errorMessage, 'errorMessage', 'Failed to load native balance'),
+              .having((s) => s.error, 'errorMessage', isA<Exception>()),
         ],
       );
     });
