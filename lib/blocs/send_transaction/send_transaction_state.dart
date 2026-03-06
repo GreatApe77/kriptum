@@ -23,7 +23,7 @@ class SendTransactionState {
   final BigInt? amount;
   final String? txHash;
   final String? followOnBlockExplorerUrl;
-  final String errorMessage;
+  final Exception error;
   final bool toAddressEqualsCurrentAccount;
 
   SendTransactionState({
@@ -32,7 +32,7 @@ class SendTransactionState {
     required this.amount,
     required this.txHash,
     required this.followOnBlockExplorerUrl,
-    required this.errorMessage,
+    required this.error,
     required this.toAddressEqualsCurrentAccount,
     required this.status,
     required this.amountValidationStatus,
@@ -53,7 +53,7 @@ class SendTransactionState {
       amount: null,
       txHash: null,
       followOnBlockExplorerUrl: null,
-      errorMessage: '',
+      error: Exception(''),
       toAddressEqualsCurrentAccount: false,
       status: SendTransactionStatus.confirmationIdle,
       gasFee: null,
@@ -65,7 +65,7 @@ class SendTransactionState {
     BigInt? amount,
     String? txHash,
     String? followOnBlockExplorerUrl,
-    String? errorMessage,
+    Exception? error,
     bool? toAddressEqualsCurrentAccount,
     SendTransactionStatus? status,
     AmountValidationStatus? amountValidationStatus,
@@ -81,7 +81,7 @@ class SendTransactionState {
       amount: amount ?? this.amount,
       txHash: txHash ?? this.txHash,
       followOnBlockExplorerUrl: followOnBlockExplorerUrl ?? this.followOnBlockExplorerUrl,
-      errorMessage: errorMessage ?? this.errorMessage,
+      error: error ?? this.error,
       toAddressEqualsCurrentAccount: toAddressEqualsCurrentAccount ?? this.toAddressEqualsCurrentAccount,
       status: status ?? this.status,
       amountValidationStatus: amountValidationStatus ?? this.amountValidationStatus,

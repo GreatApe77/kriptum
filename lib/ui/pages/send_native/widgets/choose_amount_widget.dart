@@ -8,6 +8,7 @@ import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/value_objects/ethereum_amount.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
 import 'package:kriptum/ui/tokens/placeholders.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
@@ -164,15 +165,14 @@ class _ChooseAmountWidgetState extends State<_ChooseAmountWidget> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   BlocListener<SendTransactionBloc, SendTransactionState>(
-                    listenWhen: (previous, current) => previous.errorMessage != current.errorMessage,
+                    listenWhen: (previous, current) =>
+                        current.amountValidationStatus == AmountValidationStatus.validationError,
                     listener: (context, state) {
-                      if (state.errorMessage.isNotEmpty) {
-                        showSnackBar(
-                          message: state.errorMessage,
-                          context: context,
-                          snackBarType: SnackBarType.error,
-                        );
-                      }
+                      showSnackBar(
+                        message: context.localize(state.error),
+                        context: context,
+                        snackBarType: SnackBarType.error,
+                      );
                     },
                     child: BlocSelector<SendTransactionBloc, SendTransactionState, AmountValidationStatus>(
                       selector: (state) {

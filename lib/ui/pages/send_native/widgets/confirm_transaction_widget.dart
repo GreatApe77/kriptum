@@ -10,6 +10,7 @@ import 'package:kriptum/domain/value_objects/ethereum_amount.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
 import 'package:kriptum/shared/utils/format_address.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/page_title.dart';
 import 'package:kriptum/ui/pages/send_native/widgets/transaction_info_dialog.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
@@ -283,7 +284,7 @@ class _ConfirmTransactionWidget extends StatelessWidget {
                   }
                   if (state.status == SendTransactionStatus.confirmationError) {
                     showSnackBar(
-                      message: state.errorMessage,
+                      message: context.localize(state.error),
                       context: context,
                       snackBarType: SnackBarType.error,
                     );

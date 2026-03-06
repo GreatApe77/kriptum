@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:kriptum/domain/exceptions/domain_exception.dart';
+import 'package:kriptum/domain/exceptions/not_enough_balance_exception.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/networks_repository.dart';
 import 'package:kriptum/domain/services/gas_price_service.dart';
@@ -47,7 +48,7 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
     );
   }
 
-  Future<void> cancelGasPriceSubscription() async {
+  Future<void> _cancelGasPriceSubscription() async {
     await _gasPriceSubscription?.cancel();
     _gasPriceSubscription = null;
   }
@@ -68,7 +69,7 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
     ReturnToAmountSelection event,
     Emitter<SendTransactionState> emit,
   ) {
-    cancelGasPriceSubscription();
+    _cancelGasPriceSubscription();
     emit(
       state.copyWith(
         sendTransactionStepStatus: SendTransactionStepStatus.selectAmount,
@@ -107,7 +108,7 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
       await _subscribeToGasPriceUpdates();
       emit(
         state.copyWith(
-          errorMessage: '',
+          error: Exception(''),
           amountValidationStatus: AmountValidationStatus.validationLoading,
         ),
       );
@@ -119,7 +120,7 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
       if (amount > currentBalance) {
         emit(
           state.copyWith(
-            errorMessage: 'Not enough balance',
+            error: NotEnoughBalanceException('Not enough balance'),
             amountValidationStatus: AmountValidationStatus.validationError,
           ),
         );
@@ -133,10 +134,17 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
           amountValidationStatus: AmountValidationStatus.validationSuccess,
         ),
       );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          error: e,
+          amountValidationStatus: AmountValidationStatus.validationError,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
-          errorMessage: 'Unknown error',
+          error: Exception(e.toString()),
           amountValidationStatus: AmountValidationStatus.validationError,
         ),
       );
@@ -163,18 +171,18 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
             followOnBlockExplorerUrl: output.transactionUrlInBlockExplorer,
             confirmationTime: DateTime.now()),
       );
-    } on DomainException catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: SendTransactionStatus.confirmationError,
-          errorMessage: e.getReason(),
+          error: e,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           status: SendTransactionStatus.confirmationError,
-          errorMessage: 'Unknown Error',
+          error: Exception(e.toString()),
         ),
       );
     }
@@ -197,7 +205,7 @@ class SendTransactionBloc extends Bloc<SendTransactionEvent, SendTransactionStat
 
   @override
   Future<void> close() async {
-    await cancelGasPriceSubscription();
+    await _cancelGasPriceSubscription();
     return super.close();
   }
 }

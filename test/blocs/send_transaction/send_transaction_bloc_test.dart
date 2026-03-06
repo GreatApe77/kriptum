@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kriptum/blocs/send_transaction/send_transaction_bloc.dart';
 import 'package:kriptum/domain/exceptions/domain_exception.dart';
+import 'package:kriptum/domain/exceptions/not_enough_balance_exception.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/network.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
@@ -176,7 +177,7 @@ void main() {
         expect: () => [
           isA<SendTransactionState>()
               .having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationError)
-              .having((s) => s.errorMessage, 'errorMessage', 'Not enough balance'),
+              .having((s) => s.error, 'errorMessage', isA<NotEnoughBalanceException>()),
           // Gas price update from the stream (still happens even after error)
           isA<SendTransactionState>().having((s) => s.gasPrice, 'gasPrice', isNotNull),
         ],
@@ -196,7 +197,7 @@ void main() {
         expect: () => [
           isA<SendTransactionState>()
               .having((s) => s.amountValidationStatus, 'validationStatus', AmountValidationStatus.validationError)
-              .having((s) => s.errorMessage, 'errorMessage', 'Unknown error'),
+              .having((s) => s.error, 'errorMessage', isA<Exception>()),
           // Gas price update from the stream (still happens even after error)
           isA<SendTransactionState>().having((s) => s.gasPrice, 'gasPrice', isNotNull),
         ],
@@ -237,7 +238,7 @@ void main() {
           isA<SendTransactionState>().having((s) => s.status, 'status', SendTransactionStatus.confirmationLoading),
           isA<SendTransactionState>()
               .having((s) => s.status, 'status', SendTransactionStatus.confirmationError)
-              .having((s) => s.errorMessage, 'errorMessage', 'User rejected'),
+              .having((s) => s.error, 'errorMessage', isA<Exception>()),
         ],
       );
 
@@ -253,7 +254,7 @@ void main() {
           isA<SendTransactionState>().having((s) => s.status, 'status', SendTransactionStatus.confirmationLoading),
           isA<SendTransactionState>()
               .having((s) => s.status, 'status', SendTransactionStatus.confirmationError)
-              .having((s) => s.errorMessage, 'errorMessage', 'Unknown Error'),
+              .having((s) => s.error, 'errorMessage', isA<Exception>()),
         ],
       );
     });
