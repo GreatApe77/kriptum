@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/models/erc20_token.dart';
 import 'package:kriptum/domain/models/network.dart';
