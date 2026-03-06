@@ -21,7 +21,7 @@ class ImportTokenState {
   final String tokenName;
   final FetchTokenInfoStatus fetchTokenInfoStatus;
   final ImportTokenStatus importTokenStatus;
-  final String errorMessage;
+  final Exception error;
   final int tokenDecimals;
 
   ImportTokenState({
@@ -31,7 +31,7 @@ class ImportTokenState {
     required this.tokenDecimals,
     required this.fetchTokenInfoStatus,
     required this.importTokenStatus,
-    required this.errorMessage,
+    required this.error,
   });
 
   factory ImportTokenState.initial() {
@@ -42,14 +42,14 @@ class ImportTokenState {
       tokenDecimals: 0,
       fetchTokenInfoStatus: FetchTokenInfoStatus.initial,
       importTokenStatus: ImportTokenStatus.initial,
-      errorMessage: '',
+      error: Exception(''),
     );
   }
   ImportTokenState copyWith({
     String? tokenAddress,
     String? tokenSymbol,
     String? tokenName,
-    String? errorMessage,
+    Exception? error,
     int? tokenDecimals,
     FetchTokenInfoStatus? fetchTokenInfoStatus,
     ImportTokenStatus? importTokenStatus,
@@ -57,7 +57,7 @@ class ImportTokenState {
     return ImportTokenState(
       fetchTokenInfoStatus: fetchTokenInfoStatus ?? this.fetchTokenInfoStatus,
       importTokenStatus: importTokenStatus ?? this.importTokenStatus,
-      errorMessage: errorMessage ?? this.errorMessage,
+      error: error ?? this.error,
       tokenAddress: tokenAddress ?? this.tokenAddress,
       tokenSymbol: tokenSymbol ?? this.tokenSymbol,
       tokenName: tokenName ?? this.tokenName,

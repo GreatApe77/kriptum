@@ -42,11 +42,18 @@ class ImportTokenBloc extends Bloc<ImportTokenEvent, ImportTokenState> {
           fetchTokenInfoStatus: FetchTokenInfoStatus.success,
         ),
       );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          fetchTokenInfoStatus: FetchTokenInfoStatus.failure,
+          error: e,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
           fetchTokenInfoStatus: FetchTokenInfoStatus.failure,
-          errorMessage: 'Could not load token metadata',
+          error: Exception('Unknown error occurred while fetching token info'),
         ),
       );
     }
@@ -72,18 +79,18 @@ class ImportTokenBloc extends Bloc<ImportTokenEvent, ImportTokenState> {
           importTokenStatus: ImportTokenStatus.success,
         ),
       );
-    } on DomainException catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           importTokenStatus: ImportTokenStatus.failure,
-          errorMessage: e.getReason(),
+          error: e,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           importTokenStatus: ImportTokenStatus.failure,
-          errorMessage: 'Could not import token',
+          error: Exception('Could not import token'),
         ),
       );
     }
