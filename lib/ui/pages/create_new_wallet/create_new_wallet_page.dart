@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/create_new_wallet/create_new_wallet_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/pages/create_new_wallet/widgets/create_password_widget.dart';
 import 'package:kriptum/ui/pages/create_new_wallet/widgets/secure_wallet_widget.dart';
 import 'package:kriptum/ui/pages/create_new_wallet/widgets/write_on_paper_widget.dart';
@@ -33,7 +34,7 @@ class CreateNewWalletView extends StatelessWidget {
           if (state.status == CreateNewWalletStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.errorMessage),
+                content: Text(context.localize(state.error)),
               ),
             );
           }

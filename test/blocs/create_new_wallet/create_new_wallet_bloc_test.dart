@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kriptum/blocs/create_new_wallet/create_new_wallet_bloc.dart';
+import 'package:kriptum/domain/exceptions/passwords_dont_match_or_are_empty_exception.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
 import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usecase.dart';
@@ -76,7 +77,7 @@ void main() {
         expect: () => [
           isA<CreateNewWalletState>()
               .having((s) => s.status, 'status', CreateNewWalletStatus.failure)
-              .having((s) => s.errorMessage, 'errorMessage', 'Passwords do not match or are empty.'),
+              .having((s) => s.error, 'error', isA<PasswordsDontMatchOrAreEmptyException>()),
         ],
       );
 
@@ -140,7 +141,7 @@ void main() {
           isA<CreateNewWalletState>().having((s) => s.status, 'status', CreateNewWalletStatus.loading),
           isA<CreateNewWalletState>()
               .having((s) => s.status, 'status', CreateNewWalletStatus.failure)
-              .having((s) => s.errorMessage, 'errorMessage', contains('Failed to save accounts')),
+              .having((s) => s.error, 'error', isA<Exception>()),
         ],
       );
     });

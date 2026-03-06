@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:kriptum/domain/exceptions/domain_exception.dart';
+import 'package:kriptum/domain/exceptions/passwords_dont_match_or_are_empty_exception.dart';
 import 'package:kriptum/domain/models/account.dart';
 import 'package:kriptum/domain/services/account_generator_service.dart';
 import 'package:kriptum/domain/usecases/confirm_and_save_generated_accounts_usecase.dart';
@@ -40,7 +42,7 @@ class CreateNewWalletBloc extends Bloc<CreateNewWalletEvent, CreateNewWalletStat
       if (state.password.isEmpty || state.confirmPassword.isEmpty || state.password != state.confirmPassword) {
         emit(
           state.copyWith(
-            errorMessage: 'Passwords do not match or are empty.',
+            error: PasswordsDontMatchOrAreEmptyException('Passwords must not be empty and must match'),
             status: CreateNewWalletStatus.failure,
           ),
         );
@@ -62,12 +64,12 @@ class CreateNewWalletBloc extends Bloc<CreateNewWalletEvent, CreateNewWalletStat
           mnemonic: mnemonic,
           step: 2,
           status: CreateNewWalletStatus.success,
-          errorMessage: '',
+          error: Exception(''),
         ));
-      } catch (e) {
+      } on Exception catch (e) {
         emit(
           state.copyWith(
-            errorMessage: 'Failed to generate accounts: $e',
+            error: e,
             status: CreateNewWalletStatus.failure,
           ),
         );
@@ -94,14 +96,14 @@ class CreateNewWalletBloc extends Bloc<CreateNewWalletEvent, CreateNewWalletStat
         emit(
           state.copyWith(
             status: CreateNewWalletStatus.success,
-            errorMessage: '',
+            error: Exception(''),
           ),
         );
-      } catch (e) {
+      } on Exception catch (e) {
         emit(
           state.copyWith(
             status: CreateNewWalletStatus.failure,
-            errorMessage: 'Failed to save accounts: $e',
+            error: e,
           ),
         );
       }

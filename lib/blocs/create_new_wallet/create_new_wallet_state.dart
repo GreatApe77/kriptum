@@ -3,7 +3,7 @@ part of 'create_new_wallet_bloc.dart';
 
 class CreateNewWalletState {
   final int step;
-  final String errorMessage;
+  final Exception error;
   final CreateNewWalletStatus status;
   final String mnemonic;
   final String password;
@@ -12,7 +12,7 @@ class CreateNewWalletState {
 
   CreateNewWalletState({
     required this.step,
-    required this.errorMessage,
+    required this.error,
     required this.status,
     required this.mnemonic,
     required this.password,
@@ -22,7 +22,7 @@ class CreateNewWalletState {
   factory CreateNewWalletState.initial() {
     return CreateNewWalletState(
       step: 1,
-      errorMessage: '',
+      error: Exception(''),
       status: CreateNewWalletStatus.initial,
       mnemonic: '',
       password: '',
@@ -33,7 +33,7 @@ class CreateNewWalletState {
 
   CreateNewWalletState copyWith({
     int? step,
-    String? errorMessage,
+    Exception? error,
     CreateNewWalletStatus? status,
     String? mnemonic,
     String? password,
@@ -42,7 +42,7 @@ class CreateNewWalletState {
   }) {
     return CreateNewWalletState(
       step: step ?? this.step,
-      errorMessage: errorMessage ?? this.errorMessage,
+      error: error ?? this.error,
       status: status ?? this.status,
       mnemonic: mnemonic ?? this.mnemonic,
       password: password ?? this.password,
