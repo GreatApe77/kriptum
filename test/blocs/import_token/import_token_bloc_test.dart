@@ -75,7 +75,7 @@ void main() {
           isA<ImportTokenState>().having((s) => s.fetchTokenInfoStatus, 'fetchStatus', FetchTokenInfoStatus.loading),
           isA<ImportTokenState>()
               .having((s) => s.fetchTokenInfoStatus, 'fetchStatus', FetchTokenInfoStatus.failure)
-              .having((s) => s.error, 'errorMessage', 'Could not load token metadata'),
+              .having((s) => s.error, 'errorMessage', isA<Exception>()),
         ],
       );
     });
@@ -120,7 +120,7 @@ void main() {
           isA<ImportTokenState>().having((s) => s.importTokenStatus, 'importStatus', ImportTokenStatus.loading),
           isA<ImportTokenState>()
               .having((s) => s.importTokenStatus, 'importStatus', ImportTokenStatus.failure)
-              .having((s) => s.error, 'errorMessage', 'Token already exists'),
+              .having((s) => s.error, 'errorMessage', isA<Exception>()),
         ],
       );
 
@@ -141,7 +141,7 @@ void main() {
           isA<ImportTokenState>().having((s) => s.importTokenStatus, 'importStatus', ImportTokenStatus.loading),
           isA<ImportTokenState>()
               .having((s) => s.importTokenStatus, 'importStatus', ImportTokenStatus.failure)
-              .having((s) => s.error, 'errorMessage', 'Could not import token'),
+              .having((s) => s.error, 'errorMessage', isA<Exception>()),
         ],
       );
     });

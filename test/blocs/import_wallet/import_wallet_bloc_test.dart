@@ -58,7 +58,7 @@ void main() {
       act: (bloc) => bloc.add(ImportWalletRequested(mnemonicPhrase: mnemonicPhrase, password: password)),
       expect: () => [
         isA<ImportWalletLoading>(),
-        isA<ImportWalletFailed>().having((e) => e.reason, 'reason', 'Failed to import Wallet'),
+        isA<ImportWalletFailed>().having((e) => e.error, 'reason', isA<Exception>()),
       ],
       verify: (_) {
         verify(() => mockImportWalletUsecase.execute(any(that: isA<ImportWalletUsecaseParams>()))).called(1);

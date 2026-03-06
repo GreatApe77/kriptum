@@ -17,9 +17,15 @@ class ImportWalletBloc extends Bloc<ImportWalletEvent, ImportWalletState> {
           );
           await _importWalletUsecase.execute(params);
           emit(ImportWalletSuccess());
-        } catch (e) {
+        } 
+        on Exception catch (e) {
           emit(
-            ImportWalletFailed(reason: 'Failed to import Wallet'),
+            ImportWalletFailed(error: e),
+          );
+        }
+        catch (e) {
+          emit(
+            ImportWalletFailed(error: Exception('Failed to import Wallet')),
           );
         }
       },

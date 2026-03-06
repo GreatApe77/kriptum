@@ -9,7 +9,7 @@ final class ImportWalletLoading extends ImportWalletState {}
 final class ImportWalletSuccess extends ImportWalletState {}
 
 final class ImportWalletFailed extends ImportWalletState {
-  final String reason;
+  final Exception error;
 
-  ImportWalletFailed({required this.reason});
+  ImportWalletFailed({required this.error});
 }
