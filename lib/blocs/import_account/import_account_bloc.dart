@@ -15,10 +15,10 @@ class ImportAccountBloc extends Bloc<ImportAccountEvent, ImportAccountState> {
           ImportAccountFromPrivateKeyInput(privateKey: event.privateKey),
         );
         emit(ImportAccountSuccess());
-      } on DomainException catch (e) {
-        emit(ImportAccountFailed(errorMessage: e.getReason()));
+      } on Exception catch (e) {
+        emit(ImportAccountFailed(error: e));
       } catch (e) {
-        emit(ImportAccountFailed(errorMessage: 'Failed to Import Account'));
+        emit(ImportAccountFailed(error: Exception('Failed to Import Account')));
       }
     });
   }

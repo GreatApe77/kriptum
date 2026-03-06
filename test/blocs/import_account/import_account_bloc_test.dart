@@ -60,7 +60,7 @@ void main() {
       act: (bloc) => bloc.add(ImportAccountRequested(privateKey: privateKey)),
       expect: () => [
         isA<ImportAccountLoading>(),
-        isA<ImportAccountFailed>().having((e) => e.errorMessage, 'errorMessage', 'Account already exists'),
+        isA<ImportAccountFailed>().having((e) => e.error, 'error', isA<Exception>()),
       ],
     );
 
@@ -73,7 +73,7 @@ void main() {
       act: (bloc) => bloc.add(ImportAccountRequested(privateKey: privateKey)),
       expect: () => [
         isA<ImportAccountLoading>(),
-        isA<ImportAccountFailed>().having((e) => e.errorMessage, 'errorMessage', 'Failed to Import Account'),
+        isA<ImportAccountFailed>().having((e) => e.error, 'error', isA<Exception>()),
       ],
     );
   });

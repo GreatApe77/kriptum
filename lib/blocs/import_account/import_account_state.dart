@@ -7,9 +7,9 @@ final class ImportAccountInitial extends ImportAccountState {}
 final class ImportAccountLoading extends ImportAccountState {}
 
 final class ImportAccountFailed extends ImportAccountState {
-  final String errorMessage;
+  final Exception error;
 
-  ImportAccountFailed({required this.errorMessage});
+  ImportAccountFailed({required this.error});
 }
 
 final class ImportAccountSuccess extends ImportAccountState {}
