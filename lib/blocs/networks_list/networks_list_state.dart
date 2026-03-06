@@ -12,14 +12,14 @@ class NetworksListState {
   final NetworksListStatus status;
   final List<Network> networks;
   final List<Network> filteredNetworks;
-  final String? errorMessage;
+  final Exception error;
   final String filter;
 
   NetworksListState({
     required this.status,
     required this.networks,
     required this.filteredNetworks,
-    required this.errorMessage,
+    required this.error,
     required this.filter,
   });
   factory NetworksListState.initial() {
@@ -27,7 +27,7 @@ class NetworksListState {
       status: NetworksListStatus.initial,
       networks: [],
       filteredNetworks: [],
-      errorMessage: null,
+      error: Exception(''),
       filter: '',
     );
   }
@@ -36,14 +36,14 @@ class NetworksListState {
     NetworksListStatus? status,
     List<Network>? networks,
     List<Network>? filteredNetworks,
-    String? errorMessage,
+    Exception? error,
     String? filter,
   }) {
     return NetworksListState(
       status: status ?? this.status,
       networks: networks ?? this.networks,
       filteredNetworks: filteredNetworks ?? this.filteredNetworks,
-      errorMessage: errorMessage ?? this.errorMessage,
+      error: error ?? this.error,
       filter: filter ?? this.filter,
     );
   }

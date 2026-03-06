@@ -62,7 +62,7 @@ void main() {
           isA<NetworksListState>().having((s) => s.status, 'status', NetworksListStatus.loading),
           isA<NetworksListState>()
               .having((s) => s.status, 'status', NetworksListStatus.error)
-              .having((s) => s.errorMessage, 'errorMessage', 'Failed to load networks'),
+              .having((s) => s.error, 'error', isA<Exception>()),
         ],
         verify: (_) {
           verify(() => mockNetworksRepository.getAllNetworks()).called(1);

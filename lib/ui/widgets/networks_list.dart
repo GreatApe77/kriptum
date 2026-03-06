@@ -5,6 +5,7 @@ import 'package:kriptum/blocs/networks_list/networks_list_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/network.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/widgets/network_list_tile.dart';
 
 class NetworksList extends StatelessWidget {
@@ -81,7 +82,9 @@ class _NetworksListState extends State<_NetworksList> {
                 }
                 if (state.status == NetworksListStatus.error) {
                   return Center(
-                    child: Text(state.errorMessage ?? 'Unknown error'),
+                    child: Text(
+                      context.localize(state.error),
+                    ),
                   );
                 }
                 final networks = state.filteredNetworks;

@@ -53,11 +53,18 @@ class NetworksListBloc extends Bloc<NetworksListEvent, NetworksListState> {
             filteredNetworks: networks,
           ),
         );
+      } on Exception catch (e) {
+        emit(
+          state.copyWith(
+            status: NetworksListStatus.error,
+            error: e,
+          ),
+        );
       } catch (e) {
         emit(
           state.copyWith(
             status: NetworksListStatus.error,
-            errorMessage: 'Failed to load networks',
+            error: Exception(e.toString()),
           ),
         );
       }
