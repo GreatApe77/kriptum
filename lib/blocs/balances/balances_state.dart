@@ -7,9 +7,9 @@ final class BalancesInitial extends BalancesState {}
 final class BalancesLoading extends BalancesState {}
 
 final class BalancesError extends BalancesState {
-  final String errorMessage;
+  final Exception error;
 
-  BalancesError({required this.errorMessage});
+  BalancesError({required this.error});
 }
 
 final class BalancesLoaded extends BalancesState {

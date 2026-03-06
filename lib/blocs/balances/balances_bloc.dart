@@ -37,8 +37,8 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
         emit(BalancesLoading());
         final balanceOf = await _getBalancesOfAccountsUsecase.execute();
         emit(BalancesLoaded(balanceOf: balanceOf));
-      } catch (e) {
-        emit(BalancesError(errorMessage: 'Could not load balances'));
+      }on Exception catch (e) {
+        emit(BalancesError(error: e));
       }
     });
   }

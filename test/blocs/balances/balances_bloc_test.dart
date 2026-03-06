@@ -89,7 +89,7 @@ void main() {
         act: (bloc) => bloc.add(BalancesRequested()),
         expect: () => [
           isA<BalancesLoading>(),
-          isA<BalancesError>().having((e) => e.errorMessage, 'errorMessage', 'Could not load balances'),
+          isA<BalancesError>().having((e) => e.error, 'error', isA<Exception>()),
         ],
         verify: (_) {
           verify(() => mockGetBalancesOfAccountsUsecase.execute()).called(1);
