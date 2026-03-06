@@ -1,7 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kriptum/blocs/add_hd_wallet_account/add_hd_wallet_account_bloc.dart';
-import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/usecases/add_hd_wallet_account_usecase.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -44,7 +43,7 @@ void main() {
     blocTest<AddHdWalletAccountBloc, AddHdWalletAccountState>(
       'emits [AddHdWalletAccountLoading, AddHdWalletAccountError] with specific message on DomainException',
       build: () {
-        when(() => mockAddHdWalletAccountUsecase.execute()).thenThrow(DomainException('Invalid password'));
+        when(() => mockAddHdWalletAccountUsecase.execute()).thenThrow(Exception('Invalid password'));
         return sut;
       },
       act: (bloc) => bloc.add(AddHdWalletAccountRequested()),

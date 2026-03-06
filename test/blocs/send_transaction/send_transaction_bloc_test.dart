@@ -228,7 +228,7 @@ void main() {
       blocTest<SendTransactionBloc, SendTransactionState>(
         'emits [loading, error] on DomainException',
         build: () {
-          when(() => mockSendTransactionUsecase.execute(any())).thenThrow(DomainException('User rejected'));
+          when(() => mockSendTransactionUsecase.execute(any())).thenThrow(Exception('User rejected'));
           return sendTransactionBloc;
         },
         seed: () => SendTransactionState.initial().copyWith(toAddress: '0xReceiver', amount: BigInt.from(100)),

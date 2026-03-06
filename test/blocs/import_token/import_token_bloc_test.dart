@@ -1,7 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kriptum/blocs/import_token/import_token_bloc.dart';
-import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/usecases/import_erc20_token_usecase.dart';
 import 'package:kriptum/domain/usecases/search_erc20_token_metadata_usecase.dart';
 import 'package:mocktail/mocktail.dart';
@@ -106,7 +105,7 @@ void main() {
       blocTest<ImportTokenBloc, ImportTokenState>(
         'emits [loading, failure] for import status on DomainException',
         build: () {
-          when(() => mockImportErc20TokenUsecase.execute(any())).thenThrow(DomainException('Token already exists'));
+          when(() => mockImportErc20TokenUsecase.execute(any())).thenThrow(Exception('Token already exists'));
           return sut;
         },
         seed: () => ImportTokenState.initial().copyWith(

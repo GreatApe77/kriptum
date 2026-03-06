@@ -1,7 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kriptum/blocs/import_account/import_account_bloc.dart';
-import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/usecases/import_account_from_private_key_usecase.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -54,7 +53,7 @@ void main() {
       'emits [ImportAccountLoading, ImportAccountFailed] with specific message on DomainException',
       build: () {
         when(() => mockImportAccountFromPrivateKeyUsecase.execute(any()))
-            .thenThrow(DomainException('Account already exists'));
+            .thenThrow(Exception('Account already exists'));
         return sut;
       },
       act: (bloc) => bloc.add(ImportAccountRequested(privateKey: privateKey)),
