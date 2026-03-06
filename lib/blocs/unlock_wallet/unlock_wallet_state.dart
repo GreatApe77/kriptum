@@ -9,9 +9,9 @@ final class UnlockWalletInProgress extends UnlockWalletState {}
 final class UnlockWalletSuccess extends UnlockWalletState {}
 
 final class UnlockWalletFailure extends UnlockWalletState {
-  final String errorMessage;
+  final Exception error;
 
   UnlockWalletFailure({
-    required this.errorMessage,
+    required this.error,
   });
 }

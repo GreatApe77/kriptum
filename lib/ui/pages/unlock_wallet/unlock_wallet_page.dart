@@ -67,7 +67,7 @@ class _UnlockWalletViewState extends State<UnlockWalletView> {
                   );
                 } else if (state is UnlockWalletFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.errorMessage)),
+                    SnackBar(content: Text(context.localize(state.error))),
                   );
                 }
               },

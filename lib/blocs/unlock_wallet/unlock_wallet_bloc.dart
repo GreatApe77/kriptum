@@ -16,8 +16,10 @@ class UnlockWalletBloc extends Bloc<UnlockWalletEvent, UnlockWalletState> {
         emit(UnlockWalletInProgress());
         await _unlockWalletUsecase.execute(event.password);
         emit(UnlockWalletSuccess());
+      } on Exception catch (e) {
+        emit(UnlockWalletFailure(error: e));
       } catch (e) {
-        emit(UnlockWalletFailure(errorMessage: 'Failed to unlock wallet'));
+        emit(UnlockWalletFailure(error: Exception('Failed to unlock wallet')));
       }
     });
   }
