@@ -19,6 +19,12 @@ class AddHdWalletAccountBloc extends Bloc<AddHdWalletAccountEvent, AddHdWalletAc
               error: e,
             ),
           );
+        }catch (e) {
+          emit(
+            AddHdWalletAccountError(
+              error: Exception(e.toString()),
+            ),
+          );
         }
       },
     );
