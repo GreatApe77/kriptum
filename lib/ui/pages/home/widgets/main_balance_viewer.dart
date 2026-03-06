@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kriptum/blocs/current_network/current_network_cubit.dart';
 import 'package:kriptum/blocs/current_native_balance/current_native_balance_bloc.dart';
 import 'package:kriptum/config/di/injector.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/tokens/placeholders.dart';
 import 'package:skeletonizer/skeletonizer.dart' hide Skeleton;
 import 'package:kriptum/ui/widgets/skeleton.dart';
@@ -42,7 +43,7 @@ class _MainBalanceViewer extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..clearMaterialBanners()
             ..showMaterialBanner(MaterialBanner(
-              content: Text(state.errorMessage ?? 'Error loading balance'),
+              content: Text(context.localize(state.error)),
               actions: [
                 IconButton(
                   onPressed: () {

@@ -77,10 +77,10 @@ class CurrentNativeBalanceBloc extends Bloc<CurrentNativeBalanceEvent, CurrentNa
           state.copyWith(
               accountBalance: accountBalance, status: CurrentNativeBalanceStatus.loaded, ticker: network.ticker),
         );
-      } catch (e) {
+      } on Exception catch (e) {
         emit(
           state.copyWith(
-            errorMessage: 'Failed to load native balance',
+            error: e,
             status: CurrentNativeBalanceStatus.error,
           ),
         );
