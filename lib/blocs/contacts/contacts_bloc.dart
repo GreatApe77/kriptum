@@ -42,11 +42,11 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
           groupedByFirstLetter: groupedByFirstLetter,
         ),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           status: ContactsStatus.error,
-          errorMessage: 'Error while loading contacts',
+          error: e,
         ),
       );
     }
@@ -61,11 +61,11 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       emit(
         state.copyWith(deletionStatus: ContactDeletionStatus.success),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           deletionStatus: ContactDeletionStatus.error,
-          errorMessage: 'Error while deleting contact',
+          error: e,
         ),
       );
     }
@@ -80,11 +80,11 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       emit(
         state.copyWith(updateStatus: ContactUpdateStatus.success),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(
         state.copyWith(
           updateStatus: ContactUpdateStatus.error,
-          errorMessage: 'Error while updating contact',
+          error: e,
         ),
       );
     }

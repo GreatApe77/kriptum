@@ -14,7 +14,7 @@ class ContactsState {
   final ContactUpdateStatus updateStatus;
   final ContactDeletionStatus deletionStatus;
   final ContactsStatus status;
-  final String errorMessage;
+  final Exception error;
 
   ContactsState({
     required this.contacts,
@@ -22,7 +22,7 @@ class ContactsState {
     required this.status,
     required this.deletionStatus,
     required this.updateStatus,
-    required this.errorMessage,
+    required this.error,
     required this.groupedByFirstLetter,
   });
 
@@ -34,7 +34,7 @@ class ContactsState {
       status: ContactsStatus.initial,
       deletionStatus: ContactDeletionStatus.idle,
       updateStatus: ContactUpdateStatus.idle,
-      errorMessage: '',
+      error: Exception(''),
     );
   }
 
@@ -42,7 +42,7 @@ class ContactsState {
     List<Contact>? contacts,
     List<Contact>? filteredContacts,
     ContactsStatus? status,
-    String? errorMessage,
+    Exception? error,
     Map<String, List<Contact>>? groupedByFirstLetter,
     ContactDeletionStatus? deletionStatus,
     ContactUpdateStatus? updateStatus,
@@ -54,7 +54,7 @@ class ContactsState {
       contacts: contacts ?? this.contacts,
       filteredContacts: filteredContacts ?? this.filteredContacts,
       status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
+      error: error ?? this.error,
     );
   }
 }

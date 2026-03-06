@@ -76,7 +76,7 @@ void main() {
           isA<ContactsState>().having((s) => s.status, 'status', ContactsStatus.loading),
           isA<ContactsState>()
               .having((s) => s.status, 'status', ContactsStatus.error)
-              .having((s) => s.errorMessage, 'errorMessage', 'Error while loading contacts'),
+              .having((s) => s.error, 'error', isA<Exception>()),
         ],
       );
     });
@@ -109,7 +109,7 @@ void main() {
           isA<ContactsState>().having((s) => s.deletionStatus, 'deletionStatus', ContactDeletionStatus.loading),
           isA<ContactsState>()
               .having((s) => s.deletionStatus, 'deletionStatus', ContactDeletionStatus.error)
-              .having((s) => s.errorMessage, 'errorMessage', 'Error while deleting contact'),
+              .having((s) => s.error, 'error', isA<Exception>()),
         ],
       );
     });

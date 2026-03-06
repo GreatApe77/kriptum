@@ -6,6 +6,7 @@ import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/domain/models/contact.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/tokens/spacings.dart';
 import 'package:kriptum/ui/widgets/ethereum_address_text_field.dart';
 
@@ -121,7 +122,7 @@ class _EditContactPageState extends State<_EditContactPage> {
                         }
                         if (state.updateStatus == ContactUpdateStatus.error) {
                           showSnackBar(
-                            message: state.errorMessage,
+                            message: context.localize(state.error),
                             context: context,
                             snackBarType: SnackBarType.error,
                           );
@@ -203,7 +204,7 @@ class _EditContactPageState extends State<_EditContactPage> {
               listener: (context, state) {
                 if (state.deletionStatus == ContactDeletionStatus.error) {
                   showSnackBar(
-                    message: state.errorMessage,
+                    message: context.localize(state.error),
                     context: context,
                     snackBarType: SnackBarType.error,
                   );
