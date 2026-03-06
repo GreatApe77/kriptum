@@ -18,9 +18,13 @@ class CurrentNetworkCubit extends Cubit<CurrentNetworkState> {
   Future<void> changeCurrentNetwork(Network network) async {
     try {
       await _networksRepository.changeCurrentNetwork(network);
+    } on Exception catch (e) {
+      emit(
+        CurrentNetworkError(error: e),
+      );
     } catch (e) {
       emit(
-        CurrentNetworkError(message: 'Failed to change network'),
+        CurrentNetworkError(error: Exception('')),
       );
     }
   }
@@ -32,8 +36,10 @@ class CurrentNetworkCubit extends Cubit<CurrentNetworkState> {
       emit(
         CurrentNetworkLoaded(network: network, isChangingNetwork: false),
       );
+    } on Exception catch (e) {
+      emit(CurrentNetworkError(error: e));
     } catch (e) {
-      emit(CurrentNetworkError(message: 'Failed to load current network'));
+      emit(CurrentNetworkError(error: Exception('')));
     }
   }
 

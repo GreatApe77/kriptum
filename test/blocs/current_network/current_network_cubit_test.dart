@@ -66,7 +66,7 @@ void main() {
         act: (cubit) => cubit.requestCurrentNetwork(),
         expect: () => [
           isA<CurrentNetworkLoading>(),
-          isA<CurrentNetworkError>().having((e) => e.message, 'message', 'Failed to load current network'),
+          isA<CurrentNetworkError>().having((e) => e.error, 'error', isA<Exception>()),
         ],
         verify: (_) {
           verify(() => mockNetworksRepository.getCurrentNetwork()).called(1);
@@ -96,7 +96,7 @@ void main() {
         },
         act: (cubit) => cubit.changeCurrentNetwork(testNetwork),
         expect: () => [
-          isA<CurrentNetworkError>().having((e) => e.message, 'message', 'Failed to change network'),
+          isA<CurrentNetworkError>().having((e) => e.error, 'error', isA<Exception>()),
         ],
         verify: (_) {
           verify(() => mockNetworksRepository.changeCurrentNetwork(testNetwork)).called(1);

@@ -7,9 +7,9 @@ final class CurrentNetworkInitial extends CurrentNetworkState {}
 final class CurrentNetworkLoading extends CurrentNetworkState {}
 
 final class CurrentNetworkError extends CurrentNetworkState {
-  final String message;
+  final Exception error;
 
-  CurrentNetworkError({required this.message});
+  CurrentNetworkError({required this.error});
 }
 
 final class CurrentNetworkLoaded extends CurrentNetworkState {
