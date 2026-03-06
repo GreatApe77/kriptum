@@ -10,29 +10,29 @@ enum Erc20TokensStatus {
 class Erc20TokensState {
   final Erc20TokensStatus status;
   final List<Erc20TokenWithBalance> tokens;
-  final String errorMessage;
+  final Exception error;
   const Erc20TokensState({
     required this.status,
     required this.tokens,
-    required this.errorMessage,
+    required this.error,
   });
   factory Erc20TokensState.initial() {
     return Erc20TokensState(
       status: Erc20TokensStatus.initial,
       tokens: [],
-      errorMessage: '',
+      error: Exception(''),
     );
   }
 
   Erc20TokensState copyWith({
     Erc20TokensStatus? status,
     List<Erc20TokenWithBalance>? tokens,
-    String? errorMessage,
+    Exception? error,
   }) {
     return Erc20TokensState(
       status: status ?? this.status,
       tokens: tokens ?? this.tokens,
-      errorMessage: errorMessage ?? this.errorMessage,
+      error: error ?? this.error,
     );
   }
 }

@@ -60,13 +60,13 @@ class Erc20TokensBloc extends Bloc<Erc20TokensEvent, Erc20TokensState> {
           tokens: tokensWithBalances,
         ),
       );
-    } on DomainException catch (e) {
-      emit(state.copyWith(status: Erc20TokensStatus.error, errorMessage: e.getReason(), tokens: []));
+    } on Exception catch (e) {
+      emit(state.copyWith(status: Erc20TokensStatus.error, error: e, tokens: []));
     } catch (e) {
       emit(state.copyWith(
         status: Erc20TokensStatus.error,
         tokens: [],
-        errorMessage: 'Error loading tokens',
+        error: Exception(e.toString()),
       ));
     }
   }
