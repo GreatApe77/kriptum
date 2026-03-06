@@ -7,7 +7,7 @@ final class LockWalletInitial extends LockWalletState {}
 final class LockWalletSuccess extends LockWalletState {}
 
 final class LockWalletError extends LockWalletState {
-  final String errorMessage;
+  final Exception error;
 
-  LockWalletError({required this.errorMessage});
+  LockWalletError({required this.error});
 }

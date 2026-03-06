@@ -5,6 +5,7 @@ import 'package:kriptum/config/di/injector.dart';
 import 'package:kriptum/l10n/app_localizations.dart';
 import 'package:kriptum/shared/utils/show_snack_bar.dart';
 import 'package:kriptum/ui/app.dart';
+import 'package:kriptum/ui/extensions/build_context/build_context_extensions.dart';
 import 'package:kriptum/ui/pages/contacts/contacts_page.dart';
 import 'package:kriptum/ui/pages/general_settings/general_settings_page.dart';
 import 'package:kriptum/ui/pages/networks/networks_page.dart';
@@ -72,7 +73,7 @@ class _SettingsView extends StatelessWidget {
               listener: (context, state) {
                 if (state is LockWalletError) {
                   showSnackBar(
-                    message: state.errorMessage,
+                    message: context.localize(state.error),
                     context: context,
                     snackBarType: SnackBarType.error,
                   );

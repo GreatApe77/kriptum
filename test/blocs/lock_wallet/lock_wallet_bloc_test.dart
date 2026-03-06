@@ -48,9 +48,9 @@ void main() {
       act: (bloc) => bloc.add(LockWalletRequested()),
       expect: () => [
         isA<LockWalletError>().having(
-          (e) => e.errorMessage,
+          (e) => e.error,
           'errorMessage',
-          'Could not Lock Wallet',
+          isA<Exception>(),
         ),
       ],
       verify: (_) {

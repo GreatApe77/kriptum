@@ -12,9 +12,13 @@ class LockWalletBloc extends Bloc<LockWalletEvent, LockWalletState> {
         try {
           await _lockWalletUsecase.execute();
           emit(LockWalletSuccess());
+        } on Exception catch (e) {
+          emit(
+            LockWalletError(error: e),
+          );
         } catch (e) {
           emit(
-            LockWalletError(errorMessage: 'Could not Lock Wallet'),
+            LockWalletError(error: Exception('Could not Lock Wallet')),
           );
         }
       },
