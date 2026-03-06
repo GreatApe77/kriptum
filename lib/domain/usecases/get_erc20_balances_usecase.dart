@@ -1,4 +1,3 @@
-import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/exceptions/invalid_current_account_state_exception.dart';
 import 'package:kriptum/domain/repositories/accounts_repository.dart';
 import 'package:kriptum/domain/repositories/erc20_token_balance_repository.dart';

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:kriptum/domain/exceptions/domain_exception.dart';
 import 'package:kriptum/domain/usecases/add_hd_wallet_account_usecase.dart';
 
 part 'add_hd_wallet_account_event.dart';
